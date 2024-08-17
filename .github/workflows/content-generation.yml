@@ -35,7 +35,7 @@ jobs:
     - name: Commit and push changes
       run: |
         git add _posts/
-        git commit -m "Add new random content"
+        git commit -m "Add new random content" || echo "No changes to commit"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
