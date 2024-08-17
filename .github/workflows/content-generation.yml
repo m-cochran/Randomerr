@@ -1,36 +1,40 @@
-name: Generate Random Content
+name: Generate and Upload Random Content
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: '*/30 * * * *'  # Runs every 30 minutes
-  workflow_dispatch:  # Allows manual triggering
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
 
 jobs:
-  generate-content:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12
 
-      - name: Install dependencies
-        run: |
-          pip install faker requests
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: pip install -r requirements.txt
 
-      - name: Run content generation script
-        run: |
-          python generate_random_content.py
+    - name: Run content generator
+      run: python generate_random_content.py
 
-      - name: Commit and push new content
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add _posts/
-          git commit -m "Add new random content"
-          git push
+    - name: Set up Git
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+
+    - name: Commit and push changes
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
+        git add _posts/
+        git commit -m "Add new random content"
+        git push https://$GH_PAT@github.com/OWNER/REPO.git HEAD:main
