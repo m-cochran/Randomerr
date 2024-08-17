@@ -35,6 +35,6 @@ jobs:
       run: |
         git add _posts/
         git commit -m "Add new random content" || echo "No changes to commit"
-        git push https://x-access-token:${{ secrets.repo_write }}@github.com/m-cochran/Randomerr.git HEAD:main
+        git push https://x-access-token:${{ secrets.REPO_WRITE }}@github.com/m-cochran/Randomerr.git HEAD:main
       env:
-        GITHUB_TOKEN: ${{ secrets.repo_write }}
+        GITHUB_TOKEN: ${{ secrets.REPO_WRITE }}
