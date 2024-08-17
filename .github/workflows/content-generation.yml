@@ -6,7 +6,7 @@ on:
       - main
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:  # Adds manual trigger option
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   build:
@@ -39,7 +39,7 @@ jobs:
         git add _posts/
         git commit -m "Add new random content"
         git push https://$GH_PAT@github.com/m-cochran/Randomerr.git HEAD:main
-        
+
     - name: Debug Info
       run: |
         echo "Using PAT for push"
