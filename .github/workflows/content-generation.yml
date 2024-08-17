@@ -21,6 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install faker requests
+          pip install -r requirements.txt
 
       - name: Run content generation script
         run: |
