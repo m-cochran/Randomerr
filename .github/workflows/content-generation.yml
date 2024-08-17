@@ -39,3 +39,7 @@ jobs:
         git add _posts/
         git commit -m "Add new random content"
         git push https://$GH_PAT@github.com/m-cochran/Randomerr.git HEAD:main
+        - name: Debug Info
+  run: |
+    echo "Using PAT for push"
+
