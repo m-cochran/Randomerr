@@ -53,11 +53,13 @@ def generate_complex_template_content():
         "In a {place}, {character} discovered {object}. It was a {adjective} find, filled with {emotion}.",
         "What if {character} could {action}? It would lead to {result}, creating a {adjective} and {emotion} scenario."
     ]
-    
+
+    verbs = ["run", "jump", "fly", "swim", "dance", "sing", "paint", "write", "cook", "build"]
+
     template = random.choice(templates)
     content = template.format(
         entity=fake.word(),
-        action=fake.verb(),
+        action=random.choice(verbs),
         adjective=fake.word(),
         emotion=fake.word(),
         place=fake.city(),
@@ -65,8 +67,9 @@ def generate_complex_template_content():
         object=fake.word(),
         result=fake.sentence()
     )
-    
-    return mutate_data(content)
+
+    return content
+
 
 def create_markdown_file(title, content):
     filename = f"_posts/{datetime.now().strftime('%Y-%m-%d')}-{title.replace(' ', '-')}.md"
