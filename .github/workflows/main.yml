@@ -1,9 +1,9 @@
 name: Generate and Commit Content
 
 on:
-  workflow_dispatch:  # This allows manual triggering of the workflow
+  workflow_dispatch:  # Manual trigger
   schedule:
-    - cron: '0 0 * * *'  # This schedules the workflow to run daily at midnight UTC
+    - cron: '0 0 * * *'  # Daily at midnight UTC
 
 jobs:
   generate_content:
@@ -25,6 +25,11 @@ jobs:
     - name: Generate random content
       run: |
         python generate_random_content.py
+
+    - name: Configure Git
+      run: |
+        git config --global user.email "github-actions@github.com"
+        git config --global user.name "GitHub Actions"
 
     - name: Commit and push changes
       run: |
