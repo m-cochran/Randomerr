@@ -36,6 +36,6 @@ jobs:
       run: |
         git add _posts/
         git commit -m "Add new random content" || echo "No changes to commit"
-        git push https://$GH_PAT@github.com/m-cochran/Randomerr.git HEAD:main
+        git push https://$MY_PAT@github.com/m-cochran/Randomerr.git HEAD:main
       env:
-        GH_PAT: ${{ secrets.GH_PAT }}
+        MY_PAT: ${{ secrets.MY_PAT }}
