@@ -90,6 +90,12 @@ p {
   margin: 0 0 15px;
 }
 
+/* Add styles for post thumbnails */
+ul li img {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Slider Styles */
 .slider {
   overflow: hidden;
