@@ -10,14 +10,12 @@ title: Home
 <ul>
   {% for post in site.posts %}
   <li>
-    <a href="{{ site.baseurl }}{{ post.url }}">
-      {% assign thumbnail = post.content | extract_thumbnail %}
-      {% if thumbnail %}
-      <img src="{{ site.baseurl }}{{ thumbnail }}" alt="{{ post.title }}" class="thumbnail">
-      {% endif %}
-      {{ post.title }}
-    </a>
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
     <small>{{ post.date | date: "%B %d, %Y" }}</small>
+    {% assign img_url = post.content | extract_image_url %}
+    {% if img_url %}
+      <img src="{{ img_url }}" alt="{{ post.title }}" style="width: 150px; height: auto;">
+    {% endif %}
   </li>
   {% endfor %}
 </ul>
