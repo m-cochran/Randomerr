@@ -8,37 +8,96 @@ title: Home
 
 <h2>Latest Posts</h2>
 
-<!-- Irregular Grid for Top 5 Posts -->
-<div class="post-grid">
-  {% for post in site.posts limit: 5 %}
-  <div class="grid-item">
-    <div class="post-image">
-      <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
-      <div class="overlay">
-        <h2>{{ post.title }}</h2>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
-      </div>
-    </div>
-    <!-- Other post content can go here -->
-  </div>
-  {% endfor %}
-</div>
+/* Irregular Grid for Top 5 Posts */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
 
+.grid-item {
+  position: relative; /* Enable absolute positioning for overlay */
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-<!-- List for the Next 20 Posts -->
-<ul class="post-list">
-  {% for post in site.posts offset:5 limit:20 %}
-  <li>
-    {% if post.thumbnail %}
-      <img src="{{ post.thumbnail }}" alt="{{ post.title }}" class="list-thumbnail">
-    {% else %}
-      <p>No image available</p>
-    {% endif %}
-    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%B %d, %Y" }}</small>
-  </li>
-  {% endfor %}
-</ul>
+.post-image {
+  position: relative;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Overlay styles */
+.overlay {
+  position: absolute;
+  bottom: 10px; /* Adjust based on desired distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.overlay h2 {
+  margin: 0;
+  font-size: 18px; /* Adjust font size */
+}
+
+.overlay small {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px; /* Adjust font size */
+}
+
+/* Custom grid placement to make it irregular */
+.post-grid .grid-item:nth-child(1) {
+  grid-column: span 2; /* Makes it span two columns */
+}
+
+.post-grid .grid-item:nth-child(2) {
+  grid-column: span 1;
+}
+
+.post-grid .grid-item:nth-child(3) {
+  grid-column: span 2;
+  grid-row: span 2; /* Makes it taller */
+}
+
+.post-grid .grid-item:nth-child(4),
+.post-grid .grid-item:nth-child(5) {
+  grid-column: span 1;
+}
+
+/* List for the Next 20 Posts */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.post-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.post-list li a {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.post-list li small {
+  display: block;
+  color: #666;
+}
 
 
 
