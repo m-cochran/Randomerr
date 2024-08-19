@@ -90,7 +90,7 @@ p {
   margin: 0 0 15px;
 }
 
-/* Post Thumbnail Styles */
+/* Post Thumbnail Styles on Homepage */
 ul {
   padding: 0;
   list-style: none;
@@ -102,45 +102,21 @@ ul li {
   margin-bottom: 10px;
 }
 
-ul li img {
+ul li img.thumbnail {
+  width: 100px; /* Size of thumbnail on homepage */
+  height: 75px; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure image fits within the given size */
+  margin-right: 10px; /* Space between image and text */
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.thumbnail {
-  width: 100px;
-  height: 75px; /* Adjust to your preferred aspect ratio */
-  object-fit: cover; /* Ensure the image maintains aspect ratio */
-  margin-right: 10px; /* Space between image and text */
-}
-
-/* Ensure thumbnails are resized */
-.post-item {
-  display: flex;
-  align-items: center; /* Align items vertically in the center */
-  margin-bottom: 10px; /* Add spacing between items */
-}
-
-.post-thumbnail {
-  width: 50px;
-  height: 50px; /* Ensure consistent height */
-  object-fit: cover; /* Maintain aspect ratio */
-  margin-right: 10px; /* Add spacing between the image and text */
-}
-
-.post-details {
-  display: flex;
-  flex-direction: column; /* Stack text vertically */
-}
-
-.post-title {
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.post-date {
-  font-size: 0.9em; /* Slightly smaller font for the date */
-  color: gray;
+/* Full-Sized Image in Post */
+.post-content img {
+  max-width: 100%; /* Ensure full image width within post container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove any inline spacing issues */
+  margin: 20px 0; /* Add margin around the image */
 }
 
 /* Slider Styles */
