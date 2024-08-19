@@ -17,6 +17,13 @@ header {
   padding: 20px 0;
 }
 
+header img {
+  max-height: autopx;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+
 header h1 {
   margin: 0;
   padding: 0;
