@@ -96,6 +96,15 @@ ul li img {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Ensure thumbnails are resized */
+.thumbnail {
+  width: 100px;
+  height: 75px; /* Adjust to your preferred aspect ratio */
+  object-fit: cover; /* Ensure the image maintains aspect ratio */
+  margin-right: 10px;
+}
+
+
 /* Slider Styles */
 .slider {
   overflow: hidden;
