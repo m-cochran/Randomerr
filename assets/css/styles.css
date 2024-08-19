@@ -12,10 +12,21 @@ body {
 }
 
 header {
-  background: #333;
-  color: #fff;
-  padding: 20px 0;
+  background-image: url('{{ site.baseurl }}/assets/images/header-background.jpg');
+  background-size: cover; /* Adjust background size */
+  background-position: center; /* Center the image */
+  color: #fff; /* Text color for contrast */
+  padding: 20px 0; /* Adjust padding as needed */
 }
+
+header a {
+  color: #fff; /* Link color */
+}
+
+header img {
+  vertical-align: middle; /* Align logo with text */
+}
+
 
 header img {
   max-height: autopx;
