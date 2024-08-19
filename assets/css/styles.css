@@ -72,7 +72,6 @@ p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  max-width: flex;
   margin: 0 auto;
 }
 
