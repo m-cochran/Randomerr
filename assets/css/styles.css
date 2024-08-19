@@ -15,42 +15,66 @@ body {
 
 /* Header Styles */
 header {
-  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg');
-  background-size: cover; /* Ensures the background image covers the entire header */
-  background-position: center; /* Centers the background image */
-  color: #fff; /* Text color for contrast */
-  padding: 20px 0; /* Adds padding to the header */
-  position: relative; /* Allows positioning of logo inside the header */
-  text-align: center; /* Center-aligns text */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg');;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 20px;
+  position: relative;
 }
 
-/* Logo Styles */
 header img {
-  height: 50px; /* Adjusts the size of the logo */
-  vertical-align: middle; /* Aligns logo with text */
-  position: absolute; /* Positions the logo absolutely within the header */
-  left: 20px; /* Distance from the left edge */
-  top: 50%; /* Centers the logo vertically */
-  transform: translateY(-50%); /* Adjusts vertical centering */
+  height: 50px; /* Adjust size */
+  margin-right: 20px; /* Space between logo and text */
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px; /* Adjust font size */
 }
 
 /* Navigation Styles */
 nav ul {
-  list-style: none; /* Removes default list styles */
+  list-style: none;
   padding: 0;
   margin: 0;
-  text-align: center; /* Center-aligns navigation items */
+  display: flex;
 }
 
 nav ul li {
-  display: inline-block; /* Makes navigation items appear inline */
-  margin: 0 15px; /* Adds space between navigation items */
+  margin: 0 15px;
 }
 
 nav a {
-  color: #fff; /* Link color for better visibility */
-  text-decoration: none; /* Removes underline from links */
-  font-weight: bold; /* Makes navigation links bold */
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header img {
+    height: 40px; /* Reduce logo size on smaller screens */
+    margin-right: 15px; /* Adjust space */
+  }
+
+  header h1 {
+    font-size: 20px; /* Adjust font size */
+  }
+}
+
+@media (max-width: 480px) {
+  header img {
+    height: 30px; /* Further reduce logo size */
+    margin-right: 10px; /* Adjust space */
+  }
+
+  header h1 {
+    font-size: 18px; /* Further adjust font size */
+  }
 }
 
 /* Main Content Styles */
@@ -59,39 +83,22 @@ main {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 10px; /* Adds space below headings */
+  margin: 0 0 10px;
 }
 
 p {
-  margin: 0 0 15px; /* Adds space below paragraphs */
+  margin: 0 0 15px;
 }
 
 /* Footer Styles */
 footer {
-  background: #333; /* Footer background color */
-  color: #fff; /* Text color for contrast */
-  text-align: center; /* Center-aligns footer text */
-  padding: 10px 0; /* Adds padding to the footer */
-  margin-top: 20px; /* Adds space above the footer */
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: 20px;
 }
 
 footer p {
   margin: 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  header img {
-    height: 40px; /* Reduces logo size on smaller screens */
-    left: 10px; /* Adjusts positioning */
-  }
-
-  nav ul {
-    text-align: left; /* Aligns navigation to the left on smaller screens */
-  }
-
-  nav ul li {
-    display: block; /* Stacks navigation items vertically */
-    margin: 5px 0; /* Adds space between stacked items */
-  }
 }
