@@ -9,17 +9,20 @@ title: Home
 <h2>Latest Posts</h2>
 <ul>
   {% for post in site.posts %}
-  <li>
-     {% if post.thumbnail %}
-      <img src="{{ post.thumbnail }}" alt="{{ post.title }}" style="width: 50px; height: auto;">
+  <li class="post-item">
+    {% if post.thumbnail %}
+      <img src="{{ post.thumbnail }}" alt="{{ post.title }}" class="post-thumbnail">
     {% else %}
       <p>No image available</p>
     {% endif %}
-    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%B %d, %Y" }}</small>
+    <div class="post-details">
+      <a href="{{ site.baseurl }}{{ post.url }}" class="post-title">{{ post.title }}</a>
+      <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
+    </div>
   </li>
   {% endfor %}
 </ul>
+
 
 
 <div class="slider">
