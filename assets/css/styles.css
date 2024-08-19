@@ -122,17 +122,6 @@ p {
   color: #666;
 }
 
-/* Full-Sized Images in Posts */
-.post-content img {
-  max-width: 1200px; /* Maximum width */
-  max-height: 630px; /* Maximum height */
-  width: 100%; /* Scale down with container */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove inline spacing issues */
-  margin: 20px 0; /* Margin around the image */
-  object-fit: contain; /* Ensure the image is contained within the dimensions */
-}
-
 /* Slider Styles */
 .slider {
   overflow: hidden;
