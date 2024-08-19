@@ -82,28 +82,11 @@ p {
 }
 
 .grid-item img.grid-img {
-  width: 100%;
-  height: auto;
+  width: 100%; /* Scale image to fit the grid item */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 200px; /* Limit the height */
+  object-fit: cover; /* Cover the area of the grid item */
   border-radius: 4px;
-}
-
-/* Custom grid placement to make it irregular */
-.post-grid .grid-item:nth-child(1) {
-  grid-column: span 2; /* Makes it span two columns */
-}
-
-.post-grid .grid-item:nth-child(2) {
-  grid-column: span 1;
-}
-
-.post-grid .grid-item:nth-child(3) {
-  grid-column: span 2;
-  grid-row: span 2; /* Makes it taller */
-}
-
-.post-grid .grid-item:nth-child(4),
-.post-grid .grid-item:nth-child(5) {
-  grid-column: span 1;
 }
 
 /* List for the Next 20 Posts */
@@ -114,8 +97,18 @@ p {
 }
 
 .post-list li {
+  display: flex; /* Align image and text horizontally */
+  align-items: center; /* Center vertically */
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
+}
+
+.post-list li img.list-thumbnail {
+  width: 80px; /* Thumbnail width */
+  height: 60px; /* Thumbnail height */
+  object-fit: cover; /* Ensure image fits within the thumbnail size */
+  border-radius: 4px;
+  margin-right: 10px; /* Space between image and text */
 }
 
 .post-list li a {
@@ -129,23 +122,14 @@ p {
   color: #666;
 }
 
-.post-list img.list-thumbnail {
-  width: 60px; /* Thumbnail size */
-  height: 45px; /* Maintain aspect ratio */
-  object-fit: cover; /* Ensure image fits within the given size */
-  margin-right: 10px; /* Space between image and text */
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 /* Full-Sized Images in Posts */
 .post-content img {
   max-width: 1200px; /* Maximum width */
   max-height: 630px; /* Maximum height */
-  width: 100%; /* Ensure image scales down with container */
+  width: 100%; /* Scale down with container */
   height: auto; /* Maintain aspect ratio */
   display: block; /* Remove inline spacing issues */
-  margin: 20px 0; /* Add margin around the image */
+  margin: 20px 0; /* Margin around the image */
   object-fit: contain; /* Ensure the image is contained within the dimensions */
 }
 
@@ -183,32 +167,14 @@ p {
   }
 }
 
-/* Responsive Design */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  header img {
-    height: 40px; /* Reduce logo size on smaller screens */
-    margin-right: 15px; /* Adjust space */
-  }
-
-  header h1 {
-    font-size: 20px; /* Adjust font size */
-  }
-
   .slide {
     width: 200px; /* Adjust for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
-  header img {
-    height: 30px; /* Further reduce logo size */
-    margin-right: 10px; /* Adjust space */
-  }
-
-  header h1 {
-    font-size: 18px; /* Further adjust font size */
-  }
-
   .slide {
     width: 150px; /* Further adjust for very small screens */
   }
