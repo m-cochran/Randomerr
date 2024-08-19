@@ -135,25 +135,6 @@ p {
   grid-column: span 1;
 }
 
-/* Post Content Styles */
-.post-content {
-  padding: 10px;
-}
-
-.post-content p {
-  margin: 0;
-  font-size: 14px; /* Adjust font size */
-}
-
-.read-more {
-  display: inline-block;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #333;
-  text-decoration: none;
-}
-
-
 /* List for the Next 20 Posts */
 .post-list {
   list-style: none;
