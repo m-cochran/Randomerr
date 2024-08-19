@@ -1,6 +1,6 @@
 title: My Blog
 description: A blog about YouTube, technology, and more.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "https://m-cochran.github.io/Randomerr/" # the subpath of your site, e.g. /blog
 url: "https://m-cochran.github.io/Randomerr/" # your domain or GitHub Pages URL
 theme: jekyll-theme-cayman # or any other theme you prefer
 
