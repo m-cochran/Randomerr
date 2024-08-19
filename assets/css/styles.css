@@ -75,18 +75,64 @@ p {
 }
 
 .grid-item {
+  position: relative; /* Enable absolute positioning for overlay */
   background-color: #f9f9f9;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.grid-item img.grid-img {
-  width: 50%; /* Scale image to fit the grid item */
-  height: auto; /* Maintain aspect ratio */
-  max-height: 200px; /* Limit the height */
-  object-fit: cover; /* Cover the area of the grid item */
+.post-image {
+  position: relative;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
   border-radius: 4px;
+}
+
+/* Overlay styles */
+.overlay {
+  position: absolute;
+  bottom: 10px; /* Adjust based on desired distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.overlay h2 {
+  margin: 0;
+  font-size: 18px; /* Adjust font size */
+}
+
+.overlay small {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px; /* Adjust font size */
+}
+
+/* Custom grid placement to make it irregular */
+.post-grid .grid-item:nth-child(1) {
+  grid-column: span 2; /* Makes it span two columns */
+}
+
+.post-grid .grid-item:nth-child(2) {
+  grid-column: span 1;
+}
+
+.post-grid .grid-item:nth-child(3) {
+  grid-column: span 2;
+  grid-row: span 2; /* Makes it taller */
+}
+
+.post-grid .grid-item:nth-child(4),
+.post-grid .grid-item:nth-child(5) {
+  grid-column: span 1;
 }
 
 /* List for the Next 20 Posts */
@@ -97,18 +143,8 @@ p {
 }
 
 .post-list li {
-  display: flex; /* Align image and text horizontally */
-  align-items: center; /* Center vertically */
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
-}
-
-.post-list li img.list-thumbnail {
-  width: 80px; /* Thumbnail width */
-  height: 60px; /* Thumbnail height */
-  object-fit: cover; /* Ensure image fits within the thumbnail size */
-  border-radius: 4px;
-  margin-right: 10px; /* Space between image and text */
 }
 
 .post-list li a {
@@ -121,6 +157,7 @@ p {
   display: block;
   color: #666;
 }
+
 
 /* Slider Styles */
 .slider {
