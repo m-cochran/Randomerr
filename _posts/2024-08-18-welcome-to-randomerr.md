@@ -2,6 +2,7 @@
 layout: default
 title: "Welcome to Randomerr"
 date: 2024-08-18
+permalink: /2024/08/18/welcome-to-randomerr/
 ---
 
 # Welcome to Randomerr
