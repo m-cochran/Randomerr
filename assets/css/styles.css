@@ -87,8 +87,8 @@ p {
 }
 
 .post-image img {
-  width: 50%;
-  height: auto;
+  width: auto;
+  height: 50%;
   border-radius: 4px;
 }
 
