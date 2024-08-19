@@ -1,9 +1,8 @@
-title: My Blog
-description: A blog about YouTube, technology, and more.
-baseurl: "/m-cochran.github.io/Randomerr/" # the subpath of your site, e.g. /blog
-url: "https://m-cochran.github.io/Randomerr/" # your domain or GitHub Pages URL
-theme: jekyll-theme-cayman # or any other theme you prefer
-
+title: "Randomerr"
+description: "A site for random ideas and thoughts."
+baseurl: "/Randomerr" # If your repository is named 'Randomerr'
+url: "https://m-cochran.github.io"
+theme: minima
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
