@@ -132,7 +132,7 @@ ul li img.thumbnail {
 
 .slide-track {
   display: flex;
-  width: calc(250px * 18);
+  width: auto;
   animation: scroll 40s linear infinite;
 }
 
