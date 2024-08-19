@@ -18,7 +18,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg');;
+  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg');
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -90,20 +90,57 @@ p {
   margin: 0 0 15px;
 }
 
-/* Add styles for post thumbnails */
+/* Post Thumbnail Styles */
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+ul li {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  margin-bottom: 10px;
+}
+
 ul li img {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Ensure thumbnails are resized */
 .thumbnail {
   width: 100px;
   height: 75px; /* Adjust to your preferred aspect ratio */
   object-fit: cover; /* Ensure the image maintains aspect ratio */
-  margin-right: 10px;
+  margin-right: 10px; /* Space between image and text */
 }
 
+/* Ensure thumbnails are resized */
+.post-item {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  margin-bottom: 10px; /* Add spacing between items */
+}
+
+.post-thumbnail {
+  width: 50px;
+  height: auto;
+  margin-right: 10px; /* Add spacing between the image and text */
+}
+
+.post-details {
+  display: flex;
+  flex-direction: column; /* Stack text vertically */
+}
+
+.post-title {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.post-date {
+  font-size: 0.9em; /* Slightly smaller font for the date */
+  color: gray;
+}
 
 /* Slider Styles */
 .slider {
