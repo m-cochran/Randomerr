@@ -8,10 +8,10 @@ title: Home
 
 <h2>Latest Posts</h2>
 
-<!-- Top 5 Posts in Grid Layout -->
+<!-- Top 6 Posts in Grid Layout -->
 <div class="wrapper">
-  {% for post in site.posts limit: 5 %}
-  <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% endcase %}">
+  {% for post in site.posts limit: 6 %}
+  <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% when 6 %}six{% endcase %}">
     <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
     <div class="overlay">
       <h2>{{ post.title }}</h2>
@@ -23,7 +23,7 @@ title: Home
 
 <!-- List of the Next 20 Posts -->
 <ul class="post-list">
-  {% for post in site.posts offset: 5 limit: 20 %}
+  {% for post in site.posts offset: 6 limit: 20 %}
   <li>
     <a href="{{ post.url }}">{{ post.title }}</a>
     <small>{{ post.date | date: "%B %d, %Y" }}</small>
