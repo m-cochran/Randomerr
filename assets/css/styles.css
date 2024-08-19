@@ -71,57 +71,47 @@ p {
 .post-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin: 0 auto;
+  gap: 10px; /* Smaller gap between grid items */
 }
 
 .grid-item {
-  position: relative; /* Enable absolute positioning for overlay */
-  max-width: 300px; /* Set a maximum width for grid items */
-  margin: 0 auto;   /* Center items if grid is reduced */
   background-color: #f9f9f9;
-  padding: 15px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 200px; /* Adjust height */
 }
 
-.post-image {
-  position: relative;
-}
-
-.post-image img {
+.grid-item img {
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 4px;
+  object-fit: cover; /* Ensure image fits within the grid item */
 }
 
-/* Overlay styles */
 .overlay {
   position: absolute;
-  bottom: 10px; /* Adjust based on desired distance from bottom */
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #fff;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  padding: 10px;
-  border-radius: 4px;
+  color: #fff;
+  padding: 5px;
+  text-align: center;
 }
 
 .overlay h2 {
   margin: 0;
-  font-size: 18px; /* Adjust font size */
+  font-size: 14px; /* Smaller font size */
 }
 
 .overlay small {
-  display: block;
-  margin-top: 5px;
-  font-size: 14px; /* Adjust font size */
+  font-size: 12px; /* Smaller font size */
 }
 
-/* Custom grid placement to make it irregular */
+/* Custom grid placement for irregular layout */
 .post-grid .grid-item:nth-child(1) {
-  grid-column: span 2; /* Makes it span two columns */
+  grid-column: span 2;
 }
 
 .post-grid .grid-item:nth-child(2) {
@@ -130,7 +120,7 @@ p {
 
 .post-grid .grid-item:nth-child(3) {
   grid-column: span 2;
-  grid-row: span 2; /* Makes it taller */
+  grid-row: span 2;
 }
 
 .post-grid .grid-item:nth-child(4),
@@ -138,7 +128,7 @@ p {
   grid-column: span 1;
 }
 
-/* List for the Next 20 Posts */
+/* Post List Styles */
 .post-list {
   list-style: none;
   padding: 0;
@@ -160,7 +150,6 @@ p {
   display: block;
   color: #666;
 }
-
 
 /* Slider Styles */
 .slider {
