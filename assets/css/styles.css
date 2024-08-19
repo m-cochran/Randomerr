@@ -90,13 +90,13 @@ p {
 }
 
 .overlay {
-  position: absolute;
+  position: inherit;
   bottom: 0;
   left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   color: #fff;
-  padding: 5px;
+  padding: 0px;
   text-align: center;
 }
 
