@@ -111,13 +111,17 @@ ul li img.thumbnail {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Full-Sized Image in Post */
+/* Full-Sized Images in Posts */
 .post-content img {
-  max-width: 100%; /* Ensure full image width within post container */
+  max-width: 1200px; /* Maximum width */
+  max-height: 630px; /* Maximum height */
+  width: 100%; /* Ensure image scales down with container */
   height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove any inline spacing issues */
+  display: block; /* Remove inline spacing issues */
   margin: 20px 0; /* Add margin around the image */
+  object-fit: contain; /* Ensure the image is contained within the dimensions */
 }
+
 
 /* Slider Styles */
 .slider {
