@@ -9,19 +9,13 @@ title: Home
 <h2>Latest Posts</h2>
 
 <!-- Top 5 Posts in Grid Layout -->
-<div class="post-grid">
+<div class="wrapper">
   {% for post in site.posts limit: 5 %}
-  <div class="grid-item">
-    <div class="post-image">
-      <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
-      <div class="overlay">
-        <h2>{{ post.title }}</h2>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
-      </div>
-    </div>
-    <div class="post-content">
-      <p>{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-      <a href="{{ post.url }}" class="read-more">Read More</a>
+  <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% endcase %}">
+    <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+    <div class="overlay">
+      <h2>{{ post.title }}</h2>
+      <small>{{ post.date | date: "%B %d, %Y" }}</small>
     </div>
   </div>
   {% endfor %}
