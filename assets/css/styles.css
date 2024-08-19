@@ -24,16 +24,7 @@ header {
   text-align: center; /* Center-aligns text */
 }
 
-header h1 {
-  margin: 0;
-  padding: 0;
-}
-
-header a {
-  color: #fff; /* Link color for better visibility */
-  text-decoration: none; /* Removes underline from links */
-}
-
+/* Logo Styles */
 header img {
   height: 50px; /* Adjusts the size of the logo */
   vertical-align: middle; /* Aligns logo with text */
