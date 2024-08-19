@@ -1,8 +1,10 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   line-height: 1.6;
+  color: #333;
 }
 
 .container {
@@ -14,34 +16,13 @@ body {
 /* Header Styles */
 header {
   background-image: url('{{ site.baseurl }}/assets/images/header-background.jpg');
-  background-size: cover; /* Ensure the background image covers the header */
-  background-position: center; /* Center the background image */
+  background-size: cover; /* Ensures the background image covers the entire header */
+  background-position: center; /* Centers the background image */
   color: #fff; /* Text color for contrast */
-  padding: 20px 0; /* Adjust padding as needed */
-  position: relative; /* Position relative for logo positioning */
+  padding: 20px 0; /* Adds padding to the header */
+  position: relative; /* Allows positioning of logo inside the header */
+  text-align: center; /* Center-aligns text */
 }
-
-header a {
-  color: #fff; /* Link color */
-}
-
-/* Logo Styles */
-header img {
-  height: 50px; /* Adjust height of the logo */
-  vertical-align: middle; /* Align logo with text */
-  position: absolute; /* Absolute positioning */
-  left: 20px; /* Distance from the left edge */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust vertical centering */
-}
-
-
-header img {
-  max-height: autopx;
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
 
 header h1 {
   margin: 0;
@@ -49,35 +30,77 @@ header h1 {
 }
 
 header a {
-  color: #fff;
-  text-decoration: none;
+  color: #fff; /* Link color for better visibility */
+  text-decoration: none; /* Removes underline from links */
+}
+
+header img {
+  height: 50px; /* Adjusts the size of the logo */
+  vertical-align: middle; /* Aligns logo with text */
+  position: absolute; /* Positions the logo absolutely within the header */
+  left: 20px; /* Distance from the left edge */
+  top: 50%; /* Centers the logo vertically */
+  transform: translateY(-50%); /* Adjusts vertical centering */
 }
 
 /* Navigation Styles */
 nav ul {
-  list-style: none; /* Remove default list styles */
+  list-style: none; /* Removes default list styles */
   padding: 0;
+  margin: 0;
+  text-align: center; /* Center-aligns navigation items */
 }
 
 nav ul li {
-  display: inline;
-  margin: 0 15px;
+  display: inline-block; /* Makes navigation items appear inline */
+  margin: 0 15px; /* Adds space between navigation items */
 }
 
 nav a {
-  color: #fff; /* Link color */
-  text-decoration: none; /* Remove underline from links */
+  color: #fff; /* Link color for better visibility */
+  text-decoration: none; /* Removes underline from links */
+  font-weight: bold; /* Makes navigation links bold */
 }
 
+/* Main Content Styles */
+main {
+  padding: 20px 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 10px; /* Adds space below headings */
+}
+
+p {
+  margin: 0 0 15px; /* Adds space below paragraphs */
+}
+
+/* Footer Styles */
 footer {
-  background: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-  margin-top: 20px;
+  background: #333; /* Footer background color */
+  color: #fff; /* Text color for contrast */
+  text-align: center; /* Center-aligns footer text */
+  padding: 10px 0; /* Adds padding to the footer */
+  margin-top: 20px; /* Adds space above the footer */
 }
 
 footer p {
   margin: 0;
-  padding: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header img {
+    height: 40px; /* Reduces logo size on smaller screens */
+    left: 10px; /* Adjusts positioning */
+  }
+
+  nav ul {
+    text-align: left; /* Aligns navigation to the left on smaller screens */
+  }
+
+  nav ul li {
+    display: block; /* Stacks navigation items vertically */
+    margin: 5px 0; /* Adds space between stacked items */
+  }
 }
