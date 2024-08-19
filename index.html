@@ -7,21 +7,30 @@ title: Home
 <p>This is a blog where random thoughts and ideas come to life. Stay tuned for more content!</p>
 
 <h2>Latest Posts</h2>
+<!-- Post on Homepage -->
 <ul>
   {% for post in site.posts %}
-  <li class="post-item">
+  <li>
     {% if post.thumbnail %}
-      <img src="{{ post.thumbnail }}" alt="{{ post.title }}" class="post-thumbnail">
+      <img src="{{ post.thumbnail }}" class="thumbnail" alt="{{ post.title }}">
     {% else %}
       <p>No image available</p>
     {% endif %}
-    <div class="post-details">
-      <a href="{{ site.baseurl }}{{ post.url }}" class="post-title">{{ post.title }}</a>
-      <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
-    </div>
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    <small>{{ post.date | date: "%B %d, %Y" }}</small>
   </li>
   {% endfor %}
 </ul>
+
+<!-- Post Content -->
+<div class="post-content">
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.date | date: "%B %d, %Y" }}</p>
+  <div class="post-body">
+    {{ content }}
+  </div>
+</div>
+
 
 
 
