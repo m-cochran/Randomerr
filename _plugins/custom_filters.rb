@@ -1,12 +1,11 @@
-# _plugins/custom_filters.rb
+module CustomFilters
+  require 'nokogiri'
 
-module Jekyll
-  module CustomFilters
-    def extract_thumbnail(content)
-      match = content.match(/<img[^>]+src="([^">]+)"/)
-      match ? match[1] : nil
-    end
+  def extract_image_url(content)
+    doc = Nokogiri::HTML::DocumentFragment.parse(content)
+    img_tag = doc.at_css('img')
+    img_tag ? img_tag['src'] : nil
   end
 end
 
-Liquid::Template.register_filter(Jekyll::CustomFilters)
+Liquid::Template.register_filter(CustomFilters)
