@@ -108,7 +108,7 @@ ul li img {
 }
 
 .thumbnail {
-  width: 50px;
+  width: 100px;
   height: 75px; /* Adjust to your preferred aspect ratio */
   object-fit: cover; /* Ensure the image maintains aspect ratio */
   margin-right: 10px; /* Space between image and text */
@@ -123,7 +123,8 @@ ul li img {
 
 .post-thumbnail {
   width: 50px;
-  height: auto;
+  height: 50px; /* Ensure consistent height */
+  object-fit: cover; /* Maintain aspect ratio */
   margin-right: 10px; /* Add spacing between the image and text */
 }
 
