@@ -1,8 +1,9 @@
 ---
 layout: default
 title: About
+permalink: /about/
 ---
 
-# About Me
+# About Randomerr
 
-This is the about page where you can learn more about the blog and the author. Here, you can write a brief introduction about yourself and your blog's purpose.
+Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
