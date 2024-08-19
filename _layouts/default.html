@@ -3,16 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="{{ "/assets/css/styles.css" | relative_url }}">
 </head>
 <body>
-  {% include header.html %}
+  <header>
+    <!-- Your header content -->
+  </header>
   
-  <main>
-    {{ content }}
+  <main class="container">
+    <article class="post-content">
+      <h1>{{ page.title }}</h1>
+      <p>{{ page.date | date: "%B %d, %Y" }}</p>
+      <div class="post-body">
+        {{ content }}
+      </div>
+    </article>
   </main>
   
-  {% include footer.html %}
+  <footer>
+    <!-- Your footer content -->
+  </footer>
 </body>
 </html>
