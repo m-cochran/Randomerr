@@ -1,24 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="{{ "/assets/css/styles.css" | relative_url }}">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+  <meta name="keywords" content="your,keywords,here">
+  <meta name="author" content="{{ site.author }}">
+  <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
+  <meta property="og:description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/your-image.jpg">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'YOUR_TRACKING_ID');
+</script>
 </head>
 <body>
-  <header>
-    <!-- Your header content -->
-  </header>
+  {% include header.html %}
+
   
   <main>
-    
-        {{ content }}
-
+    {{ content }}
   </main>
+
   
-  <footer>
-    <!-- Your footer content -->
-  </footer>
+  {% include footer.html %}
 </body>
 </html>
