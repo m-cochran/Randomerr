@@ -11,20 +11,28 @@ body {
   margin: 0 auto;
 }
 
+/* Header Styles */
 header {
-  background-image: url('{{ site.baseurl }}/assets/images/header-background.png');
-  background-size: cover; /* Adjust background size */
-  background-position: center; /* Center the image */
+  background-image: url('{{ site.baseurl }}/assets/images/header-background.jpg');
+  background-size: cover; /* Ensure the background image covers the header */
+  background-position: center; /* Center the background image */
   color: #fff; /* Text color for contrast */
   padding: 20px 0; /* Adjust padding as needed */
+  position: relative; /* Position relative for logo positioning */
 }
 
 header a {
   color: #fff; /* Link color */
 }
 
+/* Logo Styles */
 header img {
+  height: 50px; /* Adjust height of the logo */
   vertical-align: middle; /* Align logo with text */
+  position: absolute; /* Absolute positioning */
+  left: 20px; /* Distance from the left edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical centering */
 }
 
 
@@ -45,14 +53,20 @@ header a {
   text-decoration: none;
 }
 
+/* Navigation Styles */
 nav ul {
-  list-style: none;
+  list-style: none; /* Remove default list styles */
   padding: 0;
 }
 
 nav ul li {
   display: inline;
   margin: 0 15px;
+}
+
+nav a {
+  color: #fff; /* Link color */
+  text-decoration: none; /* Remove underline from links */
 }
 
 footer {
