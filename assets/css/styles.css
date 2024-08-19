@@ -90,6 +90,53 @@ p {
   margin: 0 0 15px;
 }
 
+/* Slider Styles */
+.slider {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.slide-track {
+  display: flex;
+  width: 100%;
+  animation: scroll 20s linear infinite;
+}
+
+.slide {
+  flex: 0 0 auto;
+  width: 250px; /* Adjust based on image width */
+  margin-right: 20px; /* Adjust spacing between slides */
+}
+
+.slide img {
+  display: block;
+  width: 100%; /* Ensure images fill the slide */
+  height: auto;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .slide {
+    width: 200px; /* Adjust for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .slide {
+    width: 150px; /* Further adjust for very small screens */
+  }
+}
+
 /* Footer Styles */
 footer {
   background: #333;
