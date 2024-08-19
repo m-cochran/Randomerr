@@ -54,29 +54,6 @@ nav a {
   font-weight: bold;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  header img {
-    height: 40px; /* Reduce logo size on smaller screens */
-    margin-right: 15px; /* Adjust space */
-  }
-
-  header h1 {
-    font-size: 20px; /* Adjust font size */
-  }
-}
-
-@media (max-width: 480px) {
-  header img {
-    height: 30px; /* Further reduce logo size */
-    margin-right: 10px; /* Adjust space */
-  }
-
-  header h1 {
-    font-size: 18px; /* Further adjust font size */
-  }
-}
-
 /* Main Content Styles */
 main {
   padding: 20px 0;
@@ -88,6 +65,68 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   margin: 0 0 15px;
+}
+
+/* Irregular Grid for Top 5 Posts */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.grid-item {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Custom grid placement to make it irregular */
+.post-grid .grid-item:nth-child(1) {
+  grid-column: span 2; /* Makes it span two columns */
+}
+
+.post-grid .grid-item:nth-child(2) {
+  grid-column: span 1;
+}
+
+.post-grid .grid-item:nth-child(3) {
+  grid-column: span 2;
+  grid-row: span 2; /* Makes it taller */
+}
+
+.post-grid .grid-item:nth-child(4),
+.post-grid .grid-item:nth-child(5) {
+  grid-column: span 1;
+}
+
+/* List for the Next 20 Posts */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.post-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.post-list li a {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.post-list li small {
+  display: block;
+  color: #666;
 }
 
 /* Post Thumbnail Styles on Homepage */
@@ -121,7 +160,6 @@ ul li img.thumbnail {
   margin: 20px 0; /* Add margin around the image */
   object-fit: contain; /* Ensure the image is contained within the dimensions */
 }
-
 
 /* Slider Styles */
 .slider {
@@ -157,14 +195,32 @@ ul li img.thumbnail {
   }
 }
 
-/* Responsive Adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
+  header img {
+    height: 40px; /* Reduce logo size on smaller screens */
+    margin-right: 15px; /* Adjust space */
+  }
+
+  header h1 {
+    font-size: 20px; /* Adjust font size */
+  }
+
   .slide {
     width: 200px; /* Adjust for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
+  header img {
+    height: 30px; /* Further reduce logo size */
+    margin-right: 10px; /* Adjust space */
+  }
+
+  header h1 {
+    font-size: 18px; /* Further adjust font size */
+  }
+
   .slide {
     width: 150px; /* Further adjust for very small screens */
   }
