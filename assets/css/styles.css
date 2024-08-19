@@ -15,7 +15,7 @@ body {
 
 /* Header Styles */
 header {
-  background-image: url('{{ site.baseurl }}/assets/images/header-background.jpg');
+  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg');
   background-size: cover; /* Ensures the background image covers the entire header */
   background-position: center; /* Centers the background image */
   color: #fff; /* Text color for contrast */
