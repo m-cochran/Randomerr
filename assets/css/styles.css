@@ -133,7 +133,7 @@ ul li img.thumbnail {
 .slide-track {
   display: flex;
   width: 100%;
-  animation: scroll 20s linear infinite;
+  animation: scroll 40s linear infinite;
 }
 
 .slide {
@@ -153,7 +153,7 @@ ul li img.thumbnail {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(calc(-250px * 11));
   }
 }
 
