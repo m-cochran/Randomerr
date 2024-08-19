@@ -82,7 +82,7 @@ p {
 }
 
 .grid-item img.grid-img {
-  width: 100%; /* Scale image to fit the grid item */
+  width: 50%; /* Scale image to fit the grid item */
   height: auto; /* Maintain aspect ratio */
   max-height: 200px; /* Limit the height */
   object-fit: cover; /* Cover the area of the grid item */
