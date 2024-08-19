@@ -81,7 +81,7 @@ p {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.grid-item img {
+.grid-item img.grid-img {
   width: 100%;
   height: auto;
   border-radius: 4px;
@@ -129,21 +129,9 @@ p {
   color: #666;
 }
 
-/* Post Thumbnail Styles on Homepage */
-ul {
-  padding: 0;
-  list-style: none;
-}
-
-ul li {
-  display: flex;
-  align-items: center; /* Align items vertically */
-  margin-bottom: 10px;
-}
-
-ul li img.thumbnail {
-  width: 100px; /* Size of thumbnail on homepage */
-  height: 75px; /* Maintain aspect ratio */
+.post-list img.list-thumbnail {
+  width: 60px; /* Thumbnail size */
+  height: 45px; /* Maintain aspect ratio */
   object-fit: cover; /* Ensure image fits within the given size */
   margin-right: 10px; /* Space between image and text */
   border-radius: 4px;
