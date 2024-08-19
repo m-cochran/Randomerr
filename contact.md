@@ -1,10 +1,9 @@
 ---
 layout: default
 title: Contact
+permalink: /contact/
 ---
 
-# Contact Me
+# Contact Us
 
-If you have any questions or would like to get in touch, please use the following contact details:
-
-- **Email**: [example@example.com](mailto:example@example.com)
+Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
