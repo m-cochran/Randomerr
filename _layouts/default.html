@@ -1,5 +1,6 @@
-  <!DOCTYPE html>
-  <html amp lang="en">
+<!DOCTYPE html>
+<html amp lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ site.title }}</title>
@@ -11,32 +12,38 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
-<script src="{{ site.baseurl }}/assets/js/scripts.js"></script>
-<script async src="https://cdn.ampproject.org/v0.js"></script>
-<style amp-custom>
-  /* Custom styles go here */
-</style>
+  
+  <!-- AMP Runtime -->
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
 
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- AMP Styles -->
+  <style amp-custom>
+    /* Custom styles go here */
+  </style>
 
-  gtag('config', 'YOUR_TRACKING_ID');
-</script>
+  <!-- Google Analytics for AMP -->
+  <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+  <script type="application/json">
+  {
+    "requests": {
+      "pageview": "https://www.google-analytics.com/collect?v=1&_v=j96&a=12345678&t=pageview&_s=1&dl=${document.location.href}&dp=${pagePath}&ul=${userLanguage}&de=${documentEncoding}&sd=${screenColor}&sr=${screenResolution}&vp=${viewportSize}&je=${javascriptEnabled}&ec=${eventCategory}&ea=${eventAction}&el=${eventLabel}&ev=${eventValue}&cid=${clientId}&tid=YOUR_TRACKING_ID&_gid=YOUR_GID"
+    },
+    "triggers": {
+      "trackPageview": {
+        "on": "visible",
+        "request": "pageview"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
   {% include header.html %}
 
-  
   <main>
     {{ content }}
   </main>
 
-  
   {% include footer.html %}
 </body>
 </html>
