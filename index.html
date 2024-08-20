@@ -25,12 +25,12 @@ title: Home
 <ul class="post-list">
   {% for post in site.posts offset: 6 limit: 20 %}
   {% if post.thumbnail %}
-  <li>
-  <ul class="post-thumbnail">
-       <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+  <li class="post-thumbnail">
+    <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
     <small>{{ post.date | date: "%B %d, %Y" }}</small>
   </li>
+  {% endif %}
   {% endfor %}
 </ul>
 
