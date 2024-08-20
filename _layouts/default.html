@@ -1,98 +1,37 @@
-<!doctype html>
-<html amp lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Your Page Title</title>
-  <meta name="description" content="A brief description of your page content for SEO.">
-  <link rel="canonical" href="https://yourcanonicalurl.com/">
-  <meta name="viewport" content="width=device-width,minimum-scale=1">
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <!DOCTYPE html>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+  <meta name="keywords" content="your,keywords,here">
+  <meta name="author" content="{{ site.author }}">
+  <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
+  <meta property="og:description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
+<script src="{{ site.baseurl }}/assets/js/scripts.js"></script>
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  <!-- Required Boilerplate Styles -->
-  <style amp-boilerplate>
-    body {
-      visibility: hidden;
-    }
-    [amp-renderer] {
-      visibility: visible;
-    }
-  </style>
-  <noscript>
-    <style amp-boilerplate>
-      body {
-        visibility: visible;
-      }
-    </style>
-  </noscript>
-
-  <!-- Custom Styles -->
-  <style amp-custom>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    header {
-      background-color: #f4f4f4;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    main {
-      padding: 20px;
-    }
-    footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-      margin-top: 20px;
-    }
-    footer p {
-      margin: 0;
-    }
-    amp-img {
-      display: block;
-      margin: 0 auto;
-    }
-  </style>
+  gtag('config', 'YOUR_TRACKING_ID');
+</script>
 </head>
 <body>
-  <header>
-    <h1>Welcome to My AMP Page</h1>
-  </header>
+  {% include header.html %}
+
+  
   <main>
-    <amp-img src="https://example.com/image.jpg" width="600" height="400" layout="responsive" alt="Example Image"></amp-img>
-    <p>This is a sample AMP page. You can add more content here.</p>
-
-    <!-- Example of AMP Video -->
-    <amp-video width="480" height="270" layout="responsive" controls>
-      <source src="https://example.com/video.mp4" type="video/mp4">
-    </amp-video>
-
-    <!-- Example of AMP Analytics -->
-    <amp-analytics type="googleanalytics" id="analytics">
-      <script type="application/json">
-        {
-          "vars": {
-            "account": "UA-XXXXXX-X"
-          },
-          "triggers": {
-            "trackPageview": {
-              "on": "visible",
-              "request": "pageview"
-            }
-          }
-        }
-      </script>
-    </amp-analytics>
+    {{ content }}
   </main>
-  <footer>
-    <p>&copy; 2024 Your Website. All rights reserved.</p>
-  </footer>
+
+  
+  {% include footer.html %}
 </body>
 </html>
