@@ -25,6 +25,7 @@ title: Home
 <ul class="post-list">
   {% for post in site.posts offset: 6 limit: 20 %}
   {% if post.thumbnail %}
+  <ul class="post-thumbnail">
        <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
   <li>
     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
