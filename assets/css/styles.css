@@ -180,7 +180,7 @@ p {
 }
 
 .post-thumbnail img {
-  max-width: 100%;
+  max-width: 50px;
   height: auto;
   display: block;
 }
