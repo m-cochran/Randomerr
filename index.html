@@ -23,6 +23,8 @@ title: Home
 
 <!-- List of the Next 20 Posts -->
 <ul class="post-list">
+  {% if post.thumbnail %}
+       <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
   {% for post in site.posts offset: 6 limit: 20 %}
   <li>
     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
