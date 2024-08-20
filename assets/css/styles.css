@@ -182,7 +182,6 @@ p {
 .post-thumbnail img {
   max-width: 100px;
   height: 150px;
-  display: block;
   margin-right: 15px; /* Space between image and text */
   border-radius: 8px; /* Rounds the corners */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /*
