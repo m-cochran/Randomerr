@@ -180,8 +180,10 @@ p {
 }
 
 .post-thumbnail img {
-  max-width: 50px;
+  max-width: 100px;
   height: auto;
+  margin-right: 15px; /* Space between image and text */
+  border-radius: 8px; /* Rounds the corners */
   display: block;
 }
 
