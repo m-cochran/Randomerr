@@ -184,7 +184,7 @@ p {
   height: auto;
   margin-right: 15px; /* Space between image and text */
   border-radius: 8px; /* Rounds the corners */
-  display: block;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /*
 }
 
 /* Optional: Additional List Item Styling */
