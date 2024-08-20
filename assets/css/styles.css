@@ -84,7 +84,7 @@ p {
 .wrapper > div {
   border: 2px solid rgb #d4d4d4;
   border-radius: 5px;
-  background: #fff;
+  background: #d4d4d4;
   padding: 1em;
   color: #fff;
   position: relative;
@@ -105,7 +105,7 @@ p {
   width: 100%;
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   color: #fff;
-  padding: 5px;
+  padding: 0px;
   text-align: center;
 }
 
