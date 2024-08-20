@@ -159,6 +159,8 @@ p {
 .post-list li {
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
 }
 
 .post-list li a {
@@ -171,6 +173,25 @@ p {
   display: block;
   color: #666;
 }
+
+/* Thumbnail and List Item Styles */
+.post-thumbnail {
+  margin-right: 15px;
+}
+
+.post-thumbnail img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Optional: Additional List Item Styling */
+.post-list-item {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
 
 /* Slider Styles */
 .slider {
