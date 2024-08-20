@@ -82,9 +82,9 @@ p {
 }
 
 .wrapper > div {
-  border: 2px solid rgba(0, 0, 0, 0.5);
+  border: 2px solid rgb #d4d4d4;
   border-radius: 5px;
-  background: #fff; /* Semi-transparent background */
+  background: #fff;
   padding: 1em;
   color: #fff;
   position: relative;
