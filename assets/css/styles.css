@@ -152,7 +152,7 @@ p {
 /* Post List Styles */
 .post-list {
   list-style: none;
-  padding: 0;
+  padding: 30px;
   margin-top: 30px;
 }
 
