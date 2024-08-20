@@ -186,8 +186,8 @@ p {
 }
 
 .post-thumbnail img {
-  max-width: 5%;
-  height: auto;
+  max-width: 150px;
+  height: 150px;
   display: block;
   margin-right: 15px; /* Space between image and text */
   border-radius: 8px; /* Rounds the corners */
