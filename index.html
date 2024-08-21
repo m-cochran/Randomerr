@@ -1,177 +1,195 @@
-<!doctype html>
-<html ⚡>
-<head>
-  <meta charset="utf-8">
-  <title>Home - Randomerr</title>
-  <link rel="canonical" href="https://yourdomain.com/index.html">
-  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <style amp-custom>
-    /* Custom Styles */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      background: #f4f4f4;
-    }
-    .wrapper {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
-      padding: 10px;
-    }
-    .grid-item {
-      position: relative;
-      overflow: hidden;
-    }
-    .grid-item amp-img {
-      width: 100%;
-      height: auto;
-    }
-    .overlay {
-      position: absolute;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      width: 100%;
-      text-align: center;
-      padding: 10px;
-    }
-    .post-list {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0;
-    }
-    .post-thumbnail {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .post-thumbnail amp-img {
-      width: 100px;
-      height: 75px;
-      margin-right: 10px;
-    }
-    .slider {
-      overflow: hidden;
-      white-space: nowrap;
-      width: 100%;
-      padding: 10px 0;
-    }
-    .slide-track {
-      display: flex;
-      transition: transform 0.5s;
-      width: calc(250px * 20); /* Adjust this according to the number of slides */
-    }
-    .slide {
-      display: inline-block;
-      width: 250px;
-      height: 100px;
-      margin: 0;
-    }
-    .slide amp-img {
-      width: 100%;
-      height: auto;
-    }
-  </style>
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-</head>
-<body>
-  <header>
-    <h1>Welcome to Randomerr</h1>
-    <p>This is a blog where random thoughts and ideas come to life. Stay tuned for more content!</p>
-  </header>
+---
+layout: default
+title: Home
+---
 
-  <h2>Latest Posts</h2>
+<h1>Welcome to Randomerr</h1>
+<p>This is a blog where random thoughts and ideas come to life. Stay tuned for more content!</p>
 
-  <!-- Top 6 Posts in Grid Layout -->
-  <div class="wrapper">
-    {% for post in site.posts limit: 6 %}
-    <div class="grid-item">
-      <amp-img src="{{ post.thumbnail }}" width="600" height="400" layout="responsive" alt="{{ post.title }}"></amp-img>
-      <div class="overlay">
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+<h2>Latest Posts</h2>
 
-  <!-- List of the Next 20 Posts -->
-  <ul class="post-list">
-    {% for post in site.posts offset: 6 limit: 20 %}
-    {% if post.thumbnail %}
-    <li class="post-thumbnail">
-      <amp-img src="{{ post.thumbnail }}" width="100" height="75" layout="fixed" alt="{{ post.title }}"></amp-img>
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+<!-- Top 6 Posts in Grid Layout -->
+<div class="wrapper">
+  {% for post in site.posts limit: 6 %}
+  <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% when 6 %}six{% endcase %}">
+    <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+    <div class="overlay">
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
       <small>{{ post.date | date: "%B %d, %Y" }}</small>
-    </li>
-    {% endif %}
-    {% endfor %}
-  </ul>
-
-  <!-- Slider -->
-  <div class="slider">
-    <div class="slide-track">
-      <div class="slide">
-        <a href="https://www.anrdoezrs.net/click-100820740-11428765" target="_blank" title="Buy China Wholesale Products Online Shopping From China Suppliers.">
-          <amp-img src="https://i.postimg.cc/k50nwS8q/Dh-Gate-Logo.png" width="250" height="100" layout="fixed" alt="DH Gate"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.dpbolvw.net/click-100820740-13125549" target="_blank" title="Dell Outlet Coupon Codes: Refurbished Computer PCs | Dell USA">
-          <amp-img src="https://i.postimg.cc/sfq6HQZ4/dell-outlet.png" width="250" height="100" layout="fixed" alt="Dell Outlet"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.anrdoezrs.net/click-100820740-10495782" target="_blank" title="Video game rental service">
-          <amp-img src="https://i.postimg.cc/J4B4Hm29/gamefly-logo.png" width="250" height="100" layout="fixed" alt="Gamefly"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.jdoqocy.com/click-100820740-15494946" target="_blank" title="NordVPN: The best online VPN service for speed and security">
-          <amp-img src="https://i.postimg.cc/0jX8zYhs/nord-vpn-logo.png" width="250" height="100" layout="fixed" alt="NordVPN"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.tkqlhce.com/click-100820740-14516475" target="_blank" title="Shop Girls &amp; Tweens Clothing // Girls Fashion // Justice™">
-          <amp-img src="https://i.postimg.cc/157j0V5S/justice.png" width="250" height="100" layout="fixed" alt="Justice"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.dpbolvw.net/click-100820740-15084154" target="_blank" title="Buy a domain name - Register cheap domain names from $0.99 - Namecheap - namecheap.com">
-          <amp-img src="https://i.postimg.cc/gjNfJM9z/namecheap-logo.png" width="250" height="100" layout="fixed" alt="Namecheap"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.kqzyfj.com/click-100820740-12731974" target="_blank" title="Cheap Flights, Airline tickets and Hotels - JustFly">
-          <amp-img src="https://i.postimg.cc/4NhWb4MG/justfly-com-logo.png" width="250" height="100" layout="fixed" alt="JustFly"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.kqzyfj.com/click-100820740-13171327" target="_blank" title="The Sightseeing Pass | City &amp; Leisure Passes | Sightseeing Pass Company">
-          <amp-img src="https://i.postimg.cc/2SHx1Z2p/sightseeing-logo.png" width="250" height="100" layout="fixed" alt="Sightseeing Pass"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.kqzyfj.com/click-100820740-14310597" target="_blank" title="Snapfish | Personalized Gifts, Cards, Home Decor, Photo Books &amp; More">
-          <amp-img src="https://i.postimg.cc/sX0FKxVb/snap-fish.png" width="250" height="100" layout="fixed" alt="Snapfish"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://www.tkqlhce.com/click-100820740-11779777" target="_blank" title="Quick &amp; Confidential STD Testing - STDcheck.com!">
-          <amp-img src="https://i.postimg.cc/DZR9cWcm/std-check.png" width="250" height="100" layout="fixed" alt="STDcheck"></amp-img>
-        </a>
-      </div>
-      <div class="slide">
-        <a href="https://bulletproof.fdf2.net/c/3085755/1138919/9221" target="_blank" title="Bulletproof Coffee: The Original Keto Coffee with Butter &amp; MCT Oil">
-          <amp-img src="https://i.postimg.cc/vmwCWXY5/bulletproof-logo.png" width="250" height="100" layout="fixed" alt="Bulletproof Coffee"></amp-img>
-        </a>
-      </div>
     </div>
   </div>
-</body>
-</html>
+  {% endfor %}
+</div>
+
+<!-- List of the Next 20 Posts -->
+<ul class="post-list">
+  {% for post in site.posts offset: 6 limit: 20 %}
+  {% if post.thumbnail %}
+  <li class="post-thumbnail">
+    <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    <small>{{ post.date | date: "%B %d, %Y" }}</small>
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+
+<!-- Slider -->
+<div class="slider">
+  <div class="slide-track">
+    <div class="slide">
+      <span>
+        <a href="https://www.anrdoezrs.net/click-100820740-11428765" target="_blank" title="Buy China Wholesale Products Online Shopping From China Suppliers.">
+          <img src="https://i.postimg.cc/k50nwS8q/Dh-Gate-Logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.dpbolvw.net/click-100820740-13125549" target="_blank" title="Dell Outlet Coupon Codes: Refurbished Computer PCs | Dell USA">
+          <img src="https://i.postimg.cc/sfq6HQZ4/dell-outlet.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.anrdoezrs.net/click-100820740-10495782" target="_blank" title="Video game rental service">
+          <img src="https://i.postimg.cc/J4B4Hm29/gamefly-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.jdoqocy.com/click-100820740-15494946" target="_blank" title="NordVPN: The best online VPN service for speed and security">
+          <img src="https://i.postimg.cc/0jX8zYhs/nord-vpn-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.tkqlhce.com/click-100820740-14516475" target="_blank" title="Shop Girls &amp; Tweens Clothing // Girls Fashion // Justice™">
+          <img src="https://i.postimg.cc/157j0V5S/justice.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.dpbolvw.net/click-100820740-15084154" target="_blank" title="Buy a domain name - Register cheap domain names from $0.99 - Namecheap - namecheap.com">
+          <img src="https://i.postimg.cc/gjNfJM9z/namecheap-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.kqzyfj.com/click-100820740-12731974" target="_blank" title="Cheap Flights, Airline tickets and Hotels - JustFly">
+          <img src="https://i.postimg.cc/4NhWb4MG/justfly-com-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.kqzyfj.com/click-100820740-13171327" target="_blank" title="The Sightseeing Pass | City &amp; Leisure Passes | Sightseeing Pass Company">
+          <img src="https://i.postimg.cc/2SHx1Z2p/sightseeing-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.kqzyfj.com/click-100820740-14310597" target="_blank" title="Snapfish | Personalized Gifts, Cards, Home Decor, Photo Books &amp; More">
+          <img src="https://i.postimg.cc/sX0FKxVb/snap-fish.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.tkqlhce.com/click-100820740-11779777" target="_blank" title="Quick &amp; Confidential STD Testing - STDcheck.com!">
+          <img src="https://i.postimg.cc/DZR9cWcm/std-check.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://bulletproof.fdf2.net/c/3085755/1138919/9221" target="_blank" title="Bulletproof Coffee: The Original Keto Coffee with Butter &amp; MCT Oil">
+          <img src="https://i.postimg.cc/vmwCWXY5/bulletproof-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.anrdoezrs.net/click-100820740-11428765" target="_blank" title="Buy China Wholesale Products Online Shopping From China Suppliers.">
+          <img src="https://i.postimg.cc/k50nwS8q/Dh-Gate-Logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.dpbolvw.net/click-100820740-13125549" target="_blank" title="Dell Outlet Coupon Codes: Refurbished Computer PCs | Dell USA">
+          <img src="https://i.postimg.cc/sfq6HQZ4/dell-outlet.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.anrdoezrs.net/click-100820740-10495782" target="_blank" title="Video game rental service">
+          <img src="https://i.postimg.cc/J4B4Hm29/gamefly-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.jdoqocy.com/click-100820740-15494946" target="_blank" title="NordVPN: The best online VPN service for speed and security">
+          <img src="https://i.postimg.cc/0jX8zYhs/nord-vpn-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.tkqlhce.com/click-100820740-14516475" target="_blank" title="Shop Girls &amp; Tweens Clothing // Girls Fashion // Justice™">
+          <img src="https://i.postimg.cc/157j0V5S/justice.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.dpbolvw.net/click-100820740-15084154" target="_blank" title="Buy a domain name - Register cheap domain names from $0.99 - Namecheap - namecheap.com">
+          <img src="https://i.postimg.cc/gjNfJM9z/namecheap-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.kqzyfj.com/click-100820740-12731974" target="_blank" title="Cheap Flights, Airline tickets and Hotels - JustFly">
+          <img src="https://i.postimg.cc/4NhWb4MG/justfly-com-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.kqzyfj.com/click-100820740-13171327" target="_blank" title="The Sightseeing Pass | City &amp; Leisure Passes | Sightseeing Pass Company">
+          <img src="https://i.postimg.cc/2SHx1Z2p/sightseeing-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.kqzyfj.com/click-100820740-14310597" target="_blank" title="Snapfish | Personalized Gifts, Cards, Home Decor, Photo Books &amp; More">
+          <img src="https://i.postimg.cc/sX0FKxVb/snap-fish.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://www.tkqlhce.com/click-100820740-11779777" target="_blank" title="Quick &amp; Confidential STD Testing - STDcheck.com!">
+          <img src="https://i.postimg.cc/DZR9cWcm/std-check.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+    <div class="slide">
+      <span>
+        <a href="https://bulletproof.fdf2.net/c/3085755/1138919/9221" target="_blank" title="Bulletproof Coffee: The Original Keto Coffee with Butter &amp; MCT Oil">
+          <img src="https://i.postimg.cc/vmwCWXY5/bulletproof-logo.png" height="100" width="250" alt="">
+        </a>
+      </span>
+    </div>
+  </div>
+</div>
