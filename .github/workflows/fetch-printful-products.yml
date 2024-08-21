@@ -1,0 +1,30 @@
+name: Fetch Printful Products
+
+on:
+  push:
+    branches:
+      - main  # Adjust this to your default branch if necessary
+
+jobs:
+  fetch-products:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Fetch products from Printful API
+        env:
+          PRINTFUL_API_KEY: ${{ secrets.PRINTFUL_API_KEY }}
+        run: |
+          curl -H "Authorization: Basic $(echo -n $PRINTFUL_API_KEY | base64)" \
+               https://api.printful.com/store/products \
+               -o products.json
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add products.json
+          git commit -m "Update products from Printful"
+          git push
