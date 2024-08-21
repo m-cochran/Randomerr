@@ -83,7 +83,7 @@ p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  grid-auto-rows: minmax(80px, 120px);
+  grid-auto-rows: minmax(96px, 128px);
 }
 
 .wrapper > div {
