@@ -1,5 +1,6 @@
-  <!DOCTYPE html>
-  <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ site.title }}</title>
@@ -12,26 +13,28 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
-<script src="{{ site.baseurl }}/assets/js/scripts.js"></script>
+  <!-- JS Code -->
+  <script src="{{ site.baseurl }}/assets/js/scripts.js"></script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3230725016033102"
+     crossorigin="anonymous"></script>
   <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'YOUR_TRACKING_ID');
-</script>
+    gtag('config', 'YOUR_TRACKING_ID');
+  </script>
 </head>
 <body>
   {% include header.html %}
 
-  
   <main>
     {{ content }}
   </main>
 
-  
   {% include footer.html %}
 </body>
 </html>
