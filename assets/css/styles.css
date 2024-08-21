@@ -211,20 +211,20 @@ p {
 
 .slide-track {
   display: flex;
-  width: auto;
+  width: calc(250px * 20);
   animation: scroll 40s linear infinite;
 }
 
 .slide {
   flex: 0 0 auto;
   width: 250px; /* Adjust based on image width */
-  margin-right: 20px; /* Adjust spacing between slides */
+  margin-right: 0px; /* Adjust spacing between slides */
 }
 
 .slide img {
   display: block;
   width: 100%; /* Ensure images fill the slide */
-  height: auto;
+  height: 100px;
 }
 
 @keyframes scroll {
@@ -248,6 +248,7 @@ p {
     width: 150px; /* Further adjust for very small screens */
   }
 }
+
 
 /* Footer Styles */
 footer {
