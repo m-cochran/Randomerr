@@ -17,8 +17,8 @@ jobs:
         env:
           PRINTFUL_API_KEY: ${{ secrets.PRINTFUL_API_KEY }}
         run: |
-          curl -H "Authorization: Basic $(echo -n $PRINTFUL_API_KEY | base64)" \
-               https://api.printful.com/store/products \
+          curl -X GET 'https://api.printful.com/store/products' \
+          -H 'Authorization: Bearer l4PIbVit2m3wq1B6UuCzldKhsdgOlRjhCOh06UAR
                -o products.json
 
       - name: Commit and push changes
