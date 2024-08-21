@@ -217,7 +217,6 @@ p {
 
 .slide {
   border-radius: 8px; /* Adjust the radius for more or less roundness */
-  padding: 0.1px; /* Optional: adds padding inside the border */
   box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
   flex: 0 0 auto;
   width: 250px; /* Adjust based on image width */
