@@ -7,7 +7,3 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
-  # _config.yml
-paginate: 50
-paginate_path: "/page:num/"
-
