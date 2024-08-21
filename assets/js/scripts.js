@@ -9,3 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     slider.style.animationPlayState = "running";
   });
 });
+
+
+fetch('products.json')
+    .then(response => response.json())
+    .then(data => {
+        // Display the product data on your site
+        console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
