@@ -1,8 +1,6 @@
 name: Fetch Printful Products
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # Schedule to run daily at midnight UTC
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -13,21 +11,29 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Get OAuth 2.0 Token
+    - name: Get Authorization Code (manual step)
+      run: |
+        echo "Please visit the following URL to authorize the application:"
+        echo "https://www.printful.com/oauth/authorize?response_type=code&client_id=${{ secrets.PRINTFUL_CLIENT_ID }}&scope=orders stores_list file_library webhooks"
+        echo "Once you have authorized the application, enter the authorization code as a secret in GitHub named PRINTFUL_AUTH_CODE."
+
+    - name: Exchange Authorization Code for Access Token
       id: get_token
       run: |
-        response=$(curl -s -X POST "https://api.printful.com/oauth/token" \
-            -d "grant_type=client_credentials" \
+        response=$(curl -s -X POST "https://www.printful.com/oauth/token" \
+            -d "grant_type=authorization_code" \
             -d "client_id=${{ secrets.PRINTFUL_CLIENT_ID }}" \
-            -d "client_secret=${{ secrets.PRINTFUL_CLIENT_SECRET }}")
-        
+            -d "client_secret=${{ secrets.PRINTFUL_CLIENT_SECRET }}" \
+            -d "code=${{ secrets.PRINTFUL_AUTH_CODE }}" \
+            -d "redirect_uri=${{ secrets.PRINTFUL_REDIRECT_URI }}")
+
         # Check if the response contains an error
         if echo "$response" | jq -e '.error' > /dev/null; then
           echo "Error fetching OAuth token: $(echo $response | jq -r '.error.message')"
           exit 1
         fi
         
-        # Extract and output the access token
+        # Extract the access token
         token=$(echo $response | jq -r '.access_token')
         if [ -z "$token" ] || [ "$token" == "null" ]; then
           echo "Failed to retrieve a valid OAuth token."
