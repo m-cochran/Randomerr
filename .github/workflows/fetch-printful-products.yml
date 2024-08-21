@@ -20,6 +20,8 @@ jobs:
             -d "grant_type=client_credentials" \
             -d "client_id=${{ secrets.PRINTFUL_CLIENT_ID }}" \
             -d "client_secret=${{ secrets.PRINTFUL_CLIENT_SECRET }}")
+
+        echo "Raw response: $response"  # Debugging statement
         
         # Check if the response contains an error
         if echo "$response" | jq -e '.error' > /dev/null; then
