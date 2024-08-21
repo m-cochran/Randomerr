@@ -29,7 +29,9 @@ title: Home
   {% for post in site.posts offset: 6 limit: 20 %}
   {% if post.thumbnail %}
   <li class="post-thumbnail">
+    <a href="{{ post.url | relative_url }}">
     <img src="{{ post.thumbnail }}" alt="{{ post.title }}">
+    </a>
     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
     <small>{{ post.date | date: "%B %d, %Y" }}</small>
   </li>
