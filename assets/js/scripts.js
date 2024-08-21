@@ -1,5 +1,3 @@
-// assets/js/scripts.js
-
 document.addEventListener("DOMContentLoaded", function () {
   const slider = document.querySelector(".slide-track");
 
