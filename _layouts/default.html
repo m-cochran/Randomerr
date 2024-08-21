@@ -1,7 +1,8 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <title>{{ page.title }} | {{ site.title }}</title>
   <meta name="description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
   <meta name="keywords" content="your,keywords,here">
@@ -11,27 +12,71 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
-<script src="{{ site.baseurl }}/assets/js/scripts.js"></script>
-  <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'YOUR_TRACKING_ID');
-</script>
+  <style amp-custom>
+    /* Add your custom AMP styles here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background: #f8f8f8;
+      padding: 10px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+    }
+  </style>
+  <style amp-boilerplate>
+    body {
+      visibility: hidden;
+    }
+    .i-amphtml-fill-content {
+      visibility: visible;
+    }
+  </style>
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
 </head>
 <body>
   {% include header.html %}
 
-  
   <main>
     {{ content }}
+    
+    <!-- AMP Carousel -->
+    <amp-carousel width="auto" height="200" layout="responsive" type="slides">
+      <div class="slide">
+        <amp-img src="https://i.postimg.cc/k50nwS8q/Dh-Gate-Logo.png" width="250" height="100" layout="fixed"></amp-img>
+      </div>
+      <div class="slide">
+        <amp-img src="https://i.postimg.cc/sfq6HQZ4/dell-outlet.png" width="250" height="100" layout="fixed"></amp-img>
+      </div>
+      <!-- More slides as needed -->
+    </amp-carousel>
+    
+    <!-- AMP Analytics -->
+    <amp-analytics type="googleanalytics">
+      <script type="application/json">
+      {
+        "vars": {
+          "account": "YOUR_TRACKING_ID"
+        },
+        "triggers": {
+          "default": {
+            "on": "visible",
+            "request": "event",
+            "vars": {
+              "eventCategory": "page",
+              "eventAction": "view"
+            }
+          }
+        }
+      }
+      </script>
+    </amp-analytics>
   </main>
 
-  
   {% include footer.html %}
 </body>
 </html>
