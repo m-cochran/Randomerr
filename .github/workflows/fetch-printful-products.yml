@@ -1,30 +1,40 @@
 name: Fetch Printful Products
 
 on:
-  push:
-    branches:
-      - main  # Adjust this to your default branch if necessary
+  schedule:
+    - cron: '0 0 * * *' # Schedule to run daily at midnight UTC
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   fetch-products:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Fetch products from Printful API
-        env:
-          PRINTFUL_API_KEY: ${{ secrets.PRINTFUL_API_KEY }}
-        run: |
-          curl -X GET 'https://api.printful.com/store/products' \
-          -H 'Authorization: Bearer l4PIbVit2m3wq1B6UuCzldKhsdgOlRjhCOh06UAR
-               -o products.json
+    - name: Get OAuth 2.0 Token
+      id: get_token
+      run: |
+        response=$(curl -X POST "https://api.printful.com/oauth/token" \
+            -d "grant_type=client_credentials" \
+            -d "client_id=${{ secrets.PRINTFUL_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.PRINTFUL_CLIENT_SECRET }}")
+        echo "response=$response"
+        echo "::set-output name=token::$(echo $response | jq -r '.access_token')"
 
-      - name: Commit and push changes
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add products.json
-          git commit -m "Update products from Printful"
-          git push
+    - name: Fetch products from Printful API
+      env:
+        ACCESS_TOKEN: ${{ steps.get_token.outputs.token }}
+      run: |
+        curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+             https://api.printful.com/store/products \
+             -o products.json
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        git add products.json
+        git commit -m "Update products from Printful" || echo "No changes to commit"
+        git push
