@@ -15,7 +15,7 @@ title: Home
   <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% when 6 %}six{% endcase %}">
     <img src="{{ post.thumbnail | post.url | relative_url }}" alt="{{ post.title }}">
     <div class="overlay">
-      <a href="<h2>{{ post.url | relative_url }}">{{ post.title }}</h2></a>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
       <small>{{ post.date | date: "%B %d, %Y" }}</small>
     </div>
   </div>
