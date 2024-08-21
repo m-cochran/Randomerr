@@ -201,26 +201,6 @@ p {
   align-items: center;
 }
 
-/* pagination */
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-}
-
-.pagination a {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-  text-decoration: none;
-  color: #333;
-}
-
-.pagination a:hover {
-  background-color: #e9e9e9;
-}
-
-
 
 /* Slider Styles */
 .slider {
