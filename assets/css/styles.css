@@ -83,7 +83,7 @@ p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  grid-auto-rows: minmax(96px, 128px);
+  grid-auto-rows: minmax(120px, 160px);
 }
 
 .wrapper > div {
@@ -186,8 +186,8 @@ p {
 }
 
 .post-thumbnail img {
-  max-width: 128px;
-  height: 96px;
+  max-width: 160px;
+  height: 120px;
   display: block;
   margin-right: 15px; /* Space between image and text */
   border-radius: 8px; /* Rounds the corners */
