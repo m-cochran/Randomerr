@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,22 +14,13 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/styles.css">
-  <!-- JS Code -->
-  <script src="{{ site.baseurl }}/assets/js/scripts.js"></script>
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3230725016033102"
-     crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-3230725016033102">
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTQ60HTMBJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
 
-    gtag('config', 'G-TTQ60HTMBJ');
+  <!-- JS Code -->
+  <script src="{{ site.baseurl }}/assets/js/scripts.js">
+
   </script>
 </head>
+
 <body>
   {% include header.html %}
 
@@ -38,4 +30,5 @@
 
   {% include footer.html %}
 </body>
+
 </html>
