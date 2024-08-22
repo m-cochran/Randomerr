@@ -1,0 +1,165 @@
+{
+    "code": 200,
+    "result": [
+        {
+            "id": 362,
+            "main_category_id": 24,
+            "type": "T-SHIRT",
+            "description": "Go natural—order this t-shirt and enjoy the comfort of a truly all-natural organic cotton that is grown and harvested without any fertilizers and pesticides. The high-quality ringspun cotton yarns make sure that the fabric is extra soft and durable. If you’re looking to invest in clothing that is sure to last and has a low environmental impact, look no further than this organic t-shirt!\n\n• 100% certified organic ring-spun cotton\n• Fabric weight: 5.5 oz/yd² (186.5 g/m²)\n• Regular fit\n• Side-seamed construction\n• 1×1 rib neck\n• Shoulder seam finished with a self-fabric tape\n• Double-needle coverstitched seams\n• Low environmental impact\n• Blank product sourced from Mexico",
+            "type_name": "T-Shirt",
+            "title": "Unisex Organic T-Shirt | Econscious EC1000",
+            "brand": "Econscious",
+            "model": "Unisex Organic T-Shirt",
+            "image": "https://files.cdn.printful.com/o/upload/product-catalog-img/09/0923e18c85aa89b8bba2990f3c168a61_l",
+            "variant_count": 1,
+            "currency": "USD",
+            "options": [
+                {
+                    "id": "thread_colors_chest_left",
+                    "title": "Left chest thread colors",
+                    "type": "multi_select",
+                    "values": {
+                        "#FFFFFF": "1801 White",
+                        "#000000": "1800 Black",
+                        "#96A1A8": "1718 Grey",
+                        "#A67843": "1672 Old Gold",
+                        "#FFCC00": "1951 Gold",
+                        "#E25C27": "1987 Orange",
+                        "#CC3366": "1910 Flamingo",
+                        "#CC3333": "1839 Red",
+                        "#660000": "1784 Maroon",
+                        "#333366": "1966 Navy",
+                        "#005397": "1842 Royal",
+                        "#3399FF": "1695 Aqua/Teal",
+                        "#6B5294": "1832 Purple",
+                        "#01784E": "1751 Kelly Green",
+                        "#7BA35A": "1848 Kiwi Green"
+                    },
+                    "additional_price": null,
+                    "additional_price_breakdown": []
+                },
+                {
+                    "id": "thread_colors_chest_center",
+                    "title": "Center chest thread colors",
+                    "type": "multi_select",
+                    "values": {
+                        "#FFFFFF": "1801 White",
+                        "#000000": "1800 Black",
+                        "#96A1A8": "1718 Grey",
+                        "#A67843": "1672 Old Gold",
+                        "#FFCC00": "1951 Gold",
+                        "#E25C27": "1987 Orange",
+                        "#CC3366": "1910 Flamingo",
+                        "#CC3333": "1839 Red",
+                        "#660000": "1784 Maroon",
+                        "#333366": "1966 Navy",
+                        "#005397": "1842 Royal",
+                        "#3399FF": "1695 Aqua/Teal",
+                        "#6B5294": "1832 Purple",
+                        "#01784E": "1751 Kelly Green",
+                        "#7BA35A": "1848 Kiwi Green"
+                    },
+                    "additional_price": null,
+                    "additional_price_breakdown": []
+                },
+                {
+                    "id": "notes",
+                    "title": "Embroidery notes",
+                    "type": "text",
+                    "values": null,
+                    "additional_price": null,
+                    "additional_price_breakdown": []
+                },
+                {
+                    "id": "lifelike",
+                    "title": "Lifelike",
+                    "type": "bool",
+                    "values": null,
+                    "additional_price": null,
+                    "additional_price_breakdown": []
+                }
+            ],
+            "dimensions": null,
+            "is_discontinued": true,
+            "avg_fulfillment_time": null,
+            "techniques": [
+                {
+                    "key": "DTG",
+                    "display_name": "DTG printing",
+                    "is_default": true
+                },
+                {
+                    "key": "EMBROIDERY",
+                    "display_name": "Embroidery",
+                    "is_default": false
+                }
+            ],
+            "files": [
+                {
+                    "id": "embroidery_chest_left",
+                    "type": "embroidery_chest_left",
+                    "title": "Left chest",
+                    "additional_price": "2.95",
+                    "options": []
+                },
+                {
+                    "id": "embroidery_chest_center",
+                    "type": "embroidery_chest_center",
+                    "title": "Center chest",
+                    "additional_price": "2.95",
+                    "options": []
+                },
+                {
+                    "id": "default",
+                    "type": "front",
+                    "title": "Front print",
+                    "additional_price": null,
+                    "options": []
+                },
+                {
+                    "id": "back",
+                    "type": "back",
+                    "title": "Back print",
+                    "additional_price": "5.95",
+                    "options": []
+                },
+                {
+                    "id": "label_inside",
+                    "type": "label_inside",
+                    "title": "Inside label",
+                    "additional_price": "0.99",
+                    "options": []
+                },
+                {
+                    "id": "label_outside",
+                    "type": "label_outside",
+                    "title": "Outside label",
+                    "additional_price": "2.49",
+                    "options": []
+                },
+                {
+                    "id": "sleeve_left",
+                    "type": "sleeve_left",
+                    "title": "Left sleeve",
+                    "additional_price": "2.49",
+                    "options": []
+                },
+                {
+                    "id": "sleeve_right",
+                    "type": "sleeve_right",
+                    "title": "Right sleeve",
+                    "additional_price": "2.49",
+                    "options": []
+                },
+                {
+                    "id": "preview",
+                    "type": "mockup",
+                    "title": "Mockup",
+                    "additional_price": null,
+                    "options": []
+                }
+            ],
+            "origin_country": "Mexico"
+        }
+    ]
+}
