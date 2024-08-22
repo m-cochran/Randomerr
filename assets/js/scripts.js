@@ -23,7 +23,7 @@ fetch('products.json')
 
 document.addEventListener('DOMContentLoaded', () => {
     // Fetch the products from assets/data/products.json
-    fetch('/assets/data/products.json')
+    fetch('/products.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
