@@ -22,7 +22,7 @@ fetch('products.json')
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Fetch the products from assets/data/products.json
+    // Fetch the products from /products.json
     fetch('/products.json')
         .then(response => {
             if (!response.ok) {
