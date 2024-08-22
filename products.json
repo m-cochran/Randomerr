@@ -5,7 +5,7 @@
             "id": 362,
             "main_category_id": 24,
             "type": "T-SHIRT",
-            "description": "Go natural\u2014order this t-shirt and enjoy the comfort of a truly all-natural organic cotton that is grown and harvested without any fertilizers and pesticides. The high-quality ringspun cotton yarns make sure that the fabric is extra soft and durable. If you\u2019re looking to invest in clothing that is sure to last and has a low environmental impact, look no further than this organic t-shirt!\n\n\u2022 100% certified organic ring-spun cotton\n\u2022 Fabric weight: 5.5 oz/yd\u00b2 (186.5 g/m\u00b2)\n\u2022 Regular fit\n\u2022 Side-seamed construction\n\u2022 1\u00d71 rib neck\n\u2022 Shoulder seam finished with a self-fabric tape\n\u2022 Double-needle coverstitched seams\n\u2022 Low environmental impact\n\u2022 Blank product sourced from Mexico",
+            "description": "Go natural—order this t-shirt and enjoy the comfort of a truly all-natural organic cotton that is grown and harvested without any fertilizers and pesticides. The high-quality ringspun cotton yarns make sure that the fabric is extra soft and durable. If you’re looking to invest in clothing that is sure to last and has a low environmental impact, look no further than this organic t-shirt!\n\n• 100% certified organic ring-spun cotton\n• Fabric weight: 5.5 oz/yd² (186.5 g/m²)\n• Regular fit\n• Side-seamed construction\n• 1×1 rib neck\n• Shoulder seam finished with a self-fabric tape\n• Double-needle coverstitched seams\n• Low environmental impact\n• Blank product sourced from Mexico",
             "type_name": "T-Shirt",
             "title": "Unisex Organic T-Shirt | Econscious EC1000",
             "brand": "Econscious",
@@ -160,5 +160,6 @@
                 }
             ],
             "origin_country": "Mexico"
-        },
+        }
+    ]
 }
