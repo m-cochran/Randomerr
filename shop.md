@@ -12,7 +12,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 <script>
 // Fetch the product data from the JSON file
-fetch('/products.json')
+fetch('products.json')
     .then(response => response.json())
     .then(data => {
         // Access the product data from the JSON result
