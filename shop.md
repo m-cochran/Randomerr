@@ -50,3 +50,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 });
 </script>
+
+<div id="products-container"></div>
