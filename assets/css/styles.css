@@ -36,63 +36,45 @@ header h1 {
   font-size: 24px; /* Adjust font size */
 }
 
-/* Navigation Styles */
-nav ul {
-  list-style: none;
+.main-menu {
+  max-width: 800px;
+}
+.main-nav {
+  display: inline-flex;
   padding: 0;
-  margin: 0;
-  display: flex;
+  list-style: none;
 }
-
-nav ul li {
-  margin: 0 15px;
-}
-
-nav a {
-  color: #0066ff;
+.main-nav li a {
+  padding: 10px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  font-size: 30px;
+  font-family: sans-serif;
   text-decoration: none;
-  font-weight: bold;
+}
+.more-btn {
+  color: red;
+}
+.auto-nav-more {
+  position: relative;
+}
+.auto-nav-more-list {
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s;
+  text-align: right;
+  padding: 0;
+  list-style: none;
+  background: grey;
+  border-radius: 4px;
+}
+.auto-nav-more:hover .auto-nav-more-list {
+  opacity: 1;
+  visibility: visible;
 }
 
-/* Dropdown Menu for Small Screens */
-.menu-icon {
-  display: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: #fff;
-}
-
-@media (max-width: 548px) {
-  nav ul {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-  }
-
-  nav ul li {
-    text-align: center;
-    padding: 10px 0;
-    margin: 0;
-  }
-
-  nav ul li a {
-    color: #fff;
-  }
-
-  .menu-icon {
-    display: block;
-  }
-}
-
-/* Show the navigation links when the menu icon is clicked */
-.nav-open nav ul {
-  display: flex;
-}
 
 /* Main Content Styles */
 main {
