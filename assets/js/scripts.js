@@ -1,3 +1,5 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 // MAIN MENU
 const mainMenu = document.getElementById('mainMenu');
 const autoNav = document.getElementById('autoNav');
