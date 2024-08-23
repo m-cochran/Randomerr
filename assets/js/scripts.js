@@ -1,49 +1,47 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 // MAIN MENU
-const mainMenu = document.getElementById('mainMenu');
-const autoNav = document.getElementById('autoNav');
-const autoNavMore = document.getElementById('autoNavMore');
-const autoNavMoreList = document.getElementById('autoNavMoreList');
-
-const autoNavMoreFunction = () => {
+const $mainMenu = $("#mainMenu");
+const $autoNav = $("#autoNav");
+const $autoNavMore = $("#autoNavMore");
+const $autoNavMoreList = $("#autoNavMoreList");
+autoNavMore = () => {
   let childNumber = 2;
 
-  if (window.innerWidth >= 320) {
+  if ($(window).width() >= 320) {
     // GET MENU AND NAV WIDTH
-    const menuWidth = mainMenu.offsetWidth;
-    const autoNavWidth = autoNav.offsetWidth;
-
-    if (autoNavWidth > menuWidth) {
+    const $menuWidth = $mainMenu.width();
+    const $autoNavWidth = $autoNav.width();
+    if ($autoNavWidth > $menuWidth) {
       // CODE FIRES WHEN WINDOW SIZE GOES DOWN
-      const lastChild = autoNav.children[autoNav.children.length - childNumber];
-      autoNavMoreList.insertBefore(lastChild, autoNavMoreList.firstChild);
-      autoNavMoreFunction();
+      $autoNav
+        .children(`li:nth-last-child(${childNumber})`)
+        .prependTo($autoNavMoreList);
+      autoNavMore();
     } else {
       // CODE FIRES WHEN WINDOW SIZE GOES UP
-      const autoNavMoreFirst = autoNavMoreList.firstElementChild;
-      const firstChildWidth = autoNavMoreFirst ? autoNavMoreFirst.offsetWidth : 0;
-
+      const $autoNavMoreFirst = $autoNavMoreList
+      .children("li:first-child")
+      .width();
       // CHECK IF ITEM HAS ENOUGH SPACE TO PLACE IN MENU
-      if (autoNavWidth + firstChildWidth < menuWidth) {
-        autoNav.insertBefore(autoNavMoreFirst, autoNavMore);
+      if ($autoNavWidth + $autoNavMoreFirst < $menuWidth) {
+        $autoNavMoreList.children("li:first-child").insertBefore($autoNavMore);
       }
     }
-
-    if (autoNavMoreList.children.length > 0) {
-      autoNavMore.style.display = 'block';
+    if ($autoNavMoreList.children().length > 0) {
+      $autoNavMore.show();
       childNumber = 2;
     } else {
-      autoNavMore.style.display = 'none';
+      $autoNavMore.hide();
       childNumber = 1;
     }
   }
 };
-
 // INIT
-autoNavMoreFunction();
-window.addEventListener('resize', autoNavMoreFunction);
+autoNavMore();
+$(window).resize(autoNavMore);
 // MAIN MENU END
+
 
 
 
