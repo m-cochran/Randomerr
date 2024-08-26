@@ -59,6 +59,9 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
         <!-- List of games -->
         <a href="#" data-src="pong.html">Pong</a>
         <a href="#" data-src="brick_breaker.html">Game 2</a>
+        <a href="#" data-src="Flappy_Bird.html.html">Game 2</a>
+        <a href="#" data-src="Snake.html.html">Game 2</a>
+        <a href="#" data-src="Space_Invaders.html">Game 2</a>
         <!-- Add more games up to Game 100 -->
         <a href="#" data-src="game100.html">Game 100</a>
     </div>
