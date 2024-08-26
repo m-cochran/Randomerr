@@ -70,6 +70,20 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </div>
 
     <script>
+        function resizeIframe() {
+    const iframe = document.getElementById('game-frame');
+    const container = document.getElementById('game-container');
+    const aspectRatio = 16 / 9; // Adjust according to the game's aspect ratio
+
+    const containerWidth = container.offsetWidth;
+    const containerHeight = containerWidth / aspectRatio;
+
+    iframe.style.height = `${containerHeight}px`;
+}
+
+window.addEventListener('resize', resizeIframe);
+window.addEventListener('load', resizeIframe);
+
         document.querySelectorAll('#sidebar a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
