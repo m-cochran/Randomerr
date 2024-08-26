@@ -8,27 +8,34 @@ permalink: /games/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
+---
+layout: default
+title: Games
+permalink: /games/
+---
 
-<div style="display: flex; align-items: flex-start;">
+# Games
+
+Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
+
+<div style="display: flex; align-items: flex-start; height: 100vh;">
   <!-- Sidebar for game list -->
-  <div style="width: 30%; padding-right: 20px;">
+  <div style="width: 30%; padding-right: 20px; box-sizing: border-box; overflow-y: auto;">
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="pong">Pong</a></li>
-      <li><a href="#" data-game="brick_breaker">Breakout</a></li>
-      <li><a href="#" data-game="flappy_bird">Flappy Bird</a></li>
+      <li><a href="#" data-game="breakout">Breakout</a></li>
       <li><a href="#" data-game="snake">Snake</a></li>
-      <li><a href="#" data-game="2048">2048</a></li>
-      <li><a href="#" data-game="memorymatch">Memory Match</a></li>
-      <li><a href="#" data-game="Tic_Tac_Toe">Tic Tac Toe</a></li>
+      <li><a href="#" data-game="space-invaders">Space Invaders</a></li>
+      <li><a href="#" data-game="tetris">Tetris</a></li>
       <!-- Add more games here -->
     </ul>
   </div>
 
   <!-- Main content for game display -->
-  <div style="width: 70%; text-align: center;">
+  <div style="width: 70%; text-align: center; box-sizing: border-box; overflow: hidden;">
     <h2 id="gameTitle">Select a game to play</h2>
-    <div id="gameContainer">
+    <div id="gameContainer" style="width: 100%; height: 90%; margin: auto; position: relative;">
       <!-- Game iframe or canvas will be loaded here -->
     </div>
   </div>
@@ -47,25 +54,19 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
       gameTitle.innerText = game.charAt(0).toUpperCase() + game.slice(1);
       switch(game) {
         case 'pong':
-          gameContainer.innerHTML = '<iframe src="pong.html" width="800" height="400"></iframe>';
+          gameContainer.innerHTML = '<iframe src="pong.html" style="width: 100%; height: 100%; border: none;"></iframe>';
           break;
         case 'breakout':
-          gameContainer.innerHTML = '<iframe src="brick_breaker.html" width="800" height="400"></iframe>';
-          break;
-        case 'flappy bird':
-          gameContainer.innerHTML = '<iframe src="Flappy_bird.html" width="800" height="400"></iframe>';
+          gameContainer.innerHTML = '<iframe src="path_to_breakout_game.html" style="width: 100%; height: 100%; border: none;"></iframe>';
           break;
         case 'snake':
-          gameContainer.innerHTML = '<iframe src="snake.html" width="800" height="400"></iframe>';
+          gameContainer.innerHTML = '<iframe src="path_to_snake_game.html" style="width: 100%; height: 100%; border: none;"></iframe>';
           break;
-        case '2048':
-          gameContainer.innerHTML = '<iframe src="2048.html" width="800" height="400"></iframe>';
+        case 'space-invaders':
+          gameContainer.innerHTML = '<iframe src="path_to_space_invaders_game.html" style="width: 100%; height: 100%; border: none;"></iframe>';
           break;
-        case 'memory match':
-          gameContainer.innerHTML = '<iframe src="Memory_Match.html" width="800" height="400"></iframe>';
-          break;
-        case 'tic tac toe':
-          gameContainer.innerHTML = '<iframe src="Tic_Tac_Toe.html" width="800" height="400"></iframe>';
+        case 'tetris':
+          gameContainer.innerHTML = '<iframe src="path_to_tetris_game.html" style="width: 100%; height: 100%; border: none;"></iframe>';
           break;
         // Add more games here
         default:
