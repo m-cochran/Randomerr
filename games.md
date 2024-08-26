@@ -58,10 +58,15 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
         <h2>Games</h2>
         <!-- List of games -->
         <a href="#" data-src="pong.html">Pong</a>
-        <a href="#" data-src="brick_breaker.html">Game 2</a>
-        <a href="#" data-src="Flappy_Bird.html.html">Game 2</a>
-        <a href="#" data-src="Snake.html.html">Game 2</a>
-        <a href="#" data-src="Space_Invaders.html">Game 2</a>
+        <a href="#" data-src="brick_breaker.html">brick breaker</a>
+        <a href="#" data-src="Flappy_Bird.html">Flappy Bird</a>
+        <a href="#" data-src="Snake.html">Snake</a>
+        <a href="#" data-src="Space_Invaders.html">Space Invaders</a>
+        <a href="#" data-src="2048.html">2048</a>
+        <a href="#" data-src="Memory_Match.html">Memory Match</a>
+        <a href="#" data-src="Snake.html">Snake</a>
+        <a href="#" data-src="Tic_Tac_Toe.html">Tic Tac Toe</a>
+        <a href="#" data-src="2048.html">2048</a>    
         <!-- Add more games up to Game 100 -->
         <a href="#" data-src="game100.html">Game 100</a>
     </div>
