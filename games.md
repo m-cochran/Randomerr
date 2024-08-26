@@ -8,6 +8,30 @@ permalink: /games/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
+  <script>
+        function resizeIframe() {
+    const iframe = document.getElementById('game-frame');
+    const container = document.getElementById('game-container');
+    const aspectRatio = 16 / 9; // Adjust according to the game's aspect ratio
+
+    const containerWidth = container.offsetWidth;
+    const containerHeight = containerWidth / aspectRatio;
+
+    iframe.style.height = `${containerHeight}px`;
+}
+
+window.addEventListener('resize', resizeIframe);
+window.addEventListener('load', resizeIframe);
+
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const src = this.getAttribute('data-src');
+                document.getElementById('game-frame').src = src;
+            });
+        });
+    </script>
+
 <style>
 
         #sidebar {
@@ -74,27 +98,3 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
             <iframe id="game-frame" src="" title="Game"></iframe>
         </div>
     </div>
-
-    <script>
-        function resizeIframe() {
-    const iframe = document.getElementById('game-frame');
-    const container = document.getElementById('game-container');
-    const aspectRatio = 16 / 9; // Adjust according to the game's aspect ratio
-
-    const containerWidth = container.offsetWidth;
-    const containerHeight = containerWidth / aspectRatio;
-
-    iframe.style.height = `${containerHeight}px`;
-}
-
-window.addEventListener('resize', resizeIframe);
-window.addEventListener('load', resizeIframe);
-
-        document.querySelectorAll('#sidebar a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const src = this.getAttribute('data-src');
-                document.getElementById('game-frame').src = src;
-            });
-        });
-    </script>
