@@ -8,9 +8,9 @@ permalink: /games/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
-<div style="display: flex; align-items: flex-start; height: 100vh;">
+<div style="display: flex; align-items: flex-start; height: 100vh; overflow: hidden;">
   <!-- Sidebar for game list -->
-  <div style="width: 30%; padding-right: 20px; box-sizing: border-box; overflow-y: auto;">
+  <div style="width: 30%; padding-right: 20px; box-sizing: border-box; overflow-y: auto; height: 100%;">
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="pong">Pong</a></li>
@@ -23,9 +23,9 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   </div>
 
   <!-- Main content for game display -->
-  <div style="width: 70%; text-align: center; box-sizing: border-box; overflow: hidden;">
+  <div style="width: 70%; text-align: center; box-sizing: border-box; height: 100%; display: flex; flex-direction: column;">
     <h2 id="gameTitle">Select a game to play</h2>
-    <div id="gameContainer" style="width: 100%; height: 90%; margin: auto; position: relative;">
+    <div id="gameContainer" style="flex-grow: 1; position: relative;">
       <!-- Game iframe or canvas will be loaded here -->
     </div>
   </div>
@@ -44,7 +44,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
       gameTitle.innerText = game.charAt(0).toUpperCase() + game.slice(1);
       switch(game) {
         case 'pong':
-          gameContainer.innerHTML = '<iframe src="pong.html" style="width: 100%; height: 100%; border: none;"></iframe>';
+          gameContainer.innerHTML = '<iframe src="path_to_pong_game.html" style="width: 100%; height: 100%; border: none;"></iframe>';
           break;
         case 'breakout':
           gameContainer.innerHTML = '<iframe src="path_to_breakout_game.html" style="width: 100%; height: 100%; border: none;"></iframe>';
