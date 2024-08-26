@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Game</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; margin: auto; background: #4ec0ca; }
+    </style>
+</head>
+<body>
+    <canvas id="flappyBirdCanvas" width="320" height="480"></canvas>
+    <script>
+        const canvas = document.getElementById('flappyBirdCanvas');
+        const ctx = canvas.getContext('2d');
+        const bird = { x: 50, y: 150, w: 20, h: 20, gravity: 0.6, lift: -15, velocity: 0 };
+
+        function drawBird() {
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(bird.x, bird.y, bird.w, bird.h);
+        }
+
+        function updateBird() {
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            if (bird.y + bird.h > canvas.height) {
+                bird.y = canvas.height - bird.h;
+                bird.velocity = 0;
+            } else if (bird.y < 0) {
+                bird.y = 0;
+                bird.velocity = 0;
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBird();
+            updateBird();
+        }
+
+        canvas.addEventListener('click', function() {
+            bird.velocity = bird.lift;
+        });
+
+        setInterval(draw, 20);
+    </script>
+</body>
+</html>

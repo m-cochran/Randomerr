@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match Game</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; margin: auto; background: #fff; }
+    </style>
+</head>
+<body>
+    <canvas id="memoryMatchCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('memoryMatchCanvas');
+        const ctx = canvas.getContext('2d');
+        let cards = ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D'];
+        let selected = [];
+        let matched = [];
+        let flipBackTimer = null;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < cards.length; i++) {
+                const x = i % 4 * 100, y = Math.floor(i / 4) * 100;
+                ctx.fillStyle = "#ccc";
+                ctx.fillRect(x, y, 100, 100);
+
+                if (matched.includes(i) || selected.includes(i)) {
+                    ctx.font = "50px Arial";
+                    ctx.fillStyle = "#000";
+                    ctx.fillText(cards[i], x + 35, y + 65);
+                }
+            }
+        }
+
+        function handleClick(event) {
+            if (flipBackTimer) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const index = Math.floor(
