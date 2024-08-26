@@ -10,7 +10,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 <div style="display: flex; align-items: flex-start; height: 100vh; overflow: hidden;">
   <!-- Sidebar for game list -->
-  <div style="width: 30%; padding-right: 20px; box-sizing: border-box; overflow-y: auto; height: 100%;">
+  <div style="width: 30%; padding-right: 5px; box-sizing: border-box; overflow-y: auto; height: 100%;">
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="pong">Pong</a></li>
