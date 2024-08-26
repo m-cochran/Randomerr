@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Games
-permalink: /games/
+title: Arcade
+permalink: /arcade/
 ---
 
-# Games
+# arcade
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
