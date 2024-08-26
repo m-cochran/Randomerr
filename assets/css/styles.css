@@ -276,6 +276,21 @@ p {
   font-weight: bold;
 }
 
+.google-map-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+}
+
+.google-map {
+  width: 80%; /* Adjust the width as needed */
+  height: 80vh; /* Adjust the height as needed */
+  border: none; /* Optional: Remove border */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for styling */
+}
+
+
 /* Slider Styles */
 .slider {
   overflow: hidden;
