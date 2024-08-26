@@ -48,7 +48,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
       switch(game) {
         case 'pong':
-          gameIframe.src = 'path_to_pong_game.html';
+          gameIframe.src = 'pong.html';
           break;
         case 'breakout':
           gameIframe.src = 'path_to_breakout_game.html';
