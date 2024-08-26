@@ -8,6 +8,16 @@ permalink: /arcade/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
+---
+layout: default
+title: Games
+permalink: /games/
+---
+
+# Games
+
+Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
+
 <div style="display: flex; align-items: flex-start; height: 100vh; overflow: hidden;">
   <!-- Sidebar for game list -->
   <div style="width: 30%; padding-right: 20px; box-sizing: border-box; overflow-y: auto; height: 100%;">
@@ -25,8 +35,9 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   <!-- Main content for game display -->
   <div style="width: 70%; text-align: center; box-sizing: border-box; height: 100%; display: flex; flex-direction: column;">
     <h2 id="gameTitle">Select a game to play</h2>
-    <div id="gameContainer" style="flex-grow: 1; position: relative; overflow: hidden; padding-top: 56.25%; height: 0;">
+    <div id="gameContainer" style="flex-grow: 1; position: relative;">
       <!-- Game iframe or canvas will be loaded here -->
+      <iframe id="gameIframe" src="" style="width: 100%; height: 100%; border: none; display: none;"></iframe>
     </div>
   </div>
 </div>
@@ -34,7 +45,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <script>
   const gameList = document.getElementById('gameList');
   const gameTitle = document.getElementById('gameTitle');
-  const gameContainer = document.getElementById('gameContainer');
+  const gameIframe = document.getElementById('gameIframe');
 
   gameList.addEventListener('click', function(e) {
     e.preventDefault();
@@ -42,25 +53,28 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
     if (game) {
       gameTitle.innerText = game.charAt(0).toUpperCase() + game.slice(1);
+      gameIframe.style.display = 'block';
+
       switch(game) {
         case 'pong':
-          gameContainer.innerHTML = '<iframe src="pong.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
+          gameIframe.src = 'path_to_pong_game.html';
           break;
         case 'breakout':
-          gameContainer.innerHTML = '<iframe src="path_to_breakout_game.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
+          gameIframe.src = 'path_to_breakout_game.html';
           break;
         case 'snake':
-          gameContainer.innerHTML = '<iframe src="path_to_snake_game.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
+          gameIframe.src = 'path_to_snake_game.html';
           break;
         case 'space-invaders':
-          gameContainer.innerHTML = '<iframe src="path_to_space_invaders_game.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
+          gameIframe.src = 'path_to_space_invaders_game.html';
           break;
         case 'tetris':
-          gameContainer.innerHTML = '<iframe src="path_to_tetris_game.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
+          gameIframe.src = 'path_to_tetris_game.html';
           break;
         // Add more games here
         default:
-          gameContainer.innerHTML = 'Select a game from the list.';
+          gameIframe.src = '';
+          gameIframe.style.display = 'none';
       }
     }
   });
