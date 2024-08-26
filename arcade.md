@@ -8,15 +8,6 @@ permalink: /arcade/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
----
-layout: default
-title: Games
-permalink: /games/
----
-
-# Games
-
-Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 <div style="display: flex; align-items: flex-start; height: 100vh; overflow: hidden;">
   <!-- Sidebar for game list -->
