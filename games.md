@@ -52,8 +52,6 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
             border: none;
         }
     </style>
-</head>
-<body>
     <div id="sidebar">
         <h2>Games</h2>
         <!-- List of games -->
