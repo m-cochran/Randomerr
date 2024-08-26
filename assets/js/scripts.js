@@ -35,8 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
+document.querySelectorAll('#sidebar a').forEach(link => {
+link.addEventListener('click', function(e) {
+e.preventDefault();
+const src = this.getAttribute('data-src');
+document.getElementById('game-frame').src = src;
+  });
+});
 
 
 
