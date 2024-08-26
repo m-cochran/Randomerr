@@ -287,7 +287,6 @@ p {
   width: 80%; /* Adjust the width as needed */
   height: 80vh; /* Adjust the height as needed */
   border: none; /* Optional: Remove border */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for styling */
 }
 
 
