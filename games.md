@@ -44,7 +44,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
       gameTitle.innerText = game.charAt(0).toUpperCase() + game.slice(1);
       switch(game) {
         case 'pong':
-          gameContainer.innerHTML = '<iframe src="path_to_pong_game.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
+          gameContainer.innerHTML = '<iframe src="pong.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
           break;
         case 'breakout':
           gameContainer.innerHTML = '<iframe src="path_to_breakout_game.html" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>';
