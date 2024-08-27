@@ -15,7 +15,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   // Function to fetch and display product data
   async function fetchProducts() {
     try {
-      const response = await fetch('products.json'); // Adjust the path as necessary
+      const response = await fetch('https://m-cochran.github.io/Randomerr/products.json'); // Adjust the path as necessary
       // Check if the response is OK
       if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
