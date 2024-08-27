@@ -4,16 +4,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $message = $_POST['message'];
 
-    $to = "reachmycupofearth@gmail.com";  // Replace with your email address
+    $to = "reachmycupofearth@gmail.com";
     $subject = "Contact Form Submission from $name";
-    $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
-
     $headers = "From: $email";
+    $mailBody = "Name: $name\nEmail: $email\n\nMessage:\n$message";
 
-    if (mail($to, $subject, $body, $headers)) {
-        echo "Message sent!";
+    if (mail($to, $subject, $mailBody, $headers)) {
+        echo "Email sent successfully.";
     } else {
-        echo "Message sending failed.";
+        echo "Failed to send email.";
     }
+} else {
+    echo "Invalid request method.";
 }
 ?>
