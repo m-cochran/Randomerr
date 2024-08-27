@@ -8,12 +8,14 @@ permalink: /contact/
 
 <div class="contact-container">
   <h2>Contact Us</h2>
-  <form action="send_email.php" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
+<form id="contactForm" method="POST" action="send_email.php">
+  <!-- Form fields -->
+  <input type="text" name="name" required>
+  <input type="email" name="email" required>
+  <textarea name="message" required></textarea>
+  <button type="submit">Send</button>
+</form>
+
 </div>
 
 <div class="google-map-container">
