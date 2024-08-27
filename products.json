@@ -21,9 +21,4 @@
         }
     ],
     "extra": [],
-    "paging": {
-        "total": 2,
-        "offset": 0,
-        "limit": 20
-    }
 }
