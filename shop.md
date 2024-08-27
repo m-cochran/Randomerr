@@ -50,3 +50,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 });
 </script>
+
+
+    <script>
+        // Fetch the JSON data
+        fetch('printful_products_details.json')
+            .then(response => response.json())
+            .then(data => {
+                const productsContainer = document.getElementById('products');
+
+                // Loop through each product and add to the HTML
+                data.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product');
+
+                    // Extract product information
+                    const thumbnail = product.result.thumbnail_url;
+                    const name = product.result.name;
+                    const variants = product.result.variants;
+
+                    // Create HTML structure for product
+                    productElement.innerHTML = `
+                        <img src="${thumbnail}" alt="${name}">
+                        <div class="product-details">
+                            <h2>${name}</h2>
+                            ${variants.map(variant => `
+                                <p>Variant ID: ${variant.id}</p>
+                                <p>Retail Price: <span class="price">$${variant.retail_pricing}</span></p>
+                            `).join('')}
+                        </div>
+                    `;
+
+                    // Append the product element to the container
+                    productsContainer.appendChild(productElement);
+                });
+            })
+            .catch(error => console.error('Error fetching product data:', error));
+    </script>
