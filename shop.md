@@ -169,3 +169,83 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 </body>
 
 </html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display</title>
+    <style>
+        .product {
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .product img {
+            max-width: 100px;
+            height: auto;
+        }
+        .variant {
+            border: 1px solid #eee;
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+    <div id="product-container"></div>
+
+    <script>
+        // Function to fetch and display product data
+        async function fetchProducts() {
+            try {
+                const response = await fetch('https://m-cochran.github.io/Randomerr/products.json'); // Adjust the path as necessary
+                const data = await response.json();
+
+                const container = document.getElementById('product-container');
+                container.innerHTML = '';
+
+                data.result.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+
+                    productDiv.innerHTML = `
+                        <h2>${product.sync_product.name}</h2>
+                        <img src="${product.sync_product.thumbnail_url}" alt="${product.sync_product.name}">
+                        <div>Variants:</div>
+                    `;
+
+                    product.sync_variants.forEach(variant => {
+                        const variantDiv = document.createElement('div');
+                        variantDiv.classList.add('variant');
+
+                        variantDiv.innerHTML = `
+                            <h3>${variant.name}</h3>
+                            <img src="${variant.product.image}" alt="${variant.name}">
+                            <p>Price: ${variant.retail_price} ${variant.currency}</p>
+                            <p>Size: ${variant.size}</p>
+                            <p>Color: ${variant.color || 'N/A'}</p>
+                            <p>Status: ${variant.availability_status}</p>
+                        `;
+
+                        productDiv.appendChild(variantDiv);
+                    });
+
+                    container.appendChild(productDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching product data:', error);
+            }
+        }
+
+        // Fetch and display products when the page loads
+        window.onload = fetchProducts;
+    </script>
+</body>
+</html>
+
