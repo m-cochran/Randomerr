@@ -52,7 +52,59 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
- <div id="products-container"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        #products-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        .product {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            padding: 10px;
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .product-title {
+            font-size: 1.2em;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .product-description {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 1.1em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="products-container"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -98,3 +150,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         });
     </script>
+</body>
+</html>
