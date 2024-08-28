@@ -9,6 +9,8 @@ permalink: /shop/
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 
+<title>Product Display</title>
+
 <div class="container" id="product-container">
   <h1>Product List</h1>
 </div>
@@ -25,6 +27,3 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </div>
   </div>
 </div>
-    .catch(error => {
-      console.error('Error fetching product data:', error);
-    });
