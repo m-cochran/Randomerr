@@ -233,7 +233,7 @@ p {
 /* Product List */
 .product-list {
   display: flex;
-  justify-content: space-around;
+  justify-content: normal;
   flex-wrap: wrap;
   padding: 20px;
   box-sizing: border-box;
@@ -248,7 +248,7 @@ p {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.3s ease;
-  width: 200px;
+  width: 225px;
   text-align: center;
 }
 
@@ -289,9 +289,12 @@ p {
   padding: 20px;
   border-radius: 5px;
   width: 90%;
-  max-width: 480px;
+  max-width: 600px;
   position: relative;
   box-sizing: border-box;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add a shadow for a floating effect */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  max-height: 90vh; /* Limit the height of the modal for better usability */
 }
 
 .close {
@@ -353,6 +356,7 @@ p {
   overflow-x: auto;
   margin-top: 20px;
   padding: 10px 0;
+  justify-content: center;
 }
 
 .variant-gallery img {
@@ -365,9 +369,8 @@ p {
 }
 
 .variant-gallery img.active {
-  border-color: #007bff;
+  border-color: #0066ff;
 }
-
 
 
 
