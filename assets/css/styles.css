@@ -228,6 +228,8 @@ p {
 
 
 
+
+
 /* Product List */
 .product-list {
   display: flex;
@@ -366,6 +368,7 @@ p {
 .variant-gallery img.active {
   border-color: #007bff;
 }
+
 
 
 
