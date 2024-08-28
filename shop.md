@@ -19,7 +19,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <div class="modal" id="product-modal">
   <div class="modal-content">
     <div class="modal-header">
-      <img id="modal-main-image" src="" alt="Product Image">
+      <img id="modal-main-image" alt="Product Image">
       <span class="close" id="modal-close">&times;</span>
     </div>
     <div id="modal-body">
