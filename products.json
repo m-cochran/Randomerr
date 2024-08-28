@@ -1,174 +1,579 @@
-{
-    "result": [
-        {
-            "sync_product": {
-                "id": 357884220,
-                "name": "MY CUP OF EARTH Waffle beanie",
-                "thumbnail_url": "https://files.cdn.printful.com/files/7d1/7d12ce5171e51de891654fa3cd6e611a_preview.png"
-            },
-            "sync_variants": [
-                {
-                    "id": 4507172965,
-                    "name": "MY CUP OF EARTH Waffle beanie / Black",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 16175,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/16175_1663914273.jpg",
-                        "name": "Richardson 146R (Black / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/7d1/7d12ce5171e51de891654fa3cd6e611a_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Black",
-                    "availability_status": "active"
-                },
-                {
-                    "id": 4507172966,
-                    "name": "MY CUP OF EARTH Waffle beanie / Navy",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 17447,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/17447_1689238338.jpg",
-                        "name": "Richardson 146R (Navy / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/ed9/ed9b5ce726f1c5cb120edb144b51f531_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Navy",
-                    "availability_status": "active"
-                },
-                {
-                    "id": 4507172967,
-                    "name": "MY CUP OF EARTH Waffle beanie / Heather Charcoal",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 16176,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/16176_1663914281.jpg",
-                        "name": "Richardson 146R (Heather Charcoal / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/069/069bc2e25b0e832563b2c8191ec4b2a4_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Heather Charcoal",
-                    "availability_status": "active"
-                },
-                {
-                    "id": 4507172969,
-                    "name": "MY CUP OF EARTH Waffle beanie / Rust",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 16178,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/16178_1663914282.jpg",
-                        "name": "Richardson 146R (Rust / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/769/7691c9cc3c032da538db55df2bca9791_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Rust",
-                    "availability_status": "active"
-                },
-                {
-                    "id": 4507172970,
-                    "name": "MY CUP OF EARTH Waffle beanie / Camel",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 17448,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/17448_1689238337.jpg",
-                        "name": "Richardson 146R (Camel / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/e44/e44a1da428563c9a4a3b6404e6b1dff4_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Camel",
-                    "availability_status": "active"
-                },
-                {
-                    "id": 4507172971,
-                    "name": "MY CUP OF EARTH Waffle beanie / Heather Grey",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 16177,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/16177_1663914282.jpg",
-                        "name": "Richardson 146R (Heather Grey / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/386/38659b8d393b248b3ebebfa68fd7ee5a_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Heather Grey",
-                    "availability_status": "active"
-                },
-                {
-                    "id": 4507172973,
-                    "name": "MY CUP OF EARTH Waffle beanie / Birch",
-                    "retail_price": "53.00",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 16174,
-                        "product_id": 637,
-                        "image": "https://files.cdn.printful.com/products/637/16174_1663914271.jpg",
-                        "name": "Richardson 146R (Birch / One size)"
-                    },
-                    "files": [
-                        "https://files.cdn.printful.com/files/921/921e922d05154ec9962dd4afcdacb529_thumb.png",
-                        "https://files.cdn.printful.com/files/b65/b652072fce62a10dd377690f168bcf20_thumb.png"
-                    ],
-                    "size": "One size",
-                    "color": "Birch",
-                    "availability_status": "active"
-                }
-            ]
+[
+    {
+        "sync_product": {
+            "id": 357884220,
+            "external_id": "66cd708d4cbca6",
+            "name": "MY CUP OF EARTH Waffle beanie",
+            "variants": 7,
+            "synced": 7,
+            "thumbnail_url": "https://files.cdn.printful.com/files/7d1/7d12ce5171e51de891654fa3cd6e611a_preview.png",
+            "is_ignored": false
         },
-        {
-            "sync_product": {
-                "id": 357347527,
-                "name": "Cork-back coaster",
-                "thumbnail_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_preview.png"
-            },
-            "sync_variants": [
-                {
-                    "id": 4500898531,
-                    "name": "Cork-back coaster",
-                    "retail_price": "15.95",
-                    "currency": "USD",
-                    "product": {
-                        "variant_id": 15662,
-                        "product_id": 611,
-                        "image": "https://files.cdn.printful.com/products/611/15662_1660029236.jpg",
-                        "name": "Cork Back Coaster (3.74\u2033\u00d73.74\u2033)"
+        "sync_variants": [
+            {
+                "id": 4507172965,
+                "external_id": "66cd708d4cbdc1",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Black",
+                "synced": true,
+                "variant_id": 16175,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Black",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16175,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/16175_1663914273.jpg",
+                    "name": "Richardson 146R (Black / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734727997,
+                        "type": "preview",
+                        "hash": "7d12ce5171e51de891654fa3cd6e611a",
+                        "url": null,
+                        "filename": "waffle-beanie-black-front-66cd708a8bc51.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 184117,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/7d1/7d12ce5171e51de891654fa3cd6e611a_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/7d1/7d12ce5171e51de891654fa3cd6e611a_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
                     },
-                    "files": [
-                        "https://files.cdn.printful.com/files/2ca/2caa2113c60954edeab378e8175f0923_thumb.png",
-                        "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_thumb.png"
-                    ],
-                    "size": "3.74\u2033\u00d73.74\u2033",
-                    "color": null,
-                    "availability_status": "active"
-                }
-            ]
-        }
-    ]
-}
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Black",
+                "availability_status": "active"
+            },
+            {
+                "id": 4507172966,
+                "external_id": "66cd708d4cbe71",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Navy",
+                "synced": true,
+                "variant_id": 17447,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Navy",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 17447,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/17447_1689238338.jpg",
+                    "name": "Richardson 146R (Navy / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734727998,
+                        "type": "preview",
+                        "hash": "ed9b5ce726f1c5cb120edb144b51f531",
+                        "url": null,
+                        "filename": "waffle-beanie-navy-front-66cd708a8d3f0.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 215029,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/ed9/ed9b5ce726f1c5cb120edb144b51f531_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/ed9/ed9b5ce726f1c5cb120edb144b51f531_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
+                    },
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Navy",
+                "availability_status": "active"
+            },
+            {
+                "id": 4507172967,
+                "external_id": "66cd708d4cbf18",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Heather Charcoal",
+                "synced": true,
+                "variant_id": 16176,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Heather-Charcoal",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16176,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/16176_1663914281.jpg",
+                    "name": "Richardson 146R (Heather Charcoal / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734727999,
+                        "type": "preview",
+                        "hash": "069bc2e25b0e832563b2c8191ec4b2a4",
+                        "url": null,
+                        "filename": "waffle-beanie-heather-charcoal-front-66cd708a8d4f8.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 226586,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/069/069bc2e25b0e832563b2c8191ec4b2a4_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/069/069bc2e25b0e832563b2c8191ec4b2a4_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
+                    },
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Heather Charcoal",
+                "availability_status": "active"
+            },
+            {
+                "id": 4507172969,
+                "external_id": "66cd708d4cbfa9",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Rust",
+                "synced": true,
+                "variant_id": 16178,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Rust",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16178,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/16178_1663914282.jpg",
+                    "name": "Richardson 146R (Rust / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734728000,
+                        "type": "preview",
+                        "hash": "7691c9cc3c032da538db55df2bca9791",
+                        "url": null,
+                        "filename": "waffle-beanie-rust-front-66cd708a8d604.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 277597,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/769/7691c9cc3c032da538db55df2bca9791_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/769/7691c9cc3c032da538db55df2bca9791_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
+                    },
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Rust",
+                "availability_status": "active"
+            },
+            {
+                "id": 4507172970,
+                "external_id": "66cd708d4cc031",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Camel",
+                "synced": true,
+                "variant_id": 17448,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Camel",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 17448,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/17448_1689238337.jpg",
+                    "name": "Richardson 146R (Camel / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734728001,
+                        "type": "preview",
+                        "hash": "e44a1da428563c9a4a3b6404e6b1dff4",
+                        "url": null,
+                        "filename": "waffle-beanie-camel-front-66cd708a8d6e5.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 300156,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/e44/e44a1da428563c9a4a3b6404e6b1dff4_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/e44/e44a1da428563c9a4a3b6404e6b1dff4_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
+                    },
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Camel",
+                "availability_status": "active"
+            },
+            {
+                "id": 4507172971,
+                "external_id": "66cd708d4cc0b6",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Heather Grey",
+                "synced": true,
+                "variant_id": 16177,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Heather-Grey",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16177,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/16177_1663914282.jpg",
+                    "name": "Richardson 146R (Heather Grey / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734728002,
+                        "type": "preview",
+                        "hash": "38659b8d393b248b3ebebfa68fd7ee5a",
+                        "url": null,
+                        "filename": "waffle-beanie-heather-grey-front-66cd708a8d853.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 246459,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/386/38659b8d393b248b3ebebfa68fd7ee5a_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/386/38659b8d393b248b3ebebfa68fd7ee5a_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
+                    },
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Heather Grey",
+                "availability_status": "active"
+            },
+            {
+                "id": 4507172973,
+                "external_id": "66cd708d4cc151",
+                "sync_product_id": 357884220,
+                "name": "MY CUP OF EARTH Waffle beanie / Birch",
+                "synced": true,
+                "variant_id": 16174,
+                "main_category_id": 45,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "53.00",
+                "sku": "66CD708D4BD9D_Birch",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16174,
+                    "product_id": 637,
+                    "image": "https://files.cdn.printful.com/products/637/16174_1663914271.jpg",
+                    "name": "Richardson 146R (Birch / One size)"
+                },
+                "files": [
+                    {
+                        "id": 734728003,
+                        "type": "preview",
+                        "hash": "b652072fce62a10dd377690f168bcf20",
+                        "url": null,
+                        "filename": "waffle-beanie-birch-front-66cd708a8d99a.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 259704,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724739725,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/b65/b652072fce62a10dd377690f168bcf20_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/b65/b652072fce62a10dd377690f168bcf20_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [
+                    {
+                        "id": "embroidery_type",
+                        "value": "flat"
+                    },
+                    {
+                        "id": "thread_colors",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    },
+                    {
+                        "id": "text_thread_colors",
+                        "value": []
+                    },
+                    {
+                        "id": "thread_colors_3d",
+                        "value": [
+                            "#3399ff",
+                            "#ffffff",
+                            "#ffffff"
+                        ]
+                    }
+                ],
+                "is_ignored": false,
+                "size": "One size",
+                "color": "Birch",
+                "availability_status": "active"
+            }
+        ]
+    },
+    {
+        "sync_product": {
+            "id": 357347527,
+            "external_id": "66c6c661d5af47",
+            "name": "Cork-back coaster",
+            "variants": 1,
+            "synced": 1,
+            "thumbnail_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_preview.png",
+            "is_ignored": false
+        },
+        "sync_variants": [
+            {
+                "id": 4500898531,
+                "external_id": "66c6c661d5b002",
+                "sync_product_id": 357347527,
+                "name": "Cork-back coaster",
+                "synced": true,
+                "variant_id": 15662,
+                "main_category_id": 249,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "15.95",
+                "sku": "66C6C661D5162",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 15662,
+                    "product_id": 611,
+                    "image": "https://files.cdn.printful.com/products/611/15662_1660029236.jpg",
+                    "name": "Cork Back Coaster (3.74\u2033\u00d73.74\u2033)"
+                },
+                "files": [
+                    {
+                        "id": 733064534,
+                        "type": "preview",
+                        "hash": "9681c7ae821e4c1b1e7bd8a030b80186",
+                        "url": null,
+                        "filename": "cork-back-coaster-front-66c6c65e8a765.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 212324,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724302945,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [],
+                "is_ignored": false,
+                "size": "3.74\u2033\u00d73.74\u2033",
+                "color": null,
+                "availability_status": "active"
+            }
+        ]
+    }
+]
