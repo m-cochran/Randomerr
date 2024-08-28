@@ -87,15 +87,30 @@ fetch("https://m-cochran.github.io/Randomerr/products.json")
 
       // Add click event to open modal with product details
       thumbnail.addEventListener("click", () => {
-        // Set the main image and initial title, color, and price in the modal
+        // Set the main image and initial title, color, price, and other details in the modal
         modalMainImage.src =
           product.sync_product.thumbnail_url || "default-thumbnail.jpg"; // Fallback image
         const firstVariant = product.sync_variants[0];
         modalTitleInfo.innerHTML = `
           <div id="modal-title">${product.sync_product.name}</div>
+          <div id="modal-sku">SKU: ${firstVariant.sku || "N/A"}</div>
           <div id="modal-color">Color: ${firstVariant.color || "N/A"}</div>
           <div id="modal-price">Price: $${
             firstVariant.retail_price || "N/A"
+          }</div>
+          <div id="modal-availability" class="${
+            firstVariant.availability_status === "active"
+              ? "in-stock"
+              : "out-of-stock"
+          }">
+            Availability: ${
+              firstVariant.availability_status === "active"
+                ? "In Stock"
+                : "Out of Stock"
+            }
+          </div>
+          <div id="modal-description">Description: ${
+            product.sync_product.description || "No description available"
           }</div>
         `;
 
@@ -108,7 +123,7 @@ fetch("https://m-cochran.github.io/Randomerr/products.json")
           variant.files.forEach((file) => {
             if (file.preview_url) {
               modalContent += `
-                                  <img src="${file.preview_url}" alt="${variant.name}" data-main-image="${file.preview_url}" data-price="${variant.retail_price}" data-color="${variant.color}" data-size="${variant.size}">
+                                  <img src="${file.preview_url}" alt="${variant.name}" data-main-image="${file.preview_url}" data-price="${variant.retail_price}" data-color="${variant.color}" data-availability="${variant.availability_status}" data-sku="${variant.sku}">
                               `;
             }
           });
@@ -123,6 +138,10 @@ fetch("https://m-cochran.github.io/Randomerr/products.json")
             const mainImageUrl = event.target.getAttribute("data-main-image");
             const price = event.target.getAttribute("data-price");
             const color = event.target.getAttribute("data-color");
+            const availabilityStatus = event.target.getAttribute(
+              "data-availability"
+            );
+            const sku = event.target.getAttribute("data-sku");
 
             modalMainImage.src = mainImageUrl;
             document.getElementById(
@@ -131,6 +150,14 @@ fetch("https://m-cochran.github.io/Randomerr/products.json")
             document.getElementById(
               "modal-color"
             ).textContent = `Color: ${color}`;
+            document.getElementById(
+              "modal-availability"
+            ).textContent = `Availability: ${
+              availabilityStatus === "active" ? "In Stock" : "Out of Stock"
+            }`;
+            document.getElementById("modal-availability").className =
+              availabilityStatus === "active" ? "in-stock" : "out-of-stock";
+            document.getElementById("modal-sku").textContent = `SKU: ${sku}`;
 
             document
               .querySelectorAll(".variant-gallery img")
@@ -138,6 +165,28 @@ fetch("https://m-cochran.github.io/Randomerr/products.json")
             event.target.classList.add("active");
           });
         });
+
+        modal.style.display = "flex";
+      });
+
+      productList.appendChild(productDiv);
+    });
+
+    // Close modal on clicking 'X'
+    modalClose.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Close modal on clicking outside the modal content
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  })
+  .catch((error) => {
+    console.error("Error fetching product data:", error);
+  });
 
         modal.style.display = "flex";
       });
