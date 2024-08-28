@@ -28,4 +28,3 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     .catch(error => {
       console.error('Error fetching product data:', error);
     });
-</script>
