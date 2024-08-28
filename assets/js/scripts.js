@@ -49,12 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
-
-
-
-
-
 // Show loading spinner
 const showLoading = () => {
   document.getElementById("product-list").innerHTML =
@@ -218,7 +212,3 @@ const populateProducts = (data) => {
 
 // Initialize
 fetchProductData();
-
-
-
-
