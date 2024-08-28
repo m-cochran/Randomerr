@@ -9,20 +9,26 @@ permalink: /shop/
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 
-<div class="product-list" id="product-list"></div>
+<div id="product-list" class="product-list"></div>
 
-<!-- Modal for product details -->
-<div class="product-details-modal" id="product-details-modal">
+<!-- Product Details Modal -->
+<div id="product-details-modal" class="product-details-modal">
   <div class="modal-content">
-    <span class="close" id="modal-close">&times;</span>
+    <span id="modal-close" class="close">&times;</span>
+
     <div class="modal-header">
-      <img id="modal-main-image" src="" alt="Product Image">
+      <img id="modal-main-image" alt="Product Image">
     </div>
-    <div id="modal-body">
-      <!-- Variant gallery and product details will be inserted here dynamically -->
-    </div>
+    
+    <div id="modal-body"></div>
     <div id="modal-title-info">
-      <!-- Title, color, and price will be updated based on selected variant -->
+      <div id="modal-title">MY CUP OF EARTH Waffle Beanie</div>
+      <div id="modal-sku">SKU: N/A</div>
+      <div id="modal-color">Color: N/A</div>
+      <div id="modal-price">Price: $N/A</div>
+      <div id="modal-availability" class="out-of-stock">Availability: Out of Stock</div>
+      <div id="modal-description">Description: No description available</div>
     </div>
+
   </div>
 </div>
