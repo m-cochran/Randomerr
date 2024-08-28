@@ -222,39 +222,46 @@ p {
   align-items: center;
 }
 
-.container {
-  width: 80%;
-  margin: auto;
-  overflow: hidden;
+
+
+
+
+
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .product {
   background: #fff;
   border: 1px solid #ddd;
-  margin: 10px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: inline-block;
-  vertical-align: top;
-  width: 30%;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.product:hover {
+  transform: scale(1.03);
 }
 
 .product img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
-  display: block;
-  margin: 0 auto;
 }
 
 .product-title {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+  font-size: 1.2em;
+  margin-top: 10px;
   text-align: center;
 }
 
-.modal {
+.product-details-modal {
   display: none;
   position: fixed;
   top: 0;
@@ -265,57 +272,97 @@ p {
   z-index: 1000;
   justify-content: center;
   align-items: center;
+  overflow-y: auto; /* Allows vertical scrolling if content is too tall */
 }
 
 .modal-content {
   background: #fff;
   padding: 20px;
   border-radius: 5px;
-  width: 80%;
-  max-width: 900px;
+  width: 90%;
+  max-width: 1200px;
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .modal-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 
 .modal-header img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
 
 .close {
-  font-size: 1.5em;
+  font-size: 2em;
   cursor: pointer;
   color: #333;
+  position: absolute;
+  top: 10px;
+  right: 20px;
 }
 
 .variant-gallery {
   display: flex;
   overflow-x: auto;
-  margin-top: 10px;
+  margin-top: 20px;
+  padding: 10px 0;
 }
 
 .variant-gallery img {
-  max-width: 150px;
+  max-width: 120px;
+  height: auto;
   margin-right: 10px;
   cursor: pointer;
   border: 2px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
 .variant-gallery img.active {
   border-color: #007bff;
 }
 
-.variant-info {
-  margin-top: 10px;
+#modal-title-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
 }
+
+#modal-title-info > div {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+
+#modal-color {
+  font-size: 1.2em;
+  color: #555;
+}
+
+#modal-price {
+  font-size: 1.5em;
+}
+
+@media (max-width: 600px) {
+  .product {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+
+
+
+
 
 .contact-container {
   background-color: #fff;
