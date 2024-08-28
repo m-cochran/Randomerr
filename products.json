@@ -1,6 +1,113 @@
 [
     {
         "sync_product": {
+            "id": 357989095,
+            "external_id": "66cedc655896c6",
+            "name": "Stainless Steel Mind Body And Soul Water Bottle",
+            "variants": 2,
+            "synced": 2,
+            "thumbnail_url": "https://files.cdn.printful.com/files/fe0/fe0e02c38dff90d75c9922ea9bc5c89f_preview.png",
+            "is_ignored": false
+        },
+        "sync_variants": [
+            {
+                "id": 4508698866,
+                "external_id": "66cedc655897d7",
+                "sync_product_id": 357989095,
+                "name": "Stainless Steel Mind Body And Soul Water Bottle / Black",
+                "synced": true,
+                "variant_id": 16030,
+                "main_category_id": 195,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "33.62",
+                "sku": "66CEDC655837A_Black",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16030,
+                    "product_id": 382,
+                    "image": "https://files.cdn.printful.com/products/382/16030_1661782722.jpg",
+                    "name": "Stainless Steel Water Bottle (Black / 17 oz)"
+                },
+                "files": [
+                    {
+                        "id": 735125703,
+                        "type": "preview",
+                        "hash": "fe0e02c38dff90d75c9922ea9bc5c89f",
+                        "url": null,
+                        "filename": "stainless-steel-water-bottle-black-17-oz-front-66cedc6342bc8.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 101876,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724832869,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/fe0/fe0e02c38dff90d75c9922ea9bc5c89f_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/fe0/fe0e02c38dff90d75c9922ea9bc5c89f_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [],
+                "is_ignored": false,
+                "size": "17 oz",
+                "color": "Black",
+                "availability_status": "active"
+            },
+            {
+                "id": 4508698867,
+                "external_id": "66cedc65589883",
+                "sync_product_id": 357989095,
+                "name": "Stainless Steel Mind Body And Soul Water Bottle / White",
+                "synced": true,
+                "variant_id": 10798,
+                "main_category_id": 195,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "33.62",
+                "sku": "66CEDC655837A_White",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 10798,
+                    "product_id": 382,
+                    "image": "https://files.cdn.printful.com/products/382/10798_1614007341.jpg",
+                    "name": "Stainless Steel Water Bottle 17 oz"
+                },
+                "files": [
+                    {
+                        "id": 735125704,
+                        "type": "preview",
+                        "hash": "8efe3b3fed3c313bcf4522c0ae668497",
+                        "url": null,
+                        "filename": "stainless-steel-water-bottle-white-17-oz-front-66cedc634452e.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 98963,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1724832869,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/8ef/8efe3b3fed3c313bcf4522c0ae668497_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/8ef/8efe3b3fed3c313bcf4522c0ae668497_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [],
+                "is_ignored": false,
+                "size": "17 oz",
+                "color": "White",
+                "availability_status": "active"
+            }
+        ]
+    },
+    {
+        "sync_product": {
             "id": 357884220,
             "external_id": "66cd708d4cbca6",
             "name": "MY CUP OF EARTH Waffle beanie",
