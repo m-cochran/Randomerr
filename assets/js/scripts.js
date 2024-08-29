@@ -187,5 +187,6 @@ const populateProducts = (data) => {
   });
 };
 
-fetchProductData();
+document.addEventListener("DOMContentLoaded", function () {
+  fetchProductData();
 });
