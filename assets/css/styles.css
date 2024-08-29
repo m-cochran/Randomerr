@@ -376,7 +376,7 @@ p {
   overflow-x: auto;
   margin-top: 20px;
   padding: 10px 0;
-  justify-content: center;
+  justify-content: normal;
 }
 
 .variant-gallery img {
