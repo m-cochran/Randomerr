@@ -46,20 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Show loading spinner
-const showLoading = () => {
-  document.getElementById("product-list").innerHTML =
-    '<div class="spinner">Loading...</div>';
-};
-
-// Hide loading spinner
-const hideLoading = () => {
-  document.querySelector(".spinner")?.remove();
-};
-
 // Fetch the JSON data with error handling
 const fetchProductData = async () => {
-  showLoading();
   try {
     const response = await fetch(
       "https://m-cochran.github.io/Randomerr/products.json"
@@ -73,8 +61,6 @@ const fetchProductData = async () => {
     console.error("Failed to fetch product data:", error);
     document.getElementById("product-list").innerHTML =
       '<div class="error">Failed to load products. Please try again later.</div>';
-  } finally {
-    hideLoading();
   }
 };
 
@@ -201,4 +187,5 @@ const populateProducts = (data) => {
   });
 };
 
-fetchProductData();
+  fetchProductData();
+});
