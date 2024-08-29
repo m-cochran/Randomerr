@@ -9,14 +9,12 @@ permalink: /shop/
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 
-
 <div id="product-list" class="product-list"></div>
 
 <!-- Spinner HTML -->
 <div id="spinner" class="spinner">
   <div class="spinner-inner"></div>
 </div>
-
 
 <!-- Product Details Modal -->
 <div id="product-details-modal" class="product-details-modal">
