@@ -28,7 +28,9 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
       <div id="modal-availability" class="out-of-stock">Availability: Out of Stock</div>
       <div id="modal-description">Description: No description available</div>
     </div>
-
+    
+    <script src="scripts.js"></script>
+    
     <div id="modal-body"></div>
   </div>
 </div>
