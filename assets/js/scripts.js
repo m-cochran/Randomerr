@@ -49,26 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
-
-
-
-
-// Show loading spinner
-const showLoading = () => {
-  document.getElementById("product-list").innerHTML = '<div class="spinner">Loading...</div>';
-};
-
-// Hide loading spinner
-const hideLoading = () => {
-  document.querySelector(".spinner")?.remove();
-};
-
 // Fetch the JSON data with error handling
 const fetchProductData = async () => {
-  showLoading();
+  // Remove showLoading() if spinner is not needed
+  // showLoading();
   try {
-    const response = await fetch("https://m-cochran.github.io/Randomerr/products.json");
+    const response = await fetch(
+      "https://m-cochran.github.io/Randomerr/products.json"
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -76,9 +64,11 @@ const fetchProductData = async () => {
     populateProducts(data);
   } catch (error) {
     console.error("Failed to fetch product data:", error);
-    document.getElementById("product-list").innerHTML = '<div class="error">Failed to load products. Please try again later.</div>';
+    document.getElementById("product-list").innerHTML =
+      '<div class="error">Failed to load products. Please try again later.</div>';
   } finally {
-    hideLoading();
+    // Remove hideLoading() if spinner is not needed
+    // hideLoading();
   }
 };
 
@@ -101,32 +91,47 @@ const populateProducts = (data) => {
     productDiv.appendChild(title);
 
     const thumbnail = document.createElement("img");
-    thumbnail.src = product.sync_product.thumbnail_url || 'default-thumbnail.jpg'; 
+    thumbnail.src =
+      product.sync_product.thumbnail_url || "default-thumbnail.jpg";
     thumbnail.alt = product.sync_product.name;
     productDiv.appendChild(thumbnail);
 
     const price = document.createElement("div");
     price.className = "product-price";
     const firstVariant = product.sync_variants[0];
-    price.textContent = `$${firstVariant.retail_price || 'N/A'}`;
+    price.textContent = `$${firstVariant.retail_price || "N/A"}`;
     productDiv.appendChild(price);
 
     const description = document.createElement("div");
     description.className = "product-description";
-    description.textContent = product.sync_product.description || 'No description available';
+    description.textContent =
+      product.sync_product.description || "No description available";
     productDiv.appendChild(description);
 
     productDiv.addEventListener("click", () => {
-      modalMainImage.src = product.sync_product.thumbnail_url || 'default-thumbnail.jpg'; 
+      modalMainImage.src =
+        product.sync_product.thumbnail_url || "default-thumbnail.jpg";
       modalTitleInfo.innerHTML = `
         <div id="modal-title">${product.sync_product.name}</div>
-        <div id="modal-sku">SKU: ${firstVariant.sku || 'N/A'}</div>
-        <div id="modal-color">Color: ${firstVariant.color || 'N/A'}</div>
-        <div id="modal-price">Price: $${firstVariant.retail_price || 'N/A'}</div>
-        <div id="modal-availability" class="${firstVariant.availability_status === 'active' ? 'in-stock' : 'out-of-stock'}">
-          Availability: ${firstVariant.availability_status === 'active' ? 'In Stock' : 'Out of Stock'}
+        <div id="modal-sku">SKU: ${firstVariant.sku || "N/A"}</div>
+        <div id="modal-color">Color: ${firstVariant.color || "N/A"}</div>
+        <div id="modal-price">Price: $${
+          firstVariant.retail_price || "N/A"
+        }</div>
+        <div id="modal-availability" class="${
+          firstVariant.availability_status === "active"
+            ? "in-stock"
+            : "out-of-stock"
+        }">
+          Availability: ${
+            firstVariant.availability_status === "active"
+              ? "In Stock"
+              : "Out of Stock"
+          }
         </div>
-        <div id="modal-description">Description: ${product.sync_product.description || 'No description available'}</div>
+        <div id="modal-description">Description: ${
+          product.sync_product.description || "No description available"
+        }</div>
       `;
 
       let modalContent = `<div class="variant-gallery">`;
@@ -148,18 +153,31 @@ const populateProducts = (data) => {
           const mainImageUrl = event.target.getAttribute("data-main-image");
           const price = event.target.getAttribute("data-price");
           const color = event.target.getAttribute("data-color");
-          const availabilityStatus = event.target.getAttribute("data-availability");
+          const availabilityStatus = event.target.getAttribute(
+            "data-availability"
+          );
           const sku = event.target.getAttribute("data-sku");
 
           modalMainImage.src = mainImageUrl;
-          document.getElementById("modal-price").textContent = `Price: $${price}`;
-          document.getElementById("modal-color").textContent = `Color: ${color}`;
-          document.getElementById("modal-availability").textContent = `Availability: ${availabilityStatus === 'active' ? 'In Stock' : 'Out of Stock'}`;
-          document.getElementById("modal-availability").className = availabilityStatus === 'active' ? 'in-stock' : 'out-of-stock';
+          document.getElementById(
+            "modal-price"
+          ).textContent = `Price: $${price}`;
+          document.getElementById(
+            "modal-color"
+          ).textContent = `Color: ${color}`;
+          document.getElementById(
+            "modal-availability"
+          ).textContent = `Availability: ${
+            availabilityStatus === "active" ? "In Stock" : "Out of Stock"
+          }`;
+          document.getElementById("modal-availability").className =
+            availabilityStatus === "active" ? "in-stock" : "out-of-stock";
           document.getElementById("modal-sku").textContent = `SKU: ${sku}`;
 
           // Remove active class from all variant images
-          document.querySelectorAll(".variant-gallery img").forEach((el) => el.classList.remove("active"));
+          document
+            .querySelectorAll(".variant-gallery img")
+            .forEach((el) => el.classList.remove("active"));
 
           // Add active class to clicked variant
           event.target.classList.add("active");
@@ -185,4 +203,3 @@ const populateProducts = (data) => {
 
 // Initialize
 fetchProductData();
-
