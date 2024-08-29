@@ -234,8 +234,8 @@ p {
 #product-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  gap: 10px;
+  justify-content: normal;
   padding: 20px;
 }
 
@@ -245,7 +245,7 @@ p {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 200px;
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
@@ -284,9 +284,9 @@ p {
 
 /* Product description styling */
 .product-description {
-  font-size: 0.9em;
+  font-size: 1.0em;
   color: #777;
-  line-height: 1.4;
+  line-height: 1.8;
 }
 
 /* Modal styling enhancements */
@@ -344,7 +344,7 @@ p {
 }
 
 #modal-title {
-  font-size: 1.4em;
+  font-size: 1.8em;
   font-weight: bold;
 }
 
@@ -354,7 +354,7 @@ p {
 #modal-availability,
 #modal-description {
   margin-top: 10px;
-  font-size: 1.1em;
+  font-size: 1.8em;
 }
 
 /* Availability Status Colors */
@@ -396,6 +396,8 @@ p {
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
+
 
 
 
