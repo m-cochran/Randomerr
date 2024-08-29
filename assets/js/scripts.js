@@ -1,4 +1,3 @@
-// MAIN MENU
 document.addEventListener("DOMContentLoaded", function () {
   const mainMenu = document.getElementById("mainMenu");
   const autoNav = document.getElementById("autoNav");
@@ -35,9 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   autoNavMoreHandler();
   window.addEventListener("resize", autoNavMoreHandler);
-});
 
-document.addEventListener("DOMContentLoaded", function () {
   const slider = document.querySelector(".slide-track");
 
   slider.addEventListener("mouseover", function () {
@@ -202,13 +199,6 @@ const populateProducts = (data) => {
   modalClose.addEventListener("click", () => {
     modal.style.display = "none";
   });
-
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
 };
 
-// Initialize
 fetchProductData();
