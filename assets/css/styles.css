@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
+  line-height: 1.8;
   color: #333;
 }
 
@@ -295,7 +295,7 @@ p {
 .product-description {
   font-size: 0.9em;
   color: #777;
-  line-height: 1.4;
+  line-height: 1.8;
 }
 
 /* Modal styling enhancements */
