@@ -187,5 +187,5 @@ const populateProducts = (data) => {
   });
 };
 
-  fetchProductData();
+fetchProductData();
 });
