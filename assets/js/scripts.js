@@ -51,8 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Fetch the JSON data with error handling
 const fetchProductData = async () => {
-  // Remove showLoading() if spinner is not needed
-  // showLoading();
+  // Remove showLoading() and hideLoading() calls if not needed
   try {
     const response = await fetch(
       "https://m-cochran.github.io/Randomerr/products.json"
@@ -67,8 +66,7 @@ const fetchProductData = async () => {
     document.getElementById("product-list").innerHTML =
       '<div class="error">Failed to load products. Please try again later.</div>';
   } finally {
-    // Remove hideLoading() if spinner is not needed
-    // hideLoading();
+    // No spinner-related code here
   }
 };
 
