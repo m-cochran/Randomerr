@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 // Function to truncate text to a specified length with ellipsis
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
@@ -64,9 +63,7 @@ const truncateText = (text, maxLength) => {
 // Fetch the JSON data with error handling
 const fetchProductData = async () => {
   try {
-    const response = await fetch(
-      "https://m-cochran.github.io/Randomerr/products.json"
-    );
+    const response = await fetch("https://m-cochran.github.io/Randomerr/products.json");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -77,6 +74,18 @@ const fetchProductData = async () => {
     document.getElementById("product-list").innerHTML =
       '<div class="error">Failed to load products. Please try again later.</div>';
   }
+};
+
+// Add product to cart (mock function for demonstration)
+const addToCart = (product) => {
+  console.log(`Added to cart: ${product.sync_product.name}`);
+  // Add your cart functionality here
+};
+
+// Buy now (mock function for demonstration)
+const buyNow = (product) => {
+  console.log(`Buy now: ${product.sync_product.name}`);
+  // Add your checkout functionality here
 };
 
 // Populate products in the product list
@@ -118,6 +127,26 @@ const populateProducts = (data) => {
     description.textContent = shortDescription;
     productDiv.appendChild(description);
 
+    const variationIcons = document.createElement("div");
+    variationIcons.className = "variation-icons";
+    const variants = product.sync_variants.slice(0, 5);
+    variants.forEach((variant) => {
+      if (variant.files[0].preview_url) {
+        const icon = document.createElement("img");
+        icon.src = variant.files[0].preview_url;
+        icon.alt = variant.name;
+        icon.className = "variation-icon";
+        variationIcons.appendChild(icon);
+      }
+    });
+    if (product.sync_variants.length > 5) {
+      const moreIcon = document.createElement("div");
+      moreIcon.className = "more-icon";
+      moreIcon.textContent = `+${product.sync_variants.length - 5}`;
+      variationIcons.appendChild(moreIcon);
+    }
+    productDiv.appendChild(variationIcons);
+
     productDiv.addEventListener("click", () => {
       modalMainImage.src =
         product.sync_product.thumbnail_url || "default-thumbnail.jpg";
@@ -125,23 +154,11 @@ const populateProducts = (data) => {
         <div id="modal-title">${product.sync_product.name}</div>
         <div id="modal-sku">SKU: ${firstVariant.sku || "N/A"}</div>
         <div id="modal-color">Color: ${firstVariant.color || "N/A"}</div>
-        <div id="modal-price">Price: $${
-          firstVariant.retail_price || "N/A"
-        }</div>
-        <div id="modal-availability" class="${
-          firstVariant.availability_status === "active"
-            ? "in-stock"
-            : "out-of-stock"
-        }">
-          Availability: ${
-            firstVariant.availability_status === "active"
-              ? "In Stock"
-              : "Out of Stock"
-          }
+        <div id="modal-price">Price: $${firstVariant.retail_price || "N/A"}</div>
+        <div id="modal-availability" class="${firstVariant.availability_status === "active" ? "in-stock" : "out-of-stock"}">
+          Availability: ${firstVariant.availability_status === "active" ? "In Stock" : "Out of Stock"}
         </div>
-        <div id="modal-description">Description: ${
-          firstVariant.description || "No description available"
-        }</div>
+        <div id="modal-description">Description: ${firstVariant.description || "No description available"}</div>
       `;
 
       let modalContent = `<div class="variant-gallery">`;
@@ -155,6 +172,15 @@ const populateProducts = (data) => {
         });
       });
       modalContent += `</div>`;
+      modalContent += `
+        <div class="modal-buttons">
+          <button id="add-to-cart">Add to Cart</button>
+          <button id="buy-now">Buy Now</button>
+        </div>
+      `;
+
+      // Clear existing modal content
+      modalBody.innerHTML = '';
       modalBody.innerHTML = modalContent;
 
       // Set click events on variant images
@@ -163,36 +189,35 @@ const populateProducts = (data) => {
           const mainImageUrl = event.target.getAttribute("data-main-image");
           const price = event.target.getAttribute("data-price");
           const color = event.target.getAttribute("data-color");
-          const availabilityStatus = event.target.getAttribute(
-            "data-availability"
-          );
+          const availabilityStatus = event.target.getAttribute("data-availability");
           const sku = event.target.getAttribute("data-sku");
 
           modalMainImage.src = mainImageUrl;
-          document.getElementById(
-            "modal-price"
-          ).textContent = `Price: $${price}`;
-          document.getElementById(
-            "modal-color"
-          ).textContent = `Color: ${color}`;
-          document.getElementById(
-            "modal-availability"
-          ).textContent = `Availability: ${
-            availabilityStatus === "active" ? "In Stock" : "Out of Stock"
-          }`;
-          document.getElementById("modal-availability").className =
-            availabilityStatus === "active" ? "in-stock" : "out-of-stock";
+          document.getElementById("modal-price").textContent = `Price: $${price}`;
+          document.getElementById("modal-color").textContent = `Color: ${color}`;
+          document.getElementById("modal-availability").textContent = `Availability: ${availabilityStatus === "active" ? "In Stock" : "Out of Stock"}`;
+          document.getElementById("modal-availability").className = availabilityStatus === "active" ? "in-stock" : "out-of-stock";
           document.getElementById("modal-sku").textContent = `SKU: ${sku}`;
 
           // Remove active class from all variant images
-          document
-            .querySelectorAll(".variant-gallery img")
-            .forEach((el) => el.classList.remove("active"));
+          document.querySelectorAll(".variant-gallery img").forEach((el) => el.classList.remove("active"));
 
           // Add active class to clicked variant
           event.target.classList.add("active");
         });
       });
+
+      // Handle button clicks
+      const addToCartButton = document.getElementById("add-to-cart");
+      const buyNowButton = document.getElementById("buy-now");
+
+      if (addToCartButton) {
+        addToCartButton.addEventListener("click", () => addToCart(product));
+      }
+
+      if (buyNowButton) {
+        buyNowButton.addEventListener("click", () => buyNow(product));
+      }
 
       modal.style.display = "flex";
     });
