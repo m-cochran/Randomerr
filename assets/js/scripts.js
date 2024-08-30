@@ -237,4 +237,16 @@ const populateProducts = (data) => {
 fetchProductData();
 
 
+// Function to add product to cart
+const addToCart = (product) => {
+  // Your logic to add the product to the cart
+  console.log("Product added to cart:", product);
+};
+
+// Function to buy now
+const buyNow = (product) => {
+  // Your logic for buy now
+  console.log("Product bought:", product);
+};
+
 
