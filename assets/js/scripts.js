@@ -49,9 +49,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
+
+
+
+// Function to truncate text to a specified length with ellipsis
+const truncateText = (text, maxLength) => {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  }
+  return text;
+};
+
 // Fetch the JSON data with error handling
 const fetchProductData = async () => {
-  // Remove showLoading() and hideLoading() calls if not needed
   try {
     const response = await fetch(
       "https://m-cochran.github.io/Randomerr/products.json"
@@ -65,8 +76,6 @@ const fetchProductData = async () => {
     console.error("Failed to fetch product data:", error);
     document.getElementById("product-list").innerHTML =
       '<div class="error">Failed to load products. Please try again later.</div>';
-  } finally {
-    // No spinner-related code here
   }
 };
 
@@ -102,8 +111,11 @@ const populateProducts = (data) => {
 
     const description = document.createElement("div");
     description.className = "product-description";
-    description.textContent =
-      product.sync_product.description || "No description available";
+    const shortDescription = truncateText(
+      firstVariant.description || "No description available",
+      45
+    );
+    description.textContent = shortDescription;
     productDiv.appendChild(description);
 
     productDiv.addEventListener("click", () => {
@@ -128,7 +140,7 @@ const populateProducts = (data) => {
           }
         </div>
         <div id="modal-description">Description: ${
-          product.sync_product.description || "No description available"
+          firstVariant.description || "No description available"
         }</div>
       `;
 
@@ -201,3 +213,4 @@ const populateProducts = (data) => {
 
 // Initialize
 fetchProductData();
+
