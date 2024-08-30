@@ -57,6 +57,9 @@ const truncateText = (text, maxLength) => {
   return text;
 };
 
+// Cart management
+let cart = [];
+
 // Fetch the JSON data with error handling
 const fetchProductData = async () => {
   try {
@@ -73,10 +76,30 @@ const fetchProductData = async () => {
   }
 };
 
-// Add product to cart (mock function for demonstration)
+// Add product to cart
 const addToCart = (product) => {
-  console.log(`Added to cart: ${product.sync_product.name}`);
-  // Add your cart functionality here
+  const existingProduct = cart.find(
+    (item) => item.sync_product.name === product.sync_product.name
+  );
+
+  if (!existingProduct) {
+    cart.push(product);
+    console.log(`Added to cart: ${product.sync_product.name}`);
+  } else {
+    console.log(`Product already in cart: ${product.sync_product.name}`);
+  }
+
+  console.log("Current cart:", cart);
+};
+
+// Remove product from cart
+const removeFromCart = (product) => {
+  cart = cart.filter(
+    (item) => item.sync_product.name !== product.sync_product.name
+  );
+
+  console.log(`Removed from cart: ${product.sync_product.name}`);
+  console.log("Current cart:", cart);
 };
 
 // Buy now (mock function for demonstration)
@@ -172,6 +195,7 @@ const populateProducts = (data) => {
       modalContent += `
         <div class="modal-buttons">
           <button id="add-to-cart">Add to Cart</button>
+          <button id="remove-from-cart">Remove from Cart</button>
           <button id="buy-now">Buy Now</button>
         </div>
       `;
@@ -195,28 +219,15 @@ const populateProducts = (data) => {
           document.getElementById("modal-availability").textContent = `Availability: ${availabilityStatus === "active" ? "In Stock" : "Out of Stock"}`;
           document.getElementById("modal-availability").className = availabilityStatus === "active" ? "in-stock" : "out-of-stock";
           document.getElementById("modal-sku").textContent = `SKU: ${sku}`;
-
-          // Remove active class from all variant images
-          document.querySelectorAll(".variant-gallery img").forEach((el) => el.classList.remove("active"));
-
-          // Add active class to clicked variant
-          event.target.classList.add("active");
         });
       });
 
-      // Handle button clicks
-      const addToCartButton = document.getElementById("add-to-cart");
-      const buyNowButton = document.getElementById("buy-now");
+      // Set click events for add to cart, remove from cart, and buy now buttons
+      document.getElementById("add-to-cart").addEventListener("click", () => addToCart(product));
+      document.getElementById("remove-from-cart").addEventListener("click", () => removeFromCart(product));
+      document.getElementById("buy-now").addEventListener("click", () => buyNow(product));
 
-      if (addToCartButton) {
-        addToCartButton.addEventListener("click", () => addToCart(product));
-      }
-
-      if (buyNowButton) {
-        buyNowButton.addEventListener("click", () => buyNow(product));
-      }
-
-      modal.style.display = "flex";
+      modal.style.display = "block";
     });
 
     productList.appendChild(productDiv);
@@ -225,29 +236,6 @@ const populateProducts = (data) => {
   modalClose.addEventListener("click", () => {
     modal.style.display = "none";
   });
-
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
 };
 
-// Initialize
 fetchProductData();
-
-
-
-// scripts.js
-
-// Function to add product to cart
-const addToCart = (product) => {
-  // Your logic to add the product to the cart
-  console.log("Product added to cart:", product);
-};
-
-// Function to buy now
-const buyNow = (product) => {
-  // Your logic for buy now
-  console.log("Product bought:", product);
-};
