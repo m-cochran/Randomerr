@@ -52,8 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<script src="cart.js"></script>
-
 
 
 
