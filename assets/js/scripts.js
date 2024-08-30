@@ -81,11 +81,76 @@ const fetchProductData = async () => {
   }
 };
 
-// Add product to cart (mock function for demonstration)
+// Function to add product to cart
 const addToCart = (product) => {
-  console.log(`Added to cart: ${product.sync_product.name}`);
-  // Add your cart functionality here
+  // Add product to local storage cart
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const variant = product.sync_variants[0];
+  
+  const cartItem = {
+    id: product.sync_product.id,
+    name: product.sync_product.name,
+    price: variant.retail_price || "N/A",
+    thumbnail: product.sync_product.thumbnail_url || "default-thumbnail.jpg",
+    sku: variant.sku || "N/A",
+    quantity: 1,
+  };
+
+  const existingItem = cart.find(item => item.id === cartItem.id && item.sku === cartItem.sku);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push(cartItem);
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartUI();
 };
+
+// Function to update the cart UI
+const updateCartUI = () => {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+
+  cartItems.innerHTML = '';
+  let total = 0;
+
+  cart.forEach(item => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <img src="${item.thumbnail}" alt="${item.name}" class="cart-item-thumbnail">
+      <span class="cart-item-name">${item.name}</span>
+      <span class="cart-item-quantity">Qty: ${item.quantity}</span>
+      <span class="cart-item-price">$${item.price}</span>
+      <button class="remove-item" data-id="${item.id}" data-sku="${item.sku}">Remove</button>
+    `;
+    cartItems.appendChild(li);
+    total += item.price * item.quantity;
+  });
+
+  cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+
+  document.querySelectorAll('.remove-item').forEach(button => {
+    button.addEventListener('click', (event) => {
+      const id = event.target.getAttribute('data-id');
+      const sku = event.target.getAttribute('data-sku');
+      removeFromCart(id, sku);
+    });
+  });
+};
+
+// Function to remove item from cart
+const removeFromCart = (id, sku) => {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart = cart.filter(item => !(item.id === id && item.sku === sku));
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartUI();
+};
+
+// Initialize the cart UI on page load
+document.addEventListener('DOMContentLoaded', updateCartUI);
 
 // Buy now (mock function for demonstration)
 const buyNow = (product) => {
@@ -245,84 +310,5 @@ const populateProducts = (data) => {
 fetchProductData();
 
 
-
-
-
-
-
-
-
-// scripts.js
-
-// Function to add product to cart
-const addToCart = (product) => {
-  // Add product to local storage cart
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const variant = product.sync_variants[0];
-  
-  const cartItem = {
-    id: product.sync_product.id,
-    name: product.sync_product.name,
-    price: variant.retail_price || "N/A",
-    thumbnail: product.sync_product.thumbnail_url || "default-thumbnail.jpg",
-    sku: variant.sku || "N/A",
-    quantity: 1,
-  };
-
-  const existingItem = cart.find(item => item.id === cartItem.id && item.sku === cartItem.sku);
-
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push(cartItem);
-  }
-
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartUI();
-};
-
-// Function to update the cart UI
-const updateCartUI = () => {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const cartItems = document.getElementById('cart-items');
-  const cartTotal = document.getElementById('cart-total');
-
-  cartItems.innerHTML = '';
-  let total = 0;
-
-  cart.forEach(item => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <img src="${item.thumbnail}" alt="${item.name}" class="cart-item-thumbnail">
-      <span class="cart-item-name">${item.name}</span>
-      <span class="cart-item-quantity">Qty: ${item.quantity}</span>
-      <span class="cart-item-price">$${item.price}</span>
-      <button class="remove-item" data-id="${item.id}" data-sku="${item.sku}">Remove</button>
-    `;
-    cartItems.appendChild(li);
-    total += item.price * item.quantity;
-  });
-
-  cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-
-  document.querySelectorAll('.remove-item').forEach(button => {
-    button.addEventListener('click', (event) => {
-      const id = event.target.getAttribute('data-id');
-      const sku = event.target.getAttribute('data-sku');
-      removeFromCart(id, sku);
-    });
-  });
-};
-
-// Function to remove item from cart
-const removeFromCart = (id, sku) => {
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  cart = cart.filter(item => !(item.id === id && item.sku === sku));
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartUI();
-};
-
-// Initialize the cart UI on page load
-document.addEventListener('DOMContentLoaded', updateCartUI);
 
 
