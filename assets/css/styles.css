@@ -284,24 +284,26 @@ p {
 
 /* Product description styling */
 .product-description {
-  font-size: 1.0em;
+  font-size: 1em;
   color: #777;
   line-height: 1.8;
 }
 
 /* Modal styling enhancements */
 .product-details-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Center the modal */
+  width: 100%; /* Full width */
+  height: 100%; /* Full width */
   background: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   justify-content: center;
   align-items: center;
-  overflow-y: auto;
+  overflow-y: auto; /* Allow scrolling if content is too long */
 }
 
 .modal-content {
@@ -309,8 +311,9 @@ p {
   padding: 20px;
   border-radius: 5px;
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
   position: relative;
+  margin: auto;
   box-sizing: border-box;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add a shadow for a floating effect */
   overflow-y: auto; /* Enable vertical scrolling if content overflows */
@@ -326,15 +329,11 @@ p {
   right: 20px;
 }
 
-.modal-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Modal Header */
 .modal-header img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
 }
 
 /* Product Info Styles */
@@ -429,7 +428,6 @@ p {
   background-color: #0044aa; /* Even darker blue */
 }
 
-
 /* Container for variation icons */
 .variation-icons {
   display: flex;
@@ -439,9 +437,9 @@ p {
 
 /* Icon styles */
 .variation-icon {
-  width: 25px; /* Adjust size as needed */
-  height: 25px;
-  border-radius: 50%;
+  width: 30px; /* Adjust size as needed */
+  height: 30px;
+  border-radius: 5px;
   margin-right: 5px;
   object-fit: cover;
   cursor: pointer;
@@ -449,8 +447,8 @@ p {
 
 /* More icon styles */
 .more-icon {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 5px;
   background-color: #ccc; /* Background color for the + icon */
   display: flex;
@@ -460,11 +458,6 @@ p {
   font-size: 12px;
   font-weight: bold;
 }
-
-
-
-
-
 
 
 #cart-container {
@@ -489,6 +482,37 @@ p {
 .cart-item-price {
   margin-left: 10px;
 }
+
+/* Cart Item Styles */
+.cart-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover; /* Ensure images are properly resized without stretching */
+  border-radius: 4px; /* Optional: add some rounding to the corners */
+  margin-right: 10px; /* Space between image and details */
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+
+
+
+
+
+
 
 
 
