@@ -397,6 +397,71 @@ p {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Buttons Styling */
+.modal-buttons {
+  display: grid;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  background-color: #0066ff; /* Blue color */
+  border: none;
+  color: white;
+  padding: 10px 150px;
+  margin: 3px;
+  text-align: center;
+  text-decoration: none;
+  display: grid;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-buttons button:hover {
+  background-color: #0055cc; /* Darker blue */
+  transform: scale(1.05);
+}
+
+.modal-buttons button:active {
+  background-color: #0044aa; /* Even darker blue */
+}
+
+
+/* Container for variation icons */
+.variation-icons {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Icon styles */
+.variation-icon {
+  width: 25px; /* Adjust size as needed */
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 5px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* More icon styles */
+.more-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: #ccc; /* Background color for the + icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
 
 
 
