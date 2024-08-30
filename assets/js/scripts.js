@@ -52,6 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+<script src="cart.js"></script>
+
+
+
+
+
+
 // Function to truncate text to a specified length with ellipsis
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
