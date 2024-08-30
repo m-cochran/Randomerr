@@ -9,8 +9,10 @@ permalink: /shop/
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 <div id="cart-container">
-  <h2>Cart</h2>
+  <h2>Your Cart</h2>
   <ul id="cart-items"></ul>
+  <div id="cart-total"></div>
+  <button id="checkout-button">Checkout</button>
 </div>
 
 <div id="product-list" class="product-list"></div>
