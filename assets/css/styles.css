@@ -469,39 +469,6 @@ p {
 
 
 
-/* Cart Styles */
-#cart {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin: 20px;
-  width: 300px;
-}
-
-#cart h2 {
-  margin-top: 0;
-}
-
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-}
-
-#checkout {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-#checkout:hover {
-  background-color: #218838;
-}
-
-
-
 
 
 
