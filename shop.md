@@ -31,12 +31,11 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   </div>
 </div>
 
-<div id="product-list"></div>
+
 <div id="cart" class="cart">
   <h2>Shopping Cart</h2>
   <div id="cart-items"></div>
   <button id="checkout">Checkout</button>
 </div>
-
 
 
