@@ -54,12 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// Function to truncate text to a specified length with ellipsis
+
+
+
+
+
+
+
+
+
+// Cart object to track items and quantities
+const cart = {};
+
+// Function to truncate text to a specific length
 const truncateText = (text, maxLength) => {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + "...";
+  if (text.length <= maxLength) {
+    return text;
   }
-  return text;
+  return text.slice(0, maxLength) + "...";
 };
 
 // Fetch the JSON data with error handling
@@ -78,18 +90,6 @@ const fetchProductData = async () => {
     document.getElementById("product-list").innerHTML =
       '<div class="error">Failed to load products. Please try again later.</div>';
   }
-};
-
-// Add product to cart (mock function for demonstration)
-const addToCart = (product) => {
-  console.log(`Added to cart: ${product.sync_product.name}`);
-  // Add your cart functionality here
-};
-
-// Buy now (mock function for demonstration)
-const buyNow = (product) => {
-  console.log(`Buy now: ${product.sync_product.name}`);
-  // Add your checkout functionality here
 };
 
 // Populate products in the product list
@@ -254,12 +254,10 @@ const populateProducts = (data) => {
     productList.appendChild(productDiv);
   });
 
-  // Close modal on close button click
   modalClose.addEventListener("click", () => {
     modal.style.display = "none";
   });
 
-  // Close modal when clicking outside of the modal
   window.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.style.display = "none";
@@ -267,5 +265,104 @@ const populateProducts = (data) => {
   });
 };
 
-// Initialize
-fetchProductData();
+// Add item to cart
+const addToCart = (product) => {
+  const productId = product.sync_product.id; // or any unique identifier
+  if (cart[productId]) {
+    cart[productId].quantity += 1;
+  } else {
+    cart[productId] = {
+      product: product,
+      quantity: 1
+    };
+  }
+  updateCartDisplay();
+};
+
+// Remove item from cart
+const removeFromCart = (productId) => {
+  delete cart[productId];
+  updateCartDisplay();
+};
+
+// Change item quantity
+const changeQuantity = (productId, newQuantity) => {
+  if (cart[productId]) {
+    if (newQuantity <= 0) {
+      removeFromCart(productId);
+    } else {
+      cart[productId].quantity = newQuantity;
+    }
+    updateCartDisplay();
+  }
+};
+
+// Update cart display
+const updateCartDisplay = () => {
+  const cartDiv = document.getElementById("cart");
+  cartDiv.innerHTML = '';
+
+  let totalPrice = 0;
+  let totalItems = 0;
+
+  Object.keys(cart).forEach((productId) => {
+    const item = cart[productId];
+    const product = item.product;
+    const quantity = item.quantity;
+
+    const itemPrice = parseFloat(product.sync_variants[0].retail_price) || 0;
+    totalPrice += itemPrice * quantity;
+    totalItems += quantity;
+
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "cart-item";
+
+    itemDiv.innerHTML = `
+      <img src="${product.sync_product.thumbnail_url || 'default-thumbnail.jpg'}" alt="${product.sync_product.name}">
+      <div class="cart-item-details">
+        <h3>${product.sync_product.name}</h3>
+        <div class="cart-item-price">$${itemPrice.toFixed(2)}</div>
+        <div class="cart-item-quantity">
+          <input type="number" value="${quantity}" min="1" id="quantity-${productId}" />
+          <button onclick="changeQuantity('${productId}', parseInt(document.getElementById('quantity-${productId}').value))">Update</button>
+        </div>
+        <button onclick="removeFromCart('${productId}')">Remove</button>
+      </div>
+    `;
+
+    cartDiv.appendChild(itemDiv);
+  });
+
+  // Add cart summary
+  const summaryDiv = document.createElement("div");
+  summaryDiv.className = "cart-summary";
+
+  summaryDiv.innerHTML = `
+    <div class="cart-summary-details">
+      <h3>Cart Summary</h3>
+      <div>Total Items: ${totalItems}</div>
+      <div>Total Price: $${totalPrice.toFixed(2)}</div>
+    </div>
+    <div class="cart-summary-actions">
+      <button id="checkout-button">Checkout</button>
+    </div>
+  `;
+
+  cartDiv.appendChild(summaryDiv);
+
+  // Add event listener for checkout button
+  const checkoutButton = document.getElementById("checkout-button");
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", () => {
+      // Handle checkout process
+      alert("Proceeding to checkout!");
+    });
+  }
+};
+
+
+
+// Initialize the product list and cart on page load
+window.addEventListener("load", () => {
+  fetchProductData();
+});
