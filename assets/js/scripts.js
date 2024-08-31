@@ -297,13 +297,31 @@ const changeQuantity = (productId, newQuantity) => {
   }
 };
 
-// Update cart display
+// Toggle cart details visibility
+const toggleCartDetails = () => {
+  const cartDetails = document.getElementById("cart-details");
+  const toggleButton = document.getElementById("toggle-cart");
+
+  if (cartDetails.style.display === "none") {
+    cartDetails.style.display = "block";
+    toggleButton.textContent = "Minimize";
+  } else {
+    cartDetails.style.display = "none";
+    toggleButton.textContent = "Expand";
+  }
+};
+
+// Update cart display including toggle button
 const updateCartDisplay = () => {
   const cartDiv = document.getElementById("cart");
-  cartDiv.innerHTML = '';
+  cartDiv.innerHTML = "";
 
   let totalPrice = 0;
   let totalItems = 0;
+
+  // Create cart details container
+  const cartDetails = document.createElement("div");
+  cartDetails.id = "cart-details";
 
   Object.keys(cart).forEach((productId) => {
     const item = cart[productId];
@@ -318,7 +336,9 @@ const updateCartDisplay = () => {
     itemDiv.className = "cart-item";
 
     itemDiv.innerHTML = `
-      <img src="${product.sync_product.thumbnail_url || 'default-thumbnail.jpg'}" alt="${product.sync_product.name}">
+      <img src="${
+        product.sync_product.thumbnail_url || "default-thumbnail.jpg"
+      }" alt="${product.sync_product.name}">
       <div class="cart-item-details">
         <h3>${product.sync_product.name}</h3>
         <div class="cart-item-price">$${itemPrice.toFixed(2)}</div>
@@ -330,7 +350,7 @@ const updateCartDisplay = () => {
       </div>
     `;
 
-    cartDiv.appendChild(itemDiv);
+    cartDetails.appendChild(itemDiv);
   });
 
   // Add cart summary
@@ -348,7 +368,18 @@ const updateCartDisplay = () => {
     </div>
   `;
 
-  cartDiv.appendChild(summaryDiv);
+  cartDetails.appendChild(summaryDiv);
+
+  // Append cart details to cart container
+  cartDiv.appendChild(cartDetails);
+
+  // Add toggle button
+  const toggleButton = document.createElement("button");
+  toggleButton.id = "toggle-cart";
+  toggleButton.textContent = "Minimize";
+  toggleButton.addEventListener("click", toggleCartDetails);
+
+  cartDiv.appendChild(toggleButton);
 
   // Add event listener for checkout button
   const checkoutButton = document.getElementById("checkout-button");
@@ -360,9 +391,8 @@ const updateCartDisplay = () => {
   }
 };
 
-
-
 // Initialize the product list and cart on page load
 window.addEventListener("load", () => {
   fetchProductData();
 });
+
