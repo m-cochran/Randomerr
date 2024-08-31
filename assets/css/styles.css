@@ -460,40 +460,93 @@ p {
   font-weight: bold;
 }
 
-/* Cart styling */
+/* Add this to your CSS */
+/* Add styles for cart and other elements */
 .cart {
   position: fixed;
-  right: 20px;
-  top: 20px;
-  background: #fff;
+  top: 0;
+  right: 0;
+  width: 300px;
+  background-color: #f8f8f8;
   border: 1px solid #ddd;
-  border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  max-height: 80vh;
-  overflow-y: auto;
-  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-#cart-items {
-  margin-bottom: 20px;
+.cart h2 {
+  margin-top: 0;
 }
-
-#checkout {
-  background-color: #0066ff;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.2em;
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+.cart-item img {
+  width: 80px; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */
+  object-fit: cover; /* Ensures the image covers the dimensions without distortion */
+  margin-right: 1rem;
+}
+.cart-item-details {
+  flex-grow: 1;
+}
+.cart-item h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+.cart-item .name {
+  flex: 1;
+}
+.cart-item-price {
+  font-size: 0.9rem;
+  color: #555;
+}
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+}
+.cart-item-quantity input {
+  width: 60px;
   text-align: center;
 }
 
-#checkout:hover {
-  background-color: #0055cc;
+.cart-item-quantity button {
+  margin-left: 0.5rem;
 }
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+/* Styles for cart summary */
+.cart-summary {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.cart-summary-details {
+  font-size: 1.1rem;
+}
+
+.cart-summary-actions {
+  margin-top: 1rem;
+}
+
+#checkout-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#checkout-button:hover {
+  background-color: #0056b3;
+}
+
 
 
 
