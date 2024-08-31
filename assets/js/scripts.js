@@ -49,13 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Global variable to store the selected variant
-let selectedVariant = null;
-
 // Function to truncate text to a specified length with ellipsis
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
-    return text.substring(0, maxLength) + "...";
+    return text.substring(0, maxLength) + '...';
   }
   return text;
 };
@@ -68,104 +65,24 @@ const fetchProductData = async () => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log("Product data fetched:", data); // Debugging line
     populateProducts(data);
   } catch (error) {
     console.error("Failed to fetch product data:", error);
-    const productList = document.getElementById("product-list");
-    if (productList) {
-      productList.innerHTML =
-        '<div class="error">Failed to load products. Please try again later.</div>';
-    }
+    document.getElementById("product-list").innerHTML =
+      '<div class="error">Failed to load products. Please try again later.</div>';
   }
 };
 
-// Function to update the cart UI
-const updateCartUI = () => {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartItemsContainer = document.getElementById("cart-items");
-  
-  if (!cartItemsContainer) {
-    console.error("Cart items container not found.");
-    return;
-  }
-  
-  cartItemsContainer.innerHTML = "";
-
-  let total = 0;
-
-  cart.forEach((item) => {
-    const itemPrice = parseFloat(item.price) || 0; // Ensure price is numeric
-    total += itemPrice * item.quantity;
-
-    const cartItemElement = document.createElement("div");
-    cartItemElement.className = "cart-item";
-    cartItemElement.innerHTML = `
-      <img src="${item.thumbnail}" alt="${item.name}">
-      <div class="cart-item-details">
-        <h4>${item.name}</h4>
-        <p>SKU: ${item.sku}</p>
-        <p>Price: $${itemPrice.toFixed(2)}</p>
-        <p>Quantity: ${item.quantity}</p>
-        <button onclick="removeFromCart(${item.id}, '${item.sku}')">Remove</button>
-      </div>
-    `;
-    cartItemsContainer.appendChild(cartItemElement);
-  });
-
-  const cartTotal = document.getElementById("cart-total");
-  if (cartTotal) {
-    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-  }
-
-  // If the cart is empty, display a message
-  if (cart.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Your cart is empty</p>";
-  }
-};
-
-// Function to add a product to the cart
+// Add product to cart (mock function for demonstration)
 const addToCart = (product) => {
-  if (!selectedVariant) {
-    alert("Please select a variant before adding to the cart.");
-    return;
-  }
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartItem = {
-    id: product.sync_product.id,
-    name: product.sync_product.name,
-    price: parseFloat(selectedVariant.price) || 0,
-    thumbnail: selectedVariant.mainImageUrl || "default-thumbnail.jpg",
-    sku: selectedVariant.sku || "N/A",
-    color: selectedVariant.color || "N/A",
-    quantity: 1,
-  };
-
-  // Check if the item with the same variant is already in the cart
-  const existingItem = cart.find(
-    (item) => item.id === cartItem.id && item.sku === cartItem.sku
-  );
-
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push(cartItem);
-  }
-
-  // Save the updated cart back to localStorage
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  // Update the cart UI
-  updateCartUI();
+  console.log(`Added to cart: ${product.sync_product.name}`);
+  // Add your cart functionality here
 };
 
-// Function to remove a product from the cart
-const removeFromCart = (id, sku) => {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart = cart.filter((item) => !(item.id === id && item.sku === sku));
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI();
+// Buy now (mock function for demonstration)
+const buyNow = (product) => {
+  console.log(`Buy now: ${product.sync_product.name}`);
+  // Add your checkout functionality here
 };
 
 // Populate products in the product list
@@ -174,12 +91,8 @@ const populateProducts = (data) => {
   const modal = document.getElementById("product-details-modal");
   const modalBody = document.getElementById("modal-body");
   const modalClose = document.getElementById("modal-close");
+  const modalMainImage = document.getElementById("modal-main-image");
   const modalTitleInfo = document.getElementById("modal-title-info");
-
-  if (!productList || !modal || !modalBody || !modalClose || !modalTitleInfo) {
-    console.error("One or more required elements are missing.");
-    return;
-  }
 
   data.forEach((product) => {
     const productDiv = document.createElement("div");
@@ -191,7 +104,8 @@ const populateProducts = (data) => {
     productDiv.appendChild(title);
 
     const thumbnail = document.createElement("img");
-    thumbnail.src = product.sync_product.thumbnail_url || "default-thumbnail.jpg";
+    thumbnail.src =
+      product.sync_product.thumbnail_url || "default-thumbnail.jpg";
     thumbnail.alt = product.sync_product.name;
     productDiv.appendChild(thumbnail);
 
@@ -219,12 +133,6 @@ const populateProducts = (data) => {
         icon.src = variant.files[0].preview_url;
         icon.alt = variant.name;
         icon.className = "variation-icon";
-        icon.setAttribute("data-main-image", variant.files[0].preview_url);
-        icon.setAttribute("data-price", variant.retail_price);
-        icon.setAttribute("data-color", variant.color || "N/A");
-        icon.setAttribute("data-availability", variant.availability_status);
-        icon.setAttribute("data-sku", variant.sku || "N/A");
-        icon.addEventListener("click", handleVariantSelection); // Add click event
         variationIcons.appendChild(icon);
       }
     });
@@ -237,21 +145,78 @@ const populateProducts = (data) => {
     productDiv.appendChild(variationIcons);
 
     productDiv.addEventListener("click", () => {
-      const modalMainImage = document.getElementById("modal-main-image");
-      modalMainImage.src = product.sync_product.thumbnail_url || "default-thumbnail.jpg";
+      modalMainImage.src =
+        product.sync_product.thumbnail_url || "default-thumbnail.jpg";
       modalTitleInfo.innerHTML = `
         <div id="modal-title">${product.sync_product.name}</div>
         <div id="modal-sku">SKU: ${firstVariant.sku || "N/A"}</div>
         <div id="modal-color">Color: ${firstVariant.color || "N/A"}</div>
         <div id="modal-price">Price: $${firstVariant.retail_price || "N/A"}</div>
-        <div id="modal-availability" class="${firstVariant.availability_status === "out_of_stock" ? "out-of-stock" : "in-stock"}">
-          Availability: ${firstVariant.availability_status === "out_of_stock" ? "Out of Stock" : "In Stock"}
+        <div id="modal-availability" class="${firstVariant.availability_status === "active" ? "in-stock" : "out-of-stock"}">
+          Availability: ${firstVariant.availability_status === "active" ? "In Stock" : "Out of Stock"}
         </div>
         <div id="modal-description">Description: ${firstVariant.description || "No description available"}</div>
       `;
-      modalBody.innerHTML = ""; // Clear previous content
-      modalBody.appendChild(productDiv.cloneNode(true));
-      modal.style.display = "block";
+
+      let modalContent = `<div class="variant-gallery">`;
+      product.sync_variants.forEach((variant) => {
+        variant.files.forEach((file) => {
+          if (file.preview_url) {
+            modalContent += `
+              <img src="${file.preview_url}" alt="${variant.name}" data-main-image="${file.preview_url}" data-price="${variant.retail_price}" data-color="${variant.color}" data-availability="${variant.availability_status}" data-sku="${variant.sku}">
+            `;
+          }
+        });
+      });
+      modalContent += `</div>`;
+      modalContent += `
+        <div class="modal-buttons">
+          <button id="add-to-cart">Add to Cart</button>
+          <button id="buy-now">Buy Now</button>
+        </div>
+      `;
+
+      // Clear existing modal content
+      modalBody.innerHTML = '';
+      modalBody.innerHTML = modalContent;
+
+      // Set click events on variant images
+      document.querySelectorAll(".variant-gallery img").forEach((img) => {
+        img.addEventListener("click", (event) => {
+          const mainImageUrl = event.target.getAttribute("data-main-image");
+          const price = event.target.getAttribute("data-price");
+          const color = event.target.getAttribute("data-color");
+          const availabilityStatus = event.target.getAttribute("data-availability");
+          const sku = event.target.getAttribute("data-sku");
+
+          modalMainImage.src = mainImageUrl;
+          document.getElementById("modal-price").textContent = `Price: $${price}`;
+          document.getElementById("modal-color").textContent = `Color: ${color}`;
+          document.getElementById("modal-availability").textContent = `Availability: ${availabilityStatus === "active" ? "In Stock" : "Out of Stock"}`;
+          document.getElementById("modal-availability").className = availabilityStatus === "active" ? "in-stock" : "out-of-stock";
+          document.getElementById("modal-sku").textContent = `SKU: ${sku}`;
+
+          // Remove active class from all variant images
+          document.querySelectorAll(".variant-gallery img").forEach((el) => el.classList.remove("active"));
+
+          // Add active class to clicked variant
+          event.target.classList.add("active");
+        });
+      });
+
+      // Handle button clicks
+      const addToCartButton = document.getElementById("add-to-cart");
+      const buyNowButton = document.getElementById("buy-now");
+
+      if (addToCartButton) {
+        addToCartButton.addEventListener("click", () => addToCart(product));
+      }
+
+      if (buyNowButton) {
+        buyNowButton.addEventListener("click", () => buyNow(product));
+      }
+
+      modal.style.display = "flex";
     });
 
     productList.appendChild(productDiv);
@@ -268,22 +233,5 @@ const populateProducts = (data) => {
   });
 };
 
-// Function to handle variant selection
-const handleVariantSelection = (event) => {
-  const icon = event.target;
-  if (icon.classList.contains("variation-icon")) {
-    selectedVariant = {
-      price: icon.getAttribute("data-price"),
-      mainImageUrl: icon.getAttribute("data-main-image"),
-      color: icon.getAttribute("data-color"),
-      availability: icon.getAttribute("data-availability"),
-      sku: icon.getAttribute("data-sku"),
-    };
-  }
-};
-
-// Call the function to fetch product data on page load
+// Initialize
 fetchProductData();
-
-// Update cart UI when page loads or cart is updated
-updateCartUI();
