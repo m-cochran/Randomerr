@@ -1,4 +1,4 @@
- // MAIN MENU
+// MAIN MENU
 document.addEventListener("DOMContentLoaded", function () {
   const mainMenu = document.getElementById("mainMenu");
   const autoNav = document.getElementById("autoNav");
@@ -49,14 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
-
-
-
-
-
-
-
 // Global variable to store the selected variant
 let selectedVariant = null;
 
@@ -80,8 +72,11 @@ const fetchProductData = async () => {
     populateProducts(data);
   } catch (error) {
     console.error("Failed to fetch product data:", error);
-    document.getElementById("product-list").innerHTML =
-      '<div class="error">Failed to load products. Please try again later.</div>';
+    const productList = document.getElementById("product-list");
+    if (productList) {
+      productList.innerHTML =
+        '<div class="error">Failed to load products. Please try again later.</div>';
+    }
   }
 };
 
@@ -89,6 +84,12 @@ const fetchProductData = async () => {
 const updateCartUI = () => {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
+  
+  if (!cartItemsContainer) {
+    console.error("Cart items container not found.");
+    return;
+  }
+  
   cartItemsContainer.innerHTML = "";
 
   let total = 0;
@@ -112,7 +113,10 @@ const updateCartUI = () => {
     cartItemsContainer.appendChild(cartItemElement);
   });
 
-  document.getElementById("cart-total").textContent = `Total: $${total.toFixed(2)}`;
+  const cartTotal = document.getElementById("cart-total");
+  if (cartTotal) {
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+  }
 
   // If the cart is empty, display a message
   if (cart.length === 0) {
@@ -171,6 +175,11 @@ const populateProducts = (data) => {
   const modalBody = document.getElementById("modal-body");
   const modalClose = document.getElementById("modal-close");
   const modalTitleInfo = document.getElementById("modal-title-info");
+
+  if (!productList || !modal || !modalBody || !modalClose || !modalTitleInfo) {
+    console.error("One or more required elements are missing.");
+    return;
+  }
 
   data.forEach((product) => {
     const productDiv = document.createElement("div");
@@ -235,61 +244,23 @@ const populateProducts = (data) => {
         <div id="modal-sku">SKU: ${firstVariant.sku || "N/A"}</div>
         <div id="modal-color">Color: ${firstVariant.color || "N/A"}</div>
         <div id="modal-price">Price: $${firstVariant.retail_price || "N/A"}</div>
-        <div id="modal-availability" class="${
-          firstVariant.availability_status === "active"
-            ? "in-stock"
-            : "out-of-stock"
-        }">
-          Availability: ${
-            firstVariant.availability_status === "active"
-              ? "In Stock"
-              : "Out of Stock"
-          }
+        <div id="modal-availability" class="${firstVariant.availability_status === "out_of_stock" ? "out-of-stock" : "in-stock"}">
+          Availability: ${firstVariant.availability_status === "out_of_stock" ? "Out of Stock" : "In Stock"}
         </div>
-        <div id="modal-description">Description: ${
-          firstVariant.description || "No description available"
-        }</div>
+        <div id="modal-description">Description: ${firstVariant.description || "No description available"}</div>
       `;
-
-      let modalContent = `<div class="variant-gallery">`;
-      product.sync_variants.forEach((variant) => {
-        variant.files.forEach((file) => {
-          if (file.preview_url) {
-            modalContent += `
-              <img src="${file.preview_url}" alt="${variant.name}" data-main-image="${file.preview_url}" data-price="${variant.retail_price}" data-color="${variant.color}" data-availability="${variant.availability_status}" data-sku="${variant.sku}">
-            `;
-          }
-        });
-      });
-      modalContent += `</div>`;
-      modalContent += `
-        <div class="modal-buttons">
-          <button id="add-to-cart">Add to Cart</button>
-          <button id="buy-now">Buy Now</button>
-        </div>
-      `;
-
-      // Clear existing modal content
-      modalBody.innerHTML = "";
-      modalBody.innerHTML = modalContent;
-
-      // Set click events on variant images
-      document.querySelectorAll(".variant-gallery img").forEach((img) => {
-        img.addEventListener("click", handleVariantSelection);
-      });
-
-      document.getElementById("add-to-cart").addEventListener("click", () => addToCart(product));
-
+      modalBody.innerHTML = ""; // Clear previous content
+      modalBody.appendChild(productDiv.cloneNode(true));
       modal.style.display = "block";
     });
 
     productList.appendChild(productDiv);
   });
 
-  // Close modal on clicking close button or outside modal
   modalClose.addEventListener("click", () => {
     modal.style.display = "none";
   });
+
   window.addEventListener("click", (event) => {
     if (event.target === modal) {
       modal.style.display = "none";
@@ -297,35 +268,22 @@ const populateProducts = (data) => {
   });
 };
 
-// Handle variant selection
+// Function to handle variant selection
 const handleVariantSelection = (event) => {
-  const variantImage = event.target;
-
-  // Set selected variant based on the clicked image's data attributes
-  selectedVariant = {
-    mainImageUrl: variantImage.getAttribute("data-main-image"),
-    price: variantImage.getAttribute("data-price"),
-    color: variantImage.getAttribute("data-color"),
-    availabilityStatus: variantImage.getAttribute("data-availability"),
-    sku: variantImage.getAttribute("data-sku"),
-  };
-
-  // Update modal content with the selected variant details
-  document.getElementById("modal-main-image").src = selectedVariant.mainImageUrl;
-  document.getElementById("modal-price").textContent = `Price: $${selectedVariant.price}`;
-  document.getElementById("modal-color").textContent = `Color: ${selectedVariant.color}`;
-  document.getElementById("modal-availability").textContent = `Availability: ${
-    selectedVariant.availabilityStatus === "active" ? "In Stock" : "Out of Stock"
-  }`;
-  document.getElementById("modal-sku").textContent = `SKU: ${selectedVariant.sku}`;
-
-  // Debugging to verify selection
-  console.log("Selected variant:", selectedVariant);
+  const icon = event.target;
+  if (icon.classList.contains("variation-icon")) {
+    selectedVariant = {
+      price: icon.getAttribute("data-price"),
+      mainImageUrl: icon.getAttribute("data-main-image"),
+      color: icon.getAttribute("data-color"),
+      availability: icon.getAttribute("data-availability"),
+      sku: icon.getAttribute("data-sku"),
+    };
+  }
 };
 
-// Initialize cart UI on page load
-updateCartUI();
-
-// Fetch the product data when the page is ready
+// Call the function to fetch product data on page load
 fetchProductData();
 
+// Update cart UI when page loads or cart is updated
+updateCartUI();
