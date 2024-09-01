@@ -437,4 +437,3 @@ window.addEventListener("load", () => {
 if (cartItems.length === 0) {
   document.getElementById("cart-icon").style.display = "none";
 }
-
