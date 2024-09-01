@@ -63,9 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// Cart object to track items and quantities
-const cart = {};
-
 // Function to truncate text to a specific length
 const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) {
@@ -91,6 +88,9 @@ const fetchProductData = async () => {
       '<div class="error">Failed to load products. Please try again later.</div>';
   }
 };
+
+// Variable to store currently selected variant
+let selectedVariant = null;
 
 // Populate products in the product list
 const populateProducts = (data) => {
@@ -233,6 +233,15 @@ const populateProducts = (data) => {
 
           // Add active class to clicked variant
           event.target.classList.add("active");
+
+          // Update selected variant
+          selectedVariant = {
+            mainImageUrl,
+            price,
+            color,
+            availabilityStatus,
+            sku
+          };
         });
       });
 
@@ -241,11 +250,36 @@ const populateProducts = (data) => {
       const buyNowButton = document.getElementById("buy-now");
 
       if (addToCartButton) {
-        addToCartButton.addEventListener("click", () => addToCart(product));
+        addToCartButton.addEventListener("click", () => {
+          if (selectedVariant) {
+            addToCart({
+              name: product.sync_product.name,
+              retail_price: selectedVariant.price,
+              thumbnail_url: selectedVariant.mainImageUrl,
+              sku: selectedVariant.sku
+            });
+            document.getElementById("cart-icon").style.display = "block";
+          } else {
+            alert("Please select a variant.");
+          }
+        });
       }
 
       if (buyNowButton) {
-        buyNowButton.addEventListener("click", () => buyNow(product));
+        buyNowButton.addEventListener("click", () => {
+          if (selectedVariant) {
+            addToCart({
+              name: product.sync_product.name,
+              retail_price: selectedVariant.price,
+              thumbnail_url: selectedVariant.mainImageUrl,
+              sku: selectedVariant.sku
+            });
+            document.getElementById("cart-icon").style.display = "block";
+            alert("Proceeding to buy now!");
+          } else {
+            alert("Please select a variant.");
+          }
+        });
       }
 
       modal.style.display = "flex";
@@ -265,134 +299,127 @@ const populateProducts = (data) => {
   });
 };
 
-// Add item to cart
-const addToCart = (product) => {
-  const productId = product.sync_product.id; // or any unique identifier
-  if (cart[productId]) {
-    cart[productId].quantity += 1;
-  } else {
-    cart[productId] = {
-      product: product,
-      quantity: 1
-    };
-  }
-  updateCartDisplay();
-};
-
-// Remove item from cart
-const removeFromCart = (productId) => {
-  delete cart[productId];
-  updateCartDisplay();
-};
-
-// Change item quantity
-const changeQuantity = (productId, newQuantity) => {
-  if (cart[productId]) {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-    } else {
-      cart[productId].quantity = newQuantity;
-    }
-    updateCartDisplay();
-  }
-};
-
-// Toggle cart details visibility
-const toggleCartDetails = () => {
-  const cartDetails = document.getElementById("cart-details");
-  const toggleButton = document.getElementById("toggle-cart");
-
-  if (cartDetails.style.display === "none") {
-    cartDetails.style.display = "block";
-    toggleButton.textContent = "Minimize";
-  } else {
-    cartDetails.style.display = "none";
-    toggleButton.textContent = "Expand";
-  }
-};
-
-// Update cart display including toggle button
-const updateCartDisplay = () => {
-  const cartDiv = document.getElementById("cart");
-  cartDiv.innerHTML = "";
-
-  let totalPrice = 0;
-  let totalItems = 0;
-
-  // Create cart details container
-  const cartDetails = document.createElement("div");
-  cartDetails.id = "cart-details";
-
-  Object.keys(cart).forEach((productId) => {
-    const item = cart[productId];
-    const product = item.product;
-    const quantity = item.quantity;
-
-    const itemPrice = parseFloat(product.sync_variants[0].retail_price) || 0;
-    totalPrice += itemPrice * quantity;
-    totalItems += quantity;
-
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "cart-item";
-
-    itemDiv.innerHTML = `
-      <img src="${
-        product.sync_product.thumbnail_url || "default-thumbnail.jpg"
-      }" alt="${product.sync_product.name}">
-      <div class="cart-item-details">
-        <h3>${product.sync_product.name}</h3>
-        <div class="cart-item-price">$${itemPrice.toFixed(2)}</div>
-        <div class="cart-item-quantity">
-          <input type="number" value="${quantity}" min="1" id="quantity-${productId}" />
-          <button onclick="changeQuantity('${productId}', parseInt(document.getElementById('quantity-${productId}').value))">Update</button>
-        </div>
-        <button onclick="removeFromCart('${productId}')">Remove</button>
-      </div>
-    `;
-
-    cartDetails.appendChild(itemDiv);
-  });
-
-  // Add cart summary
-  const summaryDiv = document.createElement("div");
-  summaryDiv.className = "cart-summary";
-
-  summaryDiv.innerHTML = `
-    <div class="cart-summary-details">
-      <h3>Cart Summary</h3>
-      <div>Total Items: ${totalItems}</div>
-      <div>Total Price: $${totalPrice.toFixed(2)}</div>
-    </div>
-    <div class="cart-summary-actions">
-      <button id="checkout-button">Checkout</button>
-    </div>
-  `;
-
-  cartDetails.appendChild(summaryDiv);
-
-  // Append cart details to cart container
-  cartDiv.appendChild(cartDetails);
-
-  // Add toggle button
-  const toggleButton = document.createElement("button");
-  toggleButton.id = "toggle-cart";
-  toggleButton.textContent = "Minimize";
-  toggleButton.addEventListener("click", toggleCartDetails);
-
-  cartDiv.appendChild(toggleButton);
-
-  // Add event listener for checkout button
-  const checkoutButton = document.getElementById("checkout-button");
-  if (checkoutButton) {
-    checkoutButton.addEventListener("click", () => {
-      // Handle checkout process
-      alert("Proceeding to checkout!");
-    });
-  }
-};
-
-// Initialize the product list and cart on page load
+// Initialize the product list on page load
 window.addEventListener("load", () => {
   fetchProductData();
 });
+
+// Handle cart icon click
+document.getElementById("cart-icon").addEventListener("click", () => {
+  const cart = document.getElementById("cart");
+  cart.style.display = cart.style.display === "none" ? "block" : "none";
+});
+
+// Array to store cart items
+const cartItems = [];
+
+// Function to add item to cart
+const addToCart = (product) => {
+  const existingItemIndex = cartItems.findIndex(
+    (item) => item.sku === product.sku
+  );
+
+  if (existingItemIndex > -1) {
+    cartItems[existingItemIndex].quantity += 1;
+  } else {
+    // Add new item to cart
+    cartItems.push({
+      name: product.name,
+      price: product.retail_price,
+      image: product.thumbnail_url,
+      sku: product.sku,
+      quantity: 1
+    });
+  }
+
+  updateCart();
+};
+
+// Function to update cart display
+const updateCart = () => {
+  const cart = document.getElementById("cart");
+  cart.innerHTML = "";
+
+  if (cartItems.length === 0) {
+    cart.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
+    document.getElementById("cart-icon").style.display = "none";
+    return;
+  }
+
+  const ul = document.createElement("ul");
+  cartItems.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.className = "cart-item";
+
+    const image = document.createElement("img");
+    image.src = item.image;
+    image.alt = item.name;
+    image.className = "cart-item-image";
+    li.appendChild(image);
+
+    const name = document.createElement("div");
+    name.className = "cart-item-name";
+    name.textContent = item.name;
+    li.appendChild(name);
+
+    const quantityInput = document.createElement("input");
+    quantityInput.type = "number";
+    quantityInput.value = item.quantity;
+    quantityInput.min = 1;
+    quantityInput.className = "cart-item-quantity";
+    quantityInput.addEventListener("change", (event) => {
+      const newQuantity = parseInt(event.target.value, 10);
+      if (newQuantity > 0) {
+        cartItems[index].quantity = newQuantity;
+        updateCart();
+      } else {
+        removeCartItem(index);
+      }
+    });
+    li.appendChild(quantityInput);
+
+    const price = document.createElement("div");
+    price.className = "cart-item-price";
+    price.textContent = `$${item.price}`;
+    li.appendChild(price);
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.className = "cart-item-remove";
+    removeButton.addEventListener("click", () => {
+      removeCartItem(index);
+    });
+    li.appendChild(removeButton);
+
+    ul.appendChild(li);
+  });
+
+  cart.appendChild(ul);
+
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const totalDiv = document.createElement("div");
+  totalDiv.className = "cart-total";
+  totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+  cart.appendChild(totalDiv);
+
+  const checkoutButton = document.createElement("button");
+  checkoutButton.textContent = "Checkout";
+  checkoutButton.className = "checkout-button";
+  checkoutButton.addEventListener("click", () => {
+    alert("Proceeding to checkout!");
+  });
+  cart.appendChild(checkoutButton);
+};
+
+// Function to remove item from cart
+const removeCartItem = (index) => {
+  cartItems.splice(index, 1);
+  updateCart();
+};
+
+// Initialize cart visibility
+document.getElementById("cart").style.display = "none";
 
