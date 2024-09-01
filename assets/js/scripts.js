@@ -332,6 +332,11 @@ const addToCart = (product) => {
     });
   }
 
+  // Update cart icon visibility based on the number of items
+  if (cartItems.length > 0) {
+    document.getElementById("cart-icon").style.display = "block";
+  }
+
   updateCart();
 };
 
@@ -414,9 +419,6 @@ const updateCart = () => {
     alert("Proceeding to checkout!");
   });
   cart.appendChild(checkoutButton);
-
-  // Ensure the cart is displayed when it contains items
-  cart.style.display = "block";
 };
 
 
@@ -426,5 +428,13 @@ const removeCartItem = (index) => {
   updateCart();
 };
 
-// Initialize cart visibility
-document.getElementById("cart").style.display = "none";
+// Initialize the product list on page load
+window.addEventListener("load", () => {
+  fetchProductData();
+});
+
+// Initially hide the cart icon if no items are in the cart
+if (cartItems.length === 0) {
+  document.getElementById("cart-icon").style.display = "none";
+}
+
