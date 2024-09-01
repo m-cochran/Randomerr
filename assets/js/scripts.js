@@ -306,9 +306,17 @@ window.addEventListener("load", () => {
 
 // Handle cart icon click
 document.getElementById("cart-icon").addEventListener("click", () => {
+  // Get the cart element by its ID
   const cart = document.getElementById("cart");
-  cart.style.display = cart.style.display === "none" ? "block" : "none";
+  
+  // Toggle the display of the cart element between "none" and "block"
+  if (cart) {
+    cart.style.display = cart.style.display === "none" ? "block" : "none";
+  } else {
+    console.error("Element with ID 'cart' not found.");
+  }
 });
+
 
 // Array to store cart items
 const cartItems = [];
