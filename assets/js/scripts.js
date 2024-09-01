@@ -306,17 +306,9 @@ window.addEventListener("load", () => {
 
 // Handle cart icon click
 document.getElementById("cart-icon").addEventListener("click", () => {
-  // Get the cart element by its ID
   const cart = document.getElementById("cart");
-  
-  // Toggle the display of the cart element between "none" and "block"
-  if (cart) {
-    cart.style.display = cart.style.display === "none" ? "block" : "none";
-  } else {
-    console.error("Element with ID 'cart' not found.");
-  }
+  cart.style.display = cart.style.display === "none" ? "block" : "none";
 });
-
 
 // Array to store cart items
 const cartItems = [];
@@ -351,8 +343,8 @@ const updateCart = () => {
   if (cartItems.length === 0) {
     cart.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
     document.getElementById("cart-icon").style.display = "none";
-    document.getElementById("cart-badge").textContent = "0";
-    document.getElementById("cart-badge").style.display = "none";
+    // Hide the cart when it's empty
+    cart.style.display = "none";
     return;
   }
 
@@ -423,12 +415,10 @@ const updateCart = () => {
   });
   cart.appendChild(checkoutButton);
 
-  // Update cart badge
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const cartBadge = document.getElementById("cart-badge");
-  cartBadge.textContent = totalItems;
-  cartBadge.style.display = totalItems > 0 ? "block" : "none";
+  // Ensure the cart is displayed when it contains items
+  cart.style.display = "block";
 };
+
 
 // Function to remove item from cart
 const removeCartItem = (index) => {
