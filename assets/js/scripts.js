@@ -305,10 +305,17 @@ window.addEventListener("load", () => {
 });
 
 // Handle cart icon click
-document.getElementById("cart-icon").addEventListener("click", () => {
+document.addEventListener("DOMContentLoaded", () => {
+  const cartIcon = document.getElementById("cart-icon");
   const cart = document.getElementById("cart");
-  cart.style.display = cart.style.display === "none" ? "block" : "none";
+
+  if (cartIcon && cart) {  // Ensure both elements exist
+    cartIcon.addEventListener("click", () => {
+      cart.style.display = cart.style.display === "none" ? "block" : "none";
+    });
+  }
 });
+
 
 // Array to store cart items
 const cartItems = [];
