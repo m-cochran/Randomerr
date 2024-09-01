@@ -31,11 +31,21 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   </div>
 </div>
 
-
-<div id="cart" class="cart">
-  <h2>Shopping Cart</h2>
-  <div id="cart-items"></div>
-  <button id="checkout">Checkout</button>
+<!-- Cart Icon -->
+<div id="cart-icon" class="cart-icon" style="display: none;">
+  🛒
 </div>
 
-
+<!-- Cart Container -->
+<div id="cart" class="cart-container" style="display: none;">
+  <h2>Your Cart</h2>
+  <div id="cart-items">
+    <!-- Cart items will be dynamically populated here -->
+  </div>
+  <div id="cart-summary" class="cart-summary">
+    <div id="cart-total">Total: $0.00</div>
+    <div id="cart-actions">
+      <button id="checkout">Checkout</button>
+    </div>
+  </div>
+</div>
