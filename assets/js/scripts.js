@@ -433,7 +433,12 @@ window.addEventListener("load", () => {
   fetchProductData();
 });
 
-// Initially hide the cart icon if no items are in the cart
-if (cartItems.length === 0) {
-  document.getElementById("cart-icon").style.display = "none";
-}
+// Initialize the cart on page load
+window.addEventListener("load", () => {
+  const cartIcon = document.getElementById("cart-icon");
+  if (cartItems.length > 0) {
+    cartIcon.style.display = "block";
+  } else {
+    cartIcon.style.display = "none";
+  }
+});
