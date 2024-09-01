@@ -17,7 +17,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   <div class="modal-content">
     <span id="modal-close" class="close">&times;</span>
     <div class="modal-header">
-      <img id="modal-main-image" alt="Product Image">
+      <img id="modal-main-image" alt="Product Image" />
     </div>
     <div id="modal-title-info">
       <div id="modal-title">MY CUP OF EARTH Waffle Beanie</div>
@@ -34,7 +34,8 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <!-- Cart Icon -->
 <div id="cart-icon" class="cart-icon" style="display: none;">
   🛒
-</div>
+</div><!-- Add this inside your cart-icon element in the HTML -->
+<div id="cart-badge" class="cart-badge">0</div>
 
 <!-- Cart Container -->
 <div id="cart" class="cart-container" style="display: none;">
