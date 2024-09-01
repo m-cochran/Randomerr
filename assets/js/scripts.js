@@ -343,6 +343,8 @@ const updateCart = () => {
   if (cartItems.length === 0) {
     cart.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
     document.getElementById("cart-icon").style.display = "none";
+    document.getElementById("cart-badge").textContent = "0";
+    document.getElementById("cart-badge").style.display = "none";
     return;
   }
 
@@ -412,6 +414,12 @@ const updateCart = () => {
     alert("Proceeding to checkout!");
   });
   cart.appendChild(checkoutButton);
+
+  // Update cart badge
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartBadge = document.getElementById("cart-badge");
+  cartBadge.textContent = totalItems;
+  cartBadge.style.display = totalItems > 0 ? "block" : "none";
 };
 
 // Function to remove item from cart
@@ -422,4 +430,3 @@ const removeCartItem = (index) => {
 
 // Initialize cart visibility
 document.getElementById("cart").style.display = "none";
-
