@@ -497,7 +497,6 @@ p {
   padding: 10px;
   z-index: 1000;
   transition: transform 0.3s ease;
-  transform: translateY(100%); /* Initially hidden */
 }
 
 .cart-container.show {
