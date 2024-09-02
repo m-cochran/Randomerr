@@ -435,10 +435,6 @@ const removeCartItem = (index) => {
   updateCart();
 };
 
-// Initialize the product list on page load
-window.addEventListener("load", () => {
-  fetchProductData();
-});
 
 // Initialize the cart on page load
 window.addEventListener("load", () => {
