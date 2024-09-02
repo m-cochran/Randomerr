@@ -8,6 +8,13 @@ permalink: /checkout/
 
 
 
+<head>
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/js/checkout.css">
+</head>
+<body>
+  <header>
+    <h1>Checkout</h1>
+  </header>
 
   <main class="checkout-container">
     <section id="cart-summary">
@@ -59,6 +66,9 @@ permalink: /checkout/
         <button type="submit" class="btn-submit">Complete Purchase</button>
       </form>
     </section>
+  </main>
 
+  <script src="{{ site.baseurl }}/assets/js/checkout.js">
 
-    <script src="{{ site.baseurl }}/assets/js/checkout.js">
+</body>
+</html>
