@@ -306,14 +306,10 @@ window.addEventListener("load", () => {
 
 // Handle cart icon click
 document.addEventListener("DOMContentLoaded", () => {
-  const cartIcon = document.getElementById("cart-icon");
-  const cart = document.getElementById("cart");
-
-  if (cartIcon && cart) {  // Ensure both elements exist
-    cartIcon.addEventListener("click", () => {
-      cart.style.display = cart.style.display === "none" ? "block" : "none";
-    });
-  }
+  document.getElementById("cart-icon").addEventListener("click", () => {
+    const cart = document.getElementById("cart");
+    cart.style.display = cart.style.display === "none" ? "block" : "none";
+  });
 });
 
 
