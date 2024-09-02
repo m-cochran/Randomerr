@@ -26,8 +26,7 @@ permalink: /checkout/
   <button type="submit">Complete Purchase</button>
 </form>
 
-<script src="{{ site.baseurl }}/assets/js/cart.js">
-<script>
+
   // Populate the cart items and total
   updateCartPage();
 
@@ -37,4 +36,4 @@ permalink: /checkout/
     // Implement your checkout logic here (e.g., sending data to your backend)
     alert("Checkout completed!");
   };
-</script>
+
