@@ -100,6 +100,9 @@ const populateProducts = (data) => {
   const modalClose = document.getElementById("modal-close");
   const modalMainImage = document.getElementById("modal-main-image");
   const modalTitleInfo = document.getElementById("modal-title-info");
+  
+   // Clear the existing products before populating new ones
+  productList.innerHTML = "";
 
   data.forEach((product) => {
     const productDiv = document.createElement("div");
@@ -152,6 +155,8 @@ const populateProducts = (data) => {
     productDiv.appendChild(variationIcons);
 
     productDiv.addEventListener("click", () => {
+      // Reset the selected variant
+  selectedVariant = null;
       modalMainImage.src =
         product.sync_product.thumbnail_url || "default-thumbnail.jpg";
       modalTitleInfo.innerHTML = `
@@ -316,6 +321,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // Array to store cart items
 const cartItems = [];
 
+// Function to trigger the cart icon animation
+const animateCartIcon = () => {
+  const cartIcon = document.getElementById("cart-icon");
+  cartIcon.classList.add("cart-icon-bounce");
+  
+  // Remove the class after the animation ends to allow for future animations
+  setTimeout(() => {
+    cartIcon.classList.remove("cart-icon-bounce");
+  }, 600); // Duration should match the animation duration in CSS
+};
+
 // Function to add item to cart
 const addToCart = (product) => {
   const existingItemIndex = cartItems.findIndex(
@@ -341,9 +357,11 @@ const addToCart = (product) => {
   }
 
   updateCart();
+  
+  // Trigger the cart icon animation
+  animateCartIcon();
 };
-
-// Function to update cart display
+// Function to update cart display and save to localStorage
 const updateCart = () => {
   const cart = document.getElementById("cart");
   cart.innerHTML = "";
@@ -353,6 +371,8 @@ const updateCart = () => {
     document.getElementById("cart-icon").style.display = "none";
     // Hide the cart when it's empty
     cart.style.display = "none";
+    // Clear cart from localStorage when it's empty
+    localStorage.removeItem("cartItems");
     return;
   }
 
@@ -418,26 +438,30 @@ const updateCart = () => {
   const checkoutButton = document.createElement("button");
   checkoutButton.textContent = "Checkout";
   checkoutButton.className = "checkout-button";
-  checkoutButton.addEventListener("click", () => {
-    alert("Proceeding to checkout!");
-  });
   cart.appendChild(checkoutButton);
+
+  // Save cart to localStorage
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
 
+// Load cart items from localStorage and fetch product data on page load
+window.addEventListener("load", () => {
+  fetchProductData();
+  loadCartFromLocalStorage();
+});
+
+// Load cart items from localStorage
+const loadCartFromLocalStorage = () => {
+  const savedCartItems = localStorage.getItem("cartItems");
+  if (savedCartItems) {
+    cartItems.push(...JSON.parse(savedCartItems));
+    document.getElementById("cart-icon").style.display = "block";
+    updateCart();
+  }
+};
 
 // Function to remove item from cart
 const removeCartItem = (index) => {
   cartItems.splice(index, 1);
   updateCart();
 };
-
-
-// Initialize the cart on page load
-window.addEventListener("load", () => {
-  const cartIcon = document.getElementById("cart-icon");
-  if (cartItems.length > 0) {
-    cartIcon.style.display = "block";
-  } else {
-    cartIcon.style.display = "none";
-  }
-});
