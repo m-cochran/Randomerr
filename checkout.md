@@ -60,5 +60,5 @@ permalink: /checkout/
       </form>
     </section>
 
-      <script src="checkout.js"></script>
 
+    <script src="{{ site.baseurl }}/assets/js/checkout.js">
