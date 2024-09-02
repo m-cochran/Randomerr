@@ -416,7 +416,7 @@ p {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  transform: translateY(8%);
+  transform: translateY(0);
 }
 
 .modal-buttons button:hover {
