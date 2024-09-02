@@ -1,50 +1,40 @@
 ---
 layout: default
 title: Checkout
-permalink: /Checkout/
+permalink: /checkout/
 ---
 
 # Checkout
 
-Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
+<div id="cart-items"></div>
+<div id="cart-total"></div>
 
-        <div id="checkout-cart">
-            <h2>Your Cart</h2>
-            <div id="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </div>
-            <div id="cart-total">
-                <strong>Total: </strong> $<span id="total-amount">0.00</span>
-            </div>
-        </div>
+<!-- Checkout Form -->
+<form id="checkout-form" action="/checkout-success" method="post">
+  <h2>Billing Information</h2>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required><br>
 
-        <div id="checkout-form">
-            <h2>Billing Details</h2>
-            <form id="checkout-form">
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div>
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" required>
-                </div>
-                <div>
-                    <label for="city">City:</label>
-                    <input type="text" id="city" name="city" required>
-                </div>
-                <div>
-                    <label for="postal-code">Postal Code:</label>
-                    <input type="text" id="postal-code" name="postal-code" required>
-                </div>
-                <div>
-                    <label for="country">Country:</label>
-                    <input type="text" id="country" name="country" required>
-                </div>
-                <button type="submit">Proceed to Payment</button>
-            </form>
-        </div>
+  <label for="address">Address:</label>
+  <input type="text" id="address" name="address" required><br>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required><br>
+
+  <!-- Add any other necessary fields here -->
+
+  <button type="submit">Complete Purchase</button>
+</form>
+
+<script src="cart.js"></script>
+<script>
+  // Populate the cart items and total
+  updateCartPage();
+
+  // Submit checkout form handling
+  document.getElementById("checkout-form").onsubmit = function(event) {
+    event.preventDefault();
+    // Implement your checkout logic here (e.g., sending data to your backend)
+    alert("Checkout completed!");
+  };
+</script>
