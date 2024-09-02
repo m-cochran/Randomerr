@@ -26,7 +26,7 @@ permalink: /checkout/
   <button type="submit">Complete Purchase</button>
 </form>
 
-<script src="cart.js"></script>
+<script src="{{ site.baseurl }}/assets/js/cart.js">
 <script>
   // Populate the cart items and total
   updateCartPage();
