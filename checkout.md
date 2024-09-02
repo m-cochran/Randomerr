@@ -60,3 +60,5 @@ permalink: /checkout/
       </form>
     </section>
 
+      <script src="checkout.js"></script>
+
