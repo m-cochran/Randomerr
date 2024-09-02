@@ -8,7 +8,7 @@ permalink: /checkout/
 
 
 
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/js/checkout.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css">
 
 
   <main class="checkout-container">
