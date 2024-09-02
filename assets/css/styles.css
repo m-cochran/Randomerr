@@ -498,7 +498,7 @@ p {
   padding: 10px;
   z-index: 1000;
   transition: transform 0.3s ease;
-  transform: translateY(8%);
+  transform: translateY(0);
 }
 
 .cart-container.show {
