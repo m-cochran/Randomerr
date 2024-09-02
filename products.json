@@ -1,6 +1,176 @@
 [
     {
         "sync_product": {
+            "id": 358511914,
+            "external_id": "66d56193eb64c9",
+            "name": "Pet bowl",
+            "variants": 2,
+            "synced": 2,
+            "thumbnail_url": "https://files.cdn.printful.com/files/37e/37ecd1bf7b9df8a59488f3ef92e5bdf9_preview.png",
+            "is_ignored": false
+        },
+        "sync_variants": [
+            {
+                "id": 4517482392,
+                "external_id": "66d56193eb6585",
+                "sync_product_id": 358511914,
+                "name": "Pet bowl / 18 oz",
+                "synced": true,
+                "variant_id": 16785,
+                "main_category_id": 189,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "52.00",
+                "sku": "66D56193EAD52_18-oz",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16785,
+                    "product_id": 678,
+                    "image": "https://files.cdn.printful.com/products/678/16785_1680768114.jpg",
+                    "name": "Pet Bowl (White / 18 oz)"
+                },
+                "files": [
+                    {
+                        "id": 736908430,
+                        "type": "preview",
+                        "hash": "82941ea11716dc67805a9f42674fd6a7",
+                        "url": null,
+                        "filename": "pet-bowl-white-18-oz-front-66d56190c3bbf.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 141299,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1725260179,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/829/82941ea11716dc67805a9f42674fd6a7_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/829/82941ea11716dc67805a9f42674fd6a7_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [],
+                "is_ignored": false,
+                "size": "18 oz",
+                "color": "White",
+                "availability_status": "active",
+                "description": "Transform any space into a haven of warmth and charm. Crafted to reflect light beautifully, adding a touch of warmth to your daily life. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
+            },
+            {
+                "id": 4517482393,
+                "external_id": "66d56193eb6618",
+                "sync_product_id": 358511914,
+                "name": "Pet bowl / 32 oz",
+                "synced": true,
+                "variant_id": 16786,
+                "main_category_id": 189,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "58.75",
+                "sku": "66D56193EAD52_32-oz",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 16786,
+                    "product_id": 678,
+                    "image": "https://files.cdn.printful.com/products/678/16786_1680768114.jpg",
+                    "name": "Pet Bowl (White / 32 oz)"
+                },
+                "files": [
+                    {
+                        "id": 736908431,
+                        "type": "preview",
+                        "hash": "37ecd1bf7b9df8a59488f3ef92e5bdf9",
+                        "url": null,
+                        "filename": "pet-bowl-white-32-oz-front-66d56190c2ed8.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 212746,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1725260179,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/37e/37ecd1bf7b9df8a59488f3ef92e5bdf9_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/37e/37ecd1bf7b9df8a59488f3ef92e5bdf9_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [],
+                "is_ignored": false,
+                "size": "32 oz",
+                "color": "White",
+                "availability_status": "active",
+                "description": "Thoughtful design meets heartfelt message, like having your loved ones close, even miles apart. Delicately crafted to blend seamlessly with any decor, making every moment feel special. A celebration of love and togetherness, perfect for making moments with your loved ones special."
+            }
+        ]
+    },
+    {
+        "sync_product": {
+            "id": 358511408,
+            "external_id": "66d55cc0690186",
+            "name": "Front to back spiral notebook",
+            "variants": 1,
+            "synced": 1,
+            "thumbnail_url": "https://files.cdn.printful.com/files/38b/38b214432927d2c4482c4c58bfe16f02_preview.png",
+            "is_ignored": false
+        },
+        "sync_variants": [
+            {
+                "id": 4517471823,
+                "external_id": "66d55cc0690288",
+                "sync_product_id": 358511408,
+                "name": "Front to back spiral notebook",
+                "synced": true,
+                "variant_id": 12141,
+                "main_category_id": 198,
+                "warehouse_product_id": null,
+                "warehouse_product_variant_id": null,
+                "retail_price": "22.50",
+                "sku": "66D55CC0689AB",
+                "currency": "USD",
+                "product": {
+                    "variant_id": 12141,
+                    "product_id": 474,
+                    "image": "https://files.cdn.printful.com/products/474/12141_1615981989.jpg",
+                    "name": "Spiral Notebook (5.5\u2033\u00d78.5\u2033)"
+                },
+                "files": [
+                    {
+                        "id": 736905170,
+                        "type": "preview",
+                        "hash": "38b214432927d2c4482c4c58bfe16f02",
+                        "url": null,
+                        "filename": "spiral-notebook-white-front-66d55cbead184.jpg",
+                        "mime_type": "image/jpeg",
+                        "size": 280897,
+                        "width": 1000,
+                        "height": 1000,
+                        "dpi": null,
+                        "status": "ok",
+                        "created": 1725258944,
+                        "thumbnail_url": "https://files.cdn.printful.com/files/38b/38b214432927d2c4482c4c58bfe16f02_thumb.png",
+                        "preview_url": "https://files.cdn.printful.com/files/38b/38b214432927d2c4482c4c58bfe16f02_preview.png",
+                        "visible": false,
+                        "is_temporary": false,
+                        "message": "",
+                        "stitch_count_tier": null
+                    }
+                ],
+                "options": [],
+                "is_ignored": false,
+                "size": "5.5\u2033\u00d78.5\u2033",
+                "color": "White",
+                "availability_status": "active",
+                "description": "Perfect for those days when you need a little extra comfort, a smile, or a reminder that you\u2019re never truly alone. Created with a thoughtful design that enhances your space and your day. Indulge in a daily touch of sophistication that makes every moment feel special."
+            }
+        ]
+    },
+    {
+        "sync_product": {
             "id": 358449042,
             "external_id": "66d46c437d2c07",
             "name": "\"Forever Friends and Family Mug: Celebrating Love and Togetherness\"",
@@ -31,18 +201,18 @@
                 },
                 "files": [
                     {
-                        "id": 736628886,
+                        "id": 736909487,
                         "type": "preview",
                         "hash": "aacae4a8088f8024a60628d4f8722cdd",
                         "url": null,
-                        "filename": "white-glossy-mug-white-11-oz-handle-on-right-66d46c409ab34.jpg",
+                        "filename": "white-glossy-mug-white-11-oz-handle-on-right-66d5632205946.jpg",
                         "mime_type": "image/jpeg",
                         "size": 80085,
                         "width": 1000,
                         "height": 1000,
                         "dpi": null,
                         "status": "ok",
-                        "created": 1725197379,
+                        "created": 1725260579,
                         "thumbnail_url": "https://files.cdn.printful.com/files/aac/aacae4a8088f8024a60628d4f8722cdd_thumb.png",
                         "preview_url": "https://files.cdn.printful.com/files/aac/aacae4a8088f8024a60628d4f8722cdd_preview.png",
                         "visible": false,
@@ -56,7 +226,7 @@
                 "size": "11 oz",
                 "color": "White",
                 "availability_status": "active",
-                "description": "A daily reminder of the connections that bring joy and meaning to your life. Boasting a classic hue that radiates warmth and comfort, designed to complement any setting. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
+                "description": "Celebrate life's little moments with a piece that brings both joy and utility. Crafted to reflect light beautifully, adding a touch of warmth to your daily life. Experience the perfect blend of style and sentiment, making every day a bit brighter."
             },
             {
                 "id": 4516486365,
@@ -104,7 +274,7 @@
                 "size": "15 oz",
                 "color": "White",
                 "availability_status": "active",
-                "description": "Designed with your needs in mind, transforming your daily routine. Featuring a serene tone that enhances your space with tranquility and grace. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
+                "description": "Designed with your needs in mind, transforming your daily routine. Showcasing elegant details that enhance its functionality and appeal. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
             }
         ]
     },
@@ -165,7 +335,7 @@
                 "size": "11 oz",
                 "color": "Black",
                 "availability_status": "active",
-                "description": "Embrace a touch of elegance that brightens every moment and adds warmth to your day. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Treat yourself or someone you cherish to this gem, a little piece of everyday joy that lets the love flow."
+                "description": "A daily reminder of the connections that bring joy and meaning to your life. Showcasing elegant details that enhance its functionality and appeal. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
             },
             {
                 "id": 4508705687,
@@ -213,7 +383,7 @@
                 "size": "11 oz",
                 "color": "Red",
                 "availability_status": "active",
-                "description": "Thoughtful design meets heartfelt message, like having your loved ones close, even miles apart. Featuring a serene tone that enhances your space with tranquility and grace. Enjoy the seamless blend of style and comfort, making every moment a little more delightful."
+                "description": "Start your day with a warm hug, cradling the people you love. Featuring a serene tone that enhances your space with tranquility and grace. Enjoy the seamless blend of style and comfort, making every moment a little more delightful."
             },
             {
                 "id": 4508705688,
@@ -261,7 +431,7 @@
                 "size": "11 oz",
                 "color": "Orange",
                 "availability_status": "active",
-                "description": "Thoughtful design meets heartfelt message, like having your loved ones close, even miles apart. The rich yet inviting shade makes it versatile for any occasion. Enjoy the seamless blend of style and comfort, making every moment a little more delightful."
+                "description": "Enjoy the perfect balance of style and practicality, made to impress. Showcasing elegant details that enhance its functionality and appeal. Gift a daily moment of joy that reflects your thoughtfulness and brings comfort."
             },
             {
                 "id": 4508705689,
@@ -309,7 +479,7 @@
                 "size": "11 oz",
                 "color": "Blue",
                 "availability_status": "active",
-                "description": "Celebrate life's little moments with a piece that brings both joy and utility. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
+                "description": "Share a moment with your closest friends and family every day. Its timeless tone speaks of simplicity and elegance, a reminder of the bonds that make life beautiful. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
             },
             {
                 "id": 4508705690,
@@ -357,7 +527,7 @@
                 "size": "11 oz",
                 "color": "Pink",
                 "availability_status": "active",
-                "description": "Thoughtful design meets heartfelt message, like having your loved ones close, even miles apart. Delicately crafted to blend seamlessly with any decor, making every moment feel special. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
+                "description": "Perfect for those days when you need a little extra comfort, a smile, or a reminder that you\u2019re never truly alone. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Indulge in a daily touch of sophistication that makes every moment feel special."
             },
             {
                 "id": 4508705691,
@@ -405,7 +575,7 @@
                 "size": "11 oz",
                 "color": "Yellow",
                 "availability_status": "active",
-                "description": "Gift to someone special as a daily reminder that you\u2019re thinking of them. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Embrace a daily reminder of your connections, a tender, cozy addition to your routine."
+                "description": "Gift to someone special as a daily reminder that you\u2019re thinking of them. A blend of meaningful design and heartfelt message, perfect for adding a touch of joy. A celebration of love and togetherness, perfect for making moments with your loved ones special."
             }
         ]
     },
@@ -466,7 +636,7 @@
                 "size": "11 oz",
                 "color": "Black",
                 "availability_status": "active",
-                "description": "Elevate your environment with a blend of practical elegance and heartfelt meaning. Featuring a serene tone that enhances your space with tranquility and grace. Enjoy the seamless blend of style and comfort, making every moment a little more delightful."
+                "description": "Share a moment with your closest friends and family every day. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
             },
             {
                 "id": 4508702999,
@@ -514,7 +684,7 @@
                 "size": "11 oz",
                 "color": "Red",
                 "availability_status": "active",
-                "description": "Embrace a touch of elegance that brightens every moment and adds warmth to your day. The rich yet inviting shade makes it versatile for any occasion. Create special moments with a piece designed to bring elegance and joy into your daily routine."
+                "description": "Perfect for those days when you need a little extra comfort, a smile, or a reminder that you\u2019re never truly alone. Showcasing elegant details that enhance its functionality and appeal. Gift a daily moment of joy that reflects your thoughtfulness and brings comfort."
             },
             {
                 "id": 4508703000,
@@ -562,7 +732,7 @@
                 "size": "11 oz",
                 "color": "Orange",
                 "availability_status": "active",
-                "description": "Add a splash of sophistication to your daily routine with this elegant design. Showcasing elegant details that enhance its functionality and appeal. Brighten up your day with a piece that combines practical elegance and heartfelt warmth."
+                "description": "Embrace a touch of elegance that brightens every moment and adds warmth to your day. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Celebrate every day with a design that adds charm and comfort to your life."
             },
             {
                 "id": 4508703001,
@@ -610,7 +780,7 @@
                 "size": "11 oz",
                 "color": "Blue",
                 "availability_status": "active",
-                "description": "Transform any space into a haven of warmth and charm. Celebrate warmth and coziness, designed to bring love and laughter into your life. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
+                "description": "Crafted to bring comfort and style, creating moments of joy and connection. A harmonious blend of color and design, perfect for making every day brighter. Enjoy the seamless blend of style and comfort, making every moment a little more delightful."
             },
             {
                 "id": 4508703002,
@@ -658,7 +828,7 @@
                 "size": "11 oz",
                 "color": "Pink",
                 "availability_status": "active",
-                "description": "Share a moment with your closest friends and family every day. A harmonious blend of color and design, perfect for making every day brighter. Indulge in a daily touch of sophistication that makes every moment feel special."
+                "description": "Add a splash of sophistication to your daily routine with this elegant design. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. A celebration of love and togetherness, perfect for making moments with your loved ones special."
             },
             {
                 "id": 4508703003,
@@ -706,7 +876,7 @@
                 "size": "11 oz",
                 "color": "Yellow",
                 "availability_status": "active",
-                "description": "Start your day with a warm hug, cradling the people you love. Crafted to reflect light beautifully, adding a touch of warmth to your daily life. Gift a daily moment of joy that reflects your thoughtfulness and brings comfort."
+                "description": "Designed with your needs in mind, transforming your daily routine. Its timeless tone speaks of simplicity and elegance, a reminder of the bonds that make life beautiful. Indulge in a daily touch of sophistication that makes every moment feel special."
             }
         ]
     },
@@ -767,7 +937,7 @@
                 "size": "20 oz",
                 "color": "Black",
                 "availability_status": "active",
-                "description": "Designed to be a part of your daily rituals, adding a touch of grace and beauty. Its timeless tone speaks of simplicity and elegance, a reminder of the bonds that make life beautiful. Celebrate every day with a design that adds charm and comfort to your life."
+                "description": "Add a splash of sophistication to your daily routine with this elegant design. Its timeless tone speaks of simplicity and elegance, a reminder of the bonds that make life beautiful. Enhance your daily routine with a piece that combines beauty, function, and heartfelt meaning."
             },
             {
                 "id": 4508702167,
@@ -815,7 +985,7 @@
                 "size": "20 oz",
                 "color": "White",
                 "availability_status": "active",
-                "description": "Enjoy the perfect balance of style and practicality, made to impress. Celebrate warmth and coziness, designed to bring love and laughter into your life. Brighten up your day with a piece that combines practical elegance and heartfelt warmth."
+                "description": "Crafted to bring comfort and style, creating moments of joy and connection. Designed to adapt to any environment, bringing a touch of charm and grace. Create special moments with a piece designed to bring elegance and joy into your daily routine."
             }
         ]
     },
@@ -876,7 +1046,7 @@
                 "size": "17 oz",
                 "color": "Black",
                 "availability_status": "active",
-                "description": "Add a splash of sophistication to your daily routine with this elegant design. Crafted to reflect light beautifully, adding a touch of warmth to your daily life. Create special moments with a piece designed to bring elegance and joy into your daily routine."
+                "description": "Designed to be a part of your daily rituals, adding a touch of grace and beauty. The rich yet inviting shade makes it versatile for any occasion. Gift a daily moment of joy that reflects your thoughtfulness and brings comfort."
             },
             {
                 "id": 4508698867,
@@ -924,7 +1094,7 @@
                 "size": "17 oz",
                 "color": "White",
                 "availability_status": "active",
-                "description": "Start your day with a warm hug, cradling the people you love. With a subtle saturation and a balanced value, it adds a soft glow to your daily routine. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
+                "description": "Designed with your needs in mind, transforming your daily routine. Designed to adapt to any environment, bringing a touch of charm and grace. Perfect for adding a personal touch to your day or making a loved one feel cherished."
             }
         ]
     },
@@ -1010,7 +1180,7 @@
                 "size": "One size",
                 "color": "Black",
                 "availability_status": "active",
-                "description": "Add a splash of sophistication to your daily routine with this elegant design. Showcasing elegant details that enhance its functionality and appeal. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
+                "description": "Gift to someone special as a daily reminder that you\u2019re thinking of them. Designed to adapt to any environment, bringing a touch of charm and grace. Experience the perfect blend of style and sentiment, making every day a bit brighter."
             },
             {
                 "id": 4507172966,
@@ -1083,7 +1253,7 @@
                 "size": "One size",
                 "color": "Navy",
                 "availability_status": "active",
-                "description": "A daily reminder of the connections that bring joy and meaning to your life. A blend of meaningful design and heartfelt message, perfect for adding a touch of joy. Create special moments with a piece designed to bring elegance and joy into your daily routine."
+                "description": "Elevate your environment with a blend of practical elegance and heartfelt meaning. Celebrate warmth and coziness, designed to bring love and laughter into your life. Enjoy the seamless blend of style and comfort, making every moment a little more delightful."
             },
             {
                 "id": 4507172967,
@@ -1156,7 +1326,7 @@
                 "size": "One size",
                 "color": "Heather Charcoal",
                 "availability_status": "active",
-                "description": "Crafted to bring comfort and style, creating moments of joy and connection. Designed to adapt to any environment, bringing a touch of charm and grace. Embrace a daily reminder of your connections, a tender, cozy addition to your routine."
+                "description": "Thoughtful design meets heartfelt message, like having your loved ones close, even miles apart. Delicately crafted to blend seamlessly with any decor, making every moment feel special. Create special moments with a piece designed to bring elegance and joy into your daily routine."
             },
             {
                 "id": 4507172969,
@@ -1229,7 +1399,7 @@
                 "size": "One size",
                 "color": "Rust",
                 "availability_status": "active",
-                "description": "Transform any space into a haven of warmth and charm. The rich yet inviting shade makes it versatile for any occasion. Treat yourself or someone you cherish to this gem, a little piece of everyday joy that lets the love flow."
+                "description": "Add a splash of sophistication to your daily routine with this elegant design. Designed with thoughtfulness and care, ideal for celebrating love and togetherness. Brighten up your day with a piece that combines practical elegance and heartfelt warmth."
             },
             {
                 "id": 4507172970,
@@ -1302,7 +1472,7 @@
                 "size": "One size",
                 "color": "Camel",
                 "availability_status": "active",
-                "description": "Celebrate life's little moments with a piece that brings both joy and utility. Delicately crafted to blend seamlessly with any decor, making every moment feel special. Gift a daily moment of joy that reflects your thoughtfulness and brings comfort."
+                "description": "Crafted to bring comfort and style, creating moments of joy and connection. Showcasing elegant details that enhance its functionality and appeal. Brighten up your day with a piece that combines practical elegance and heartfelt warmth."
             },
             {
                 "id": 4507172971,
@@ -1375,7 +1545,7 @@
                 "size": "One size",
                 "color": "Heather Grey",
                 "availability_status": "active",
-                "description": "Celebrate life's little moments with a piece that brings both joy and utility. Designed to adapt to any environment, bringing a touch of charm and grace. Experience the perfect blend of style and sentiment, making every day a bit brighter."
+                "description": "Enjoy the perfect balance of style and practicality, made to impress. A blend of meaningful design and heartfelt message, perfect for adding a touch of joy. Indulge in a daily touch of sophistication that makes every moment feel special."
             },
             {
                 "id": 4507172973,
@@ -1448,68 +1618,7 @@
                 "size": "One size",
                 "color": "Birch",
                 "availability_status": "active",
-                "description": "Share a moment with your closest friends and family every day. Created with a thoughtful design that enhances your space and your day. Whether a gift or a personal treat, it brings a touch of elegance and comfort to your life."
-            }
-        ]
-    },
-    {
-        "sync_product": {
-            "id": 357347527,
-            "external_id": "66c6c661d5af47",
-            "name": "Cork-back coaster",
-            "variants": 1,
-            "synced": 1,
-            "thumbnail_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_preview.png",
-            "is_ignored": false
-        },
-        "sync_variants": [
-            {
-                "id": 4500898531,
-                "external_id": "66c6c661d5b002",
-                "sync_product_id": 357347527,
-                "name": "Cork-back coaster",
-                "synced": true,
-                "variant_id": 15662,
-                "main_category_id": 249,
-                "warehouse_product_id": null,
-                "warehouse_product_variant_id": null,
-                "retail_price": "15.95",
-                "sku": "66C6C661D5162",
-                "currency": "USD",
-                "product": {
-                    "variant_id": 15662,
-                    "product_id": 611,
-                    "image": "https://files.cdn.printful.com/products/611/15662_1660029236.jpg",
-                    "name": "Cork Back Coaster (3.74\u2033\u00d73.74\u2033)"
-                },
-                "files": [
-                    {
-                        "id": 733064534,
-                        "type": "preview",
-                        "hash": "9681c7ae821e4c1b1e7bd8a030b80186",
-                        "url": null,
-                        "filename": "cork-back-coaster-front-66c6c65e8a765.jpg",
-                        "mime_type": "image/jpeg",
-                        "size": 212324,
-                        "width": 1000,
-                        "height": 1000,
-                        "dpi": null,
-                        "status": "ok",
-                        "created": 1724302945,
-                        "thumbnail_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_thumb.png",
-                        "preview_url": "https://files.cdn.printful.com/files/968/9681c7ae821e4c1b1e7bd8a030b80186_preview.png",
-                        "visible": false,
-                        "is_temporary": false,
-                        "message": "",
-                        "stitch_count_tier": null
-                    }
-                ],
-                "options": [],
-                "is_ignored": false,
-                "size": "3.74\u2033\u00d73.74\u2033",
-                "color": null,
-                "availability_status": "active",
-                "description": "Transform any space into a haven of warmth and charm. Boasting a classic hue that radiates warmth and comfort, designed to complement any setting. Let it add a touch of warmth and meaning to your life, embodying the love and care you share."
+                "description": "Share a moment with your closest friends and family every day. Delicately crafted to blend seamlessly with any decor, making every moment feel special. Brighten up your day with a piece that combines practical elegance and heartfelt warmth."
             }
         ]
     }
