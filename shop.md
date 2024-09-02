@@ -35,7 +35,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <div id="cart-icon" class="cart-icon" style="display: none;">
   🛒
 </div><!-- Add this inside your cart-icon element in the HTML -->
-<div id="cart-badge" class="cart-badge">0</div>
+<div id="cart-badge" class="cart-badge"></div>
 
 <!-- Cart Container -->
 <div id="cart" class="cart-container" style="display: none;">
