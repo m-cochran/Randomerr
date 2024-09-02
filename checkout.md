@@ -6,34 +6,57 @@ permalink: /checkout/
 
 # Checkout
 
-<div id="cart-items"></div>
-<div id="cart-total"></div>
-
-<!-- Checkout Form -->
-<form id="checkout-form" action="/checkout-success" method="post">
-  <h2>Billing Information</h2>
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" required><br>
-
-  <label for="address">Address:</label>
-  <input type="text" id="address" name="address" required><br>
-
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" required><br>
-
-  <!-- Add any other necessary fields here -->
-
-  <button type="submit">Complete Purchase</button>
-</form>
 
 
-  // Populate the cart items and total
-  updateCartPage();
 
-  // Submit checkout form handling
-  document.getElementById("checkout-form").onsubmit = function(event) {
-    event.preventDefault();
-    // Implement your checkout logic here (e.g., sending data to your backend)
-    alert("Checkout completed!");
-  };
+  <main class="checkout-container">
+    <section id="cart-summary">
+      <h2>Your Cart</h2>
+      <div id="cart-items">
+        <!-- Cart items will be dynamically populated here -->
+      </div>
+      <div class="checkout-summary">
+        <div id="cart-total">Total: $0.00</div>
+      </div>
+    </section>
+
+    <section id="shipping-info">
+      <h2>Shipping Information</h2>
+      <form id="shipping-form">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+
+        <div class="form-group">
+          <label for="state">State:</label>
+          <input type="text" id="state" name="state" required>
+        </div>
+
+        <div class="form-group">
+          <label for="zip">Zip Code:</label>
+          <input type="text" id="zip" name="zip" required>
+        </div>
+
+        <div class="form-group">
+          <label for="payment">Payment Method:</label>
+          <select id="payment" name="payment" required>
+            <option value="credit-card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-submit">Complete Purchase</button>
+      </form>
+    </section>
 
