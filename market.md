@@ -148,3 +148,29 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     }
 
   </script>
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Checkout</title>
+</head>
+<body>
+    <div id="card-element"></div>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('your-publishable-key-here');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+    </script>
+</body>
+</html>
