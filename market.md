@@ -73,7 +73,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   </form>
 
   <!-- Step 2: Stripe.js Library -->
-  <script src="https://js.stripe.com/v3/"></script>
+ 
 
   <!-- Step 5: JavaScript to Handle Payment -->
   <script>
@@ -158,7 +158,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 <title>Stripe Checkout</title>
 <div id="card-element"></div>
-<script src="https://js.stripe.com/v3/"></script>
+
 <script>
 const stripe = Stripe('your-publishable-key-here');
 const elements = stripe.elements();
