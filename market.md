@@ -106,14 +106,8 @@ margin-top: 10px;
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stripe Card Element</title>
-    <script src="https://js.stripe.com/v3/"></script>
-    <style>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
         #card-element {
             border: 1px solid #ccc;
             padding: 10px;
@@ -139,16 +133,15 @@ margin-top: 10px;
         .StripeElement--webkit-autofill {
             background-color: #fefde5 !important;
         }
-    </style>
-</head>
-<body>
-    <form id="payment-form">
+</style>
+
+<form id="payment-form">
         <div id="card-element"></div>
         <div id="card-errors" role="alert"></div>
         <button id="submit">Submit Payment</button>
-    </form>
+</form>
 
-    <script>
+<script>
         var stripe = Stripe('your-publishable-key-here');
         var elements = stripe.elements();
         var card = elements.create('card');
@@ -171,7 +164,4 @@ margin-top: 10px;
                 }
             });
         });
-    </script>
-</body>
-</html>
-
+  </script>
