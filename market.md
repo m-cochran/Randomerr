@@ -26,5 +26,5 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
    </form>
 </div>
 <script src="https://js.stripe.com/v3/"></script>
-<script src="script.js"></script>
 <script src="{{ site.baseurl }}/server/stripe_checkout.js">
+<script src="{{ site.baseurl }}/server/server.js">
