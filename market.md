@@ -73,7 +73,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   </form>
 
   <!-- Step 2: Stripe.js Library -->
- 
+ <script src="https://js.stripe.com/v3/"></script>
 
   <!-- Step 5: JavaScript to Handle Payment -->
   <script>
