@@ -11,7 +11,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 
-
+<script>
 <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css">
 <div class="payment-container">
@@ -25,6 +25,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       <div id="card-errors" role="alert" aria-live="polite"></div>
    </form>
 </div>
+</script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="{{ site.baseurl }}/server/stripe_checkout.js">
 <script src="{{ site.baseurl }}/server/server.js">
