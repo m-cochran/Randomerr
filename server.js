@@ -1,7 +1,6 @@
-// server.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const Stripe = require('stripe');
+const express = require('./libs/express/express');
+const bodyParser = require('./libs/body-parser/body-parser');
+const Stripe = require('./libs/stripe/index');
 const stripe = Stripe('sk_test_51PulULDDaepf7cji2kqbdFVOzF37bS8RrtgO8dpVBpT1m8AXZhcyIBAAf42VOcpE8auFxbm1xSjglmBhvaIYaRck00QkUGMkpF'); // Replace with your Stripe secret key
 
 const app = express();
