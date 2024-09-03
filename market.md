@@ -10,13 +10,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stripe Test</title>
-    <style>
+
+<style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -44,20 +39,19 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
             color: red;
             margin-top: 10px;
         }
-    </style>
-</head>
-<body>
-    <div class="container">
+</style>
+
+<div class="container">
         <h2>Test Stripe</h2>
         <form id="payment-form">
             <div id="card-element"></div>
             <button type="submit">Submit</button>
             <div id="card-errors" role="alert" class="error"></div>
         </form>
-    </div>
+</div>
 
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
         const stripe = Stripe('your-publishable-key-here'); // Replace with your actual key
         const elements = stripe.elements();
         
@@ -85,6 +79,5 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
                 console.log('Token:', token);
             }
         });
-    </script>
-</body>
-</html>
+</script>
+
