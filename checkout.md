@@ -69,37 +69,35 @@ permalink: /checkout/
 
 
 
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+/* Basic styling for checkout form */
+.checkout-form {
+max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+}
 
-    <script src="https://js.stripe.com/v3/"></script>
+.checkout-form input,
+.checkout-form button {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+}
 
-    <style>
-      /* Basic styling for checkout form */
-      .checkout-form {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-      }
+</style>
 
-      .checkout-form input,
-      .checkout-form button {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-      }
+<h1>Checkout</h1>
+<form id="payment-form" class="checkout-form">
+<div id="card-element">
+<!-- A Stripe Element will be inserted here. -->
+</div>
+<button id="submit">Pay Now</button>
+<div id="error-message"></div>
+</form>
 
-    </style>
-
-    <h1>Checkout</h1>
-    <form id="payment-form" class="checkout-form">
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
-      </div>
-      <button id="submit">Pay Now</button>
-      <div id="error-message"></div>
-    </form>
-
-    <script src="{{ site.baseurl }}/server/stripe_checkout.js"></script>
+<script src="{{ site.baseurl }}/server/stripe_checkout.js"></script>
 
 
