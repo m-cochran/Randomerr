@@ -12,15 +12,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f4f4f4;
-  }
 
   .container {
     background: white;
