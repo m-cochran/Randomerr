@@ -38,6 +38,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            height: 40px; /* Adjust as necessary */    width: 100%; /* Ensure it has enough width */
         }
         .error {
             color: red;
@@ -87,8 +88,3 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     </script>
 </body>
 </html>
-
-<script>
-  console.log('Stripe:', stripe);
-console.log('Elements:', elements);
-</script>
