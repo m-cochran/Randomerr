@@ -85,7 +85,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
     // Create an instance of the card Element
     const card = elements.create('card', {
-      hidePostalCode: true, // You can hide the postal code field if not needed
+      hidePostalCode: false, // You can hide the postal code field if not needed
       style: {
         base: {
           fontSize: '16px',
