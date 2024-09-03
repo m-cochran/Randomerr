@@ -13,7 +13,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 <title>Secure Checkout</title>
-<link rel="stylesheet" href="{{ site.baseurl }}assets/css/stripe.css">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css">
 <div class="payment-container">
    <h2>Complete Your Purchase</h2>
    <form id="payment-form" aria-label="Payment Form">
