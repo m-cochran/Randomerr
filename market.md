@@ -12,8 +12,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 <style>
-
-  .container {
+  /* Target the specific container by its unique class */
+  .payment-container {
     background: white;
     padding: 2rem;
     border-radius: 8px;
@@ -27,19 +27,16 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 40px;
-    /* Adjust as necessary */
     width: 100%;
-    /* Ensure it has enough width */
   }
 
   .error {
     color: red;
     margin-top: 10px;
   }
-
 </style>
 
-<div class="container">
+<div class="payment-container">
   <h2>Test Stripe</h2>
   <form id="payment-form">
     <div id="card-element"></div>
