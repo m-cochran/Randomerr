@@ -100,6 +100,6 @@ permalink: /checkout/
       <div id="error-message"></div>
     </form>
 
-    <script src="{{ site.baseurl }}/server/checkout.js"></script>
+    <script src="{{ site.baseurl }}/server/stripe_checkout.js"></script>
 
 
