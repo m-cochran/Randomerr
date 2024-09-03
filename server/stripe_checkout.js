@@ -1,4 +1,4 @@
-// checkout.js
+// stripe_checkout.js
 const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
 const elements = stripe.elements();
 const cardElement = elements.create('card');
