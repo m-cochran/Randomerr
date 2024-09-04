@@ -1,4 +1,3 @@
-// Initialize cart handling
 document.addEventListener("DOMContentLoaded", () => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const cartItemsContainer = document.getElementById("cart-items");
@@ -15,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderCart() {
         cartItemsContainer.innerHTML = "";
         total = 0;
+
         cartItems.forEach((item, index) => {
             const itemDiv = document.createElement("div");
             itemDiv.className = "cart-item";
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="cart-item-actions">
                     <button class="btn-decrease" data-index="${index}">-</button>
-                    <input type="text" value="${item.quantity}" readonly>
+                    <input type="number" class="item-quantity" data-index="${index}" value="${item.quantity}">
                     <button class="btn-increase" data-index="${index}">+</button>
                     <button class="btn-remove" data-index="${index}">Remove</button>
                     <div>$${(item.price * item.quantity).toFixed(2)}</div>
@@ -39,8 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+        attachEventListeners();
+    }
 
-        // Reattach event listeners
+    function attachEventListeners() {
         document.querySelectorAll(".btn-increase").forEach(button => {
             button.addEventListener("click", (event) => {
                 const index = event.target.getAttribute("data-index");
@@ -66,6 +68,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateCart();
             });
         });
+
+        document.querySelectorAll(".item-quantity").forEach(input => {
+            input.addEventListener("change", (event) => {
+                const index = event.target.getAttribute("data-index");
+                const newQuantity = parseInt(event.target.value);
+                if (newQuantity > 0) {
+                    cartItems[index].quantity = newQuantity;
+                    updateCart();
+                }
+            });
+        });
     }
 
     function updateCart() {
@@ -87,12 +100,24 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        // Validate shipping form inputs
+        const name = document.getElementById("name").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const state = document.getElementById("state").value.trim();
+        const zip = document.getElementById("zip").value.trim();
+
+        if (!name || !address || !city || !state || !zip) {
+            alert("Please fill in all required shipping details.");
+            return;
+        }
+
         const { token, error } = await stripe.createToken(cardElement);
 
         if (error) {
             errorMessage.textContent = error.message;
         } else {
-            // Send the token to your server along with cart details
+            // Send the token to your server along with cart and shipping details
             fetch('/charge', {
                 method: 'POST',
                 headers: {
@@ -101,7 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({
                     token: token.id,
                     cartItems: cartItems,
-                    total: total
+                    total: total,
+                    shipping: {
+                        name: name,
+                        address: address,
+                        city: city,
+                        state: state,
+                        zip: zip
+                    }
                 })
             }).then(response => {
                 if (response.ok) {
@@ -113,25 +145,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
-    });
-
-    // Shipping Form Submission
-    document.getElementById("shipping-form").addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const name = document.getElementById("name").value.trim();
-        const address = document.getElementById("address").value.trim();
-        const city = document.getElementById("city").value.trim();
-        const state = document.getElementById("state").value.trim();
-        const zip = document.getElementById("zip").value.trim();
-
-        if (!name || !address || !city || !state || !zip) {
-            alert("Please fill in all required fields.");
-            return;
-        }
-
-        alert(`Thank you for your purchase, ${name}!`);
-
-        // After shipping info, payment process is handled in form submit
     });
 });
