@@ -10,7 +10,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 <script src="https://js.stripe.com/v3/"></script>
-<script src="{{ site.baseurl }}/assets/js/checkout2.js"></script>
+<script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
 <script src="{{ site.baseurl }}/server/server.js"></script>
 <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css">
