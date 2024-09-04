@@ -10,6 +10,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css">
 <main class="checkout-container">
   <section id="cart-summary">
     <h2>Your Cart</h2>
