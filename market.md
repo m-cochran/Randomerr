@@ -66,5 +66,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </main>
 
 <script src="https://js.stripe.com/v3/"></script>
-<script src="checkout.js"></script>
-<script src="script.js"></script>
+<script src="{{ site.baseurl }}/server/stripe_checkout.js"></script>
+<script src="{{ site.baseurl }}/server/server.js"></script>
+<script src="{{ site.baseurl }}/assets/js/checkout.js">
