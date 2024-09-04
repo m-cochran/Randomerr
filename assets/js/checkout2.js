@@ -5,12 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById('payment-form');
   const errorMessage = document.getElementById('card-errors');
 
-  // Initialize Stripe
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
-  const elements = stripe.elements();
-  const cardElement = elements.create('card');
-  cardElement.mount('#card-element');
-
   if (cartItems.length === 0) {
     cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
     cartTotal.textContent = "Total: $0.00";
@@ -81,6 +75,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderCart();
+
+  // Stripe Integration
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
+  const elements = stripe.elements();
+
+  const cardElement = elements.create('card', {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: '#32325d',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    }
+  });
+
+  cardElement.mount('#card-element');
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
