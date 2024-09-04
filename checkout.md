@@ -40,13 +40,6 @@ permalink: /checkout/
             <label for="zip">Zip Code:</label>
             <input type="text" id="zip" name="zip" required>
          </div>
-         <div class="form-group">
-            <label for="payment">Payment Method:</label>
-            <select id="payment" name="payment" required>
-               <option value="credit-card">Credit Card</option>
-               <option value="paypal">PayPal</option>
-            </select>
-         </div>
          <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
 <div class="payment-container">
@@ -58,6 +51,7 @@ permalink: /checkout/
         <button id="submit-button" aria-label="Pay Now">Pay Now</button>
         <div id="spinner" class="spinner hidden" aria-hidden="true"></div>
         <div id="card-errors" role="alert" aria-live="polite"></div>
+         </div>
     </form>
 </div>
 <script src="https://js.stripe.com/v3/"></script>
