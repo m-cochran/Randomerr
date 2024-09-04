@@ -76,26 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCart();
 
-  // Stripe Integration
+  // Stripe Setup
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
   const elements = stripe.elements();
+  const cardElement = elements.create('card');
 
-  const cardElement = elements.create('card', {
-    style: {
-      base: {
-        fontSize: '16px',
-        color: '#32325d',
-        '::placeholder': {
-          color: '#aab7c4'
-        }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
-      }
-    }
-  });
-
+  // Mount the card element
   cardElement.mount('#card-element');
 
   form.addEventListener('submit', async (event) => {
