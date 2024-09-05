@@ -81,3 +81,38 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </html>
 
 
+<style>.spinner {
+  border: 4px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#card-errors {
+  color: red;
+}
+
+.btn-submit {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background-color: #45a049;
+}
+</style>
+
