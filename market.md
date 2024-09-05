@@ -81,7 +81,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </html>
 
 
-<style>.spinner {
+<style>
+  .spinner {
   border: 4px solid rgba(0,0,0,0.1);
   border-radius: 50%;
   border-top: 4px solid #3498db;
