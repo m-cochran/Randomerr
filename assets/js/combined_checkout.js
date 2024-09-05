@@ -1,11 +1,13 @@
 // combined_checkout.js
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Initialize Stripe
     const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
     const elements = stripe.elements();
     const cardElement = elements.create('card');
     cardElement.mount('#card-element');
 
+    // Cart management
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const cartItemsContainer = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
@@ -74,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderCart();
 
+    // Stripe payment integration
     const form = document.getElementById('payment-form');
     const errorMessage = document.getElementById('card-errors');
     const spinner = document.getElementById('spinner');
