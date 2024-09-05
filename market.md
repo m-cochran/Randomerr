@@ -9,11 +9,7 @@ permalink: /market/
 Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
