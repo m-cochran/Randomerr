@@ -20,6 +20,9 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
+<script src="{{ site.baseurl }}/server/server.js"></script>
 </head>
 <body>
 <main class="checkout-container">
@@ -60,10 +63,18 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <label for="zip">Zip Code:</label>
 <input type="text" id="zip" name="zip" required />
 </div>
+
+<div class="form-group">
+<label for="payment">Payment Method:</label>
+<select id="payment" name="payment" required>
+<option value="credit-card">Credit Card</option>
+<option value="paypal">PayPal</option>
+</select>
+</div>
 </form>
 </section>
 
-<section class="payment-container">
+<section id="payment-section">
 <h2>Complete Your Purchase</h2>
 <form id="payment-form" aria-label="Payment Form">
 <label for="card-element" class="form-label">Credit or debit card</label>
@@ -76,9 +87,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </form>
 </section>
 </main>
-
-<script src="https://js.stripe.com/v3/"></script>
-<script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
-<script src="{{ site.baseurl }}/server/server.js"></script>
 </body>
 </html>
+
+
