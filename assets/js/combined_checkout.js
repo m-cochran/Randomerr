@@ -74,13 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCart();
 
+  // Initialize Stripe
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
   const elements = stripe.elements();
   const cardElement = elements.create('card');
   cardElement.mount('#card-element');
 
   const form = document.getElementById('payment-form');
-  const errorMessage = document.getElementById('card-errors');
+  const errorMessage = document.getElementById('error-message');
   const spinner = document.getElementById('spinner');
 
   form.addEventListener('submit', async (event) => {
@@ -101,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show spinner
     spinner.classList.remove('hidden');
 
+    // Create the token from the card
     const { token, error } = await stripe.createToken(cardElement);
 
     if (error) {
