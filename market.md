@@ -64,16 +64,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <input type="text" id="zip" name="zip" required />
 </div>
 
-<div class="form-group">
-<label for="payment">Payment Method:</label>
-<select id="payment" name="payment" required>
-<option value="credit-card">Credit Card</option>
-<option value="paypal">PayPal</option>
-</select>
-</div>
-</form>
-</section>
-
 <section id="payment-section">
 <h2>Complete Your Purchase</h2>
 <form id="payment-form" aria-label="Payment Form">
