@@ -10,6 +10,12 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
@@ -56,14 +62,11 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </form>
 </section>
 
-<section class="payment-container">
-<h2>Complete Your Purchase</h2>
-<form id="payment-form">
-<div class="form-row">
-<label for="card-element">Credit or debit card</label>
-<div id="card-element">
-<!-- Stripe's card element will be inserted here -->
-</div>
+<section id="payment-info">
+<h2>Payment Information</h2>
+<form id="payment-form" aria-label="Payment Form">
+<label for="card-element" class="form-label">Credit or debit card</label>
+<div id="card-element" class="card-input"></div>
 <small id="card-help" class="form-text">Your card details are securely encrypted.</small>
 
 <button id="submit-button" aria-label="Pay Now">Pay Now</button>
@@ -78,3 +81,5 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
 <script src="{{ site.baseurl }}/server/server.js"></script>
 </body>
+</html>
+
