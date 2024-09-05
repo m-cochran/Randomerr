@@ -1,25 +1,24 @@
-// combined_checkout.js
-
+// Initialize cart handling
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize Stripe
-    const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
-    const elements = stripe.elements();
-    const cardElement = elements.create('card');
-    cardElement.mount('#card-element');
-
-    // Cart management
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const cartItemsContainer = document.getElementById("cart-items");
     const cartTotal = document.getElementById("cart-total");
 
+    if (cartItems.length === 0) {
+        cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+        cartTotal.textContent = "Total: $0.00";
+        return;
+    }
+
+    let total = 0;
+
     function renderCart() {
         cartItemsContainer.innerHTML = "";
-        let total = 0;
-
+        total = 0;
         cartItems.forEach((item, index) => {
             const itemDiv = document.createElement("div");
             itemDiv.className = "cart-item";
-            
+
             itemDiv.innerHTML = `
                 <img src="${item.image}" alt="${item.name}">
                 <div class="cart-item-details">
@@ -34,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>$${(item.price * item.quantity).toFixed(2)}</div>
                 </div>
             `;
-            
+
             cartItemsContainer.appendChild(itemDiv);
             total += item.price * item.quantity;
         });
@@ -76,12 +75,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderCart();
 
-    // Stripe payment integration
+    // Stripe Payment Integration
+    const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
     const form = document.getElementById('payment-form');
     const errorMessage = document.getElementById('card-errors');
-    const spinner = document.getElementById('spinner');
 
     form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const { token, error } = await stripe.createToken(cardElement);
+
+        if (error) {
+            errorMessage.textContent = error.message;
+        } else {
+            // Send the token to your server along with cart details
+            fetch('/charge', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    token: token.id,
+                    cartItems: cartItems,
+                    total: total
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Payment successful!');
+                    localStorage.removeItem("cartItems");
+                    window.location.href = 'thank-you.html'; // Redirect to a thank you page
+                } else {
+                    errorMessage.textContent = 'Payment failed.';
+                }
+            });
+        }
+    });
+
+    // Shipping Form Submission
+    document.getElementById("shipping-form").addEventListener("submit", (event) => {
         event.preventDefault();
 
         const name = document.getElementById("name").value.trim();
@@ -95,34 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        spinner.classList.remove('hidden');
+        alert(`Thank you for your purchase, ${name}!`);
 
-        const { token, error } = await stripe.createToken(cardElement);
-
-        if (error) {
-            errorMessage.textContent = error.message;
-            spinner.classList.add('hidden');
-        } else {
-            // Send the token to your server
-            fetch('/charge', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ token: token.id })
-            }).then(response => {
-                if (response.ok) {
-                    alert('Payment successful!');
-                    localStorage.removeItem("cartItems");
-                    window.location.href = 'thank-you.html'; // Redirect to a thank you page or home page
-                } else {
-                    errorMessage.textContent = 'Payment failed.';
-                }
-                spinner.classList.add('hidden');
-            }).catch(() => {
-                errorMessage.textContent = 'Payment failed.';
-                spinner.classList.add('hidden');
-            });
-        }
+        // After shipping info, payment process is handled in form submit
     });
 });
