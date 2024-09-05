@@ -18,8 +18,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Secure Checkout</title>
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css"/>
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css"/>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
 <script src="{{ site.baseurl }}/server/server.js"></script>
