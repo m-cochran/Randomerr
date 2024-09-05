@@ -58,9 +58,12 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 <section class="payment-container">
 <h2>Complete Your Purchase</h2>
-<form id="payment-form" aria-label="Payment Form">
-<label for="card-element" class="form-label">Credit or debit card</label>
-<div id="card-element" class="card-input"></div>
+<form id="payment-form">
+<div class="form-row">
+<label for="card-element">Credit or debit card</label>
+<div id="card-element">
+<!-- Stripe's card element will be inserted here -->
+</div>
 <small id="card-help" class="form-text">Your card details are securely encrypted.</small>
 
 <button id="submit-button" aria-label="Pay Now">Pay Now</button>
