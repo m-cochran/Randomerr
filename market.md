@@ -113,3 +113,25 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   <button type="submit" id="submit-button">Submit Payment</button>
 </form>
 
+.form-group {
+  margin-bottom: 15px;
+}
+
+#card-element {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.spinner {
+  display: none;
+}
+
+.spinner.hidden {
+  display: none;
+}
