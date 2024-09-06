@@ -76,40 +76,87 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 
-<!-- Include Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <style>
+    /* Basic styles for cart and payment form */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .cart-item img {
+      max-width: 100px;
+      margin-right: 1rem;
+    }
+    .cart-item-details {
+      flex-grow: 1;
+    }
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+    }
+    .cart-item-actions button {
+      margin-right: 0.5rem;
+    }
+    #spinner {
+      display: none;
+      border: 4px solid rgba(0,0,0,0.1);
+      border-radius: 50%;
+      border-top: 4px solid #000;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-<form id="payment-form">
-  <div>
-    <label for="name">Name</label>
-    <input id="name" type="text" required />
-  </div>
-  <div>
-    <label for="address">Address</label>
-    <input id="address" type="text" required />
-  </div>
-  <div>
-    <label for="city">City</label>
-    <input id="city" type="text" required />
-  </div>
-  <div>
-    <label for="state">State</label>
-    <input id="state" type="text" required />
-  </div>
-  <div>
-    <label for="zip">ZIP Code</label>
-    <input id="zip" type="text" required />
+  <div id="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div id="cart-total">Total: $0.00</div>
   </div>
 
-  <!-- Stripe Card Element -->
-  <div id="card-element"></div>
+  <div id="checkout">
+    <h2>Shipping Information</h2>
+    <form id="shipping-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required><br>
+      <label for="address">Address:</label>
+      <input type="text" id="address" required><br>
+      <label for="city">City:</label>
+      <input type="text" id="city" required><br>
+      <label for="state">State:</label>
+      <input type="text" id="state" required><br>
+      <label for="zip">ZIP Code:</label>
+      <input type="text" id="zip" required><br>
+      <label for="payment">Payment Method:</label>
+      <div id="card-element"></div>
+      <div id="error-message" style="color: red;"></div>
+      <div id="spinner"></div>
+      <button type="submit">Pay Now</button>
+    </form>
+  </div>
 
-  <!-- Display errors -->
-  <div id="error-message" style="color: red;"></div>
-
-  <button type="submit">Submit Payment</button>
-  <div id="spinner" class="hidden">Processing...</div>
-</form>
+  <!-- Stripe.js library -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Your custom script -->
+  <script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
+  <script src="{{ site.baseurl }}/server/server.js"></script>
+</body>
+</html>
 
 
 
