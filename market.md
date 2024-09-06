@@ -137,7 +137,7 @@ border-radius: 4px;
 </form>
 
 <script>
-var stripe = Stripe("your-publishable-key-here");
+var stripe = Stripe("pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb");
 var elements = stripe.elements();
 var card = elements.create("card");
 card.mount("#card-element");
