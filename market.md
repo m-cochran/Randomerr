@@ -72,3 +72,44 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <div id="card-errors" role="alert" aria-live="polite"></div>
 </form>
 </section>
+
+<form id="payment-form">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+  </div>
+  
+  <div class="form-group">
+    <label for="address">Address</label>
+    <input type="text" id="address" name="address" required>
+  </div>
+
+  <div class="form-group">
+    <label for="city">City</label>
+    <input type="text" id="city" name="city" required>
+  </div>
+
+  <div class="form-group">
+    <label for="state">State</label>
+    <input type="text" id="state" name="state" required>
+  </div>
+
+  <div class="form-group">
+    <label for="zip">ZIP Code</label>
+    <input type="text" id="zip" name="zip" required>
+  </div>
+
+  <!-- This is where the Stripe card element will go -->
+  <div id="card-element" class="form-group">
+    <!-- Stripe Card Element will be inserted here -->
+  </div>
+
+  <!-- Error message container -->
+  <div id="error-message" class="error-message"></div>
+
+  <!-- Spinner for loading state -->
+  <div id="spinner" class="spinner hidden">Processing...</div>
+
+  <button type="submit" id="submit-button">Submit Payment</button>
+</form>
+
