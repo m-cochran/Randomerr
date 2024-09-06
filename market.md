@@ -17,7 +17,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css"/>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css"/>
 <script src="https://js.stripe.com/v3/"></script>
-<script src="{{ site.baseurl }}/assets/js/combined_checkout.js"></script>
+<script src="{{ site.baseurl }}/assets/js/checkout.js"></script>
 <script src="{{ site.baseurl }}/server/server.js"></script>
 </head>
 <body>
