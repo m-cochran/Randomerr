@@ -11,61 +11,77 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css">
-<main class="checkout-container">
-   <section id="cart-summary">
-      <h2>Your Cart</h2>
-      <div id="cart-items">
-         <!-- Cart items will be dynamically populated here -->
-      </div>
-      <div class="checkout-summary">
-         <div id="cart-total">Total: $0.00</div>
-      </div>
-   </section>
-   <section id="shipping-info">
-      <h2>Shipping Information</h2>
-      <form id="shipping-form">
-         <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-         </div>
-         <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-         </div>
-         <div class="form-group">
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required>
-         </div>
-         <div class="form-group">
-            <label for="state">State:</label>
-            <input type="text" id="state" name="state" required>
-         </div>
-         <div class="form-group">
-            <label for="zip">Zip Code:</label>
-            <input type="text" id="zip" name="zip" required>
-         </div>
-         <title>Secure Checkout</title>
+
+<title>Secure Checkout</title>
+
+<!-- Checkout CSS -->
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
+<!-- Stripe-specific CSS -->
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
-<div class="payment-container">
-    <h2>Complete Your Purchase</h2>
-    <form id="payment-form" aria-label="Payment Form">
-        <label for="card-element" class="form-label">Credit or debit card</label>
-        <div id="card-element" class="card-input"></div>
-        <small id="card-help" class="form-text">Your card details are securely encrypted.</small>
-        <button id="submit-button" aria-label="Pay Now">Pay Now</button>
-        <div id="spinner" class="spinner hidden" aria-hidden="true"></div>
-        <div id="card-errors" role="alert" aria-live="polite"></div>
-         </div>
-    </form>
-</div>
+<script src="/Randomerr/server/stripe_checkout.js"></script>
+<script src="/Randomerr/server/server.js"></script>
+<script src="/Randomerr/assets/js/checkout.js"></script>
+
+<!-- Stripe JS -->
 <script src="https://js.stripe.com/v3/"></script>
-<script src="{{ site.baseurl }}/server/stripe_checkout.js"></script>
-<script src="{{ site.baseurl }}/server/server.js"></script>
-      </form>
-   </section>
+
+<body>
+<main class="checkout-container">
+<!-- Cart Summary Section -->
+<section id="cart-summary">
+<h2>Your Cart</h2>
+<div id="cart-items">
+<!-- Cart items will be dynamically populated here -->
+</div>
+<div class="checkout-summary">
+<div id="cart-total">Total: $0.00</div>
+</div>
+</section>
+
+<!-- Shipping Information Section -->
+<section id="shipping-info">
+<h2>Shipping Information</h2>
+<form id="shipping-form">
+<div class="form-group">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" required />
+</div>
+<div class="form-group">
+<label for="address">Address:</label>
+<input type="text" id="address" name="address" required />
+</div>
+<div class="form-group">
+<label for="city">City:</label>
+<input type="text" id="city" name="city" required />
+</div>
+<div class="form-group">
+<label for="state">State:</label>
+<input type="text" id="state" name="state" required />
+</div>
+<div class="form-group">
+<label for="zip">Zip Code:</label>
+<input type="text" id="zip" name="zip" required />
+</div>
+</form>
+</section>
+
+<!-- Payment Section -->
+<section class="payment-container">
+<h2>Complete Your Purchase</h2>
+<form id="payment-form" aria-label="Payment Form">
+<div class="form-group">
+<label for="card-element" class="form-label">Credit or debit card</label>
+<div id="card-element" class="card-input"></div>
+<small id="card-help" class="form-text">Your card details are securely encrypted.</small>
+</div>
+<button id="submit-button" aria-label="Pay Now">Pay Now</button>
+<div id="spinner" class="spinner hidden" aria-hidden="true"></div>
+<div id="card-errors" role="alert" aria-live="polite"></div>
+</form>
+</section>
 </main>
-<script src="{{ site.baseurl }}/assets/js/checkout.js">
+</body>
+
 
 <Style>
 .form-group {
