@@ -74,6 +74,49 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </section>
 
 
+
+
+<!-- Include Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<form id="payment-form">
+  <div>
+    <label for="name">Name</label>
+    <input id="name" type="text" required />
+  </div>
+  <div>
+    <label for="address">Address</label>
+    <input id="address" type="text" required />
+  </div>
+  <div>
+    <label for="city">City</label>
+    <input id="city" type="text" required />
+  </div>
+  <div>
+    <label for="state">State</label>
+    <input id="state" type="text" required />
+  </div>
+  <div>
+    <label for="zip">ZIP Code</label>
+    <input id="zip" type="text" required />
+  </div>
+
+  <!-- Stripe Card Element -->
+  <div id="card-element"></div>
+
+  <!-- Display errors -->
+  <div id="error-message" style="color: red;"></div>
+
+  <button type="submit">Submit Payment</button>
+  <div id="spinner" class="hidden">Processing...</div>
+</form>
+
+
+
+
+
+
+
 <style>
   .spinner {
   border: 4px solid rgba(0,0,0,0.1);
