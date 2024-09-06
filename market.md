@@ -66,6 +66,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </section>
 
 <!-- Payment Section -->
+<div class="payment-container">
 <section class="payment-container">
 <h2>Complete Your Purchase</h2>
 <form id="payment-form" aria-label="Payment Form">
@@ -78,6 +79,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <div id="spinner" class="spinner hidden" aria-hidden="true"></div>
 <div id="card-errors" role="alert" aria-live="polite"></div>
 </form>
+</div>
 </section>
 </main>
 </body>
