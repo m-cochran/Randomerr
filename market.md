@@ -94,7 +94,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       }
 
       // Create payment intent via your backend (Vercel endpoint)
-      fetch('https://your-vercel-project.vercel.app/api/create-payment-intent', {
+      fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
