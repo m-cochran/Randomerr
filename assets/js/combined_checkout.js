@@ -1,141 +1,60 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const cartItemsContainer = document.getElementById("cart-items");
-  const cartTotal = document.getElementById("cart-total");
-
-  function renderCart() {
-    cartItemsContainer.innerHTML = "";
-    let total = 0;
-
-    if (cartItems.length === 0) {
-      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-      cartTotal.textContent = "Total: $0.00";
-      return;
-    }
-
-    cartItems.forEach((item, index) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "cart-item";
-
-      itemDiv.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
-        <div class="cart-item-details">
-          <div>${item.name}</div>
-          <div>Price: $${item.price}</div>
-        </div>
-        <div class="cart-item-actions">
-          <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" readonly>
-          <button class="btn-increase" data-index="${index}">+</button>
-          <button class="btn-remove" data-index="${index}">Remove</button>
-          <div>$${(item.price * item.quantity).toFixed(2)}</div>
-        </div>
-      `;
-
-      cartItemsContainer.appendChild(itemDiv);
-      total += item.price * item.quantity;
-    });
-
-    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-
-    // Reattach event listeners
-    document.querySelectorAll(".btn-increase").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.getAttribute("data-index");
-        cartItems[index].quantity += 1;
-        updateCart();
-      });
-    });
-
-    document.querySelectorAll(".btn-decrease").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.getAttribute("data-index");
-        if (cartItems[index].quantity > 1) {
-          cartItems[index].quantity -= 1;
-          updateCart();
-        }
-      });
-    });
-
-    document.querySelectorAll(".btn-remove").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.getAttribute("data-index");
-        cartItems.splice(index, 1);
-        updateCart();
-      });
-    });
-  }
-
-  function updateCart() {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    renderCart();
-  }
-
-  renderCart();
-
-  // Initialize Stripe
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your Stripe publishable key
+document.addEventListener('DOMContentLoaded', function() {
+  // Stripe Setup
+  const stripe = Stripe('your-publishable-key-here'); // Replace with your Stripe publishable key
   const elements = stripe.elements();
+
   const cardElement = elements.create('card');
   cardElement.mount('#card-element');
 
-  const form = document.getElementById('payment-form');
-  const errorMessage = document.getElementById('error-message');
-  const spinner = document.getElementById('spinner');
+  // Form validation
+  const shippingForm = document.getElementById('shipping-form');
+  
+  function validateShippingForm() {
+    const formData = new FormData(shippingForm);
+    let valid = true;
 
-  form.addEventListener('submit', async (event) => {
+    formData.forEach((value, key) => {
+      const input = document.querySelector(`#${key}`);
+      if (!value) {
+        valid = false;
+        input.classList.add('invalid');
+      } else {
+        input.classList.remove('invalid');
+      }
+    });
+
+    return valid;
+  }
+
+  // Handle form submission
+  const paymentForm = document.getElementById('payment-form');
+
+  paymentForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Validate shipping form
-    const name = document.getElementById('name').value.trim();
-    const address = document.getElementById('address').value.trim();
-    const city = document.getElementById('city').value.trim();
-    const state = document.getElementById('state').value.trim();
-    const zip = document.getElementById('zip').value.trim();
-
-    if (!name || !address || !city || !state || !zip) {
-      alert("Please fill in all shipping information fields.");
+    if (!validateShippingForm()) {
+      alert('Please fill out all required fields.');
       return;
     }
 
-    // Show spinner
-    spinner.classList.remove('hidden');
-
-    // Create the token from the card
-    const { token, error } = await stripe.createToken(cardElement);
+    const { paymentIntent, error } = await stripe.confirmCardPayment(
+      'your-client-secret-here', // Replace with the client secret from your server
+      {
+        payment_method: {
+          card: cardElement
+        }
+      }
+    );
 
     if (error) {
-      errorMessage.textContent = error.message;
-      spinner.classList.add('hidden');
+      // Display error.message in #card-errors
+      document.getElementById('card-errors').textContent = error.message;
     } else {
-      // Send the token to your server
-      fetch('/charge', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          token: token.id,
-          cartItems: cartItems, // Send cart items with the request if needed
-          name: name,
-          address: address,
-          city: city,
-          state: state,
-          zip: zip
-        })
-      }).then(response => {
-        if (response.ok) {
-          alert('Payment successful!');
-          localStorage.removeItem("cartItems");
-          window.location.href = 'thank-you.html'; // Redirect to a thank you page or home page
-        } else {
-          errorMessage.textContent = 'Payment failed.';
-        }
-        spinner.classList.add('hidden');
-      }).catch(() => {
-        errorMessage.textContent = 'An unexpected error occurred.';
-        spinner.classList.add('hidden');
-      });
+      if (paymentIntent.status === 'succeeded') {
+        // Payment was successful, handle it here
+        alert('Payment successful!');
+        // Redirect or update the page accordingly
+      }
     }
   });
 });
