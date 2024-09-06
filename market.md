@@ -15,7 +15,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <title>Secure Checkout</title>
 
 <!-- Checkout CSS -->
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
 <!-- Stripe-specific CSS -->
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
 <script src="/Randomerr/server/stripe_checkout.js"></script>
