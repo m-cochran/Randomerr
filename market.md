@@ -113,6 +113,9 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   <button type="submit" id="submit-button">Submit Payment</button>
 </form>
 
+
+
+<style>
 .form-group {
   margin-bottom: 15px;
 }
@@ -135,3 +138,4 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 .spinner.hidden {
   display: none;
 }
+</style>
