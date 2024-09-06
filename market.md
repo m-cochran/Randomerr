@@ -20,7 +20,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
 <script src="/Randomerr/server/stripe_checkout.js"></script>
 <script src="/Randomerr/server/server.js"></script>
-<script src="/Randomerr/assets/js/checkout.js"></script>
+<script src="/Randomerr/assets/js/stripe_checkout.js"></script>
 
 <!-- Stripe JS -->
 <script src="https://js.stripe.com/v3/"></script>
