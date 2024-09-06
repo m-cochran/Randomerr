@@ -3,21 +3,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
 
-  if (cartItems.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-    cartTotal.textContent = "Total: $0.00";
-    return;
-  }
-
-  let total = 0;
-
   function renderCart() {
     cartItemsContainer.innerHTML = "";
-    total = 0;
+    let total = 0;
+
+    if (cartItems.length === 0) {
+      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+      cartTotal.textContent = "Total: $0.00";
+      return;
+    }
+
     cartItems.forEach((item, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cart-item";
-      
+
       itemDiv.innerHTML = `
         <img src="${item.image}" alt="${item.name}">
         <div class="cart-item-details">
@@ -32,13 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
           <div>$${(item.price * item.quantity).toFixed(2)}</div>
         </div>
       `;
-      
+
       cartItemsContainer.appendChild(itemDiv);
       total += item.price * item.quantity;
     });
 
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-    
+
     // Reattach event listeners
     document.querySelectorAll(".btn-increase").forEach(button => {
       button.addEventListener("click", (event) => {
