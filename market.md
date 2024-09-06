@@ -72,9 +72,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <div id="card-errors" role="alert" aria-live="polite"></div>
 </form>
 </section>
-</main>
-</body>
-</html>
 
 
 <style>
