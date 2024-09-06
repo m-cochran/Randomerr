@@ -13,7 +13,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 <!-- Include Stripe.js -->
 <script src="https://js.stripe.com/v3/"></script>
-<script src="/Randomerr/server/stripe_checkout.js"></script>
+<script src="/Randomerr/server/combined_checkout.js"></script>
 <script src="/Randomerr/server/server.js"></script>
 <script src="/Randomerr/assets/js/checkout.js"></script>
 
