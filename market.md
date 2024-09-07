@@ -157,7 +157,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
           clearCart();
 
           // Optionally redirect to a success page
-          window.location.href = "/thank-you";  // Adjust the URL to match your site
+          window.location.href = "{{ site.baseurl }}/thank-you";  // Adjust the URL to match your site
         }
       }
     })
