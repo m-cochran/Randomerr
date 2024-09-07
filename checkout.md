@@ -149,15 +149,22 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       });
     })
     .then(function(result) {
-      if (result.error) {
-        paymentStatus.textContent = result.error.message;
-        submitButton.disabled = false; // Re-enable button
-      } else {
-        if (result.paymentIntent.status === 'succeeded') {
-          paymentStatus.textContent = 'Payment succeeded!';
-        }
-      }
-    })
+  if (result.error) {
+    paymentStatus.textContent = result.error.message;
+    submitButton.disabled = false; // Re-enable button
+  } else {
+    if (result.paymentIntent.status === 'succeeded') {
+      paymentStatus.textContent = 'Payment succeeded!';
+      
+      // Clear the cart
+      clearCart();
+
+      // Optionally redirect to a success page
+      window.location.href = "/thank-you";  // Adjust the URL to match your site
+    }
+  }
+})
+
     .catch(function(error) {
       paymentStatus.textContent = 'Payment failed: ' + error.message;
       submitButton.disabled = false; // Re-enable button
