@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Checkout
-permalink: /checkout/
+permalink: /market/
 ---
 
 # Checkout
