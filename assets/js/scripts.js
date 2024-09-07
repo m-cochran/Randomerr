@@ -470,3 +470,15 @@ const removeCartItem = (index) => {
   cartItems.splice(index, 1);
   updateCart();
 };
+
+function clearCart() {
+  // Clear cart data from local storage
+  localStorage.removeItem('cart');
+  
+  // Clear cart items from UI
+  document.getElementById("cart-items").innerHTML = "";
+  
+  // Reset cart total
+  document.getElementById("cart-total").textContent = "Total: $0.00";
+}
+
