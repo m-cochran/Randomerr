@@ -6,93 +6,90 @@ permalink: /checkout/
 
 # Checkout
 
-
 Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
+<title>Secure Checkout</title>
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
+<script src="https://js.stripe.com/v3/"></script>
 
-
-
-  <title>Secure Checkout</title>
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
-  <script src="https://js.stripe.com/v3/"></script>
-  <style>
-    /* Custom styles if needed */
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    label {
-      text-align: left;
-    }
-    #card-element {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {m
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allwed;
-    }
-  </style>
+<style>
+  /* Custom styles if needed */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  label {
+    text-align: left;
+  }
+  #card-element {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+</style>
 
 <main class="checkout-container">
-   <section id="cart-summary">
-      <h2>Your Cart</h2>
-      <div id="cart-items">
-         <!-- Cart items will be dynamically populated here -->
-      </div>
-      <div class="checkout-summary">
-         <div id="cart-total">Total: $0.00</div>
-      </div>
-   </section>
+  <section id="cart-summary">
+    <h2>Your Cart</h2>
+    <div id="cart-items">
+      <!-- Cart items will be dynamically populated here -->
+    </div>
+    <div class="checkout-summary">
+      <div id="cart-total">Total: $0.00</div>
+    </div>
+  </section>
 
-   <section id="shipping-info">
-      <h2>Shipping Information</h2>
-      <form id="shipping-form">
-         <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-         </div>
-         <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-         </div>
-         <div class="form-group">
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required>
-         </div>
-         <div class="form-group">
-            <label for="state">State:</label>
-            <input type="text" id="state" name="state" required>
-         </div>
-         <div class="form-group">
-            <label for="zip">Zip Code:</label>
-            <input type="text" id="zip" name="zip" required>
-         </div>
-      </form>
-   </section>
+  <section id="shipping-info">
+    <h2>Shipping Information</h2>
+    <form id="shipping-form">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+      </div>
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+      </div>
+      <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required>
+      </div>
+      <div class="form-group">
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" name="zip" required>
+      </div>
+    </form>
+  </section>
 
-   <section id="payment-info">
-      <h2>Complete Your Purchase</h2>
-      <form id="payment-form" aria-label="Payment Form">
-        <label for="card-element" class="form-label">Credit or debit card</label>
-        <div id="card-element" class="card-input"></div>
-        <small id="card-help" class="form-text">Your card details are securely encrypted.</small>
-        <button id="submit-button" aria-label="Pay Now">Pay Now</button>
-        <div id="spinner" class="spinner hidden" aria-hidden="true"></div>
-        <div id="payment-status" role="alert" aria-live="polite"></div>
-      </form>
-   </section>
+  <section id="payment-info">
+    <h2>Complete Your Purchase</h2>
+    <form id="payment-form" aria-label="Payment Form">
+      <label for="card-element" class="form-label">Credit or debit card</label>
+      <div id="card-element" class="card-input"></div>
+      <small id="card-help" class="form-text">Your card details are securely encrypted.</small>
+      <button id="submit-button" aria-label="Pay Now">Pay Now</button>
+      <div id="spinner" class="spinner hidden" aria-hidden="true"></div>
+      <div id="payment-status" role="alert" aria-live="polite"></div>
+    </form>
+  </section>
 </main>
 
 <script src="{{ site.baseurl }}/assets/js/checkout.js"></script>
@@ -149,25 +146,31 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       });
     })
     .then(function(result) {
-  if (result.error) {
-    paymentStatus.textContent = result.error.message;
-    submitButton.disabled = false; // Re-enable button
-  } else {
-    if (result.paymentIntent.status === 'succeeded') {
-      paymentStatus.textContent = 'Payment succeeded!';
-      
-      // Clear the cart
-      clearCart();
+      if (result.error) {
+        paymentStatus.textContent = result.error.message;
+        submitButton.disabled = false; // Re-enable button
+      } else {
+        if (result.paymentIntent.status === 'succeeded') {
+          paymentStatus.textContent = 'Payment succeeded!';
+          
+          // Clear the cart
+          clearCart();
 
-      // Optionally redirect to a success page
-      window.location.href = "/thank-you";  // Adjust the URL to match your site
-    }
-  }
-})
-
+          // Optionally redirect to a success page
+          window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
+        }
+      }
+    })
     .catch(function(error) {
       paymentStatus.textContent = 'Payment failed: ' + error.message;
       submitButton.disabled = false; // Re-enable button
     });
   });
+
+  function clearCart() {
+    // Clear the cart locally
+    localStorage.removeItem('cart');
+    document.getElementById("cart-items").innerHTML = ""; // Clear cart items from UI
+    document.getElementById("cart-total").textContent = "Total: $0.00"; // Reset total
+  }
 </script>
