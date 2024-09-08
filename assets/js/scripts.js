@@ -365,10 +365,11 @@ const addToCart = (product) => {
 // Function to update cart display and save to localStorage
 const updateCart = () => {
   const cart = document.getElementById("cart");
-  cart.innerHTML = "";
+  const cartItemsContainer = document.getElementById("cart-items");
+  cartItemsContainer.innerHTML = "";
 
   if (cartItems.length === 0) {
-    cart.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
+    cartItemsContainer.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
     document.getElementById("cart-icon").style.display = "none";
     // Hide the cart when it's empty
     cart.style.display = "none";
@@ -425,24 +426,26 @@ const updateCart = () => {
     ul.appendChild(li);
   });
 
-  cart.appendChild(ul);
+  cartItemsContainer.appendChild(ul);
 
   const total = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const totalDiv = document.createElement("div");
-  totalDiv.className = "cart-total";
+  const totalDiv = document.getElementById("cart-total");
   totalDiv.textContent = `Total: $${total.toFixed(2)}`;
-  cart.appendChild(totalDiv);
 
-  // Create the checkout button
-  const checkoutButton = document.createElement("button");
-  checkoutButton.textContent = "Checkout";
-  checkoutButton.className = "checkout-button";
-  cart.appendChild(checkoutButton);
+  // Show the cart
+  cart.style.display = "block";
 
-  // Event listener for the checkout button
+  // Save cart to localStorage
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
+};
+
+// Add event listener for the checkout button
+document.addEventListener("DOMContentLoaded", () => {
+  const checkoutButton = document.getElementById("checkout-button"); // Access the button by ID
+
   checkoutButton.addEventListener("click", () => {
     // Check if there are items in the cart
     if (cartItems.length === 0) {
@@ -453,14 +456,11 @@ const updateCart = () => {
     }
   });
 
-  // Save cart to localStorage
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-};
-
-// Load cart items from localStorage and fetch product data on page load
-window.addEventListener("load", () => {
-  fetchProductData();
-  loadCartFromLocalStorage();
+  // Load cart items from localStorage and fetch product data on page load
+  window.addEventListener("load", () => {
+    fetchProductData();
+    loadCartFromLocalStorage();
+  });
 });
 
 // Load cart items from localStorage
