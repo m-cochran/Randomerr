@@ -8,39 +8,9 @@ permalink: /checkout/
 
 Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
-<title>Secure Checkout</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
 <script src="https://js.stripe.com/v3/"></script>
-
-<style>
-  /* Custom styles if needed */
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  label {
-    text-align: left;
-  }
-  #card-element {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-</style>
 
 <main class="checkout-container">
   <section id="cart-summary">
@@ -153,23 +123,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
         if (result.paymentIntent.status === 'succeeded') {
           paymentStatus.textContent = 'Payment succeeded!';
           
-          function clearCart() {
-  // Save the current cart items to localStorage for the thank you page
-  var cartItems = JSON.parse(localStorage.getItem('cart'));
-  if (cartItems && cartItems.length > 0) {
-    localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
-  }
-  
-  // Clear the cart from localStorage
-  localStorage.removeItem('cart');
-
-  // Clear the cart display in the UI
-  document.getElementById("cart-items").innerHTML = ""; 
-  document.getElementById("cart-total").textContent = "Total: $0.00"; 
-}
-
-
-          // Optionally redirect to a success page
+          // Clear the cart and redirect
+          clearCart();
           window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
         }
       }
@@ -180,4 +135,14 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     });
   });
   
+  // Clear cart function
+  function clearCart() {
+    var cartItems = JSON.parse(localStorage.getItem('cart'));
+    if (cartItems && cartItems.length > 0) {
+      localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
+    }
+    localStorage.removeItem('cart');
+    document.getElementById("cart-items").innerHTML = ""; 
+    document.getElementById("cart-total").textContent = "Total: $0.00"; 
+  }
 </script>
