@@ -465,20 +465,23 @@ const loadCartFromLocalStorage = () => {
   }
 };
 
-// Function to remove item from cart
-const removeCartItem = (index) => {
-  cartItems.splice(index, 1);
-  updateCart();
-};
-
 function clearCart() {
-  // Clear cart data from local storage
-  localStorage.removeItem('cart');
+  // Get the current cart from localStorage
+  var cartItems = JSON.parse(localStorage.getItem('cart'));
   
-  // Clear cart items from UI
+  // Save purchased items to a separate key in localStorage (for the thank you page)
+  localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
+  
+  // Clear cart data from localStorage
+  localStorage.removeItem('cart');
+
+  // Clear cart items from the UI
   document.getElementById("cart-items").innerHTML = "";
   
   // Reset cart total
   document.getElementById("cart-total").textContent = "Total: $0.00";
+  
+  // Optionally update the cart icon or counter
+  updateCartIcon();
 }
 
