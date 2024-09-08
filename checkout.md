@@ -159,13 +159,16 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   })
   .then(function(result) {
     if (result.error) {
+      // Handle error here
       paymentStatus.textContent = result.error.message;
       submitButton.disabled = false; // Re-enable button
     } else {
       if (result.paymentIntent.status === 'succeeded') {
+        // Payment was successful
+
         paymentStatus.textContent = 'Payment succeeded!';
         
-        // Clear the cart
+        // Clear the cart only after successful payment
         clearCart();
 
         // Optionally redirect to a success page
@@ -174,6 +177,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     }
   })
   .catch(function(error) {
+    // Handle error here
     paymentStatus.textContent = 'Payment failed: ' + error.message;
     submitButton.disabled = false; // Re-enable button
   });
