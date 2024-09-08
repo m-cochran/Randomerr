@@ -61,18 +61,6 @@ permalink: /thank-you/
     color: #555;
   }
 
-  p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #666;
-  }
-
-  a {
-    color: #2980b9;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
   a:hover {
     text-decoration: underline;
   }
