@@ -54,8 +54,26 @@ permalink: /thank-you/
   // Clear purchasedItems from localStorage after displaying
   localStorage.removeItem('purchasedItems');
 </script>
-/* General Styles for the Thank You Page */
+
 <script>
+/* General Styles for the Thank You Page */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 h1 {
   color: #2c3e50;
   text-align: center;
