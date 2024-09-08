@@ -55,15 +55,6 @@ permalink: /thank-you/
   localStorage.removeItem('purchasedItems');
 
 /* General Styles for the Thank You Page */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 h1 {
   color: #2c3e50;
   text-align: center;
