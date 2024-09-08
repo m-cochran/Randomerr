@@ -440,6 +440,21 @@ const updateCart = () => {
   checkoutButton.className = "checkout-button";
   cart.appendChild(checkoutButton);
 
+  document.addEventListener("DOMContentLoaded", () => {
+  const checkoutButton = document.getElementById("checkout-button");
+
+  checkoutButton.addEventListener("click", () => {
+    // Check if there are items in the cart
+    if (cartItems.length === 0) {
+      alert("Your cart is empty. Add items to the cart before proceeding.");
+    } else {
+      // Redirect to the checkout page
+      window.location.href = "/checkout"; // Update the URL based on your site's structure
+    }
+  });
+});
+
+
   // Save cart to localStorage
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
