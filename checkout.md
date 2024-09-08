@@ -153,8 +153,21 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
         if (result.paymentIntent.status === 'succeeded') {
           paymentStatus.textContent = 'Payment succeeded!';
           
-          // Clear the cart
-          clearCart();
+          function clearCart() {
+  // Save the current cart items to localStorage for the thank you page
+  var cartItems = JSON.parse(localStorage.getItem('cart'));
+  if (cartItems && cartItems.length > 0) {
+    localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
+  }
+  
+  // Clear the cart from localStorage
+  localStorage.removeItem('cart');
+
+  // Clear the cart display in the UI
+  document.getElementById("cart-items").innerHTML = ""; 
+  document.getElementById("cart-total").textContent = "Total: $0.00"; 
+}
+
 
           // Optionally redirect to a success page
           window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
@@ -166,11 +179,5 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       submitButton.disabled = false; // Re-enable button
     });
   });
-
-  function clearCart() {
-    // Clear the cart locally
-    localStorage.removeItem('cart');
-    document.getElementById("cart-items").innerHTML = ""; // Clear cart items from UI
-    document.getElementById("cart-total").textContent = "Total: $0.00"; // Reset total
-  }
+  
 </script>
