@@ -57,30 +57,44 @@ permalink: /thank-you/
 
 
 <script>
-  /* General Styles for the Thank You Page */
-h1, h2 {
-  color: #4a90e2;
+/* General Styles for the Thank You Page */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 20px;
 }
 
 h2 {
-  border-bottom: 2px solid #4a90e2;
+  color: #2980b9;
+  border-bottom: 2px solid #2980b9;
   padding-bottom: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-size: 1.8em;
 }
 
 #purchased-items {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
+  margin: 0;
+  padding: 0;
 }
 
 .purchased-item {
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e1e1e1;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 
 .purchased-item:last-child {
@@ -88,34 +102,60 @@ h2 {
 }
 
 .item-image {
-  max-width: 100px;
-  max-height: 100px;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
   margin-right: 20px;
-  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item-details {
-  font-size: 16px;
+  flex: 1;
+}
+
+.item-details strong {
+  font-size: 1.2em;
+  color: #34495e;
+}
+
+.item-details p {
+  margin: 5px 0;
+  font-size: 1em;
+  color: #555;
 }
 
 p {
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #666;
 }
 
 a {
-  color: #4a90e2;
+  color: #2980b9;
   text-decoration: none;
+  font-weight: bold;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .purchased-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-image {
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 150px;
+  }
 }
 
 </script>
