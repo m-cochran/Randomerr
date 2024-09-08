@@ -5,15 +5,126 @@ permalink: /thank-you/
 ---
 
 <div class="container">
-<h1>Thank You for Your Purchase!</h1>
+  <h1>Thank You for Your Purchase!</h1>
 
-<h2>Your Purchased Items:</h2>
-<div id="purchased-items">
-<!-- Items will be dynamically populated here -->
+  <h2>Your Purchased Items:</h2>
+  <div id="purchased-items">
+    <!-- Items will be dynamically populated here -->
+  </div>
+
+  <p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
 </div>
 
-<p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
-</div>
+<style>
+  /* General Styles for the Thank You Page */
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: #2980b9;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+  }
+
+  #purchased-items {
+    margin: 0;
+    padding: 0;
+  }
+
+  .purchased-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .purchased-item:last-child {
+    border-bottom: none;
+  }
+
+  .item-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .item-details {
+    flex: 1;
+  }
+
+  .item-details strong {
+    font-size: 1.2em;
+    color: #34495e;
+  }
+
+  .item-details p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #555;
+  }
+
+  p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+
+    .purchased-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .item-image {
+      margin-bottom: 10px;
+      width: 100%;
+      max-width: 150px;
+    }
+  }
+</style>
 
 <script>
   // Retrieve purchased items from localStorage
@@ -53,107 +164,4 @@ permalink: /thank-you/
 
   // Clear purchasedItems from localStorage after displaying
   localStorage.removeItem('purchasedItems');
-
-  
-  
-  
-  .container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  color: #2c3e50;
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 20px;
-}
-
-h2 {
-  color: #2980b9;
-  border-bottom: 2px solid #2980b9;
-  padding-bottom: 10px;
-  margin-bottom: 30px;
-  font-size: 1.8em;
-}
-
-#purchased-items {
-  margin: 0;
-  padding: 0;
-}
-
-.purchased-item {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.purchased-item:last-child {
-  border-bottom: none;
-}
-
-.item-image {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-right: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.item-details {
-  flex: 1;
-}
-
-.item-details strong {
-  font-size: 1.2em;
-  color: #34495e;
-}
-
-.item-details p {
-  margin: 5px 0;
-  font-size: 1em;
-  color: #555;
-}
-
-p {
-  font-size: 1.1em;
-  line-height: 1.6;
-  color: #666;
-}
-
-a {
-  color: #2980b9;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
-  }
-
-  .purchased-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .item-image {
-    margin-bottom: 10px;
-    width: 100%;
-    max-width: 150px;
-  }
-}
 </script>
