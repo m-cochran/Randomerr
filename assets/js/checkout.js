@@ -91,22 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     alert(`Thank you for your purchase, ${name}!`);
     
-    function clearCart() {
-  // Get the current cart from localStorage
-  var cartItems = JSON.parse(localStorage.getItem('cart'));
-  
-  // Save purchased items to a separate key in localStorage (for the thank you page)
-  localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
-  
-  // Clear cart data from localStorage
-  localStorage.removeItem('cart');
-
-  // Clear cart items from the UI
-  document.getElementById("cart-items").innerHTML = "";
-  
-  // Reset cart total
-  document.getElementById("cart-total").textContent = "Total: $0.00";
-  
-  // Optionally update the cart icon or counter
-  updateCartIcon();
-}
+    localStorage.removeItem("cartItems");
+    window.location.href = "thank-you.html"; // Redirect to a thank you page or home page
+  });
+});
