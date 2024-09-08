@@ -25,7 +25,7 @@ permalink: /thank-you/
   }
 
   h2 {
-    color: #2980b9;
+    color: #06f;
     border-bottom: 2px solid #2980b9;
     padding-bottom: 10px;
     margin-bottom: 30px;
