@@ -12,11 +12,40 @@ permalink: /thank-you/
     <!-- Items will be dynamically populated here -->
   </div>
 
+  <h2>Your Receipt:</h2>
+  <div id="receipt-link">
+    <!-- Receipt link will be dynamically populated here -->
+  </div>
+
   <p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
 </div>
 
 <style>
   /* General Styles for the Thank You Page */
+  
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: #2980b9;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+  }
 
   #purchased-items {
     margin: 0;
@@ -61,6 +90,28 @@ permalink: /thank-you/
     color: #555;
   }
 
+  #receipt-link a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  #receipt-link a:hover {
+    text-decoration: underline;
+  }
+
+  p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
   a:hover {
     text-decoration: underline;
   }
@@ -84,33 +135,31 @@ permalink: /thank-you/
 </style>
 
 <script>
-  // Retrieve purchased items from localStorage
+  // Retrieve purchased items and receipt URL from localStorage
   var purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
+  var receiptUrl = localStorage.getItem('receiptUrl');
 
-  // Reference to the HTML container where purchased items will be displayed
+  // Reference to the HTML containers
   var purchasedItemsContainer = document.getElementById('purchased-items');
+  var receiptLinkContainer = document.getElementById('receipt-link');
 
-  // Check if purchased items exist
+  // Display purchased items
   if (purchasedItems && purchasedItems.length > 0) {
     purchasedItems.forEach(function(item) {
-      // Create an element for each purchased item and append to the container
       var itemElement = document.createElement('div');
       itemElement.className = 'purchased-item';
 
-      // Create image element
       var itemImage = document.createElement('img');
-      itemImage.src = item.image; // Assuming image URL is stored in 'image'
+      itemImage.src = item.image;
       itemImage.alt = item.name;
       itemImage.className = 'item-image';
 
-      // Create details element
       var itemDetails = document.createElement('div');
       itemDetails.className = 'item-details';
       itemDetails.innerHTML = `<strong>${item.name}</strong><br>
                                Price: $${item.price}<br>
                                Quantity: ${item.quantity}`;
 
-      // Append image and details to item element
       itemElement.appendChild(itemImage);
       itemElement.appendChild(itemDetails);
       purchasedItemsContainer.appendChild(itemElement);
@@ -119,8 +168,20 @@ permalink: /thank-you/
     purchasedItemsContainer.textContent = 'No items found.';
   }
 
-  // Clear purchasedItems from localStorage after displaying
+  // Display receipt link
+  if (receiptUrl) {
+    var receiptElement = document.createElement('a');
+    receiptElement.href = receiptUrl;
+    receiptElement.textContent = 'View your receipt here';
+    receiptElement.target = '_blank';
+    receiptLinkContainer.appendChild(receiptElement);
+  } else {
+    receiptLinkContainer.textContent = 'No receipt available.';
+  }
+
+  // Clear localStorage after displaying
   localStorage.removeItem('purchasedItems');
+  localStorage.removeItem('receiptUrl');
 </script>
 
 
