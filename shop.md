@@ -46,7 +46,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   <div id="cart-summary" class="cart-summary">
     <div id="cart-total">Total: $0.00</div>
     <div id="cart-actions">
-      <button id="checkout">Checkout</button>
+      <button id="checkout-button" class="checkout-button">Checkout</button>
     </div>
   </div>
 </div>
