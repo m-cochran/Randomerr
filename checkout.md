@@ -122,6 +122,9 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       } else {
         if (result.paymentIntent.status === 'succeeded') {
           paymentStatus.textContent = 'Payment succeeded!';
+
+          // Store receipt URL and clear the cart
+        localStorage.setItem('receiptUrl', data.receiptUrl);
           
           // Clear the cart and redirect
           clearCart();
