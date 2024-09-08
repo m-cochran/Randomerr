@@ -5,14 +5,14 @@ permalink: /thank-you/
 ---
 
 <div class="container">
-  <h1>Thank You for Your Purchase!</h1>
+<h1>Thank You for Your Purchase!</h1>
 
-  <h2>Your Purchased Items:</h2>
-  <div id="purchased-items">
-    <!-- Items will be dynamically populated here -->
-  </div>
+<h2>Your Purchased Items:</h2>
+<div id="purchased-items">
+<!-- Items will be dynamically populated here -->
+</div>
 
-  <p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
+<p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
 </div>
 
 <script>
@@ -154,5 +154,4 @@ a:hover {
     max-width: 150px;
   }
 }
-
 </script>
