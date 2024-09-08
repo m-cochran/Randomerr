@@ -435,13 +435,14 @@ const updateCart = () => {
   totalDiv.textContent = `Total: $${total.toFixed(2)}`;
   cart.appendChild(totalDiv);
 
-  const checkoutButton = document.createElement("button");
-  checkoutButton.textContent = "Checkout";
-  checkoutButton.className = "checkout-button";
-  cart.appendChild(checkoutButton);
+// Create the checkout button
+const checkoutButton = document.createElement("button");
+checkoutButton.textContent = "Checkout";
+checkoutButton.className = "checkout-button";
+cart.appendChild(checkoutButton);
 
-  document.addEventListener("DOMContentLoaded", () => {
-  const checkoutButton = document.getElementById("checkout-button");
+document.addEventListener("DOMContentLoaded", () => {
+  const checkoutButton = document.getElementsByClassName("checkout-button")[0]; // Access the button by class
 
   checkoutButton.addEventListener("click", () => {
     // Check if there are items in the cart
@@ -453,6 +454,7 @@ const updateCart = () => {
     }
   });
 });
+
 
 
   // Save cart to localStorage
