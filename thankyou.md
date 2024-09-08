@@ -53,10 +53,7 @@ permalink: /thank-you/
 
   // Clear purchasedItems from localStorage after displaying
   localStorage.removeItem('purchasedItems');
-</script>
 
-
-<script>
 /* General Styles for the Thank You Page */
 .container {
   max-width: 900px;
