@@ -361,6 +361,7 @@ const addToCart = (product) => {
   // Trigger the cart icon animation
   animateCartIcon();
 };
+
 // Function to update cart display and save to localStorage
 const updateCart = () => {
   const cart = document.getElementById("cart");
@@ -435,27 +436,22 @@ const updateCart = () => {
   totalDiv.textContent = `Total: $${total.toFixed(2)}`;
   cart.appendChild(totalDiv);
 
-// Create the checkout button
-const checkoutButton = document.createElement("button");
-checkoutButton.textContent = "Checkout";
-checkoutButton.className = "checkout-button";
-cart.appendChild(checkoutButton);
+  // Create the checkout button
+  const checkoutButton = document.createElement("button");
+  checkoutButton.textContent = "Checkout";
+  checkoutButton.className = "checkout-button";
+  cart.appendChild(checkoutButton);
 
-document.addEventListener("DOMContentLoaded", () => {
-  const checkoutButton = document.getElementsByClassName("checkout-button")[0]; // Access the button by class
-
+  // Event listener for the checkout button
   checkoutButton.addEventListener("click", () => {
     // Check if there are items in the cart
     if (cartItems.length === 0) {
       alert("Your cart is empty. Add items to the cart before proceeding.");
     } else {
       // Redirect to the checkout page
-      window.location.href = "https://https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
+      window.location.href = "https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
     }
   });
-});
-
-
 
   // Save cart to localStorage
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
