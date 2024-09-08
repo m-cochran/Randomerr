@@ -50,11 +50,3 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </div>
   </div>
 </div>
-
-<script>
-  // Add event listener to Checkout button
-  document.getElementById("checkout").addEventListener("click", function() {
-    // Redirect to checkout page
-    window.location.href = "https://m-cochran.github.io/Randomerr/checkout/";
-  });
-</script>
