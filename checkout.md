@@ -135,14 +135,23 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     });
   });
   
-  // Clear cart function
-  function clearCart() {
-    var cartItems = JSON.parse(localStorage.getItem('cart'));
-    if (cartItems && cartItems.length > 0) {
-      localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
-    }
-    localStorage.removeItem('cart');
-    document.getElementById("cart-items").innerHTML = ""; 
-    document.getElementById("cart-total").textContent = "Total: $0.00"; 
+// Clear cart function
+function clearCart() {
+  // Retrieve cart items from localStorage
+  var cartItems = JSON.parse(localStorage.getItem('cartItems'));
+  
+  // Check if cartItems exist and have items
+  if (cartItems && cartItems.length > 0) {
+    // Save items to purchasedItems before clearing cart
+    localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
   }
+  
+  // Clear cart from localStorage
+  localStorage.removeItem('cartItems');
+  
+  // Update the cart UI
+  document.getElementById("cart-items").innerHTML = "";
+  document.getElementById("cart-total").textContent = "Total: $0.00";
+}
+
 </script>
