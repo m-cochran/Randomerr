@@ -105,82 +105,72 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   var paymentStatus = document.getElementById("payment-status");
 
   form.addEventListener("submit", function (event) {
-  event.preventDefault();
-  submitButton.disabled = true; // Disable button to prevent multiple submissions
-  paymentStatus.textContent = ""; // Clear previous status
+    event.preventDefault();
+    submitButton.disabled = true; // Disable button to prevent multiple submissions
+    paymentStatus.textContent = ""; // Clear previous status
 
-  var cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
-  var shippingDetails = {
-    name: document.getElementById("name").value,
-    address: {
-      line1: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      state: document.getElementById("state").value,
-      postal_code: document.getElementById("zip").value
-    }
-  };
-
-  var email = "customer@example.com"; // Replace with dynamic email if applicable
-  var cartItems = Array.from(document.querySelectorAll("#cart-items .item")).map(item => {
-    return {
-      name: item.querySelector(".item-name").textContent,
-      price: item.querySelector(".item-price").textContent
-    };
-  });
-
-  if (!cartTotal || cartTotal <= 0) {
-    alert("Your cart is empty.");
-    submitButton.disabled = false; // Re-enable button
-    return;
-  }
-
-  // Create payment intent via your backend (Vercel endpoint)
-  fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ 
-      amount: Math.round(cartTotal * 100), // Convert dollars to cents
-      email: email,
-      cartItems: cartItems
-    }),
-  })
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
-    return stripe.confirmCardPayment(data.clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: shippingDetails,
-      },
-    });
-  })
-  .then(function(result) {
-    if (result.error) {
-      // Handle error here
-      paymentStatus.textContent = result.error.message;
-      submitButton.disabled = false; // Re-enable button
-    } else {
-      if (result.paymentIntent.status === 'succeeded') {
-        // Payment was successful
-
-        paymentStatus.textContent = 'Payment succeeded!';
-        
-        // Clear the cart only after successful payment
-        clearCart();
-
-        // Optionally redirect to a success page
-        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
+    var cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
+    var shippingDetails = {
+      name: document.getElementById("name").value,
+      address: {
+        line1: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        state: document.getElementById("state").value,
+        postal_code: document.getElementById("zip").value
       }
-    }
-  })
-  .catch(function(error) {
-    // Handle error here
-    paymentStatus.textContent = 'Payment failed: ' + error.message;
-    submitButton.disabled = false; // Re-enable button
-  });
-});
+    };
 
+    if (!cartTotal || cartTotal <= 0) {
+      alert("Your cart is empty.");
+      submitButton.disabled = false; // Re-enable button
+      return;
+    }
+
+    // Create payment intent via your backend (Vercel endpoint)
+    fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount: Math.round(cartTotal * 100) }), // Convert dollars to cents
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      return stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: shippingDetails,
+        },
+      });
+    })
+    .then(function(result) {
+      if (result.error) {
+        paymentStatus.textContent = result.error.message;
+        submitButton.disabled = false; // Re-enable button
+      } else {
+        if (result.paymentIntent.status === 'succeeded') {
+          paymentStatus.textContent = 'Payment succeeded!';
+          
+          // Clear the cart
+          clearCart();
+
+          // Optionally redirect to a success page
+          window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
+        }
+      }
+    })
+    .catch(function(error) {
+      paymentStatus.textContent = 'Payment failed: ' + error.message;
+      submitButton.disabled = false; // Re-enable button
+    });
+  });
+
+  function clearCart() {
+    // Clear the cart locally
+    localStorage.removeItem('cart');
+    document.getElementById("cart-items").innerHTML = ""; // Clear cart items from UI
+    document.getElementById("cart-total").textContent = "Total: $0.00"; // Reset total
+  }
 </script>
