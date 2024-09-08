@@ -27,6 +27,10 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <h2>Shipping Information</h2>
     <form id="shipping-form">
       <div class="form-group">
+        <label for="email">email:</label>
+        <input type="text" id="email" name="email" required>
+      </div>
+      <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
       </div>
@@ -81,6 +85,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
     var cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
     var shippingDetails = {
+      email: document.getElementById("email").value,
       name: document.getElementById("name").value,
       address: {
         line1: document.getElementById("address").value,
