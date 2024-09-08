@@ -17,13 +17,6 @@ permalink: /thank-you/
 
 <style>
   /* General Styles for the Thank You Page */
-  body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #333;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-  }
 
   .container {
     max-width: 900px;
