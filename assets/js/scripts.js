@@ -450,7 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Your cart is empty. Add items to the cart before proceeding.");
     } else {
       // Redirect to the checkout page
-      window.location.href = "/checkout"; // Update the URL based on your site's structure
+      window.location.href = "https://https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
     }
   });
 });
