@@ -4,35 +4,32 @@ title: Thank You
 permalink: /thank-you/
 ---
 
-<main class="thankyou-container">
-  <h1>Thank You for Your Purchase!</h1>
-  <p>Your order has been successfully processed. Below are the details of your purchased items:</p>
-  
-  <div id="purchased-items">
-    <!-- Purchased items will be dynamically populated here -->
-  </div>
-  
-  <p>We appreciate your business and look forward to serving you again!</p>
-</main>
+# Thank You for Your Purchase!
 
+<div id="purchased-items">
+  <h2>Your Purchased Items:</h2>
+  <div id="purchased-items-list">
+    <!-- Purchased items will be displayed here -->
+  </div>
+</div>
 
 <script>
-  // Retrieve purchased items from localStorage
-  var purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
-  
-  if (purchasedItems && purchasedItems.length > 0) {
-    var purchasedItemsContainer = document.getElementById('purchased-items');
-    
-    purchasedItems.forEach(function(item) {
-      // Assuming each item has 'name', 'quantity', and 'price'
-      var itemElement = document.createElement('div');
-      itemElement.textContent = item.name + " x " + item.quantity + " - $" + item.price;
-      purchasedItemsContainer.appendChild(itemElement);
-    });
-  } else {
-    document.getElementById('purchased-items').textContent = "No items found.";
-  }
-  
-  // Optionally, clear the purchased items from localStorage after displaying
-  localStorage.removeItem('purchasedItems');
+  document.addEventListener("DOMContentLoaded", function() {
+    var purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
+
+    if (purchasedItems && purchasedItems.length > 0) {
+      var purchasedItemsList = document.getElementById("purchased-items-list");
+      purchasedItems.forEach(function(item) {
+        var itemElement = document.createElement("div");
+        itemElement.classList.add("purchased-item");
+        itemElement.innerHTML = `<strong>${item.name}</strong> - ${item.quantity} x $${item.price}`;
+        purchasedItemsList.appendChild(itemElement);
+      });
+
+      // Optionally clear the purchasedItems after displaying them
+      localStorage.removeItem('purchasedItems');
+    } else {
+      document.getElementById("purchased-items").innerHTML = "<p>No items found.</p>";
+    }
+  });
 </script>
