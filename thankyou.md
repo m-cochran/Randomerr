@@ -4,29 +4,34 @@ title: Thank You
 permalink: /thank-you/
 ---
 
-# Thank You!
+# Thank You for Your Purchase!
 
-We hope you enjoy your purchase. If you have any questions, feel free to contact us at [contact@randomerr.com](mailto:contact@randomerr.com).
+<h2>Your Purchased Items:</h2>
+<div id="purchased-items">
+  <!-- Items will be dynamically populated here -->
+</div>
+
+<p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
-    if (purchasedItems && purchasedItems.length > 0) {
-      const cartItemsContainer = document.getElementById('cart-items');
-      cartItemsContainer.innerHTML = '';
-      purchasedItems.forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'purchased-item';
-        itemDiv.innerHTML = `
-          <h3>${item.name}</h3>
-          <p>Price: $${item.price}</p>
-          <p>Quantity: ${item.quantity}</p>
-        `;
-        cartItemsContainer.appendChild(itemDiv);
-      });
-      document.getElementById('cart-summary').style.display = 'block';
-    } else {
-      document.getElementById('cart-summary').innerHTML = '<p>No items found.</p>';
-    }
-  });
+  // Retrieve purchased items from localStorage
+  var purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
+
+  // Reference to the HTML container where purchased items will be displayed
+  var purchasedItemsContainer = document.getElementById('purchased-items');
+
+  // Check if purchased items exist
+  if (purchasedItems && purchasedItems.length > 0) {
+    purchasedItems.forEach(function(item) {
+      // Create an element for each purchased item and append to the container
+      var itemElement = document.createElement('div');
+      itemElement.textContent = item.name + " - $" + item.price;
+      purchasedItemsContainer.appendChild(itemElement);
+    });
+  } else {
+    purchasedItemsContainer.textContent = 'No items found.';
+  }
+
+  // Clear purchasedItems from localStorage after displaying
+  localStorage.removeItem('purchasedItems');
 </script>
