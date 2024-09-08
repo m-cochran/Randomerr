@@ -17,20 +17,6 @@ permalink: /thank-you/
 
 <style>
   /* General Styles for the Thank You Page */
-  h1 {
-    color: #2c3e50;
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 20px;
-  }
-
-  h2 {
-    color: #06f;
-    border-bottom: 2px solid #2980b9;
-    padding-bottom: 10px;
-    margin-bottom: 30px;
-    font-size: 1.8em;
-  }
 
   #purchased-items {
     margin: 0;
