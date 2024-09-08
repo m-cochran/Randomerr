@@ -1,4 +1,3 @@
-<!-- Thank-You Page -->
 ---
 layout: default
 title: Thank You
