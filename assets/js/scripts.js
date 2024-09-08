@@ -440,11 +440,6 @@ const updateCart = () => {
   checkoutButton.className = "checkout-button";
   cart.appendChild(checkoutButton);
 
-  // Add an event listener to handle the click event and redirect to the checkout page
-checkoutButton.addEventListener("click", function() {
-  window.location.href = "https://m-cochran.github.io/Randomerr/checkout/";  // Redirect to the checkout page
-});
-
   // Save cart to localStorage
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
@@ -463,4 +458,10 @@ const loadCartFromLocalStorage = () => {
     document.getElementById("cart-icon").style.display = "block";
     updateCart();
   }
+};
+
+// Function to remove item from cart
+const removeCartItem = (index) => {
+  cartItems.splice(index, 1);
+  updateCart();
 };
