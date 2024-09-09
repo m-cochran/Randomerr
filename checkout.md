@@ -107,7 +107,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ amount: Math.round(cartTotal * 100) }), // Convert dollars to cents
+      body: JSON.stringify({ amount: Math.round(cartTotal * 1) }), // Convert dollars to cents
     })
     .then(function(response) {
       return response.json();
