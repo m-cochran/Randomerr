@@ -103,45 +103,45 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
     // Create payment intent via your backend (Vercel endpoint)
     fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: Math.round(cartTotal * 1) }), // Convert dollars to cents
-    })
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      return stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: shippingDetails,
-        },
-      });
-    })
-    .then(function(result) {
-      if (result.error) {
-        paymentStatus.textContent = result.error.message;
-        submitButton.disabled = false; // Re-enable button
-      } else {
-        if (result.paymentIntent.status === 'succeeded') {
-          paymentStatus.textContent = 'Payment succeeded!';
-
-          // Store receipt URL and clear the cart
-          localStorage.setItem('receiptUrl', result.paymentIntent.charges.data[0].receipt_url);
-          
-          // Clear the cart and redirect
-          clearCart();
-          window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
-        }
-      }
-    })
-    .catch(function(error) {
-      paymentStatus.textContent = 'Payment failed: ' + error.message;
-      submitButton.disabled = false; // Re-enable button
-    });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ amount: Math.round(cartTotal * 100), email: document.getElementById("email").value }), // Convert dollars to cents
+})
+.then(function(response) {
+  return response.json();
+})
+.then(function(data) {
+  return stripe.confirmCardPayment(data.clientSecret, {
+    payment_method: {
+      card: card,
+      billing_details: shippingDetails,
+    },
   });
+})
+.then(function(result) {
+  if (result.error) {
+    paymentStatus.textContent = result.error.message;
+    submitButton.disabled = false; // Re-enable button
+  } else {
+    if (result.paymentIntent.status === 'succeeded') {
+      paymentStatus.textContent = 'Payment succeeded!';
+
+      // Store receipt URL and clear the cart
+      localStorage.setItem('receiptUrl', result.paymentIntent.charges.data[0].receipt_url);
+      
+      // Clear the cart and redirect
+      clearCart();
+      window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
+    }
+  }
+})
+.catch(function(error) {
+  paymentStatus.textContent = 'Payment failed: ' + error.message;
+  submitButton.disabled = false; // Re-enable button
+});
+
   
 // Clear cart function
 function clearCart() {
