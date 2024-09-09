@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("shipping-form").addEventListener("submit", (event) => {
     event.preventDefault();
 
+    const email = document.getElementById("email").value.trim();
     const name = document.getElementById("name").value.trim();
     const address = document.getElementById("address").value.trim();
     const city = document.getElementById("city").value.trim();
@@ -84,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const zip = document.getElementById("zip").value.trim();
     const paymentMethod = document.getElementById("payment").value;
 
-    if (!name || !address || !city || !state || !zip) {
+    if (!email || !name || !address || !city || !state || !zip) {
       alert("Please fill in all required fields.");
       return;
     }
