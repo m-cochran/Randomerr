@@ -27,8 +27,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <h2>Shipping Information</h2>
     <form id="shipping-form">
       <div class="form-group">
-        <label for="email">email:</label>
-        <input type="text" id="email" name="email" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
       </div>
       <div class="form-group">
         <label for="name">Name:</label>
@@ -129,7 +129,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
           paymentStatus.textContent = 'Payment succeeded!';
 
           // Store receipt URL and clear the cart
-        localStorage.setItem('receiptUrl', data.receiptUrl);
+          localStorage.setItem('receiptUrl', result.paymentIntent.charges.data[0].receipt_url);
           
           // Clear the cart and redirect
           clearCart();
