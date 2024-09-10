@@ -16,6 +16,14 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stripe Payment</title>
   <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #payment-form { max-width: 600px; margin: auto; }
+    input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
 </head>
 <body>
   <h2>Complete Your Payment</h2>
@@ -86,13 +94,17 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              amount: 2000, // Example amount
+              amount: 2000, // Example amount in cents
               email: email,
               phone: phone,
               name: name,
               address: address
             })
           });
+
+          if (!response.ok) {
+            throw new Error('Failed to create payment intent');
+          }
 
           const data = await response.json();
 
@@ -111,15 +123,18 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
           if (result.error) {
             // Display error message if payment fails
-            paymentStatus.textContent = result.error.message;
+            paymentStatus.textContent = `Error: ${result.error.message}`;
+            paymentStatus.classList.add('error');
           } else {
             // Payment successful
             if (result.paymentIntent.status === 'succeeded') {
               paymentStatus.textContent = 'Payment successful!';
+              paymentStatus.classList.add('success');
             }
           }
         } catch (error) {
           paymentStatus.textContent = `Error: ${error.message}`;
+          paymentStatus.classList.add('error');
         } finally {
           submitButton.disabled = false;
         }
