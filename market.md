@@ -110,8 +110,73 @@ permalink: /market/
         const address = {
           line1: document.getElementById("address").value,
           city: document.getElementById("city").value,
-          state: document.getElementById("state").value
+          state: document.getElementById("state").value,
+          postal_code: document.getElementById("postal-code").value,
+          country: document.getElementById("country").value
+        };
+        const shippingAddress = sameAddressCheckbox.checked ? address : {
+          line1: document.getElementById("shipping-address").value,
+          city: document.getElementById("shipping-city").value,
+          state: document.getElementById("shipping-state").value,
+          postal_code: document.getElementById("shipping-postal-code").value,
+          country: document.getElementById("shipping-country").value
+        };
 
+        try {
+          // Create payment intent by calling the backend API
+          const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              amount: 2000, // Example amount in cents
+              email: email,
+              phone: phone,
+              name: name,
+              address: address,
+              shippingAddress: shippingAddress
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to create payment intent');
+          }
+
+          const data = await response.json();
+
+          // Confirm payment on the client-side using the client secret
+          const result = await stripe.confirmCardPayment(data.clientSecret, {
+            payment_method: {
+              card: card,
+              billing_details: {
+                name: name,
+                email: email,
+                phone: phone,
+                address: address
+              },
+            },
+          });
+
+          if (result.error) {
+            // Display error message if payment fails
+            paymentStatus.textContent = `Error: ${result.error.message}`;
+            paymentStatus.classList.add('error');
+          } else {
+            // Payment successful
+            if (result.paymentIntent.status === 'succeeded') {
+              paymentStatus.textContent = 'Payment successful!';
+              paymentStatus.classList.add('success');
+            }
+          }
+        } catch (error) {
+          paymentStatus.textContent = `Error: ${error.message}`;
+          paymentStatus.classList.add('error');
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    });
   </script>
 </body>
 </html>
