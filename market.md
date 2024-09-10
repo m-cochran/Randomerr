@@ -55,6 +55,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
     <button id="submit-button">Pay Now</button>
     <div id="payment-status"></div>
+    <div id="receipt-url"></div>
   </form>
 
   <script>
@@ -64,6 +65,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       const form = document.getElementById("payment-form");
       const submitButton = document.getElementById("submit-button");
       const paymentStatus = document.getElementById("payment-status");
+      const receiptUrlElement = document.getElementById("receipt-url");
 
       // Mount the Stripe Elements card UI
       const elements = stripe.elements();
@@ -74,6 +76,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
         event.preventDefault();
         submitButton.disabled = true;
         paymentStatus.textContent = "";
+        receiptUrlElement.textContent = "";
 
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
@@ -130,6 +133,9 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
             if (result.paymentIntent.status === 'succeeded') {
               paymentStatus.textContent = 'Payment successful!';
               paymentStatus.classList.add('success');
+              if (data.receiptUrl) {
+                receiptUrlElement.innerHTML = `Receipt: <a href="${data.receiptUrl}" target="_blank">${data.receiptUrl}</a>`;
+              }
             }
           }
         } catch (error) {
@@ -143,4 +149,3 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   </script>
 </body>
 </html>
-
