@@ -19,16 +19,39 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </head>
 <body>
   <h2>Complete Your Payment</h2>
+
   <form id="payment-form">
+    <!-- Cardholder's Name -->
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
+
+    <!-- Email Address -->
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required>
+
+    <!-- Phone Number -->
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required>
+
+    <!-- Billing Address -->
+    <label for="address">Billing Address</label>
+    <input type="text" id="address" placeholder="Street Address" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="state" placeholder="State" required>
+    <input type="text" id="postal-code" placeholder="Postal Code" required>
+    <input type="text" id="country" placeholder="Country" required>
+
+    <!-- Stripe Card Element -->
     <label for="card-element">Credit or debit card</label>
     <div id="card-element"></div>
+
     <button id="submit-button">Pay Now</button>
     <div id="payment-status"></div>
   </form>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Add your Stripe Publishable Key here
+      const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
 
       const form = document.getElementById("payment-form");
       const submitButton = document.getElementById("submit-button");
@@ -44,14 +67,31 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
         submitButton.disabled = true;
         paymentStatus.textContent = "";
 
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const address = {
+          line1: document.getElementById("address").value,
+          city: document.getElementById("city").value,
+          state: document.getElementById("state").value,
+          postal_code: document.getElementById("postal-code").value,
+          country: document.getElementById("country").value
+        };
+
         try {
-          // Create payment intent by calling backend API
+          // Create payment intent by calling the backend API
           const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ amount: 2000, email: 'customer@example.com' }) // Example amount
+            body: JSON.stringify({
+              amount: 2000, // Example amount
+              email: email,
+              phone: phone,
+              name: name,
+              address: address
+            })
           });
 
           const data = await response.json();
@@ -61,7 +101,10 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
             payment_method: {
               card: card,
               billing_details: {
-                email: 'customer@example.com' // Replace with real email from form
+                name: name,
+                email: email,
+                phone: phone,
+                address: address
               },
             },
           });
