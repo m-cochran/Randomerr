@@ -67,81 +67,88 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 </main>
 
 <script src="{{ site.baseurl }}/assets/js/checkout.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const stripe = Stripe("pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb");
-    const elements = stripe.elements();
-    const card = elements.create("card");
-    card.mount("#card-element");
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const stripe = Stripe("pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb");
+      const elements = stripe.elements();
+      const card = elements.create("card");
+      card.mount("#card-element");
 
-    const form = document.getElementById("payment-form");
-    const submitButton = document.getElementById("submit-button");
-    const paymentStatus = document.getElementById("payment-status");
+      const form = document.getElementById("payment-form");
+      const submitButton = document.getElementById("submit-button");
+      const paymentStatus = document.getElementById("payment-status");
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      submitButton.disabled = true;
-      paymentStatus.textContent = "";
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        submitButton.disabled = true;
+        paymentStatus.textContent = "";
 
-      const cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
-      const shippingDetails = {
-        email: document.getElementById("email").value,
-        name: document.getElementById("name").value,
-        address: {
-          line1: document.getElementById("address").value,
-          city: document.getElementById("city").value,
-          state: document.getElementById("state").value,
-          postal_code: document.getElementById("zip").value
-        }
-      };
-
-      if (!cartTotal || cartTotal <= 0) {
-        alert("Your cart is empty.");
-        submitButton.disabled = false;
-        return;
-      }
-
-      try {
-        const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ amount: Math.round(cartTotal * 100), email: document.getElementById("email").value }),
-        });
-
-        const data = await response.json();
-        const result = await stripe.confirmCardPayment(data.clientSecret, {
-          payment_method: {
-            card: card,
-            billing_details: shippingDetails,
-          },
-        });
-
-        if (result.error) {
-          paymentStatus.textContent = result.error.message;
-        } else {
-          if (result.paymentIntent.status === 'succeeded') {
-            paymentStatus.textContent = 'Payment succeeded!';
-            clearCart();
-            window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+        const cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
+        const shippingDetails = {
+          email: document.getElementById("email").value,
+          name: document.getElementById("name").value,
+          address: {
+            line1: document.getElementById("address").value,
+            city: document.getElementById("city").value,
+            state: document.getElementById("state").value,
+            postal_code: document.getElementById("zip").value
           }
+        };
+
+        if (!cartTotal || cartTotal <= 0) {
+          alert("Your cart is empty.");
+          submitButton.disabled = false;
+          return;
         }
-      } catch (error) {
-        paymentStatus.textContent = 'Payment failed: ' + error.message;
-      } finally {
-        submitButton.disabled = false;
+
+        try {
+          const response = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ amount: parseFloat(cartTotal), email: shippingDetails.email }),
+          });
+
+          const data = await response.json();
+
+          if (data.error) {
+            paymentStatus.textContent = data.error;
+            submitButton.disabled = false;
+            return;
+          }
+
+          const result = await stripe.confirmCardPayment(data.clientSecret, {
+            payment_method: {
+              card: card,
+              billing_details: shippingDetails,
+            },
+          });
+
+          if (result.error) {
+            paymentStatus.textContent = result.error.message;
+          } else {
+            if (result.paymentIntent.status === 'succeeded') {
+              paymentStatus.textContent = 'Payment succeeded!';
+              clearCart();
+              window.location.href = "/thank-you/";
+            }
+          }
+        } catch (error) {
+          paymentStatus.textContent = 'Payment failed: ' + error.message;
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+
+      function clearCart() {
+        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+        if (cartItems && cartItems.length > 0) {
+          localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
+        }
+        localStorage.removeItem('cartItems');
+        document.getElementById("cart-items").innerHTML = "";
+        document.getElementById("cart-total").textContent = "Total: $0.00";
       }
     });
-
-    function clearCart() {
-      const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-      if (cartItems && cartItems.length > 0) {
-        localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
-      }
-      localStorage.removeItem('cartItems');
-      document.getElementById("cart-items").innerHTML = "";
-      document.getElementById("cart-total").textContent = "Total: $0.00";
-    }
-  });
-</script>
+  </script>
