@@ -1,14 +1,3 @@
----
-layout: default
-title: Market
-permalink: /market/
----
-
-# Checkout
-
-Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +38,14 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <input type="text" id="postal-code" placeholder="Postal Code" required>
     <input type="text" id="country" placeholder="Country" required>
 
+    <!-- Shipping Address -->
+    <label for="shipping-address">Shipping Address</label>
+    <input type="text" id="shipping-address" placeholder="Street Address" required>
+    <input type="text" id="shipping-city" placeholder="City" required>
+    <input type="text" id="shipping-state" placeholder="State" required>
+    <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+    <input type="text" id="shipping-country" placeholder="Country" required>
+
     <!-- Stripe Card Element -->
     <label for="card-element">Credit or debit card</label>
     <div id="card-element"></div>
@@ -85,6 +82,13 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
           postal_code: document.getElementById("postal-code").value,
           country: document.getElementById("country").value
         };
+        const shippingAddress = {
+          line1: document.getElementById("shipping-address").value,
+          city: document.getElementById("shipping-city").value,
+          state: document.getElementById("shipping-state").value,
+          postal_code: document.getElementById("shipping-postal-code").value,
+          country: document.getElementById("shipping-country").value
+        };
 
         try {
           // Create payment intent by calling the backend API
@@ -98,7 +102,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
               email: email,
               phone: phone,
               name: name,
-              address: address
+              address: address,
+              shippingAddress: shippingAddress
             })
           });
 
