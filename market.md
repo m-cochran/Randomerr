@@ -28,7 +28,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      const stripe = Stripe('your-publishable-key'); // Add your Stripe Publishable Key here
+      const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Add your Stripe Publishable Key here
 
       const form = document.getElementById("payment-form");
       const submitButton = document.getElementById("submit-button");
