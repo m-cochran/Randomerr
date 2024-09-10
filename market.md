@@ -46,7 +46,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
         try {
           // Create payment intent by calling backend API
-          const response = await fetch('https://your-backend-url/api/create-payment-intent', {
+          const response = await fetch('https://backend-github-io-m-cochrans-projects.vercel.app/api/create-payment-intent
+', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
