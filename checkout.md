@@ -69,24 +69,20 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <script src="{{ site.baseurl }}/assets/js/checkout.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Initialize Stripe
     const stripe = Stripe("pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb");
     const elements = stripe.elements();
     const card = elements.create("card");
-    
-    // Mount the card element
     card.mount("#card-element");
-    
-    // Handle form submission
+
     const form = document.getElementById("payment-form");
     const submitButton = document.getElementById("submit-button");
     const paymentStatus = document.getElementById("payment-status");
-    
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      submitButton.disabled = true; // Disable button to prevent multiple submissions
-      paymentStatus.textContent = ""; // Clear previous status
-    
+      submitButton.disabled = true;
+      paymentStatus.textContent = "";
+
       const cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
       const shippingDetails = {
         email: document.getElementById("email").value,
@@ -98,66 +94,54 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
           postal_code: document.getElementById("zip").value
         }
       };
-    
+
       if (!cartTotal || cartTotal <= 0) {
         alert("Your cart is empty.");
-        submitButton.disabled = false; // Re-enable button
+        submitButton.disabled = false;
         return;
       }
-    
+
       try {
-        // Create payment intent via your backend
         const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ amount: Math.round(cartTotal * 100), email: document.getElementById("email").value }), // Convert dollars to cents
+          body: JSON.stringify({ amount: Math.round(cartTotal * 100), email: document.getElementById("email").value }),
         });
-        
+
         const data = await response.json();
-        
         const result = await stripe.confirmCardPayment(data.clientSecret, {
           payment_method: {
             card: card,
             billing_details: shippingDetails,
           },
         });
-        
+
         if (result.error) {
           paymentStatus.textContent = result.error.message;
         } else {
           if (result.paymentIntent.status === 'succeeded') {
             paymentStatus.textContent = 'Payment succeeded!';
             clearCart();
-            window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";  // Adjust the URL to match your site
+            window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
           }
         }
       } catch (error) {
         paymentStatus.textContent = 'Payment failed: ' + error.message;
       } finally {
-        submitButton.disabled = false; // Re-enable button
+        submitButton.disabled = false;
       }
     });
-    
-    // Clear cart function
+
     function clearCart() {
-      // Retrieve cart items from localStorage
       const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-      
-      // Check if cartItems exist and have items
       if (cartItems && cartItems.length > 0) {
-        // Save items to purchasedItems before clearing cart
         localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
       }
-      
-      // Clear cart from localStorage
       localStorage.removeItem('cartItems');
-      
-      // Update the cart UI
       document.getElementById("cart-items").innerHTML = "";
       document.getElementById("cart-total").textContent = "Total: $0.00";
     }
   });
 </script>
-
