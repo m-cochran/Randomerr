@@ -9,122 +9,128 @@ permalink: /market/
 Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stripe Payment</title>
-  <script src="https://js.stripe.com/v3/"></script>
-</head>
-<body>
-  <h2>Complete Your Payment</h2>
+<h2>Complete Your Payment</h2>
 
-  <form id="payment-form">
-    <!-- Cardholder's Name -->
-    <label for="name">Full Name</label>
-    <input type="text" id="name" required>
+<form id="payment-form">
+  <!-- Cardholder's Name -->
+  <label for="name">Full Name</label>
+  <input type="text" id="name" required>
 
-    <!-- Email Address -->
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required>
+  <!-- Email Address -->
+  <label for="email">Email Address</label>
+  <input type="email" id="email" required>
 
-    <!-- Phone Number -->
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" required>
+  <!-- Phone Number -->
+  <label for="phone">Phone Number</label>
+  <input type="tel" id="phone" required>
 
-    <!-- Billing Address -->
-    <label for="address">Billing Address</label>
-    <input type="text" id="address" placeholder="Street Address" required>
-    <input type="text" id="city" placeholder="City" required>
-    <input type="text" id="state" placeholder="State" required>
-    <input type="text" id="postal-code" placeholder="Postal Code" required>
-    <input type="text" id="country" placeholder="Country" required>
+  <!-- Billing Address -->
+  <h3>Billing Address</h3>
+  <input type="text" id="billing-address" placeholder="Street Address" required>
+  <input type="text" id="billing-city" placeholder="City" required>
+  <input type="text" id="billing-state" placeholder="State" required>
+  <input type="text" id="billing-postal-code" placeholder="Postal Code" required>
+  <input type="text" id="billing-country" placeholder="Country" required>
 
-    <!-- Stripe Card Element -->
-    <label for="card-element">Credit or debit card</label>
-    <div id="card-element"></div>
+  <!-- Shipping Address -->
+  <h3>Shipping Address</h3>
+  <input type="text" id="shipping-address" placeholder="Street Address" required>
+  <input type="text" id="shipping-city" placeholder="City" required>
+  <input type="text" id="shipping-state" placeholder="State" required>
+  <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+  <input type="text" id="shipping-country" placeholder="Country" required>
 
-    <button id="submit-button">Pay Now</button>
-    <div id="payment-status"></div>
-  </form>
+  <!-- Stripe Card Element -->
+  <label for="card-element">Credit or debit card</label>
+  <div id="card-element"></div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  <button id="submit-button">Pay Now</button>
+  <div id="payment-status"></div>
+</form>
 
-      const form = document.getElementById("payment-form");
-      const submitButton = document.getElementById("submit-button");
-      const paymentStatus = document.getElementById("payment-status");
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
 
-      // Mount the Stripe Elements card UI
-      const elements = stripe.elements();
-      const card = elements.create("card");
-      card.mount("#card-element");
+  const form = document.getElementById("payment-form");
+  const submitButton = document.getElementById("submit-button");
+  const paymentStatus = document.getElementById("payment-status");
 
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        submitButton.disabled = true;
-        paymentStatus.textContent = "";
+  // Mount the Stripe Elements card UI
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
 
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const phone = document.getElementById("phone").value;
-        const address = {
-          line1: document.getElementById("address").value,
-          city: document.getElementById("city").value,
-          state: document.getElementById("state").value,
-          postal_code: document.getElementById("postal-code").value,
-          country: document.getElementById("country").value
-        };
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    paymentStatus.textContent = "";
 
-        try {
-          // Create payment intent by calling the backend API
-          const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              amount: 2000, // Example amount
-              email: email,
-              phone: phone,
-              name: name,
-              address: address
-            })
-          });
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const billingAddress = {
+      line1: document.getElementById("billing-address").value,
+      city: document.getElementById("billing-city").value,
+      state: document.getElementById("billing-state").value,
+      postal_code: document.getElementById("billing-postal-code").value,
+      country: document.getElementById("billing-country").value
+    };
+    const shippingAddress = {
+      line1: document.getElementById("shipping-address").value,
+      city: document.getElementById("shipping-city").value,
+      state: document.getElementById("shipping-state").value,
+      postal_code: document.getElementById("shipping-postal-code").value,
+      country: document.getElementById("shipping-country").value
+    };
 
-          const data = await response.json();
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: 2000,
+          email: email,
+          phone: phone,
+          name: name,
+          billingAddress: billingAddress,
+          shippingAddress: shippingAddress
+        })
+      });
 
-          // Confirm payment on the client-side using the client secret
-          const result = await stripe.confirmCardPayment(data.clientSecret, {
-            payment_method: {
-              card: card,
-              billing_details: {
-                name: name,
-                email: email,
-                phone: phone,
-                address: address
-              },
-            },
-          });
+      const data = await response.json();
 
-          if (result.error) {
-            // Display error message if payment fails
-            paymentStatus.textContent = result.error.message;
-          } else {
-            // Payment successful
-            if (result.paymentIntent.status === 'succeeded') {
-              paymentStatus.textContent = 'Payment successful!';
-            }
+      // Confirm payment
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: name,
+            email: email,
+            phone: phone,
+            address: billingAddress
           }
-        } catch (error) {
-          paymentStatus.textContent = `Error: ${error.message}`;
-        } finally {
-          submitButton.disabled = false;
+        },
+        shipping: {
+          name: name,
+          address: shippingAddress
         }
       });
-    });
-  </script>
-</body>
-</html>
+
+      if (result.error) {
+        paymentStatus.textContent = result.error.message;
+      } else {
+        if (result.paymentIntent.status === 'succeeded') {
+          paymentStatus.textContent = 'Payment successful!';
+        }
+      }
+    } catch (error) {
+      paymentStatus.textContent = `Error: ${error.message}`;
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+});
+</script>
