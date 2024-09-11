@@ -11,14 +11,107 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 <script src="https://js.stripe.com/v3/"></script>
 <style>
-  body { font-family: Arial, sans-serif; }
-  #payment-form { max-width: 600px; margin: auto; }
-  input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
-  #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
-  .error { color: red; }
-  .success { color: green; }
-  .cart-item-actions button { width: 90%; }
+  #payment-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff; /* White background for form */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  input, button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd; /* Light border for inputs */
+    border-radius: 4px;
+  }
+
+  input:focus, button:focus {
+    border-color: #007bff; /* Highlight border on focus */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Blue shadow for focus */
+  }
+
+  button {
+    background-color: #007bff; /* Primary button color */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+
+  #card-element {
+    border: 1px solid #ddd; /* Light border for card element */
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fafafa; /* Light background for card input */
+  }
+
+  .error {
+    color: #d9534f; /* Bootstrap danger color */
+    font-size: 14px;
+  }
+
+  .success {
+    color: #5bc0de; /* Bootstrap info color */
+    font-size: 14px;
+  }
+
+  #cart-summary {
+    background: #fff; /* White background for cart summary */
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-bottom: 2rem;
+  }
+
+  .cart-item-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cart-item-actions button {
+    width: 28%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+  .cart-item-actions input {
+    width: 40%;
+    text-align: center;
+    border: none;
+    font-size: 14px;
+    background: #f9f9f9;
+    border-radius: 4px;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    #payment-form, #cart-summary {
+      width: 90%;
+      margin: 1rem auto;
+      padding: 1rem;
+    }
+
+    .cart-item-actions button {
+      width: 30%;
+    }
+
+    .cart-item-actions input {
+      width: 20%;
+    }
+  }
 </style>
+
 
 <h2>Complete Your Payment</h2>
 
