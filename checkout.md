@@ -12,7 +12,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 <style>
   /* General Form Styles */
   #payment-form, #cart-summary {
-    max-width: 600px;
+    max-width: 90%;
     margin: 2rem auto;
     background: #fff;
     padding: 2rem;
