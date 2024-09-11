@@ -113,6 +113,8 @@ form.addEventListener("submit", async (event) => {
   submitButton.disabled = true;
   paymentStatus.textContent = "";
 
+
+  const totalInput = document.getElementById('total').value;
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
@@ -131,8 +133,19 @@ form.addEventListener("submit", async (event) => {
     country: document.getElementById("shipping-country").value
   };
 
+
+   // Ensure total is parsed as a floating-point number
+    const total = parseFloat(totalInput);
+    if (isNaN(total)) {
+      throw new Error("Invalid total value");
+    }
+
   // Calculate total in cents (Stripe expects amount in cents)
   const totalInCents = Math.round(total * 100); // Ensure 'total' is in dollars
+
+   // Logging values for diagnostic purposes
+    console.log('Total (in dollars):', total);      // Log total in dollars
+    console.log('Total (in cents):', totalInCents); // Log total in cents
 
   try {
     const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
