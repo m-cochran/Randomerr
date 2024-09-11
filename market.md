@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Handle payment submission
-form.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
