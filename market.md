@@ -227,15 +227,6 @@ Select a location to view available listings.
 - [Other Services](#other-services)
 
 <style>
-/* General styling for body */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
 /* Styling for the main container */
 .container {
     max-width: 1200px;
