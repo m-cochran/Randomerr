@@ -112,11 +112,9 @@ permalink: /thank-you/
 <script>
   // Retrieve purchased items and receipt URL from localStorage
   var purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
-  var receiptUrl = localStorage.getItem('receiptUrl');
 
   // Reference to the HTML containers
   var purchasedItemsContainer = document.getElementById('purchased-items');
-  var receiptLinkContainer = document.getElementById('receipt-link');
 
   // Display purchased items
   if (purchasedItems && purchasedItems.length > 0) {
@@ -143,16 +141,6 @@ permalink: /thank-you/
     purchasedItemsContainer.textContent = 'No items found.';
   }
 
-  // Display receipt link
-  if (receiptUrl) {
-    var receiptElement = document.createElement('a');
-    receiptElement.href = receiptUrl;
-    receiptElement.textContent = 'View your receipt here';
-    receiptElement.target = '_blank';
-    receiptLinkContainer.appendChild(receiptElement);
-  } else {
-    receiptLinkContainer.textContent = 'No receipt available.';
-  }
 
   // Clear localStorage after displaying
   localStorage.removeItem('purchasedItems');
