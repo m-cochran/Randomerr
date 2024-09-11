@@ -1,3 +1,76 @@
+---
+layout: default
+title: Market
+permalink: /market/
+---
+
+# market
+
+Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Payment</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #payment-form { max-width: 600px; margin: auto; }
+    input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h2>Complete Your Payment</h2>
+
+  <form id="payment-form">
+    <!-- Cardholder's Name -->
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
+
+    <!-- Email Address -->
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required>
+
+    <!-- Phone Number -->
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required>
+
+    <!-- Billing Address -->
+    <label for="address">Billing Address</label>
+    <input type="text" id="address" placeholder="Street Address" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="state" placeholder="State" required>
+    <input type="text" id="postal-code" placeholder="Postal Code" required>
+    <input type="text" id="country" placeholder="Country" required>
+
+    <!-- Shipping Address Checkbox -->
+    <label>
+      <input type="checkbox" id="same-address"> Shipping address is the same as billing address
+    </label>
+
+    <!-- Shipping Address -->
+    <div id="shipping-address-container">
+      <label for="shipping-address">Shipping Address</label>
+      <input type="text" id="shipping-address" placeholder="Street Address" required>
+      <input type="text" id="shipping-city" placeholder="City" required>
+      <input type="text" id="shipping-state" placeholder="State" required>
+      <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+      <input type="text" id="shipping-country" placeholder="Country" required>
+    </div>
+
+    <!-- Stripe Card Element -->
+    <label for="card-element">Credit or debit card</label>
+    <div id="card-element"></div>
+
+    <button id="submit-button">Pay Now</button>
+    <div id="payment-status"></div>
+  </form>
+
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   // Stripe API setup
