@@ -16,16 +16,16 @@ Select a location to view available listings.
         - [City/Town](#city-town)
 
 ---
-    <div class="container">
-        <h1>Location Selector</h1>
+<div class="container">
+<h1>Location Selector</h1>
 
-        <label for="region">Region:</label>
-        <select id="region" name="region">
-            <option value="">Select Region</option>
-            <option value="north-america">North America</option>
-            <option value="europe">Europe</option>
-            <option value="asia">Asia</option>
-            <!-- Add more regions as needed -->
+<label for="region">Region:</label>
+<select id="region" name="region">
+<option value="">Select Region</option>
+<option value="north-america">North America</option>
+<option value="europe">Europe</option>
+<option value="asia">Asia</option>
+<!-- Add more regions as needed -->
         </select>
 
         <label for="province-state">Province/State:</label>
