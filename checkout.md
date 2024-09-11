@@ -114,7 +114,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   }
 
   .cart-item-actions .btn-remove {
-    background-color: #0ff; /* Red for remove button */
+    background-color: #f00; /* Red for remove button */
     color: white;
   }
 
