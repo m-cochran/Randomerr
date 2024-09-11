@@ -31,49 +31,49 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </div>
   </section>
 
-  <form id="payment-form">
-    <!-- Cardholder's Name -->
-    <label for="name">Full Name</label>
-    <input type="text" id="name" required>
+<form id="payment-form">
+<!-- Cardholder's Name -->
+<label for="name">Full Name</label>
+<input type="text" id="name" required>
 
-    <!-- Email Address -->
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required>
+<!-- Email Address -->
+<label for="email">Email Address</label>
+<input type="email" id="email" required>
 
-    <!-- Phone Number -->
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" required>
+<!-- Phone Number -->
+<label for="phone">Phone Number</label>
+<input type="tel" id="phone" required>
 
-    <!-- Billing Address -->
-    <label for="address">Billing Address</label>
-    <input type="text" id="address" placeholder="Street Address" required>
-    <input type="text" id="city" placeholder="City" required>
-    <input type="text" id="state" placeholder="State" required>
-    <input type="text" id="postal-code" placeholder="Postal Code" required>
-    <input type="text" id="country" placeholder="Country" required>
+<!-- Billing Address -->
+<label for="address">Billing Address</label>
+<input type="text" id="address" placeholder="Street Address" required>
+<input type="text" id="city" placeholder="City" required>
+<input type="text" id="state" placeholder="State" required>
+<input type="text" id="postal-code" placeholder="Postal Code" required>
+<input type="text" id="country" placeholder="Country" required>
 
-    <!-- Shipping Address Checkbox -->
-    <label>
-      <input type="checkbox" id="same-address"> Shipping address is the same as billing address
-    </label>
+<!-- Shipping Address Checkbox -->
+<label>
+  <input type="checkbox" id="same-address"> Shipping address is the same as billing address
+</label>
 
-    <!-- Shipping Address -->
-    <div id="shipping-address-container">
-      <label for="shipping-address">Shipping Address</label>
-      <input type="text" id="shipping-address" placeholder="Street Address" required>
-      <input type="text" id="shipping-city" placeholder="City" required>
-      <input type="text" id="shipping-state" placeholder="State" required>
-      <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
-      <input type="text" id="shipping-country" placeholder="Country" required>
-    </div>
+<!-- Shipping Address -->
+<div id="shipping-address-container">
+<label for="shipping-address">Shipping Address</label>
+<input type="text" id="shipping-address" placeholder="Street Address" required>
+<input type="text" id="shipping-city" placeholder="City" required>
+<input type="text" id="shipping-state" placeholder="State" required>
+<input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+<input type="text" id="shipping-country" placeholder="Country" required>
+</div>
 
-    <!-- Stripe Card Element -->
-    <label for="card-element">Credit or debit card</label>
-    <div id="card-element"></div>
+<!-- Stripe Card Element -->
+<label for="card-element">Credit or debit card</label>
+<div id="card-element"></div>
 
-    <button id="submit-button">Pay Now</button>
-    <div id="payment-status"></div>
-  </form>
+<button id="submit-button">Pay Now</button>
+<div id="payment-status"></div>
+</form>
 </main>
 
 <script>
