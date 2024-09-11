@@ -8,69 +8,83 @@ permalink: /checkout/
 
 Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
-
 <script src="https://js.stripe.com/v3/"></script>
 <style>
-  #payment-form {
+  /* General Form Styles */
+  #payment-form, #cart-summary {
     max-width: 600px;
     margin: 2rem auto;
-    background: #ffffff; /* White background for the form */
+    background: #fff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #495057;
   }
 
   input, button {
     display: block;
     width: 100%;
-    margin: 0.5rem 0; /* Reduced margin for a cleaner look */
-    padding: 0.75rem; /* Increased padding for better touch targets */
-    border: 1px solid #ced4da; /* Light border color */
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
     border-radius: 4px;
-    font-size: 1rem; /* Consistent font size */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   input:focus, button:focus {
-    border-color: #80bdff; /* Highlight color on focus */
+    border-color: #80bdff;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.25); /* Focus shadow effect */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 
   button {
-    background-color: #007bff; /* Primary button color */
-    color: #ffffff;
+    background-color: #007bff;
+    color: #fff;
     border: none;
     cursor: pointer;
-    font-size: 1rem; /* Consistent font size */
+    font-weight: bold;
+    transition: background-color 0.3s ease;
   }
 
   button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-  }
-
-  #card-element {
-    border: 1px solid #e9ecef; /* Light border for card input */
-    padding: 0.75rem;
-    border-radius: 4px;
-    background-color: #f8f9fa; /* Slightly different background for contrast */
+    background-color: #0056b3;
   }
 
   .error {
-    color: #dc3545; /* Bootstrap danger color */
-    font-size: 0.875rem; /* Slightly smaller font size */
+    color: #dc3545;
+    font-size: 0.875rem;
   }
 
   .success {
-    color: #28a745; /* Bootstrap success color */
-    font-size: 0.875rem; /* Slightly smaller font size */
+    color: #28a745;
+    font-size: 0.875rem;
   }
 
+  #card-element {
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+  }
+
+  /* Cart Summary Styles */
   #cart-summary {
-    background: #ffffff; /* White background for cart summary */
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     margin-bottom: 2rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .cart-item-actions {
@@ -82,26 +96,27 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   .cart-item-actions button {
     width: 30%;
     padding: 0.5rem;
-    font-size: 0.875rem; /* Slightly smaller font size */
+    font-size: 0.875rem;
     border-radius: 4px;
-    transition: background-color 0.3s ease; /* Smooth transition */
+    background-color: #e9ecef;
+    transition: background-color 0.3s ease;
   }
 
   .cart-item-actions button:hover {
-    background-color: #e9ecef; /* Light background on hover */
+    background-color: #ced4da;
   }
 
   .cart-item-actions input {
     width: 30%;
     text-align: center;
     border: 1px solid #ced4da;
-    font-size: 0.875rem; /* Slightly smaller font size */
-    background: #f8f9fa;
+    font-size: 0.875rem;
+    background-color: #f8f9fa;
     border-radius: 4px;
-    padding: 0.5rem; /* Adjusted padding */
+    padding: 0.5rem;
   }
 
-  /* Responsive design */
+  /* Responsive Design */
   @media (max-width: 768px) {
     #payment-form, #cart-summary {
       width: 90%;
@@ -118,8 +133,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     }
   }
 </style>
-
-
 
 <h2>Complete Your Payment</h2>
 
@@ -177,6 +190,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <button id="submit-button">Pay Now</button>
     <div id="payment-status"></div>
   </form>
+</main>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
