@@ -84,7 +84,6 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  // Stripe API setup
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
@@ -168,8 +167,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        paymentStatus.textContent = 'Payment successful!';
-        paymentStatus.classList.add('success');
+        // Clear the cart
+        localStorage.removeItem("cartItems");
+
+        // Redirect to the Thank You page with order details
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
       }
     } catch (error) {
       paymentStatus.textContent = `Error: ${error.message}`;
