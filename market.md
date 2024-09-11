@@ -8,12 +8,7 @@ permalink: /market/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stripe Payment</title>
+
   <script src="https://js.stripe.com/v3/"></script>
   <style>
     body { font-family: Arial, sans-serif; }
@@ -23,8 +18,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     .error { color: red; }
     .success { color: green; }
   </style>
-</head>
-<body>
+
   <h2>Complete Your Payment</h2>
 
   <main class="checkout-container">
@@ -221,8 +215,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
 });
 </script>
-
-</main>
-</body>
-</html>
 
