@@ -8,20 +8,19 @@ permalink: /market/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+  body { font-family: Arial, sans-serif; }
+  #payment-form { max-width: 600px; margin: auto; }
+  input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+  #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+  .error { color: red; }
+  .success { color: green; }
+</style>
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    #payment-form { max-width: 600px; margin: auto; }
-    input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
-    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
-    .error { color: red; }
-    .success { color: green; }
-  </style>
+<h2>Complete Your Payment</h2>
 
-  <h2>Complete Your Payment</h2>
-
-  <main class="checkout-container">
+<main class="checkout-container">
   <section id="cart-summary">
     <h2>Your Cart</h2>
     <div id="cart-items">
@@ -59,7 +58,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </label>
 
     <!-- Shipping Address -->
-    <div id="shipping-address-container">
+    <div id="shipping-address-container" style="display: none;">
       <label for="shipping-address">Shipping Address</label>
       <input type="text" id="shipping-address" placeholder="Street Address" required>
       <input type="text" id="shipping-city" placeholder="City" required>
@@ -78,7 +77,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -129,7 +128,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Retrieve cart items
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalInCents = Math.round(total * 100);
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          cartItems: cartItems // Include cart items in the payload
+          cartItems: cartItems
         })
       });
 
@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Cart functionality
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
 
@@ -185,11 +184,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  let total = 0;
-
   function renderCart() {
     cartItemsContainer.innerHTML = "";
-    total = 0;
     cartItems.forEach((item, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cart-item";
@@ -207,8 +203,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `;
       cartItemsContainer.appendChild(itemDiv);
-      total += item.price * item.quantity;
     });
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
   }
 
