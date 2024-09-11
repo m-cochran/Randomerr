@@ -77,8 +77,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     <div id="payment-status"></div>
   </form>
 
-  
-<script src="https://js.stripe.com/v3/"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
