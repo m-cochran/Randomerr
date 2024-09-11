@@ -85,6 +85,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
+  // Ensure all elements are present
+  if (!form || !submitButton || !paymentStatus || !sameAddressCheckbox || !shippingAddressContainer) {
+    console.error("Required elements are missing from the DOM.");
+    return;
+  }
+
   // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
@@ -113,31 +119,60 @@ document.addEventListener("DOMContentLoaded", async () => {
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
-    const totalInput = document.getElementById('total').value;
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const address = {
-      line1: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      state: document.getElementById("state").value,
-      postal_code: document.getElementById("postal-code").value,
-      country: document.getElementById("country").value
+    // Ensure elements are available
+    const totalInput = document.getElementById('total');
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const addressInput = {
+      line1: document.getElementById("address"),
+      city: document.getElementById("city"),
+      state: document.getElementById("state"),
+      postal_code: document.getElementById("postal-code"),
+      country: document.getElementById("country")
     };
-    const shippingAddress = sameAddressCheckbox.checked ? address : {
-      line1: document.getElementById("shipping-address").value,
-      city: document.getElementById("shipping-city").value,
-      state: document.getElementById("shipping-state").value,
-      postal_code: document.getElementById("shipping-postal-code").value,
-      country: document.getElementById("shipping-country").value
+    const shippingAddressInputs = {
+      line1: document.getElementById("shipping-address"),
+      city: document.getElementById("shipping-city"),
+      state: document.getElementById("shipping-state"),
+      postal_code: document.getElementById("shipping-postal-code"),
+      country: document.getElementById("shipping-country")
     };
 
-    const total = parseFloat(totalInput);
+    if (!totalInput || !nameInput || !emailInput || !phoneInput || !addressInput.line1 ||
+        !addressInput.city || !addressInput.state || !addressInput.postal_code || !addressInput.country) {
+      paymentStatus.textContent = "Error: Missing required form fields.";
+      paymentStatus.classList.add('error');
+      submitButton.disabled = false;
+      return;
+    }
+
+    const total = parseFloat(totalInput.value);
     if (isNaN(total)) {
-      throw new Error("Invalid total value");
+      paymentStatus.textContent = "Error: Invalid total value.";
+      paymentStatus.classList.add('error');
+      submitButton.disabled = false;
+      return;
     }
 
     const totalInCents = Math.round(total * 100);
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const phone = phoneInput.value;
+    const address = {
+      line1: addressInput.line1.value,
+      city: addressInput.city.value,
+      state: addressInput.state.value,
+      postal_code: addressInput.postal_code.value,
+      country: addressInput.country.value
+    };
+    const shippingAddress = sameAddressCheckbox.checked ? address : {
+      line1: shippingAddressInputs.line1.value,
+      city: shippingAddressInputs.city.value,
+      state: shippingAddressInputs.state.value,
+      postal_code: shippingAddressInputs.postal_code.value,
+      country: shippingAddressInputs.country.value
+    };
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
@@ -186,6 +221,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
 
+  if (!cartItemsContainer || !cartTotal) {
+    console.error("Cart elements are missing from the DOM.");
+    return;
+  }
+
   if (cartItems.length === 0) {
     cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
     cartTotal.textContent = "Total: $0.00";
@@ -222,13 +262,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Render the cart on load
   renderCart();
 
-  // Update quantity and remove functionality
+  // Update quantity and remove item buttons
   cartItemsContainer.addEventListener("click", (event) => {
-    const index = event.target.getAttribute("data-index");
-    if (event.target.classList.contains("btn-increase")) {
-      cartItems[index].quantity++;
-    } else if (event.target.classList.contains("btn-decrease") && cartItems[index].quantity > 1) {
-      cartItems[index].quantity--;
+    const index = event.target.dataset.index;
+    if (event.target.classList.contains("btn-decrease")) {
+      cartItems[index].quantity = Math.max(cartItems[index].quantity - 1, 1);
+    } else if (event.target.classList.contains("btn-increase")) {
+      cartItems[index].quantity += 1;
     } else if (event.target.classList.contains("btn-remove")) {
       cartItems.splice(index, 1);
     }
