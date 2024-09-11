@@ -27,6 +27,17 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <body>
   <h2>Complete Your Payment</h2>
 
+  <main class="checkout-container">
+  <section id="cart-summary">
+    <h2>Your Cart</h2>
+    <div id="cart-items">
+      <!-- Cart items will be dynamically populated here -->
+    </div>
+    <div class="checkout-summary">
+      <div id="cart-total">Total: $0.00</div>
+    </div>
+  </section>
+
   <form id="payment-form">
     <!-- Cardholder's Name -->
     <label for="name">Full Name</label>
