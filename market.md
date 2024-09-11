@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Marketplace
-permalink: /marketplace/
+title: Market
+permalink: /market/
 ---
 
 # Marketplace
