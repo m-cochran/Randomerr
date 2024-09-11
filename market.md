@@ -4,43 +4,212 @@ title: Market
 permalink: /market/
 ---
 
-# Randomerr Marketplace
+# Market
 
-Welcome to the Randomerr Marketplace! Here, you can explore and post items for sale. If you want to post an item, please fill out our submission form [here](https://example.com/submit-item).
+Welcome to the Market! Explore items for sale by location and category.
 
-## Items for Sale
+## Locations
+Click on a location to see available items in that area.
 
-### Item 1: Handcrafted Ceramic Mug
-**Price**: $25  
-**Seller**: Sarah P.  
-**Description**: A beautifully handcrafted ceramic mug with a unique glaze, perfect for morning coffee or tea.
-
-![Handcrafted Ceramic Mug](https://example.com/images/mug.jpg)
+- [Country](#country)
+    - [State](#state)
+        - [Town](#town)
 
 ---
 
-### Item 2: Wooden Bookshelf
-**Price**: $75  
-**Seller**: Mike L.  
-**Description**: Solid oak wooden bookshelf, fits perfectly in a cozy living room or office space. Great condition!
+## Categories
 
-![Wooden Bookshelf](https://example.com/images/bookshelf.jpg)
+### Community
+- [Activities](#activities)
+- [Artists](#artists)
+- [Childcare](#childcare)
+- [Classes](#classes)
+- [Events](#events)
+- [General](#general)
+- [Groups](#groups)
+- [Local News](#local-news)
+- [Lost+Found](#lostfound)
+- [Missed Connections](#missed-connections)
+- [Musicians](#musicians)
+- [Pets](#pets)
+- [Politics](#politics)
+- [Rants & Raves](#rants-raves)
+- [Rideshare](#rideshare)
+- [Volunteers](#volunteers)
 
----
+### Services
+- [Automotive](#automotive)
+- [Beauty](#beauty)
+- [Cell/Mobile](#cellmobile)
+- [Computer](#computer)
+- [Creative](#creative)
+- [Cycle](#cycle)
+- [Event](#event)
+- [Farm+Garden](#farmgarden)
+- [Financial](#financial)
+- [Health/Wellness](#healthwell)
+- [Household](#household)
+- [Labor/Move](#labormove)
+- [Legal](#legal)
+- [Lessons](#lessons)
+- [Marine](#marine)
+- [Pet](#pet)
+- [Real Estate](#real-estate)
+- [Skilled Trade](#skilled-trade)
+- [Small Biz Ads](#small-biz-ads)
+- [Travel/Vacation](#travelvac)
+- [Writing/Editing/Translation](#writeedtran)
 
-### Item 3: Vintage Vinyl Record Collection
-**Price**: $200  
-**Seller**: Jess D.  
-**Description**: A curated collection of 50 classic vinyl records from the '60s and '70s, including rare albums from The Beatles and Led Zeppelin.
+### Discussion Forums
+- [Apple](#apple)
+- [Arts](#arts)
+- [Atheist](#atheist)
+- [Autos](#autos)
+- [Beauty](#beauty)
+- [Bikes](#bikes)
+- [Celebrities](#celebrities)
+- [Computers](#computers)
+- [Cosmos](#cosmos)
+- [Diet](#diet)
+- [Divorce](#divorce)
+- [Dying](#dying)
+- [Eco](#eco)
+- [Feedback](#feedback)
+- [Film](#film)
+- [Fixit](#fixit)
+- [Food](#food)
+- [Frugal](#frugal)
+- [Gaming](#gaming)
+- [Garden](#garden)
+- [Haiku](#haiku)
+- [Help](#help)
+- [History](#history)
+- [Housing](#housing)
+- [Jobs](#jobs)
+- [Jokes](#jokes)
+- [Legal](#legal)
+- [Manners](#manners)
+- [Marriage](#marriage)
+- [Money](#money)
+- [Music](#music)
+- [Parenting](#parenting)
+- [Pets](#pets)
+- [Philosophy](#philosophy)
+- [Photography](#photography)
+- [Politics](#politics)
+- [Psychology](#psychology)
+- [Recovery](#recovery)
+- [Religion](#religion)
+- [Science](#science)
+- [Spirituality](#spirituality)
+- [Sports](#sports)
+- [Supernatural](#supernatural)
+- [Tax](#tax)
+- [Travel](#travel)
+- [TV](#tv)
+- [Vegan](#vegan)
+- [Writing](#writing)
 
-![Vintage Vinyl Record Collection](https://example.com/images/vinyl.jpg)
+### Housing
+- [Apts / Housing](#apts-housing)
+- [Housing Swap](#housing-swap)
+- [Housing Wanted](#housing-wanted)
+- [Office / Commercial](#office-commercial)
+- [Parking / Storage](#parking-storage)
+- [Real Estate for Sale](#real-estate-for-sale)
+- [Rooms / Shared](#rooms-shared)
+- [Rooms Wanted](#rooms-wanted)
+- [Sublets / Temporary](#sublets-temporary)
+- [Vacation Rentals](#vacation-rentals)
 
----
+### For Sale
+- [Antiques](#antiques)
+- [Appliances](#appliances)
+- [Arts+Crafts](#artscrafts)
+- [ATV/UTV/Snowmobiles](#atvutvsno)
+- [Auto Parts](#auto-parts)
+- [Aviation](#aviation)
+- [Baby+Kid](#babykid)
+- [Barter](#barter)
+- [Beauty+Health](#beautyhealth)
+- [Bike Parts](#bike-parts)
+- [Bikes](#bikes)
+- [Boat Parts](#boat-parts)
+- [Boats](#boats)
+- [Books](#books)
+- [Business](#business)
+- [Cars+Trucks](#carstrucks)
+- [CDs/DVD/VHS](#cdsdvdvhs)
+- [Cell Phones](#cell-phones)
+- [Clothes+Accessories](#clothesacc)
+- [Collectibles](#collectibles)
+- [Computer Parts](#computer-parts)
+- [Computers](#computers)
+- [Electronics](#electronics)
+- [Farm+Garden](#farmgarden)
+- [Free](#free)
+- [Furniture](#furniture)
+- [Garage Sale](#garage-sale)
+- [General](#general)
+- [Heavy Equipment](#heavy-equip)
+- [Household](#household)
+- [Jewelry](#jewelry)
+- [Materials](#materials)
+- [Motorcycle Parts](#motorcycle-parts)
+- [Motorcycles](#motorcycles)
+- [Music Instruments](#music-instr)
+- [Photo+Video](#photovideo)
+- [RVs+Campers](#rvscamp)
+- [Sporting Goods](#sporting)
+- [Tickets](#tickets)
+- [Tools](#tools)
+- [Toys+Games](#toysgames)
+- [Trailers](#trailers)
+- [Video Gaming](#video-gaming)
+- [Wanted](#wanted)
+- [Wheels+Tires](#wheels-tires)
 
-## Submit Your Item for Sale
+### Jobs
+- [Accounting+Finance](#accountingfinance)
+- [Admin / Office](#admin-office)
+- [Architecture / Engineering](#arch-engineering)
+- [Art / Media / Design](#art-media-design)
+- [Biotech / Science](#biotech-science)
+- [Business / Management](#business-mgmt)
+- [Customer Service](#customer-service)
+- [Education](#education)
+- [Food / Beverage / Hospitality](#food-bev-hosp)
+- [General Labor](#general-labor)
+- [Government](#government)
+- [Human Resources](#human-resources)
+- [Legal / Paralegal](#legal-paralegal)
+- [Manufacturing](#manufacturing)
+- [Marketing / PR / Advertising](#marketing-pr-ad)
+- [Medical / Health](#medical-health)
+- [Nonprofit Sector](#nonprofit-sector)
+- [Real Estate](#real-estate)
+- [Retail / Wholesale](#retail-wholesale)
+- [Sales / Business Development](#sales-biz-dev)
+- [Salon / Spa / Fitness](#salon-spa-fitness)
+- [Security](#security)
+- [Skilled Trade / Craft](#skilled-trade-craft)
+- [Software / QA / DBA](#software-qa-dba)
+- [Systems / Network](#systems-network)
+- [Technical Support](#technical-support)
+- [Transport](#transport)
+- [TV / Film / Video](#tv-film-video)
+- [Web / Information Design](#web-info-design)
+- [Writing / Editing](#writing-editing)
 
-Do you have something you'd like to sell? Submit your item details [here](https://example.com/submit-item) or send an email to `marketplace@randomerr.com` with:
-- Item name
-- Description
-- Price
-- Photos (optional)
+### Gigs
+- [Computer](#computer-gigs)
+- [Creative](#creative-gigs)
+- [Crew](#crew-gigs)
+- [Domestic](#domestic-gigs)
+- [Event](#event-gigs)
+- [Labor](#labor-gigs)
+- [Talent](#talent-gigs)
+- [Writing](#writing-gigs)
+
+### Resumes
+- [View Resumes](#view-resumes)
