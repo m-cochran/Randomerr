@@ -1,215 +1,328 @@
 ---
 layout: default
-title: Market
-permalink: /market/
+title: Marketplace
+permalink: /marketplace/
 ---
 
-# Market
+# Marketplace
 
-Welcome to the Market! Explore items for sale by location and category.
+Explore items for sale or trade by location and category.
 
-## Locations
-Click on a location to see available items in that area.
+## Browse by Location
+Select a location to view available listings.
 
-- [Country](#country)
-    - [State](#state)
-        - [Town](#town)
+- [Region](#region)
+    - [Province/State](#province-state)
+        - [City/Town](#city-town)
 
 ---
 
-## Categories
+## Explore Categories
 
-### Community
-- [Activities](#activities)
-- [Artists](#artists)
-- [Childcare](#childcare)
-- [Classes](#classes)
-- [Events](#events)
-- [General](#general)
-- [Groups](#groups)
-- [Local News](#local-news)
-- [Lost+Found](#lostfound)
+### Local Community
+- [Activities & Hobbies](#activities-hobbies)
+- [Creative Talents](#creative-talents)
+- [Childcare Services](#childcare-services)
+- [Courses & Workshops](#courses-workshops)
+- [Upcoming Events](#upcoming-events)
+- [Miscellaneous](#miscellaneous)
+- [Local Groups](#local-groups)
+- [Neighborhood News](#neighborhood-news)
+- [Lost & Found](#lost-found)
 - [Missed Connections](#missed-connections)
-- [Musicians](#musicians)
-- [Pets](#pets)
-- [Politics](#politics)
+- [Musicians & Bands](#musicians-bands)
+- [Pet Care & Adoptions](#pet-care-adoptions)
+- [Politics & Advocacy](#politics-advocacy)
 - [Rants & Raves](#rants-raves)
-- [Rideshare](#rideshare)
-- [Volunteers](#volunteers)
+- [Carpool & Rideshare](#carpool-rideshare)
+- [Volunteer Opportunities](#volunteer-opportunities)
 
-### Services
-- [Automotive](#automotive)
-- [Beauty](#beauty)
-- [Cell/Mobile](#cellmobile)
-- [Computer](#computer)
-- [Creative](#creative)
-- [Cycle](#cycle)
-- [Event](#event)
-- [Farm+Garden](#farmgarden)
-- [Financial](#financial)
-- [Health/Wellness](#healthwell)
-- [Household](#household)
-- [Labor/Move](#labormove)
-- [Legal](#legal)
-- [Lessons](#lessons)
-- [Marine](#marine)
-- [Pet](#pet)
-- [Real Estate](#real-estate)
-- [Skilled Trade](#skilled-trade)
-- [Small Biz Ads](#small-biz-ads)
-- [Travel/Vacation](#travelvac)
-- [Writing/Editing/Translation](#writeedtran)
+### Professional Services
+- [Auto Services](#auto-services)
+- [Beauty & Wellness](#beauty-wellness)
+- [Mobile/Cell Repair](#mobile-cell-repair)
+- [IT & Computer Help](#it-computer-help)
+- [Creative Services](#creative-services)
+- [Bike Repair & Sales](#bike-repair-sales)
+- [Event Services](#event-services)
+- [Farming & Gardening](#farming-gardening)
+- [Financial Services](#financial-services)
+- [Health & Fitness](#health-fitness)
+- [Household Services](#household-services)
+- [Moving & Labor Help](#moving-labor-help)
+- [Legal Assistance](#legal-assistance)
+- [Tutoring & Lessons](#tutoring-lessons)
+- [Marine Services](#marine-services)
+- [Pet Care Services](#pet-care-services)
+- [Real Estate Services](#real-estate-services)
+- [Skilled Trades](#skilled-trades)
+- [Small Business Ads](#small-business-ads)
+- [Travel & Vacation Planning](#travel-vacation-planning)
+- [Writing, Editing & Translation](#writing-editing-translation)
 
-### Discussion Forums
-- [Apple](#apple)
-- [Arts](#arts)
-- [Atheist](#atheist)
-- [Autos](#autos)
-- [Beauty](#beauty)
-- [Bikes](#bikes)
-- [Celebrities](#celebrities)
-- [Computers](#computers)
-- [Cosmos](#cosmos)
-- [Diet](#diet)
-- [Divorce](#divorce)
-- [Dying](#dying)
-- [Eco](#eco)
-- [Feedback](#feedback)
-- [Film](#film)
-- [Fixit](#fixit)
-- [Food](#food)
-- [Frugal](#frugal)
-- [Gaming](#gaming)
-- [Garden](#garden)
-- [Haiku](#haiku)
-- [Help](#help)
-- [History](#history)
-- [Housing](#housing)
-- [Jobs](#jobs)
-- [Jokes](#jokes)
-- [Legal](#legal)
-- [Manners](#manners)
-- [Marriage](#marriage)
-- [Money](#money)
-- [Music](#music)
-- [Parenting](#parenting)
-- [Pets](#pets)
-- [Philosophy](#philosophy)
+### Discussion Boards
+- [Apple & Tech Talk](#apple-tech-talk)
+- [Arts & Creativity](#arts-creativity)
+- [Atheism](#atheism)
+- [Car Enthusiasts](#car-enthusiasts)
+- [Beauty & Style](#beauty-style)
+- [Bicycling](#bicycling)
+- [Celebrity News](#celebrity-news)
+- [Computer & Tech](#computer-tech)
+- [Cosmic Discussion](#cosmic-discussion)
+- [Health & Diet](#health-diet)
+- [Divorce Support](#divorce-support)
+- [End-of-Life Planning](#end-of-life-planning)
+- [Environmental Issues](#environmental-issues)
+- [Feedback & Suggestions](#feedback-suggestions)
+- [Film & TV Discussion](#film-tv-discussion)
+- [DIY & Repairs](#diy-repairs)
+- [Food & Drink](#food-drink)
+- [Frugal Living](#frugal-living)
+- [Gaming & Esports](#gaming-esports)
+- [Gardening](#gardening)
+- [Creative Writing (Haiku)](#creative-writing-haiku)
+- [General Help](#general-help)
+- [History & Facts](#history-facts)
+- [Housing & Real Estate](#housing-real-estate)
+- [Job & Career Advice](#job-career-advice)
+- [Humor & Jokes](#humor-jokes)
+- [Legal Help](#legal-help)
+- [Etiquette & Manners](#etiquette-manners)
+- [Marriage & Relationships](#marriage-relationships)
+- [Personal Finance](#personal-finance)
+- [Music Discussion](#music-discussion)
+- [Parenting Tips](#parenting-tips)
+- [Pet Discussions](#pet-discussions)
+- [Philosophy Talk](#philosophy-talk)
 - [Photography](#photography)
-- [Politics](#politics)
-- [Psychology](#psychology)
-- [Recovery](#recovery)
-- [Religion](#religion)
-- [Science](#science)
+- [Political Debates](#political-debates)
+- [Mental Health & Psychology](#mental-health-psychology)
+- [Addiction & Recovery](#addiction-recovery)
+- [Religious Discussions](#religious-discussions)
+- [Science & Technology](#science-technology)
 - [Spirituality](#spirituality)
-- [Sports](#sports)
-- [Supernatural](#supernatural)
-- [Tax](#tax)
-- [Travel](#travel)
-- [TV](#tv)
-- [Vegan](#vegan)
-- [Writing](#writing)
+- [Sports Talk](#sports-talk)
+- [Paranormal & Supernatural](#paranormal-supernatural)
+- [Tax Advice](#tax-advice)
+- [Travel Discussions](#travel-discussions)
+- [TV Shows & Movies](#tv-shows-movies)
+- [Vegan Living](#vegan-living)
+- [Literature & Writing](#literature-writing)
 
-### Housing
-- [Apts / Housing](#apts-housing)
-- [Housing Swap](#housing-swap)
+### Housing & Rentals
+- [Apartments & Housing](#apartments-housing)
+- [Home Exchange](#home-exchange)
 - [Housing Wanted](#housing-wanted)
-- [Office / Commercial](#office-commercial)
-- [Parking / Storage](#parking-storage)
+- [Office & Commercial Space](#office-commercial-space)
+- [Parking & Storage](#parking-storage)
 - [Real Estate for Sale](#real-estate-for-sale)
-- [Rooms / Shared](#rooms-shared)
-- [Rooms Wanted](#rooms-wanted)
-- [Sublets / Temporary](#sublets-temporary)
+- [Shared Rooms](#shared-rooms)
+- [Roommates Wanted](#roommates-wanted)
+- [Temporary/Sublets](#temporary-sublets)
 - [Vacation Rentals](#vacation-rentals)
 
 ### For Sale
-- [Antiques](#antiques)
-- [Appliances](#appliances)
-- [Arts+Crafts](#artscrafts)
-- [ATV/UTV/Snowmobiles](#atvutvsno)
-- [Auto Parts](#auto-parts)
-- [Aviation](#aviation)
-- [Baby+Kid](#babykid)
-- [Barter](#barter)
-- [Beauty+Health](#beautyhealth)
-- [Bike Parts](#bike-parts)
-- [Bikes](#bikes)
-- [Boat Parts](#boat-parts)
-- [Boats](#boats)
-- [Books](#books)
-- [Business](#business)
-- [Cars+Trucks](#carstrucks)
-- [CDs/DVD/VHS](#cdsdvdvhs)
-- [Cell Phones](#cell-phones)
-- [Clothes+Accessories](#clothesacc)
-- [Collectibles](#collectibles)
-- [Computer Parts](#computer-parts)
-- [Computers](#computers)
-- [Electronics](#electronics)
-- [Farm+Garden](#farmgarden)
-- [Free](#free)
-- [Furniture](#furniture)
-- [Garage Sale](#garage-sale)
-- [General](#general)
-- [Heavy Equipment](#heavy-equip)
-- [Household](#household)
-- [Jewelry](#jewelry)
-- [Materials](#materials)
-- [Motorcycle Parts](#motorcycle-parts)
-- [Motorcycles](#motorcycles)
-- [Music Instruments](#music-instr)
-- [Photo+Video](#photovideo)
-- [RVs+Campers](#rvscamp)
-- [Sporting Goods](#sporting)
-- [Tickets](#tickets)
-- [Tools](#tools)
-- [Toys+Games](#toysgames)
-- [Trailers](#trailers)
-- [Video Gaming](#video-gaming)
-- [Wanted](#wanted)
-- [Wheels+Tires](#wheels-tires)
+- [Antiques](#antiques-sale)
+- [Home Appliances](#home-appliances-sale)
+- [Arts & Crafts Supplies](#arts-crafts-supplies)
+- [ATVs & Snowmobiles](#atvs-snowmobiles-sale)
+- [Auto Parts](#auto-parts-sale)
+- [Aircraft](#aircraft-sale)
+- [Baby & Kids Items](#baby-kids-items-sale)
+- [Barter & Trade](#barter-trade)
+- [Beauty & Health Items](#beauty-health-items-sale)
+- [Bike Parts](#bike-parts-sale)
+- [Bicycles](#bicycles-sale)
+- [Boat Parts](#boat-parts-sale)
+- [Boats](#boats-sale)
+- [Books & Literature](#books-literature-sale)
+- [Business Equipment](#business-equipment-sale)
+- [Cars & Trucks](#cars-trucks-sale)
+- [Media (CDs/DVDs/VHS)](#media-cds-dvds-vhs-sale)
+- [Cell Phones](#cell-phones-sale)
+- [Clothing & Accessories](#clothing-accessories-sale)
+- [Collectibles](#collectibles-sale)
+- [Computer Parts](#computer-parts-sale)
+- [Computers](#computers-sale)
+- [Electronics](#electronics-sale)
+- [Farm & Garden Supplies](#farm-garden-supplies-sale)
+- [Free Items](#free-items)
+- [Furniture](#furniture-sale)
+- [Garage Sales](#garage-sales)
+- [General Goods](#general-goods-sale)
+- [Heavy Equipment](#heavy-equipment-sale)
+- [Household Goods](#household-goods-sale)
+- [Jewelry](#jewelry-sale)
+- [Building Materials](#building-materials-sale)
+- [Motorcycle Parts](#motorcycle-parts-sale)
+- [Motorcycles](#motorcycles-sale)
+- [Musical Instruments](#musical-instruments-sale)
+- [Photo & Video Gear](#photo-video-gear-sale)
+- [RVs & Campers](#rvs-campers-sale)
+- [Sporting Equipment](#sporting-equipment-sale)
+- [Tickets](#tickets-sale)
+- [Tools & Hardware](#tools-hardware-sale)
+- [Toys & Games](#toys-games-sale)
+- [Utility Trailers](#utility-trailers-sale)
+- [Video Gaming](#video-gaming-sale)
+- [Wanted Items](#wanted-items)
+- [Wheels & Tires](#wheels-tires-sale)
 
-### Jobs
-- [Accounting+Finance](#accountingfinance)
-- [Admin / Office](#admin-office)
-- [Architecture / Engineering](#arch-engineering)
-- [Art / Media / Design](#art-media-design)
-- [Biotech / Science](#biotech-science)
-- [Business / Management](#business-mgmt)
-- [Customer Service](#customer-service)
-- [Education](#education)
-- [Food / Beverage / Hospitality](#food-bev-hosp)
-- [General Labor](#general-labor)
-- [Government](#government)
-- [Human Resources](#human-resources)
-- [Legal / Paralegal](#legal-paralegal)
-- [Manufacturing](#manufacturing)
-- [Marketing / PR / Advertising](#marketing-pr-ad)
-- [Medical / Health](#medical-health)
-- [Nonprofit Sector](#nonprofit-sector)
-- [Real Estate](#real-estate)
-- [Retail / Wholesale](#retail-wholesale)
-- [Sales / Business Development](#sales-biz-dev)
-- [Salon / Spa / Fitness](#salon-spa-fitness)
-- [Security](#security)
-- [Skilled Trade / Craft](#skilled-trade-craft)
-- [Software / QA / DBA](#software-qa-dba)
-- [Systems / Network](#systems-network)
-- [Technical Support](#technical-support)
-- [Transport](#transport)
-- [TV / Film / Video](#tv-film-video)
-- [Web / Information Design](#web-info-design)
-- [Writing / Editing](#writing-editing)
+### Job Listings
+- [Finance & Accounting](#finance-accounting-jobs)
+- [Office & Admin](#office-admin-jobs)
+- [Architecture & Engineering](#architecture-engineering-jobs)
+- [Media & Design](#media-design-jobs)
+- [Biotech & Science](#biotech-science-jobs)
+- [Business & Management](#business-management-jobs)
+- [Customer Support](#customer-support-jobs)
+- [Education & Teaching](#education-teaching-jobs)
+- [Food & Hospitality](#food-hospitality-jobs)
+- [General Labor](#general-labor-jobs)
+- [Government & Public Sector](#government-public-sector-jobs)
+- [Human Resources](#human-resources-jobs)
+- [Legal & Paralegal](#legal-paralegal-jobs)
+- [Manufacturing Jobs](#manufacturing-jobs)
+- [Marketing & PR](#marketing-pr-jobs)
+- [Medical & Health Jobs](#medical-health-jobs)
+- [Nonprofit Work](#nonprofit-work)
+- [Real Estate Jobs](#real-estate-jobs)
+- [Retail & Sales](#retail-sales-jobs)
+- [Business Development](#business-development-jobs)
+- [Salon & Spa Jobs](#salon-spa-jobs)
+- [Security Work](#security-work)
+- [Tech & IT Jobs](#tech-it-jobs)
+- [Transportation Jobs](#transportation-jobs)
+- [Writing & Editing Jobs](#writing-editing-jobs)
 
-### Gigs
-- [Computer](#computer-gigs)
-- [Creative](#creative-gigs)
-- [Crew](#crew-gigs)
-- [Domestic](#domestic-gigs)
-- [Event](#event-gigs)
-- [Labor](#labor-gigs)
-- [Talent](#talent-gigs)
-- [Writing](#writing-gigs)
+### Gigs & Short-Term Work
+- [Creative & Writing Gigs](#creative-writing-gigs)
+- [Computer & Tech Gigs](#computer-tech-gigs)
+- [Events & Promotions](#events-promotions-gigs)
+- [Household Help](#household-help-gigs)
+- [Labor Gigs](#labor-gigs)
+- [Local Community Gigs](#local-community-gigs)
+- [Music & Performance](#music-performance-gigs)
+- [Tutoring & Lessons](#tutoring-lessons-gigs)
+- [Volunteering](#volunteering-gigs)
+- [Other Gigs](#other-gigs)
 
-### Resumes
-- [View Resumes](#view-resumes)
+### Resumes & Employment Resources
+- [Resume Posting](#resume-posting)
+- [Job Search Tips](#job-search-tips)
+- [Career Coaching](#career-coaching)
+- [Freelance Work](#freelance-work)
+- [Internships](#internships)
+- [Apprenticeships](#apprenticeships)
+- [Other Employment Resources](#other-employment-resources)
+
+- ### Miscellaneous Services
+- [Delivery & Errands](#delivery-errands-services)
+- [Event Planning](#event-planning-services)
+- [Gift Wrapping & Personal Shopping](#gift-wrapping-personal-shopping-services)
+- [Pet Sitting & Dog Walking](#pet-sitting-dog-walking-services)
+- [Tailoring & Alterations](#tailoring-alterations-services)
+- [Wedding Services](#wedding-services)
+- [Other Services](#other-services)
+
+<style>
+/* General styling for body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Styling for the main container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Style for the headings */
+h1, h2, h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-top: 20px;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-top: 30px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+/* Category listing styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+ul li a {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+}
+
+ul li a:hover {
+    color: #2980b9;
+}
+
+/* Category section styling */
+.category-section {
+    margin-bottom: 40px;
+}
+
+/* Button-like links for categories */
+ul li a {
+    display: block;
+    padding: 10px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+ul li a:hover {
+    background-color: #bdc3c7;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+</style>
