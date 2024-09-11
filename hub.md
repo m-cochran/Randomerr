@@ -231,9 +231,6 @@ Select a location to view available listings.
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
     border-radius: 8px;
 }
 
