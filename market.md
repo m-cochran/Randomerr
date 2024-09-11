@@ -81,6 +81,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const elements = stripe.elements();
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -91,6 +92,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
+
+  // Check if the card element mounted successfully
+  card.on('ready', () => {
+    console.log("Card element mounted successfully.");
+  });
 
   // Handle shipping address same as billing
   sameAddressCheckbox.addEventListener("change", () => {
@@ -106,7 +112,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Handle payment submission
-  form.addEventListener("submit", async (event) => {
+
+  
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
@@ -160,37 +169,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       if (result.error) {
-        paymentStatus.textContent = `Error: ${result.error.message}`;
-        paymentStatus.classList.add('error');
+        // Show error to the customer
+        console.error(result.error.message);
+        document.getElementById("payment-status").textContent = `Error: ${result.error.message}`;
       } else if (result.paymentIntent.status === 'succeeded') {
-        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
-        localStorage.removeItem("cartItems");
-
-        // Create detailed receipt
-        const receiptContent = `
-          <h1>Receipt from MY CUP OF EARTH</h1>
-          <p>Receipt #${data.receiptNumber}</p>
-          <p>Amount paid: $${(total / 100).toFixed(2)}</p>
-          <p>Date paid: ${new Date().toLocaleDateString()}</p>
-          <p>Payment method: ${result.paymentIntent.payment_method_details.card.brand} - ${result.paymentIntent.payment_method_details.card.last4}</p>
-          <h2>Summary</h2>
-          <ul>
-            ${cartItems.map(item => `<li>${item.name} - $${item.price} x ${item.quantity}</li>`).join('')}
-          </ul>
-          <p>Amount charged: $${(total / 100).toFixed(2)}</p>
-          <p>If you have any questions, visit our support site at <a href="https://m-cochran.github.io/Randomerr/contact/">our support site</a>, contact us at reachmycupofearth@gmail.com, or call us at +1 724-299-1681.</p>
-        `;
-
-        // redirect
-        // window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+        // Payment succeeded
+        console.log('Payment successful!');
+        document.getElementById("payment-status").textContent = "Payment successful! Redirecting...";
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/"; // Replace with your success URL
       }
     } catch (error) {
-      paymentStatus.textContent = `Error: ${error.message}`;
-      paymentStatus.classList.add('error');
-    } finally {
-      submitButton.disabled = false;
+      console.error("Error during payment submission:", error);
+      document.getElementById("payment-status").textContent = `Error: ${error.message}`;
     }
   });
+});
 
   // Cart functionality
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
