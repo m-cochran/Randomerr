@@ -81,11 +81,10 @@ permalink: /market/
       const sameAddressCheckbox = document.getElementById("same-address");
       const shippingAddressContainer = document.getElementById("shipping-address-container");
 
-      // Example cart items (in a real application, these would come from your cart state)
-      const cartItems = [
-        { id: 'item1', name: 'Item 1', price: 1000, quantity: 2 },
-        { id: 'item2', name: 'Item 2', price: 2000, quantity: 1 }
-      ];
+      // Mount the Stripe Elements card UI
+      const elements = stripe.elements();
+      const card = elements.create("card");
+      card.mount("#card-element");
 
       // Handle the checkbox change event
       sameAddressCheckbox.addEventListener("change", () => {
@@ -131,13 +130,12 @@ permalink: /market/
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              amount: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+              amount: 2000, // Example amount in cents
               email: email,
               phone: phone,
               name: name,
               address: address,
-              shippingAddress: shippingAddress,
-              cartItems: cartItems
+              shippingAddress: shippingAddress
             })
           });
 
@@ -178,13 +176,7 @@ permalink: /market/
           submitButton.disabled = false;
         }
       });
-
-      // Set up Stripe Elements
-      const elements = stripe.elements();
-      const card = elements.create("card");
-      card.mount("#card-element");
     });
   </script>
 </body>
 </html>
-
