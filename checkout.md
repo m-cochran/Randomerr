@@ -204,6 +204,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
      <input type="checkbox" id="same-address">
      </label>
 
+
     <!-- Shipping Address -->
     <div id="shipping-address-container">
       <label for="shipping-address">Shipping Address</label>
@@ -214,6 +215,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       <input type="text" id="shipping-country" placeholder="Country" required>
     </div>
 
+
     <!-- Stripe Card Element -->
     <label for="card-element">Credit or debit card</label>
     <div id="card-element"></div>
@@ -222,6 +224,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <div id="payment-status"></div>
   </form>
 </main>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
@@ -274,123 +277,121 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    // Create payment method
-    const {paymentMethod, error} = await stripe.createPaymentMethod({
-      type: 'card',
-      card: card,
-      billing_details: {
-        name: name,
-        email: email,
-        phone: phone,
-        address: address
-      }
-    });
+    // Retrieve cart items
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const totalInCents = (total * 1);
 
-    if (error) {
-      paymentStatus.textContent = `Error: ${error.message}`;
-      submitButton.disabled = false;
-    } else {
-      // Handle payment method creation
-      const response = await fetch("/process_payment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          paymentMethodId: paymentMethod.id,
-          shippingAddress: shippingAddress
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems // Include cart items in the payload
         })
       });
 
-      const result = await response.json();
-      if (result.error) {
-        paymentStatus.textContent = `Error: ${result.error}`;
-      } else {
-        paymentStatus.textContent = "Payment successful!";
-        form.reset();
-        // Optionally, clear cart or redirect to a confirmation page
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
       }
+
+      const data = await response.json();
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
+        },
+      });
+
+      if (result.error) {
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+        localStorage.removeItem("cartItems");
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+      }
+    } catch (error) {
+      paymentStatus.textContent = `Error: ${error.message}`;
+      paymentStatus.classList.add('error');
+    } finally {
       submitButton.disabled = false;
     }
   });
 
-  // Populate cart items and total from local storage
+  // Cart functionality
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
-  const cartTotalElement = document.getElementById("cart-total");
+  const cartTotal = document.getElementById("cart-total");
 
-  let cartTotal = 0;
-  cartItems.forEach((item, index) => {
-    const itemElement = document.createElement("div");
-    itemElement.className = "cart-item";
-    itemElement.innerHTML = `
-      <div class="cart-item-details">
-        <span class="cart-item-title">${item.title}</span>
-        <span class="cart-item-price">$${item.price.toFixed(2)}</span>
-      </div>
-      <div class="cart-item-actions">
-        <input type="number" value="${item.quantity}" min="1" class="quantity-input">
-        <button class="btn-remove">Remove</button>
-      </div>
-    `;
-    cartItemsContainer.appendChild(itemElement);
+  if (cartItems.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "Total: $0.00";
+    return;
+  }
 
-    // Update total price
-    cartTotal += item.price * item.quantity;
-  });
+  let total = 0;
 
-  cartTotalElement.textContent = `Total: $${cartTotal.toFixed(2)}`;
-
-  // Handle quantity updates
-  document.querySelectorAll('.quantity-input').forEach((input, index) => {
-    input.addEventListener('change', function() {
-      const newQuantity = parseInt(this.value);
-      if (newQuantity < 1) {
-        this.value = 1; // Set minimum quantity to 1
-      }
-      // Update the quantity in the cartItems array
-      cartItems[index].quantity = newQuantity;
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
-
-      // Update the total price
-      let newTotal = 0;
-      cartItems.forEach(item => {
-        newTotal += item.price * item.quantity;
-      });
-      cartTotalElement.textContent = `Total: $${newTotal.toFixed(2)}`;
+  function renderCart() {
+    cartItemsContainer.innerHTML = "";
+    total = 0;
+    cartItems.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <div class="cart-item-details">
+          <div>${item.name}</div>
+          <div>Price: $${item.price}</div>
+        </div>
+        <div class="cart-item-actions">
+          <button class="btn-decrease" data-index="${index}">-</button>
+          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
+          <button class="btn-increase" data-index="${index}">+</button>
+          <button class="btn-remove" data-index="${index}">Remove</button>
+        </div>
+      `;
+      cartItemsContainer.appendChild(itemDiv);
+      total += item.price * item.quantity;
     });
-  });
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
 
-  // Handle remove button
-  document.querySelectorAll('.btn-remove').forEach((button, index) => {
-    button.addEventListener('click', function() {
-      // Remove item from cartItems array
-      cartItems.splice(index, 1);
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
-      // Re-render cart items
-      cartItemsContainer.innerHTML = '';
-      cartItems.forEach((item, index) => {
-        const itemElement = document.createElement("div");
-        itemElement.className = "cart-item";
-        itemElement.innerHTML = `
-          <div class="cart-item-details">
-            <span class="cart-item-title">${item.title}</span>
-            <span class="cart-item-price">$${item.price.toFixed(2)}</span>
-          </div>
-          <div class="cart-item-actions">
-            <input type="number" value="${item.quantity}" min="1" class="quantity-input">
-            <button class="btn-remove">Remove</button>
-          </div>
-        `;
-        cartItemsContainer.appendChild(itemElement);
+    // Add event listeners for quantity buttons
+    document.querySelectorAll(".btn-decrease").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        if (cartItems[index].quantity > 1) {
+          cartItems[index].quantity--;
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          renderCart();
+        }
       });
-      // Update the total price
-      let newTotal = 0;
-      cartItems.forEach(item => {
-        newTotal += item.price * item.quantity;
-      });
-      cartTotalElement.textContent = `Total: $${newTotal.toFixed(2)}`;
     });
-  });
+
+    document.querySelectorAll(".btn-increase").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems[index].quantity++;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+
+    document.querySelectorAll(".btn-remove").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems.splice(index, 1);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+  }
+
+  renderCart();
 });
 </script>
