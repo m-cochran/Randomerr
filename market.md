@@ -182,9 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <p>If you have any questions, visit our support site at <a href="https://m-cochran.github.io/Randomerr/contact/">our support site</a>, contact us at reachmycupofearth@gmail.com, or call us at +1 724-299-1681.</p>
         `;
 
-        // Display receipt or redirect with receipt
-        document.getElementById("receipt").innerHTML = receiptContent;
-        // Alternatively, redirect to the Thank You page and include receipt details in URL or session storage
+        // redirect
         // window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
       }
     } catch (error) {
