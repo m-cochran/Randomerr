@@ -8,21 +8,26 @@ permalink: /market/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
-<script src="https://js.stripe.com/v3/"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stripe Payment</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #payment-form { max-width: 600px; margin: auto; }
+    input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h2>Complete Your Payment</h2>
 
-<style>
-  body { font-family: Arial, sans-serif; }
-  #payment-form { max-width: 600px; margin: auto; }
-  input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
-  #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
-  .error { color: red; }
-  .success { color: green; }
-  #shipping-address-container { display: none; }
-</style>
-
-<h2>Complete Your Payment</h2>
-
-<main class="checkout-container">
+  <main class="checkout-container">
   <section id="cart-summary">
     <h2>Your Cart</h2>
     <div id="cart-items">
@@ -47,19 +52,12 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     <input type="tel" id="phone" required>
 
     <!-- Billing Address -->
-    <fieldset>
-      <legend>Billing Address</legend>
-      <label for="address">Street Address</label>
-      <input type="text" id="address" required>
-      <label for="city">City</label>
-      <input type="text" id="city" required>
-      <label for="state">State</label>
-      <input type="text" id="state" required>
-      <label for="postal-code">Postal Code</label>
-      <input type="text" id="postal-code" required>
-      <label for="country">Country</label>
-      <input type="text" id="country" required>
-    </fieldset>
+    <label for="address">Billing Address</label>
+    <input type="text" id="address" placeholder="Street Address" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="state" placeholder="State" required>
+    <input type="text" id="postal-code" placeholder="Postal Code" required>
+    <input type="text" id="country" placeholder="Country" required>
 
     <!-- Shipping Address Checkbox -->
     <label>
@@ -68,19 +66,12 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
     <!-- Shipping Address -->
     <div id="shipping-address-container">
-      <fieldset>
-        <legend>Shipping Address</legend>
-        <label for="shipping-address">Street Address</label>
-        <input type="text" id="shipping-address" required>
-        <label for="shipping-city">City</label>
-        <input type="text" id="shipping-city" required>
-        <label for="shipping-state">State</label>
-        <input type="text" id="shipping-state" required>
-        <label for="shipping-postal-code">Postal Code</label>
-        <input type="text" id="shipping-postal-code" required>
-        <label for="shipping-country">Country</label>
-        <input type="text" id="shipping-country" required>
-      </fieldset>
+      <label for="shipping-address">Shipping Address</label>
+      <input type="text" id="shipping-address" placeholder="Street Address" required>
+      <input type="text" id="shipping-city" placeholder="City" required>
+      <input type="text" id="shipping-state" placeholder="State" required>
+      <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+      <input type="text" id="shipping-country" placeholder="Country" required>
     </div>
 
     <!-- Stripe Card Element -->
@@ -90,7 +81,6 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     <button id="submit-button">Pay Now</button>
     <div id="payment-status"></div>
   </form>
-</main>
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
@@ -145,12 +135,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Retrieve cart items
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    
+    const totalInCents = Math.round(total * 100);
+
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          amount: totalInCents,
           email: email,
           phone: phone,
           name: name,
@@ -213,7 +205,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div>${item.name}</div>
           <div>Price: $${item.price}</div>
         </div>
-        <div class="cart-item-quantity">Quantity: ${item.quantity}</div>
+        <div class="cart-item-actions">
+          <button class="btn-decrease" data-index="${index}">-</button>
+          <input type="text" value="${item.quantity}" readonly>
+          <button class="btn-increase" data-index="${index}">+</button>
+          <button class="btn-remove" data-index="${index}">Remove</button>
+        </div>
       `;
       cartItemsContainer.appendChild(itemDiv);
       total += item.price * item.quantity;
@@ -224,3 +221,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
 });
 </script>
+
+</main>
+</body>
+</html>
+
