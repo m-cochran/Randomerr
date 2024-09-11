@@ -16,6 +16,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
   .error { color: red; }
   .success { color: green; }
+  .checkout-summary { margin-top: 20px; }
 </style>
 
 <h2>Complete Your Payment</h2>
@@ -31,49 +32,49 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </div>
   </section>
 
-<form id="payment-form">
-<!-- Cardholder's Name -->
-<label for="name">Full Name</label>
-<input type="text" id="name" required>
+  <form id="payment-form">
+    <!-- Cardholder's Name -->
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
 
-<!-- Email Address -->
-<label for="email">Email Address</label>
-<input type="email" id="email" required>
+    <!-- Email Address -->
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required>
 
-<!-- Phone Number -->
-<label for="phone">Phone Number</label>
-<input type="tel" id="phone" required>
+    <!-- Phone Number -->
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required>
 
-<!-- Billing Address -->
-<label for="address">Billing Address</label>
-<input type="text" id="address" placeholder="Street Address" required>
-<input type="text" id="city" placeholder="City" required>
-<input type="text" id="state" placeholder="State" required>
-<input type="text" id="postal-code" placeholder="Postal Code" required>
-<input type="text" id="country" placeholder="Country" required>
+    <!-- Billing Address -->
+    <label for="address">Billing Address</label>
+    <input type="text" id="address" placeholder="Street Address" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="state" placeholder="State" required>
+    <input type="text" id="postal-code" placeholder="Postal Code" required>
+    <input type="text" id="country" placeholder="Country" required>
 
-<!-- Shipping Address Checkbox -->
-<label>
-  <input type="checkbox" id="same-address"> Shipping address is the same as billing address
-</label>
+    <!-- Shipping Address Checkbox -->
+    <label>
+      <input type="checkbox" id="same-address"> Shipping address is the same as billing address
+    </label>
 
-<!-- Shipping Address -->
-<div id="shipping-address-container">
-<label for="shipping-address">Shipping Address</label>
-<input type="text" id="shipping-address" placeholder="Street Address" required>
-<input type="text" id="shipping-city" placeholder="City" required>
-<input type="text" id="shipping-state" placeholder="State" required>
-<input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
-<input type="text" id="shipping-country" placeholder="Country" required>
-</div>
+    <!-- Shipping Address -->
+    <div id="shipping-address-container">
+      <label for="shipping-address">Shipping Address</label>
+      <input type="text" id="shipping-address" placeholder="Street Address" required>
+      <input type="text" id="shipping-city" placeholder="City" required>
+      <input type="text" id="shipping-state" placeholder="State" required>
+      <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+      <input type="text" id="shipping-country" placeholder="Country" required>
+    </div>
 
-<!-- Stripe Card Element -->
-<label for="card-element">Credit or debit card</label>
-<div id="card-element"></div>
+    <!-- Stripe Card Element -->
+    <label for="card-element">Credit or debit card</label>
+    <div id="card-element"></div>
 
-<button id="submit-button">Pay Now</button>
-<div id="payment-status"></div>
-</form>
+    <button id="submit-button">Pay Now</button>
+    <div id="payment-status"></div>
+  </form>
 </main>
 
 <script>
@@ -109,158 +110,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   let total = 0;
 
-// Handle payment submission
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  submitButton.disabled = true;
-  paymentStatus.textContent = "";
-
-  // Extract total from the cart-total div
-  const cartTotalElement = document.getElementById('cart-total');
-  const totalText = cartTotalElement.textContent;
-  const totalMatch = totalText.match(/Total:\s*\$([\d,\.]+)/);
-  
-  let total = 0;
-  if (totalMatch) {
-    // Remove commas and parse the total amount
-    total = parseFloat(totalMatch[1].replace(/,/g, ''));
-  } else {
-    throw new Error("Could not extract total value");
-  }
-
-  // Ensure total is parsed as a floating-point number
-  if (isNaN(total)) {
-    throw new Error("Invalid total value");
-  }
-
-  // Calculate total in cents (Stripe expects amount in cents)
-  const totalInCents = Math.round(total * 100); // Ensure 'total' is in dollars
-
-  // Logging values for diagnostic purposes
-  console.log('Total (in dollars):', total);      // Log total in dollars
-  console.log('Total (in cents):', totalInCents); // Log total in cents
-
-  try {
-    const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: totalInCents, // Stripe expects the amount in cents
-        email: email,
-        phone: phone,
-        name: name,
-        address: address,
-        shippingAddress: shippingAddress,
-        cartItems: cartItems // Include cart items in the payload
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to create payment intent');
-    }
-
-    const data = await response.json();
-    const result = await stripe.confirmCardPayment(data.clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: { name: name, email: email, phone: phone, address: address }
-      },
-    });
-
-    if (result.error) {
-      paymentStatus.textContent = `Error: ${result.error.message}`;
-      paymentStatus.classList.add('error');
-    } else if (result.paymentIntent.status === 'succeeded') {
-      localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
-      localStorage.removeItem("cartItems");
-      window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
-    }
-  } catch (error) {
-    paymentStatus.textContent = `Error: ${error.message}`;
-    paymentStatus.classList.add('error');
-  } finally {
-    submitButton.disabled = false;
-  }
-});
-
-
-    const totalInCents = Math.round(total * 100);
-    const name = nameInput.value;
-    const email = emailInput.value;
-    const phone = phoneInput.value;
-    const address = {
-      line1: addressInput.line1.value,
-      city: addressInput.city.value,
-      state: addressInput.state.value,
-      postal_code: addressInput.postal_code.value,
-      country: addressInput.country.value
-    };
-    const shippingAddress = sameAddressCheckbox.checked ? address : {
-      line1: shippingAddressInputs.line1.value,
-      city: shippingAddressInputs.city.value,
-      state: shippingAddressInputs.state.value,
-      postal_code: shippingAddressInputs.postal_code.value,
-      country: shippingAddressInputs.country.value
-    };
-
-    try {
-      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: totalInCents,
-          email: email,
-          phone: phone,
-          name: name,
-          address: address,
-          shippingAddress: shippingAddress,
-          cartItems: cartItems
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
-
-      const data = await response.json();
-      const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: { name: name, email: email, phone: phone, address: address }
-        },
-      });
-
-      if (result.error) {
-        paymentStatus.textContent = `Error: ${result.error.message}`;
-        paymentStatus.classList.add('error');
-      } else if (result.paymentIntent.status === 'succeeded') {
-        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
-        localStorage.removeItem("cartItems");
-        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
-      }
-    } catch (error) {
-      paymentStatus.textContent = `Error: ${error.message}`;
-      paymentStatus.classList.add('error');
-    } finally {
-      submitButton.disabled = false;
-    }
-  });
-
-  const cartItemsContainer = document.getElementById("cart-items");
-  const cartTotal = document.getElementById("cart-total");
-
-  if (!cartItemsContainer || !cartTotal) {
-    console.error("Cart elements are missing from the DOM.");
-    return;
-  }
-
-  if (cartItems.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-    cartTotal.textContent = "Total: $0.00";
-    return;
-  }
-
   function renderCart() {
+    const cartItemsContainer = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+
+    if (!cartItemsContainer || !cartTotal) {
+      console.error("Cart elements are missing from the DOM.");
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+      cartTotal.textContent = "Total: $0.00";
+      return;
+    }
+
     cartItemsContainer.innerHTML = "";
     total = 0;
     cartItems.forEach((item, index) => {
@@ -300,6 +164,102 @@ form.addEventListener("submit", async (event) => {
     }
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     renderCart();
+  });
+
+  // Handle payment submission
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    paymentStatus.textContent = "";
+
+    // Extract total from the cart-total div
+    const cartTotalElement = document.getElementById('cart-total');
+    const totalText = cartTotalElement.textContent;
+    const totalMatch = totalText.match(/Total:\s*\$([\d,\.]+)/);
+    
+    let total = 0;
+    if (totalMatch) {
+      // Remove commas and parse the total amount
+      total = parseFloat(totalMatch[1].replace(/,/g, ''));
+    } else {
+      throw new Error("Could not extract total value");
+    }
+
+    // Ensure total is parsed as a floating-point number
+    if (isNaN(total)) {
+      throw new Error("Invalid total value");
+    }
+
+    // Calculate total in cents (Stripe expects amount in cents)
+    const totalInCents = Math.round(total * 100); // Ensure 'total' is in dollars
+
+    // Logging values for diagnostic purposes
+    console.log('Total (in dollars):', total);      // Log total in dollars
+    console.log('Total (in cents):', totalInCents); // Log total in cents
+
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: totalInCents, // Stripe expects the amount in cents
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          name: document.getElementById('name').value,
+          address: {
+            line1: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            postal_code: document.getElementById('postal-code').value,
+            country: document.getElementById('country').value
+          },
+          shipping_address: {
+            line1: sameAddressCheckbox.checked ? document.getElementById('address').value : document.getElementById('shipping-address').value,
+            city: sameAddressCheckbox.checked ? document.getElementById('city').value : document.getElementById('shipping-city').value,
+            state: sameAddressCheckbox.checked ? document.getElementById('state').value : document.getElementById('shipping-state').value,
+            postal_code: sameAddressCheckbox.checked ? document.getElementById('postal-code').value : document.getElementById('shipping-postal-code').value,
+            country: sameAddressCheckbox.checked ? document.getElementById('country').value : document.getElementById('shipping-country').value
+          }
+        })
+      });
+
+      const { clientSecret } = await response.json();
+
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            address: {
+              line1: document.getElementById('address').value,
+              city: document.getElementById('city').value,
+              state: document.getElementById('state').value,
+              postal_code: document.getElementById('postal-code').value,
+              country: document.getElementById('country').value
+            }
+          }
+        }
+      });
+
+      if (error) {
+        paymentStatus.textContent = `Payment failed: ${error.message}`;
+        paymentStatus.className = "error";
+      } else if (paymentIntent.status === "succeeded") {
+        paymentStatus.textContent = "Payment succeeded!";
+        paymentStatus.className = "success";
+      } else {
+        paymentStatus.textContent = `Payment status: ${paymentIntent.status}`;
+        paymentStatus.className = "error";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      paymentStatus.textContent = `An error occurred: ${error.message}`;
+      paymentStatus.className = "error";
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 });
 </script>
