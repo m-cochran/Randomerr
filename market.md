@@ -85,18 +85,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
-  // Ensure all elements are present
   if (!form || !submitButton || !paymentStatus || !sameAddressCheckbox || !shippingAddressContainer) {
     console.error("Required elements are missing from the DOM.");
     return;
   }
 
-  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
 
-  // Handle shipping address same as billing
   sameAddressCheckbox.addEventListener("change", () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
@@ -109,17 +106,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Retrieve cart items
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   let total = 0;
 
-  // Handle payment submission
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
-    // Ensure elements are available
     const totalInput = document.getElementById('total');
     const nameInput = document.getElementById("name");
     const emailInput = document.getElementById("email");
@@ -139,8 +133,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country")
     };
 
-    if (!totalInput || !nameInput || !emailInput || !phoneInput || !addressInput.line1 ||
-        !addressInput.city || !addressInput.state || !addressInput.postal_code || !addressInput.country) {
+    // Log element presence
+    console.log("totalInput:", totalInput);
+    console.log("nameInput:", nameInput);
+    console.log("emailInput:", emailInput);
+    console.log("phoneInput:", phoneInput);
+    console.log("addressInput:", addressInput);
+    console.log("shippingAddressInputs:", shippingAddressInputs);
+
+    if (!totalInput || !nameInput || !emailInput || !phoneInput || 
+        !addressInput.line1 || !addressInput.city || !addressInput.state || 
+        !addressInput.postal_code || !addressInput.country) {
       paymentStatus.textContent = "Error: Missing required form fields.";
       paymentStatus.classList.add('error');
       submitButton.disabled = false;
@@ -217,7 +220,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Cart functionality
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
 
@@ -259,10 +261,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
   }
 
-  // Render the cart on load
   renderCart();
 
-  // Update quantity and remove item buttons
   cartItemsContainer.addEventListener("click", (event) => {
     const index = event.target.dataset.index;
     if (event.target.classList.contains("btn-decrease")) {
