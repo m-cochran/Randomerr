@@ -109,54 +109,80 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   let total = 0;
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    submitButton.disabled = true;
-    paymentStatus.textContent = "";
+// Handle payment submission
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  submitButton.disabled = true;
+  paymentStatus.textContent = "";
 
-    const totalInput = document.getElementById('total');
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const phoneInput = document.getElementById("phone");
-    const addressInput = {
-      line1: document.getElementById("address"),
-      city: document.getElementById("city"),
-      state: document.getElementById("state"),
-      postal_code: document.getElementById("postal-code"),
-      country: document.getElementById("country")
-    };
-    const shippingAddressInputs = {
-      line1: document.getElementById("shipping-address"),
-      city: document.getElementById("shipping-city"),
-      state: document.getElementById("shipping-state"),
-      postal_code: document.getElementById("shipping-postal-code"),
-      country: document.getElementById("shipping-country")
-    };
+  // Extract total from the cart-total div
+  const cartTotalElement = document.getElementById('cart-total');
+  const totalText = cartTotalElement.textContent;
+  const totalMatch = totalText.match(/Total:\s*\$([\d,\.]+)/);
+  
+  let total = 0;
+  if (totalMatch) {
+    // Remove commas and parse the total amount
+    total = parseFloat(totalMatch[1].replace(/,/g, ''));
+  } else {
+    throw new Error("Could not extract total value");
+  }
 
-    // Log element presence
-    console.log("totalInput:", totalInput);
-    console.log("nameInput:", nameInput);
-    console.log("emailInput:", emailInput);
-    console.log("phoneInput:", phoneInput);
-    console.log("addressInput:", addressInput);
-    console.log("shippingAddressInputs:", shippingAddressInputs);
+  // Ensure total is parsed as a floating-point number
+  if (isNaN(total)) {
+    throw new Error("Invalid total value");
+  }
 
-    if (!totalInput || !nameInput || !emailInput || !phoneInput || 
-        !addressInput.line1 || !addressInput.city || !addressInput.state || 
-        !addressInput.postal_code || !addressInput.country) {
-      paymentStatus.textContent = "Error: Missing required form fields.";
-      paymentStatus.classList.add('error');
-      submitButton.disabled = false;
-      return;
+  // Calculate total in cents (Stripe expects amount in cents)
+  const totalInCents = Math.round(total * 100); // Ensure 'total' is in dollars
+
+  // Logging values for diagnostic purposes
+  console.log('Total (in dollars):', total);      // Log total in dollars
+  console.log('Total (in cents):', totalInCents); // Log total in cents
+
+  try {
+    const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: totalInCents, // Stripe expects the amount in cents
+        email: email,
+        phone: phone,
+        name: name,
+        address: address,
+        shippingAddress: shippingAddress,
+        cartItems: cartItems // Include cart items in the payload
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create payment intent');
     }
 
-    const total = parseFloat(totalInput.value);
-    if (isNaN(total)) {
-      paymentStatus.textContent = "Error: Invalid total value.";
+    const data = await response.json();
+    const result = await stripe.confirmCardPayment(data.clientSecret, {
+      payment_method: {
+        card: card,
+        billing_details: { name: name, email: email, phone: phone, address: address }
+      },
+    });
+
+    if (result.error) {
+      paymentStatus.textContent = `Error: ${result.error.message}`;
       paymentStatus.classList.add('error');
-      submitButton.disabled = false;
-      return;
+    } else if (result.paymentIntent.status === 'succeeded') {
+      localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+      localStorage.removeItem("cartItems");
+      window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
     }
+  } catch (error) {
+    paymentStatus.textContent = `Error: ${error.message}`;
+    paymentStatus.classList.add('error');
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+
 
     const totalInCents = Math.round(total * 100);
     const name = nameInput.value;
