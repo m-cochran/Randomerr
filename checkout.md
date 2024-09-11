@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="cart-item-actions">
           <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}">
+          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
