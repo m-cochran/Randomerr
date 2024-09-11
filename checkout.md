@@ -73,6 +73,17 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     font-size: 0.875rem;
   }
 
+
+
+  .same-line {
+  display: inline-flex;
+  align-items: center;
+}
+
+.same-line input[type="checkbox"] {
+  margin-left: 10px; /* Add space between the label text and the checkbox */
+}
+
   #card-element {
     padding: 0.75rem;
     border-radius: 4px;
@@ -168,7 +179,11 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <input type="text" id="country" placeholder="Country" required>
 
     <!-- Shipping Address Checkbox -->
-    <label>Shipping address is the same as billing address<input type="checkbox" id="same-address"></label>
+     <label for="same-address" class="same-line">
+     Shipping address is the same as billing address
+     <input type="checkbox" id="same-address">
+     </label>
+
 
     <!-- Shipping Address -->
     <div id="shipping-address-container">
