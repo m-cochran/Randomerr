@@ -73,19 +73,16 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     font-size: 0.875rem;
   }
 
-
-
   .same-line {
-  display: inline-flex;
-  align-items: center;
-}
+    display: inline-flex;
+    align-items: center;
+  }
 
-.same-line input[type="checkbox"] {
-  margin-left: 10px; /* Add space between the label text and the checkbox */
-  margin: 80px;
-  width: 25px;
-  height: 25px;
-}
+  .same-line input[type="checkbox"] {
+    margin-left: 10px; 
+    width: 25px;
+    height: 25px;
+  }
 
   #card-element {
     padding: 0.75rem;
@@ -105,6 +102,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px; /* Added space between buttons */
   }
 
   .cart-item-actions button {
@@ -115,8 +113,13 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     transition: background-color 0.3s ease;
   }
 
-  .cart-item-actions button:hover {
-    background-color: #ced4da;
+  .cart-item-actions .btn-remove {
+    background-color: #dc3545; /* Red for remove button */
+    color: white;
+  }
+
+  .cart-item-actions .btn-remove:hover {
+    background-color: #c82333; /* Darker red on hover */
   }
 
   .cart-item-actions input {
@@ -127,6 +130,20 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     background-color: #f8f9fa;
     border-radius: 4px;
     padding: 0.5rem;
+  }
+
+  /* Improved Total Styling */
+  .checkout-summary {
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .checkout-summary #cart-total {
+    color: #28a745;
   }
 
   /* Responsive Design */
