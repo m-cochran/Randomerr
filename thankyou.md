@@ -144,7 +144,8 @@ permalink: /thank-you/
 
 
 
-
+<h2>While You’re Here...</h2>
+<p>Check out these exclusive deals just for you:</p>
 
 <!-- Product List -->
 <div id="product-list" class="product-list"></div>
