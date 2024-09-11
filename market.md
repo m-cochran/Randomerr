@@ -9,19 +9,20 @@ permalink: /market/
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    #payment-form { max-width: 600px; margin: auto; }
-    input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
-    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
-    .error { color: red; }
-    .success { color: green; }
-  </style>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+  body { font-family: Arial, sans-serif; }
+  #payment-form { max-width: 600px; margin: auto; }
+  input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+  #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+  .error { color: red; }
+  .success { color: green; }
+  .cart-item-actions button { width: 30px; }
+</style>
 
-  <h2>Complete Your Payment</h2>
+<h2>Complete Your Payment</h2>
 
-  <main class="checkout-container">
+<main class="checkout-container">
   <section id="cart-summary">
     <h2>Your Cart</h2>
     <div id="cart-items">
@@ -210,9 +211,38 @@ document.addEventListener("DOMContentLoaded", async () => {
       total += item.price * item.quantity;
     });
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+
+    // Add event listeners for quantity buttons
+    document.querySelectorAll(".btn-decrease").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        if (cartItems[index].quantity > 1) {
+          cartItems[index].quantity--;
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          renderCart();
+        }
+      });
+    });
+
+    document.querySelectorAll(".btn-increase").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems[index].quantity++;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+
+    document.querySelectorAll(".btn-remove").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems.splice(index, 1);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
   }
 
   renderCart();
 });
 </script>
-
