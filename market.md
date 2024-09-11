@@ -14,33 +14,34 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   #payment-form {
     max-width: 600px;
     margin: 2rem auto;
-    background: #fff; /* White background for form */
+    background: #ffffff; /* White background for the form */
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
   }
 
   input, button {
     display: block;
     width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd; /* Light border for inputs */
+    margin: 0.5rem 0; /* Reduced margin for a cleaner look */
+    padding: 0.75rem; /* Increased padding for better touch targets */
+    border: 1px solid #ced4da; /* Light border color */
     border-radius: 4px;
+    font-size: 1rem; /* Consistent font size */
   }
 
   input:focus, button:focus {
-    border-color: #007bff; /* Highlight border on focus */
+    border-color: #80bdff; /* Highlight color on focus */
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Blue shadow for focus */
+    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.25); /* Focus shadow effect */
   }
 
   button {
     background-color: #007bff; /* Primary button color */
-    color: #fff;
+    color: #ffffff;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem; /* Consistent font size */
   }
 
   button:hover {
@@ -48,27 +49,27 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   }
 
   #card-element {
-    border: 1px solid #ddd; /* Light border for card element */
-    padding: 10px;
+    border: 1px solid #e9ecef; /* Light border for card input */
+    padding: 0.75rem;
     border-radius: 4px;
-    background-color: #fafafa; /* Light background for card input */
+    background-color: #f8f9fa; /* Slightly different background for contrast */
   }
 
   .error {
-    color: #d9534f; /* Bootstrap danger color */
-    font-size: 14px;
+    color: #dc3545; /* Bootstrap danger color */
+    font-size: 0.875rem; /* Slightly smaller font size */
   }
 
   .success {
-    color: #5bc0de; /* Bootstrap info color */
-    font-size: 14px;
+    color: #28a745; /* Bootstrap success color */
+    font-size: 0.875rem; /* Slightly smaller font size */
   }
 
   #cart-summary {
-    background: #fff; /* White background for cart summary */
-    padding: 1rem;
+    background: #ffffff; /* White background for cart summary */
+    padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     margin-bottom: 2rem;
   }
 
@@ -79,19 +80,25 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   }
 
   .cart-item-actions button {
-    width: 28%;
-    padding: 8px;
-    font-size: 14px;
+    width: 30%;
+    padding: 0.5rem;
+    font-size: 0.875rem; /* Slightly smaller font size */
     border-radius: 4px;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+
+  .cart-item-actions button:hover {
+    background-color: #e9ecef; /* Light background on hover */
   }
 
   .cart-item-actions input {
-    width: 40%;
+    width: 30%;
     text-align: center;
-    border: none;
-    font-size: 14px;
-    background: #f9f9f9;
+    border: 1px solid #ced4da;
+    font-size: 0.875rem; /* Slightly smaller font size */
+    background: #f8f9fa;
     border-radius: 4px;
+    padding: 0.5rem; /* Adjusted padding */
   }
 
   /* Responsive design */
@@ -103,14 +110,15 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     }
 
     .cart-item-actions button {
-      width: 30%;
+      width: 32%;
     }
 
     .cart-item-actions input {
-      width: 20%;
+      width: 24%;
     }
   }
 </style>
+
 
 
 <h2>Complete Your Payment</h2>
