@@ -148,7 +148,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          cartItems: cartItems // Include cart items in the payload
+          cartItems: cartItems, // Include cart items in the payload
+          description: `${item.name} (${item.quantity} x $${item.price})`
         })
       });
 
