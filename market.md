@@ -58,7 +58,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     </label>
 
     <!-- Shipping Address -->
-    <div id="shipping-address-container" style="display: none;">
+    <div id="shipping-address-container">
       <label for="shipping-address">Shipping Address</label>
       <input type="text" id="shipping-address" placeholder="Street Address" required>
       <input type="text" id="shipping-city" placeholder="City" required>
@@ -74,10 +74,11 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     <button id="submit-button">Pay Now</button>
     <div id="payment-status"></div>
   </form>
+</main>
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -101,6 +102,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("shipping-country").value = document.getElementById("country").value;
     }
   });
+
+  // Retrieve cart items
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  let total = 0;
 
   // Handle payment submission
   form.addEventListener("submit", async (event) => {
@@ -126,9 +131,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    // Retrieve cart items
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const totalInCents = Math.round(total * 100);
 
     try {
@@ -142,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          cartItems: cartItems
+          cartItems: cartItems // Include cart items in the payload
         })
       });
 
@@ -186,6 +188,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderCart() {
     cartItemsContainer.innerHTML = "";
+    total = 0;
     cartItems.forEach((item, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cart-item";
@@ -197,17 +200,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="cart-item-actions">
           <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" readonly>
+          <input type="text" value="${item.quantity}" class="item-quantity" readonly>
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
       `;
       cartItemsContainer.appendChild(itemDiv);
+
+      total += item.price * item.quantity;
     });
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
   }
 
+  // Render the cart on load
   renderCart();
+
+  // Update quantity and remove functionality
+  cartItemsContainer.addEventListener("click", (event) => {
+    const index = event.target.getAttribute("data-index");
+    if (event.target.classList.contains("btn-increase")) {
+      cartItems[index].quantity++;
+    } else if (event.target.classList.contains("btn-decrease") && cartItems[index].quantity > 1) {
+      cartItems[index].quantity--;
+    } else if (event.target.classList.contains("btn-remove")) {
+      cartItems.splice(index, 1);
+    }
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    renderCart();
+  });
 });
 </script>
