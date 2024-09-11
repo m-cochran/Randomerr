@@ -108,88 +108,79 @@ document.addEventListener("DOMContentLoaded", async () => {
   let total = 0;
 
   // Handle payment submission
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  submitButton.disabled = true;
-  paymentStatus.textContent = "";
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    paymentStatus.textContent = "";
 
+    const totalInput = document.getElementById('total').value;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = {
+      line1: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      state: document.getElementById("state").value,
+      postal_code: document.getElementById("postal-code").value,
+      country: document.getElementById("country").value
+    };
+    const shippingAddress = sameAddressCheckbox.checked ? address : {
+      line1: document.getElementById("shipping-address").value,
+      city: document.getElementById("shipping-city").value,
+      state: document.getElementById("shipping-state").value,
+      postal_code: document.getElementById("shipping-postal-code").value,
+      country: document.getElementById("shipping-country").value
+    };
 
-  const totalInput = document.getElementById('total').value;
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
-  const address = {
-    line1: document.getElementById("address").value,
-    city: document.getElementById("city").value,
-    state: document.getElementById("state").value,
-    postal_code: document.getElementById("postal-code").value,
-    country: document.getElementById("country").value
-  };
-  const shippingAddress = sameAddressCheckbox.checked ? address : {
-    line1: document.getElementById("shipping-address").value,
-    city: document.getElementById("shipping-city").value,
-    state: document.getElementById("shipping-state").value,
-    postal_code: document.getElementById("shipping-postal-code").value,
-    country: document.getElementById("shipping-country").value
-  };
-
-
-   // Ensure total is parsed as a floating-point number
     const total = parseFloat(totalInput);
     if (isNaN(total)) {
       throw new Error("Invalid total value");
     }
 
-  // Calculate total in cents (Stripe expects amount in cents)
-  const totalInCents = Math.round(total * 100); // Ensure 'total' is in dollars
+    const totalInCents = Math.round(total * 100);
 
-   // Logging values for diagnostic purposes
-    console.log('Total (in dollars):', total);      // Log total in dollars
-    console.log('Total (in cents):', totalInCents); // Log total in cents
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems
+        })
+      });
 
-  try {
-    const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: totalInCents, // Stripe expects the amount in cents
-        email: email,
-        phone: phone,
-        name: name,
-        address: address,
-        shippingAddress: shippingAddress,
-        cartItems: cartItems // Include cart items in the payload
-      })
-    });
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
 
-    if (!response.ok) {
-      throw new Error('Failed to create payment intent');
-    }
+      const data = await response.json();
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
+        },
+      });
 
-    const data = await response.json();
-    const result = await stripe.confirmCardPayment(data.clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: { name: name, email: email, phone: phone, address: address }
-      },
-    });
-
-    if (result.error) {
-      paymentStatus.textContent = `Error: ${result.error.message}`;
+      if (result.error) {
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+        localStorage.removeItem("cartItems");
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+      }
+    } catch (error) {
+      paymentStatus.textContent = `Error: ${error.message}`;
       paymentStatus.classList.add('error');
-    } else if (result.paymentIntent.status === 'succeeded') {
-      localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
-      localStorage.removeItem("cartItems");
-      window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+    } finally {
+      submitButton.disabled = false;
     }
-  } catch (error) {
-    paymentStatus.textContent = `Error: ${error.message}`;
-    paymentStatus.classList.add('error');
-  } finally {
-    submitButton.disabled = false;
-  }
-});
-
+  });
 
   // Cart functionality
   const cartItemsContainer = document.getElementById("cart-items");
