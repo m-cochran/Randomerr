@@ -12,11 +12,6 @@ permalink: /thank-you/
     <!-- Items will be dynamically populated here -->
   </div>
 
-  <h2>Your Receipt:</h2>
-  <div id="receipt-link">
-    <!-- Receipt link will be dynamically populated here -->
-  </div>
-
   <p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
 </div>
 
