@@ -227,33 +227,45 @@ Select a location to view available listings.
 - [Other Services](#other-services)
 
 <style>
+/* General body styling */
+body {
+    font-family: 'Verdana', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
 /* Styling for the main container */
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
 /* Style for the headings */
 h1, h2, h3 {
-    color: #2c3e50;
+    color: #34495e;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-top: 20px;
-}
-
-h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-top: 30px;
 }
 
+h2 {
+    font-size: 1.8rem;
+    margin-top: 25px;
+}
+
 h3 {
-    font-size: 1.5rem;
-    margin-top: 20px;
+    font-size: 1.4rem;
+    margin-top: 15px;
 }
 
 /* Category listing styling */
@@ -263,57 +275,55 @@ ul {
 }
 
 ul li {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 12px 0;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #3498db;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 ul li a {
     text-decoration: none;
-    color: #3498db;
-    font-weight: bold;
+    color: #2c3e50;
+    font-weight: normal;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
 }
 
 ul li a:hover {
     color: #2980b9;
+    background-color: #ecf0f1;
 }
 
 /* Category section styling */
 .category-section {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 /* Button-like links for categories */
 ul li a {
-    display: block;
-    padding: 10px;
-    background-color: #ecf0f1;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-ul li a:hover {
-    background-color: #bdc3c7;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     h2 {
-        font-size: 1.75rem;
+        font-size: 1.6rem;
     }
 
     h3 {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
     }
 
     .container {
-        padding: 10px;
+        padding: 20px;
     }
 }
 </style>
+
