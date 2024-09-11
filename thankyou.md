@@ -18,7 +18,7 @@ permalink: /thank-you/
 <style>
   /* General Styles for the Thank You Page */
   
-  .container {
+  .purchased-container {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
