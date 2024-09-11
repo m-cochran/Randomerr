@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Retrieve cart items
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const totalInCents = Math.round(total * 1);
+    
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
