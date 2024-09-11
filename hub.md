@@ -11,6 +11,11 @@ Explore items for sale or trade by location and category.
 ## Browse by Location
 Select a location to view available listings.
 
+- [Region](#region)
+    - [Province/State](#province-state)
+        - [City/Town](#city-town)
+
+---
     <div class="container">
         <h1>Location Selector</h1>
 
