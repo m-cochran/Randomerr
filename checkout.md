@@ -82,6 +82,9 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
 .same-line input[type="checkbox"] {
   margin-left: 10px; /* Add space between the label text and the checkbox */
+  margin: 80px;
+  width: 25px;
+  height: 25px;
 }
 
   #card-element {
