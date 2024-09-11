@@ -4,7 +4,7 @@ title: Hub
 permalink: /hub/
 ---
 
-# Marketplace
+# Hub
 
 Explore items for sale or trade by location and category.
 
