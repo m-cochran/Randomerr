@@ -9,7 +9,6 @@ permalink: /market/
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
 
-
   <script src="https://js.stripe.com/v3/"></script>
   <style>
     body { font-family: Arial, sans-serif; }
@@ -77,11 +76,9 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     <div id="payment-status"></div>
   </form>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
-  const elements = stripe.elements();
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -92,11 +89,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
-
-  // Check if the card element mounted successfully
-  card.on('ready', () => {
-    console.log("Card element mounted successfully.");
-  });
 
   // Handle shipping address same as billing
   sameAddressCheckbox.addEventListener("change", () => {
@@ -112,10 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Handle payment submission
-
-  
-    const form = document.getElementById("payment-form");
-    form.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
@@ -138,8 +127,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    const cartItems = JSON.parse(localStorage.getItem("cartItems"));
-    const totalInCents = Math.round(total * 1);
+    // Retrieve cart items
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const totalInCents = Math.round(total * 100);
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
@@ -152,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          items: cartItems // Pass cart items
+          cartItems: cartItems // Include cart items in the payload
         })
       });
 
@@ -169,21 +159,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       if (result.error) {
-        // Show error to the customer
-        console.error(result.error.message);
-        document.getElementById("payment-status").textContent = `Error: ${result.error.message}`;
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        // Payment succeeded
-        console.log('Payment successful!');
-        document.getElementById("payment-status").textContent = "Payment successful! Redirecting...";
-        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/"; // Replace with your success URL
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+        localStorage.removeItem("cartItems");
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
       }
     } catch (error) {
-      console.error("Error during payment submission:", error);
-      document.getElementById("payment-status").textContent = `Error: ${error.message}`;
+      paymentStatus.textContent = `Error: ${error.message}`;
+      paymentStatus.classList.add('error');
+    } finally {
+      submitButton.disabled = false;
     }
   });
-});
 
   // Cart functionality
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -226,5 +215,3 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
 });
 </script>
-
-
