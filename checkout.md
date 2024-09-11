@@ -168,9 +168,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     <input type="text" id="country" placeholder="Country" required>
 
     <!-- Shipping Address Checkbox -->
-    <label>
-     Shipping address is the same as billing address<input type="checkbox" id="same-address">
-    </label>
+    <label>Shipping address is the same as billing address<input type="checkbox" id="same-address"></label>
 
     <!-- Shipping Address -->
     <div id="shipping-address-container">
