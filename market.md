@@ -4,7 +4,7 @@ title: Market
 permalink: /market/
 ---
 
-# market
+# Market
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
@@ -134,12 +134,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
+    // Calculate the cart total in cents
+    const totalInCents = Math.round(total * 100);
+
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: 2000, // Example amount in cents
+          amount: totalInCents, // Pass the dynamic cart total
           email: email,
           phone: phone,
           name: name,
@@ -206,69 +209,18 @@ document.addEventListener("DOMContentLoaded", async () => {
           <input type="text" value="${item.quantity}" readonly>
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
-          <div>$${(item.price * item.quantity).toFixed(2)}</div>
         </div>
       `;
       cartItemsContainer.appendChild(itemDiv);
       total += item.price * item.quantity;
     });
-
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-
-    // Attach event listeners to cart item buttons
-    document.querySelectorAll(".btn-increase").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.getAttribute("data-index");
-        cartItems[index].quantity += 1;
-        updateCart();
-      });
-    });
-
-    document.querySelectorAll(".btn-decrease").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.getAttribute("data-index");
-        if (cartItems[index].quantity > 1) {
-          cartItems[index].quantity -= 1;
-          updateCart();
-        }
-      });
-    });
-
-    document.querySelectorAll(".btn-remove").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.getAttribute("data-index");
-        cartItems.splice(index, 1);
-        updateCart();
-      });
-    });
-  }
-
-  function updateCart() {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    renderCart();
   }
 
   renderCart();
-
-  // Shipping form handling
-  document.getElementById("shipping-form").addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const name = document.getElementById("name").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const state = document.getElementById("state").value.trim();
-    const zip = document.getElementById("zip").value.trim();
-
-    if (!name || !address || !city || !state || !zip) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    alert(`Thank you for your purchase, ${name}!`);
-
-    localStorage.removeItem("cartItems");
-    window.location.href = "thank-you.html";
-  });
 });
 </script>
+
+</main>
+</body>
+</html>
