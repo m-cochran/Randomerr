@@ -17,7 +17,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
   .error { color: red; }
   .success { color: green; }
-  .cart-item-actions button { width: 30px; }
+  .cart-item-actions button { width: 90%; }
 </style>
 
 <h2>Complete Your Payment</h2>
