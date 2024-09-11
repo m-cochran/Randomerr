@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Handle payment submission
-  form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
@@ -133,8 +133,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    // Retrieve cart items
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalInCents = Math.round(total * 100);
 
     try {
@@ -148,8 +146,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          cartItems: cartItems, // Include cart items in the payload
-          description: `${item.name} (${item.quantity} x $${item.price})`
+          items: cartItems // Pass cart items
         })
       });
 
@@ -171,7 +168,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else if (result.paymentIntent.status === 'succeeded') {
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
-        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+
+        // Create detailed receipt
+        const receiptContent = `
+          <h1>Receipt from MY CUP OF EARTH</h1>
+          <p>Receipt #${data.receiptNumber}</p>
+          <p>Amount paid: $${(total / 100).toFixed(2)}</p>
+          <p>Date paid: ${new Date().toLocaleDateString()}</p>
+          <p>Payment method: ${result.paymentIntent.payment_method_details.card.brand} - ${result.paymentIntent.payment_method_details.card.last4}</p>
+          <h2>Summary</h2>
+          <ul>
+            ${cartItems.map(item => `<li>${item.name} - $${item.price} x ${item.quantity}</li>`).join('')}
+          </ul>
+          <p>Amount charged: $${(total / 100).toFixed(2)}</p>
+          <p>If you have any questions, visit our support site at <a href="https://m-cochran.github.io/Randomerr/contact/">our support site</a>, contact us at reachmycupofearth@gmail.com, or call us at +1 724-299-1681.</p>
+        `;
+
+        // Display receipt or redirect with receipt
+        document.getElementById("receipt").innerHTML = receiptContent;
+        // Alternatively, redirect to the Thank You page and include receipt details in URL or session storage
+        // window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
       }
     } catch (error) {
       paymentStatus.textContent = `Error: ${error.message}`;
