@@ -8,9 +8,120 @@ permalink: /checkout/
 
 Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/checkout.css" />
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/stripe.css" />
+
 <script src="https://js.stripe.com/v3/"></script>
+<style>
+  #payment-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #ffffff; /* White background for the form */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+
+  input, button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0; /* Reduced margin for a cleaner look */
+    padding: 0.75rem; /* Increased padding for better touch targets */
+    border: 1px solid #ced4da; /* Light border color */
+    border-radius: 4px;
+    font-size: 1rem; /* Consistent font size */
+  }
+
+  input:focus, button:focus {
+    border-color: #80bdff; /* Highlight color on focus */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.25); /* Focus shadow effect */
+  }
+
+  button {
+    background-color: #007bff; /* Primary button color */
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem; /* Consistent font size */
+  }
+
+  button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+
+  #card-element {
+    border: 1px solid #e9ecef; /* Light border for card input */
+    padding: 0.75rem;
+    border-radius: 4px;
+    background-color: #f8f9fa; /* Slightly different background for contrast */
+  }
+
+  .error {
+    color: #dc3545; /* Bootstrap danger color */
+    font-size: 0.875rem; /* Slightly smaller font size */
+  }
+
+  .success {
+    color: #28a745; /* Bootstrap success color */
+    font-size: 0.875rem; /* Slightly smaller font size */
+  }
+
+  #cart-summary {
+    background: #ffffff; /* White background for cart summary */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    margin-bottom: 2rem;
+  }
+
+  .cart-item-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cart-item-actions button {
+    width: 30%;
+    padding: 0.5rem;
+    font-size: 0.875rem; /* Slightly smaller font size */
+    border-radius: 4px;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+
+  .cart-item-actions button:hover {
+    background-color: #e9ecef; /* Light background on hover */
+  }
+
+  .cart-item-actions input {
+    width: 30%;
+    text-align: center;
+    border: 1px solid #ced4da;
+    font-size: 0.875rem; /* Slightly smaller font size */
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 0.5rem; /* Adjusted padding */
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    #payment-form, #cart-summary {
+      width: 90%;
+      margin: 1rem auto;
+      padding: 1rem;
+    }
+
+    .cart-item-actions button {
+      width: 32%;
+    }
+
+    .cart-item-actions input {
+      width: 24%;
+    }
+  }
+</style>
+
+
+
+<h2>Complete Your Payment</h2>
 
 <main class="checkout-container">
   <section id="cart-summary">
@@ -23,132 +134,216 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     </div>
   </section>
 
-  <section id="shipping-info">
-    <h2>Shipping Information</h2>
-    <form id="shipping-form">
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div class="form-group">
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" required>
-      </div>
-      <div class="form-group">
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required>
-      </div>
-      <div class="form-group">
-        <label for="state">State:</label>
-        <input type="text" id="state" name="state" required>
-      </div>
-      <div class="form-group">
-        <label for="zip">Zip Code:</label>
-        <input type="text" id="zip" name="zip" required>
-      </div>
-    </form>
-  </section>
+  <form id="payment-form">
+    <!-- Cardholder's Name -->
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
 
-  <section id="payment-info">
-    <h2>Complete Your Purchase</h2>
-    <form id="payment-form" aria-label="Payment Form">
-      <label for="card-element" class="form-label">Credit or debit card</label>
-      <div id="card-element" class="card-input"></div>
-      <small id="card-help" class="form-text">Your card details are securely encrypted.</small>
-      <button id="submit-button" aria-label="Pay Now">Pay Now</button>
-      <div id="spinner" class="spinner hidden" aria-hidden="true"></div>
-      <div id="payment-status" role="alert" aria-live="polite"></div>
-    </form>
-  </section>
-</main>
+    <!-- Email Address -->
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required>
 
-<script src="{{ site.baseurl }}/assets/js/checkout.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const stripe = Stripe("pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb");
-      const elements = stripe.elements();
-      const card = elements.create("card");
-      card.mount("#card-element");
+    <!-- Phone Number -->
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required>
 
-      const form = document.getElementById("payment-form");
-      const submitButton = document.getElementById("submit-button");
-      const paymentStatus = document.getElementById("payment-status");
+    <!-- Billing Address -->
+    <label for="address">Billing Address</label>
+    <input type="text" id="address" placeholder="Street Address" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="state" placeholder="State" required>
+    <input type="text" id="postal-code" placeholder="Postal Code" required>
+    <input type="text" id="country" placeholder="Country" required>
 
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        submitButton.disabled = true;
-        paymentStatus.textContent = "";
+    <!-- Shipping Address Checkbox -->
+    <label>
+      <input type="checkbox" id="same-address"> Shipping address is the same as billing address
+    </label>
 
-        const cartTotal = document.getElementById("cart-total").textContent.replace("Total: $", "");
-        const shippingDetails = {
-          email: document.getElementById("email").value,
-          name: document.getElementById("name").value,
-          address: {
-            line1: document.getElementById("address").value,
-            city: document.getElementById("city").value,
-            state: document.getElementById("state").value,
-            postal_code: document.getElementById("zip").value
-          }
-        };
+    <!-- Shipping Address -->
+    <div id="shipping-address-container">
+      <label for="shipping-address">Shipping Address</label>
+      <input type="text" id="shipping-address" placeholder="Street Address" required>
+      <input type="text" id="shipping-city" placeholder="City" required>
+      <input type="text" id="shipping-state" placeholder="State" required>
+      <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+      <input type="text" id="shipping-country" placeholder="Country" required>
+    </div>
 
-        if (!cartTotal || cartTotal <= 0) {
-          alert("Your cart is empty.");
-          submitButton.disabled = false;
-          return;
-        }
+    <!-- Stripe Card Element -->
+    <label for="card-element">Credit or debit card</label>
+    <div id="card-element"></div>
 
-        try {
-          const response = await fetch('/api/create-payment-intent', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount: parseFloat(cartTotal), email: shippingDetails.email }),
-          });
+    <button id="submit-button">Pay Now</button>
+    <div id="payment-status"></div>
+  </form>
 
-          const data = await response.json();
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const form = document.getElementById("payment-form");
+  const submitButton = document.getElementById("submit-button");
+  const paymentStatus = document.getElementById("payment-status");
+  const sameAddressCheckbox = document.getElementById("same-address");
+  const shippingAddressContainer = document.getElementById("shipping-address-container");
 
-          if (data.error) {
-            paymentStatus.textContent = data.error;
-            submitButton.disabled = false;
-            return;
-          }
+  // Mount the Stripe Elements card UI
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
 
-          const result = await stripe.confirmCardPayment(data.clientSecret, {
-            payment_method: {
-              card: card,
-              billing_details: shippingDetails,
-            },
-          });
+  // Handle shipping address same as billing
+  sameAddressCheckbox.addEventListener("change", () => {
+    const isChecked = sameAddressCheckbox.checked;
+    shippingAddressContainer.style.display = isChecked ? "none" : "block";
+    if (isChecked) {
+      document.getElementById("shipping-address").value = document.getElementById("address").value;
+      document.getElementById("shipping-city").value = document.getElementById("city").value;
+      document.getElementById("shipping-state").value = document.getElementById("state").value;
+      document.getElementById("shipping-postal-code").value = document.getElementById("postal-code").value;
+      document.getElementById("shipping-country").value = document.getElementById("country").value;
+    }
+  });
 
-          if (result.error) {
-            paymentStatus.textContent = result.error.message;
-          } else {
-            if (result.paymentIntent.status === 'succeeded') {
-              paymentStatus.textContent = 'Payment succeeded!';
-              clearCart();
-              window.location.href = "/thank-you/";
-            }
-          }
-        } catch (error) {
-          paymentStatus.textContent = 'Payment failed: ' + error.message;
-        } finally {
-          submitButton.disabled = false;
-        }
+  // Handle payment submission
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    paymentStatus.textContent = "";
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = {
+      line1: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      state: document.getElementById("state").value,
+      postal_code: document.getElementById("postal-code").value,
+      country: document.getElementById("country").value
+    };
+    const shippingAddress = sameAddressCheckbox.checked ? address : {
+      line1: document.getElementById("shipping-address").value,
+      city: document.getElementById("shipping-city").value,
+      state: document.getElementById("shipping-state").value,
+      postal_code: document.getElementById("shipping-postal-code").value,
+      country: document.getElementById("shipping-country").value
+    };
+
+    // Retrieve cart items
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const totalInCents = (total * 1);
+
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems // Include cart items in the payload
+        })
       });
 
-      function clearCart() {
-        const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-        if (cartItems && cartItems.length > 0) {
-          localStorage.setItem('purchasedItems', JSON.stringify(cartItems));
-        }
-        localStorage.removeItem('cartItems');
-        document.getElementById("cart-items").innerHTML = "";
-        document.getElementById("cart-total").textContent = "Total: $0.00";
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
       }
+
+      const data = await response.json();
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
+        },
+      });
+
+      if (result.error) {
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+        localStorage.removeItem("cartItems");
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+      }
+    } catch (error) {
+      paymentStatus.textContent = `Error: ${error.message}`;
+      paymentStatus.classList.add('error');
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+
+  // Cart functionality
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  if (cartItems.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "Total: $0.00";
+    return;
+  }
+
+  let total = 0;
+
+  function renderCart() {
+    cartItemsContainer.innerHTML = "";
+    total = 0;
+    cartItems.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <div class="cart-item-details">
+          <div>${item.name}</div>
+          <div>Price: $${item.price}</div>
+        </div>
+        <div class="cart-item-actions">
+          <button class="btn-decrease" data-index="${index}">-</button>
+          <input type="text" value="${item.quantity}" readonly>
+          <button class="btn-increase" data-index="${index}">+</button>
+          <button class="btn-remove" data-index="${index}">Remove</button>
+        </div>
+      `;
+      cartItemsContainer.appendChild(itemDiv);
+      total += item.price * item.quantity;
     });
-  </script>
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+
+    // Add event listeners for quantity buttons
+    document.querySelectorAll(".btn-decrease").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        if (cartItems[index].quantity > 1) {
+          cartItems[index].quantity--;
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          renderCart();
+        }
+      });
+    });
+
+    document.querySelectorAll(".btn-increase").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems[index].quantity++;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+
+    document.querySelectorAll(".btn-remove").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems.splice(index, 1);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+  }
+
+  renderCart();
+});
+</script>
