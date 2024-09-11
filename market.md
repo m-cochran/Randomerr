@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Handle payment submission
   form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the form from submitting the traditional way
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
