@@ -98,7 +98,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     padding: 0.5rem;
     font-size: 0.875rem;
     border-radius: 4px;
-    background-color: #e9ecef;
     transition: background-color 0.3s ease;
   }
 
