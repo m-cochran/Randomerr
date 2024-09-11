@@ -167,6 +167,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
+        // Retrieve cart items from local storage
+        const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        
+        // Save cart items to purchasedItems in local storage
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+
         // Clear the cart
         localStorage.removeItem("cartItems");
 
@@ -226,3 +232,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 </main>
 </body>
 </html>
+
