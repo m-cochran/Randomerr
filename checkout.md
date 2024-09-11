@@ -73,17 +73,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
     font-size: 0.875rem;
   }
 
-  .same-address-container {
-  display: flex;
-  align-items: center; /* Vertically center the label with the checkbox */
-  margin: 1rem 0; /* Adjust margin for spacing */
-}
-
-   .same-address-container input[type="checkbox"] {
-   margin-right: 0.5rem; /* Space between checkbox and label */
-  }
-
-
   #card-element {
     padding: 0.75rem;
     border-radius: 4px;
@@ -180,7 +169,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
     <!-- Shipping Address Checkbox -->
     <label>
-      <input type="checkbox" id="same-address"> Shipping address is the same as billing address
+     Shipping address is the same as billing address<input type="checkbox" id="same-address">
     </label>
 
     <!-- Shipping Address -->
@@ -192,12 +181,6 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
       <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
       <input type="text" id="shipping-country" placeholder="Country" required>
     </div>
-
-   <!-- Shipping Address Checkbox -->
-   <div class="same-address-container">
-    <label for="same-address">Shipping address is the same as billing address</label>
-    <input type="checkbox" id="same-address">
-   </div>
 
 
     <!-- Stripe Card Element -->
