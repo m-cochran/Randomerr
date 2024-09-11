@@ -133,7 +133,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    // Calculate the cart total in cents
+    // Retrieve cart items
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalInCents = Math.round(total * 100);
 
     try {
@@ -141,12 +142,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: totalInCents, // Pass the dynamic cart total
+          amount: totalInCents,
           email: email,
           phone: phone,
           name: name,
           address: address,
-          shippingAddress: shippingAddress
+          shippingAddress: shippingAddress,
+          cartItems: cartItems // Include cart items in the payload
         })
       });
 
@@ -155,7 +157,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       const data = await response.json();
-
       const result = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {
           card: card,
@@ -167,16 +168,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        // Retrieve cart items from local storage
-        const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-        
-        // Save cart items to purchasedItems in local storage
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
-
-        // Clear the cart
         localStorage.removeItem("cartItems");
-
-        // Redirect to the Thank You page with order details
         window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
       }
     } catch (error) {
