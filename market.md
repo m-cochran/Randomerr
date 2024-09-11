@@ -8,20 +8,21 @@ permalink: /market/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
-<script src="https://js.stripe.com/v3/"></script>
-<style>
-  body { font-family: Arial, sans-serif; }
-  #payment-form { max-width: 600px; margin: auto; }
-  input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
-  #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
-  .error { color: red; }
-  .success { color: green; }
-  .checkout-summary { margin-top: 20px; }
-</style>
 
-<h2>Complete Your Payment</h2>
 
-<main class="checkout-container">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #payment-form { max-width: 600px; margin: auto; }
+    input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+    #card-element { border: 1px solid #ccc; padding: 10px; border-radius: 4px; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+
+  <h2>Complete Your Payment</h2>
+
+  <main class="checkout-container">
   <section id="cart-summary">
     <h2>Your Cart</h2>
     <div id="cart-items">
@@ -75,7 +76,6 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
     <button id="submit-button">Pay Now</button>
     <div id="payment-status"></div>
   </form>
-</main>
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
@@ -86,15 +86,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
-  if (!form || !submitButton || !paymentStatus || !sameAddressCheckbox || !shippingAddressContainer) {
-    console.error("Required elements are missing from the DOM.");
-    return;
-  }
-
+  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
 
+  // Handle shipping address same as billing
   sameAddressCheckbox.addEventListener("change", () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
@@ -107,24 +104,91 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // Handle payment submission
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    paymentStatus.textContent = "";
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = {
+      line1: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      state: document.getElementById("state").value,
+      postal_code: document.getElementById("postal-code").value,
+      country: document.getElementById("country").value
+    };
+    const shippingAddress = sameAddressCheckbox.checked ? address : {
+      line1: document.getElementById("shipping-address").value,
+      city: document.getElementById("shipping-city").value,
+      state: document.getElementById("shipping-state").value,
+      postal_code: document.getElementById("shipping-postal-code").value,
+      country: document.getElementById("shipping-country").value
+    };
+
+    // Retrieve cart items
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const totalInCents = Math.round(total * 100);
+
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems // Include cart items in the payload
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
+
+      const data = await response.json();
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
+        },
+      });
+
+      if (result.error) {
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+        localStorage.removeItem("cartItems");
+        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+      }
+    } catch (error) {
+      paymentStatus.textContent = `Error: ${error.message}`;
+      paymentStatus.classList.add('error');
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+
+  // Cart functionality
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  if (cartItems.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "Total: $0.00";
+    return;
+  }
+
   let total = 0;
 
   function renderCart() {
-    const cartItemsContainer = document.getElementById("cart-items");
-    const cartTotal = document.getElementById("cart-total");
-
-    if (!cartItemsContainer || !cartTotal) {
-      console.error("Cart elements are missing from the DOM.");
-      return;
-    }
-
-    if (cartItems.length === 0) {
-      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-      cartTotal.textContent = "Total: $0.00";
-      return;
-    }
-
     cartItemsContainer.innerHTML = "";
     total = 0;
     cartItems.forEach((item, index) => {
@@ -138,128 +202,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="cart-item-actions">
           <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" class="item-quantity" readonly>
+          <input type="text" value="${item.quantity}" readonly>
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
       `;
       cartItemsContainer.appendChild(itemDiv);
-
       total += item.price * item.quantity;
     });
-
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
   }
 
   renderCart();
-
-  cartItemsContainer.addEventListener("click", (event) => {
-    const index = event.target.dataset.index;
-    if (event.target.classList.contains("btn-decrease")) {
-      cartItems[index].quantity = Math.max(cartItems[index].quantity - 1, 1);
-    } else if (event.target.classList.contains("btn-increase")) {
-      cartItems[index].quantity += 1;
-    } else if (event.target.classList.contains("btn-remove")) {
-      cartItems.splice(index, 1);
-    }
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    renderCart();
-  });
-
-  // Handle payment submission
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault(); // Prevent the form from submitting the traditional way
-    submitButton.disabled = true;
-    paymentStatus.textContent = "";
-
-    // Extract total from the cart-total div
-    const cartTotalElement = document.getElementById('cart-total');
-    const totalText = cartTotalElement.textContent;
-    const totalMatch = totalText.match(/Total:\s*\$([\d,\.]+)/);
-    
-    let total = 0;
-    if (totalMatch) {
-      // Remove commas and parse the total amount
-      total = parseFloat(totalMatch[1].replace(/,/g, ''));
-    } else {
-      throw new Error("Could not extract total value");
-    }
-
-    // Ensure total is parsed as a floating-point number
-    if (isNaN(total)) {
-      throw new Error("Invalid total value");
-    }
-
-    // Calculate total in cents (Stripe expects amount in cents)
-    const totalInCents = Math.round(total * 100); // Ensure 'total' is in dollars
-
-    // Logging values for diagnostic purposes
-    console.log('Total (in dollars):', total);      // Log total in dollars
-    console.log('Total (in cents):', totalInCents); // Log total in cents
-
-    try {
-      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: totalInCents, // Stripe expects the amount in cents
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          name: document.getElementById('name').value,
-          address: {
-            line1: document.getElementById('address').value,
-            city: document.getElementById('city').value,
-            state: document.getElementById('state').value,
-            postal_code: document.getElementById('postal-code').value,
-            country: document.getElementById('country').value
-          },
-          shipping_address: {
-            line1: sameAddressCheckbox.checked ? document.getElementById('address').value : document.getElementById('shipping-address').value,
-            city: sameAddressCheckbox.checked ? document.getElementById('city').value : document.getElementById('shipping-city').value,
-            state: sameAddressCheckbox.checked ? document.getElementById('state').value : document.getElementById('shipping-state').value,
-            postal_code: sameAddressCheckbox.checked ? document.getElementById('postal-code').value : document.getElementById('shipping-postal-code').value,
-            country: sameAddressCheckbox.checked ? document.getElementById('country').value : document.getElementById('shipping-country').value
-          }
-        })
-      });
-
-      const { clientSecret } = await response.json();
-
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            address: {
-              line1: document.getElementById('address').value,
-              city: document.getElementById('city').value,
-              state: document.getElementById('state').value,
-              postal_code: document.getElementById('postal-code').value,
-              country: document.getElementById('country').value
-            }
-          }
-        }
-      });
-
-      if (error) {
-        paymentStatus.textContent = `Payment failed: ${error.message}`;
-        paymentStatus.className = "error";
-      } else if (paymentIntent.status === "succeeded") {
-        paymentStatus.textContent = "Payment succeeded!";
-        paymentStatus.className = "success";
-      } else {
-        paymentStatus.textContent = `Payment status: ${paymentIntent.status}`;
-        paymentStatus.className = "error";
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      paymentStatus.textContent = `An error occurred: ${error.message}`;
-      paymentStatus.className = "error";
-    } finally {
-      submitButton.disabled = false;
-    }
-  });
 });
 </script>
