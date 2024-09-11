@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
+    const cartItems = JSON.parse(localStorage.getItem("cartItems"));
     const totalInCents = Math.round(total * 100);
 
     try {
