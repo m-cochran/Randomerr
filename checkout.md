@@ -195,8 +195,8 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
 
    <!-- Shipping Address Checkbox -->
    <div class="same-address-container">
-    <input type="checkbox" id="same-address">
     <label for="same-address">Shipping address is the same as billing address</label>
+    <input type="checkbox" id="same-address">
    </div>
 
 
