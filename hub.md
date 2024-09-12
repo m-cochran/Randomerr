@@ -11,7 +11,7 @@ Explore items for sale or trade by location and category.
 ## Browse by Location
 Select a location to view available listings.
 ---
-<div class="container">
+<div class="container-location">
 <h1>Location Selector</h1>
 
 <label for="region">Region:</label>
@@ -130,7 +130,7 @@ Select a location to view available listings.
 </script>
 
 <style>
-.container {
+.container-location {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
