@@ -119,7 +119,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   }
 
   .cart-item-actions .btn-remove:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #d00; /* Darker red on hover */
   }
 
   .cart-item-actions input {
