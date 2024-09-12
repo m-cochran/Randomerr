@@ -32,7 +32,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     <!-- Twitter Embed Section -->
     <div class="twitter-container">
         <h3>Follow Us on Twitter</h3>
-        <a class="twitter-timeline" href="https://x.com/MyCupOfEarth">Tweets by @MyCupOfEarth</a> 
+        <a class="twitter-timeline" href="https://x.com/MyCupOfEarth?ref_src=twsrc%5Etfw">Tweets by @MyCupOfEarth</a> 
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
 </div>
