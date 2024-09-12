@@ -105,7 +105,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 /* Button styling */
 .about-container .btn {
     display: inline-block;
-    background-color: #2980b9;
+    background-color: #06f;
     color: white;
     padding: 10px 20px;
     text-align: center;
@@ -116,30 +116,43 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 }
 
 .about-container .btn:hover {
-    background-color: #1abc9c;
+    background-color: #07f;
     color: white;
 }
 
 /* Twitter Viewer */
 .twitter-container {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
     text-align: center;
+    margin: 40px 0;
 }
 
 .twitter-container h3 {
     font-size: 1.8rem;
-    color: #00acee;
     margin-bottom: 20px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+.twitter-embed {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .twitter-timeline {
     width: 100%;
-    max-width: 600px;
-    height: 500px;
-    margin: 0 auto;
     border: none;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+@media screen and (max-width: 768px) {
+    .twitter-container h3 {
+        font-size: 1.5rem;
+    }
+
+    .twitter-embed {
+        width: 100%;
+    }
 }
 </style>
