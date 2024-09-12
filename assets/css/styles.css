@@ -422,7 +422,7 @@ p {
 }
 
 .modal-buttons button:hover {
-  background-color: #05c;
+  background-color: #07f;
   /* Darker blue */
   transform: scale(1.05);
 }
