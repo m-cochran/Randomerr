@@ -566,7 +566,7 @@ p {
   border-top: 1px solid #eee;
 }
 
-.cart-summary #cart-total {
+.cart-total {
     color: #28a745;
 }
 
