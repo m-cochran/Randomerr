@@ -568,6 +568,7 @@ p {
 
 .cart-total {
     color: #28a745;
+    font-weight: bold;
 }
 
 .cart-summary-details {
