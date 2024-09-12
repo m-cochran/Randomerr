@@ -10,11 +10,6 @@ Explore items for sale or trade by location and category.
 
 ## Browse by Location
 Select a location to view available listings.
-
-- [Region](#region)
-    - [Province/State](#province-state)
-        - [City/Town](#city-town)
-
 ---
 <div class="container">
 <h1>Location Selector</h1>
@@ -26,20 +21,20 @@ Select a location to view available listings.
 <option value="europe">Europe</option>
 <option value="asia">Asia</option>
 <!-- Add more regions as needed -->
-        </select>
+</select>
 
-        <label for="province-state">Province/State:</label>
-        <select id="province-state" name="province-state" disabled>
-            <option value="">Select Province/State</option>
-            <!-- Options will be populated based on selected region -->
-        </select>
+<label for="province-state">Province/State:</label>
+<select id="province-state" name="province-state" disabled>
+<option value="">Select Province/State</option>
+<!-- Options will be populated based on selected region -->
+</select>
 
-        <label for="city-town">City/Town:</label>
-        <select id="city-town" name="city-town" disabled>
-            <option value="">Select City/Town</option>
-            <!-- Options will be populated based on selected province/state -->
-        </select>
-    </div>
+<label for="city-town">City/Town:</label>
+<select id="city-town" name="city-town" disabled>
+<option value="">Select City/Town</option>
+<!-- Options will be populated based on selected province/state -->
+</select>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
