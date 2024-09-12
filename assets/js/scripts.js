@@ -100,8 +100,8 @@ const populateProducts = (data) => {
   const modalClose = document.getElementById("modal-close");
   const modalMainImage = document.getElementById("modal-main-image");
   const modalTitleInfo = document.getElementById("modal-title-info");
-
-  // Clear the existing products before populating new ones
+  
+   // Clear the existing products before populating new ones
   productList.innerHTML = "";
 
   data.forEach((product) => {
@@ -156,7 +156,7 @@ const populateProducts = (data) => {
 
     productDiv.addEventListener("click", () => {
       // Reset the selected variant
-      selectedVariant = null;
+  selectedVariant = null;
       modalMainImage.src =
         product.sync_product.thumbnail_url || "default-thumbnail.jpg";
       modalTitleInfo.innerHTML = `
@@ -309,13 +309,14 @@ window.addEventListener("load", () => {
   fetchProductData();
 });
 
-// Handle cart icon click to toggle cart container visibility
+// Handle cart icon click
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("cart-icon").addEventListener("click", () => {
     const cart = document.getElementById("cart");
     cart.style.display = cart.style.display === "none" ? "block" : "none";
   });
 });
+
 
 // Array to store cart items
 const cartItems = [];
@@ -328,22 +329,38 @@ const animateCartIcon = () => {
   // Remove the class after the animation ends to allow for future animations
   setTimeout(() => {
     cartIcon.classList.remove("cart-icon-bounce");
-  }, 500);
+  }, 600); // Duration should match the animation duration in CSS
 };
 
-// Function to add an item to the cart
-const addToCart = (item) => {
-  cartItems.push(item);
-  const cartList = document.getElementById("cart-items");
-  const listItem = document.createElement("li");
-  listItem.textContent = `${item.name} - $${item.retail_price}`;
-  cartList.appendChild(listItem);
-  document.getElementById("cart-count").textContent = cartItems.length;
+// Function to add item to cart
+const addToCart = (product) => {
+  const existingItemIndex = cartItems.findIndex(
+    (item) => item.sku === product.sku
+  );
 
-  // Trigger cart icon animation
+  if (existingItemIndex > -1) {
+    cartItems[existingItemIndex].quantity += 1;
+  } else {
+    // Add new item to cart
+    cartItems.push({
+      name: product.name,
+      price: product.retail_price,
+      image: product.thumbnail_url,
+      sku: product.sku,
+      quantity: 1
+    });
+  }
+
+  // Update cart icon visibility based on the number of items
+  if (cartItems.length > 0) {
+    document.getElementById("cart-icon").style.display = "block";
+  }
+
+  updateCart();
+  
+  // Trigger the cart icon animation
   animateCartIcon();
 };
-
 
 // Function to update cart display and save to localStorage
 const updateCart = () => {
