@@ -567,7 +567,7 @@ p {
 }
 
 .cart-total {
-  color: #28a745;
+  color: bold #28a745;
 }
 
 .cart-summary-details {
