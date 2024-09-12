@@ -109,6 +109,5 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 
 .about-container .btn:hover {
     background-color: #07f;
-    color: white;
 }
 </style>
