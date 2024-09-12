@@ -60,7 +60,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   }
 
   button:hover {
-    background-color: #0056b3;
+    background-color: #07f;
   }
 
   .error {
