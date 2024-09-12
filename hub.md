@@ -371,7 +371,7 @@ select:disabled {
 
 <style>
 /* Styling for the main container */
-.container {
+.container-location {
     max-width: 1000px;
     margin: 0 auto;
     border-radius: 8px;
