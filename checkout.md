@@ -51,7 +51,7 @@ Feel free to reach out via email at [contact@randomerr.com](mailto:contact@rando
   }
 
   button {
-    background-color: #007bff;
+    background-color: #06f;
     color: #fff;
     border: none;
     cursor: pointer;
