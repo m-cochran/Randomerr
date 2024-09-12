@@ -30,14 +30,6 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">Visit Our Store</a>
 
 
-    <!-- Twitter Embed Section -->
-    <div class="twitter-container">
-        <h3>Follow Us on Twitter</h3>
-        <a class="twitter-timeline" href="https://x.com/MyCupOfEarth?ref_src=twsrc%5Etfw">Tweets by @MyCupOfEarth</a> 
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-</div>
-
 <style>
 /* General styling for About page */
   .about-container {
@@ -118,41 +110,5 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 .about-container .btn:hover {
     background-color: #07f;
     color: white;
-}
-
-/* Twitter Viewer */
-.twitter-container {
-    text-align: center;
-    margin: 40px 0;
-}
-
-.twitter-container h3 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-}
-
-.twitter-embed {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.twitter-timeline {
-    width: 100%;
-    border: none;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-@media screen and (max-width: 768px) {
-    .twitter-container h3 {
-        font-size: 1.5rem;
-    }
-
-    .twitter-embed {
-        width: 100%;
-    }
 }
 </style>
