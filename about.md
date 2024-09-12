@@ -10,17 +10,17 @@ permalink: /about/
 <div class="about-container">
     <h2>About Randomerr</h2>
 
-    <div class="our-story">
+    <div class="our-story hidden">
         <h3>Our Story</h3>
         <p>Welcome to <strong>Randomerr</strong>, where creativity meets convenience. As a renowned <strong>online store</strong>, we’re committed to offering <strong>high-quality</strong>, <strong>affordable</strong> items paired with exceptional service From the moment we opened our virtual doors, we’ve been tirelessly expanding our collection to bring you the <strong>latest products</strong> that delight and inspire.</p>
     </div>
 
-    <div class="driven-by-passion">
+    <div class="driven-by-passion hidden">
         <h3>Driven by Passion</h3>
         <p>Our passion for <strong>excellence</strong> is what fuels us each day. It’s not just about products—it’s about creating an experience. From carefully curated items to a seamless shopping journey, our mission is to make every interaction rewarding. At <strong>Randomerr</strong>, we believe that <strong>every product counts</strong>, and we strive to make every purchase feel special.</p>
     </div>
 
-    <div class="experience-matters">
+    <div class="experience-matters hidden">
         <h3>Your Experience Matters</h3>
         <p>Whether you’re looking for something <strong>unique</strong> or simply browsing for the best deals, we’ve got you covered. Our team at <strong>My Cup of Earth</strong> is dedicated to making your shopping experience as easy and <strong>enjoyable</strong> as possible. Have questions? Special requests? We’re here to help.
 
@@ -111,3 +111,22 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     background-color: #07f;
 }
 </style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const elements = document.querySelectorAll('.hidden');
+
+    function onScroll() {
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                el.classList.add('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Initial check in case elements are already in view
+});
+</script>
