@@ -27,7 +27,8 @@ permalink: /about/
 Check out our <strong>store</strong> for exclusive <strong>offers</strong> and the latest in style and functionality. We can’t wait to serve you!</p>
     </div>
 
-    <a href="#" class="btn">Visit Our Store</a>
+    <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">Visit Our Store</a>
+
 
     <!-- Twitter Embed Section -->
     <div class="twitter-container">
