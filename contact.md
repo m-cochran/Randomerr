@@ -6,9 +6,15 @@ permalink: /contact/
 
 # Contact Us
 
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSegTC0u3J_M2NMCFTTJZJ_Ca3DW2GLBXr-VE7Hg4vbVsKKJdQ/viewform?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 
 
+<div class="form-container">
+  <h2>Get in Touch</h2>
+  <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
+
+  <!-- Google Form Embed -->
+  <iframe class="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSegTC0u3J_M2NMCFTTJZJ_Ca3DW2GLBXr-VE7Hg4vbVsKKJdQ/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+</div>
 
 
 <div class="google-map-container">
@@ -25,3 +31,61 @@ permalink: /contact/
 <div class="contact-email">
   <p>If you have any questions, feel free to email us at <a href="mailto:contact@randomerr.com">contact@randomerr.com</a>.</p>
 </div>
+
+
+<style>
+/* Container for the form */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form heading */
+.form-container h2 {
+  font-family: 'Arial', sans-serif;
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Description text */
+.form-description {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Styling the embedded Google Form iframe */
+.google-form {
+  width: 100%;
+  height: 800px;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-description {
+    font-size: 1rem;
+  }
+
+  .google-form {
+    height: 600px;
+  }
+}
+</style>
