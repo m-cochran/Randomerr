@@ -400,12 +400,12 @@ h3 {
 }
 
 /* Category listing styling */
-ul {
+cl {
     list-style-type: none;
     padding: 0;
 }
 
-ul li {
+cl li {
     margin: 12px 0;
     padding: 12px;
     background-color: #f9f9f9;
@@ -414,7 +414,7 @@ ul li {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-ul li a {
+cl li a {
     text-decoration: none;
     color: #2c3e50;
     font-weight: normal;
@@ -423,7 +423,7 @@ ul li a {
     border-radius: 4px;
 }
 
-ul li a:hover {
+cl li a:hover {
     color: #2980b9;
     background-color: #ecf0f1;
 }
@@ -434,7 +434,7 @@ ul li a:hover {
 }
 
 /* Button-like links for categories */
-ul li a {
+cl li a {
     transition: background-color 0.3s, color 0.3s;
 }
 
