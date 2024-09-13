@@ -6,31 +6,10 @@ permalink: /contact/
 
 # Contact Us
 
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSegTC0u3J_M2NMCFTTJZJ_Ca3DW2GLBXr-VE7Hg4vbVsKKJdQ/viewform?embedded=true" width="640" height="948" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSegTC0u3J_M2NMCFTTJZJ_Ca3DW2GLBXr-VE7Hg4vbVsKKJdQ/viewform?embedded=true" width="640" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 
 
-<div class="contact-container">
-  <h2>Get in Touch</h2>
-  
-  <form id="contactForm" method="POST" action="send_email.php">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
 
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-
-    <div class="form-group">
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
-    </div>
-
-    <button type="submit">Send</button>
-  </form>
-</div>
 
 <div class="google-map-container">
   <h3>Our Location</h3>
