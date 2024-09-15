@@ -9,7 +9,6 @@ permalink: /contact/
 
 
 <main>
-  <h1 id="contact-us">Contact Us</h1>
 
   <div class="form-container">
     <h2>Get in Touch</h2>
