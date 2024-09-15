@@ -351,11 +351,6 @@ const addToCart = (product) => {
     });
   }
 
-  // Update cart icon visibility based on the number of items
-  if (cartItems.length > 0) {
-    document.getElementById("cart-icon").style.display = "block";
-  }
-
   updateCart();
   
   // Trigger the cart icon animation
