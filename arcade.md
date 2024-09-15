@@ -111,7 +111,7 @@ permalink: /arcade/
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ecf0f1;
+  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/arcade_background.jpg');
 }
 
 /* Iframe that displays the game */
