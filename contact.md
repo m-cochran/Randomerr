@@ -8,29 +8,25 @@ permalink: /contact/
 
 
 
-<div class="form-container">
-  <h2>Get in Touch</h2>
-  <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
+<main>
+  <h1 id="contact-us">Contact Us</h1>
 
-  <!-- Google Form Embed -->
-  <iframe class="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-</div>
+  <div class="form-container">
+    <h2>Get in Touch</h2>
+    <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
 
+    <!-- Google Form Embed -->
+    <iframe class="google-form" id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+  </div>
 
-<div class="google-map-container">
-  <h3>Our Location</h3>
-  <iframe 
-    id="google-map" 
-    class="google-map" 
-    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCNCmAGyN4bJYu5qeLgbASzZafm-M5TA_o&amp;language=en&amp;zoom=16&amp;q=942%20Meldon%20Ave%20Donora%2C%20PA%2015033" 
-    allowfullscreen 
-    title="Location on map"
-  ></iframe>
-</div>
+  <div class="google-map-container">
+    <h3>Our Location</h3>
+    <iframe id="google-map" class="google-map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCNCmAGyN4bJYu5qeLgbASzZafm-M5TA_o&amp;language=en&amp;zoom=16&amp;q=942%20Meldon%20Ave%20Donora%2C%20PA%2015033" allowfullscreen="" title="Location on map"></iframe>
+  </div>
 
-<div class="contact-email">
-  <p>If you have any questions, feel free to email us at <a href="mailto:contact@randomerr.com">contact@randomerr.com</a>.</p>
-</div>
+  <div class="contact-email">
+    <p>If you have any questions, feel free to email us at <a href="mailto:contact@randomerr.com">contact@randomerr.com</a>.</p>
+  </div>
 
 
 
