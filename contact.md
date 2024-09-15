@@ -33,59 +33,87 @@ permalink: /contact/
 </div>
 
 
-<style>
-/* Container for the form */
-.form-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-/* Form heading */
-.form-container h2 {
-  font-family: 'Arial', sans-serif;
-  font-size: 2rem;
-  color: #333;
-  text-align: center;
-  margin-bottom: 10px;
-}
+  <style>
+    /* Container for the form */
+    .form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-/* Description text */
-.form-description {
-  font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-bottom: 20px;
-}
+    /* Form heading */
+    .form-container h2 {
+      font-family: 'Arial', sans-serif;
+      font-size: 2rem;
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-/* Styling the embedded Google Form iframe */
-.google-form {
-  width: 100%;
-  height: 800px;
-  border: none;
-  border-radius: 10px;
-  overflow: hidden;
-}
+    /* Description text */
+    .form-description {
+      font-size: 1.2rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .form-container {
-    padding: 15px;
-  }
+    /* Styling the embedded Google Form iframe */
+    .google-form {
+      width: 100%;
+      height: calc(100vh - 300px); /* Dynamically adjust height based on viewport */
+      border: none;
+      border-radius: 10px;
+    }
 
-  .form-container h2 {
-    font-size: 1.5rem;
-  }
+    /* Styling for the map */
+    .google-map-container {
+      margin-top: 20px;
+    }
 
-  .form-description {
-    font-size: 1rem;
-  }
+    .google-map {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 10px;
+    }
 
-  .google-form {
-    height: 600px;
-  }
-}
-</style>
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 15px;
+      }
+
+      .form-container h2 {
+        font-size: 1.5rem;
+      }
+
+      .form-description {
+        font-size: 1rem;
+      }
+
+      .google-form {
+        height: calc(100vh - 250px); /* Adjust height for smaller screens */
+      }
+    }
+  </style>
+
+  <script>
+    // Adjust iframe height dynamically
+    function adjustIframeHeight() {
+      const iframe = document.getElementById('google-form');
+      const formContainer = document.querySelector('.form-container');
+      const headerHeight = document.getElementById('contact-us').offsetHeight;
+      const availableHeight = window.innerHeight - formContainer.offsetTop - headerHeight - 20; // 20px for margin
+
+      iframe.style.height = `${availableHeight}px`;
+    }
+
+    window.addEventListener('resize', adjustIframeHeight);
+    window.addEventListener('load', adjustIframeHeight);
+  </script>
+</main>
