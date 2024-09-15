@@ -84,12 +84,16 @@ permalink: /arcade/
 .game-display {
   width: 80%;
   padding: 20px;
-  background-color: #f7f7f7;
+  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/arcade-background.jpg'); /* Replace with the path to your image */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
+
 
 .game-display h2 {
   font-size: 2rem;
