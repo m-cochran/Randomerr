@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Arcade"
+date: 2024-08-19
+permalink: /arcade/
+---
+
+
 <div class="game-wrapper">
   <!-- Sidebar for game list -->
   <div class="sidebar">
