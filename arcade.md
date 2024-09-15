@@ -49,7 +49,7 @@ permalink: /arcade/
 .sidebar {
   width: 20%;
   padding: 20px;
-  background-color: #2c3e50;
+  background-color: #06f;
   color: #ecf0f1;
   overflow-y: auto;
 }
