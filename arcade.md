@@ -167,7 +167,7 @@ permalink: /arcade/
         case 'snake':
           gameIframe.src = 'snake.html';
           break;
-         case 'Space_invaders':
+         case 'space_invaders':
           gameIframe.src = 'space_invaders.html';
           break;
          case 'tic_tac_toe':
