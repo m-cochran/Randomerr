@@ -12,6 +12,7 @@ permalink: /arcade/
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="pong">Pong</a></li>
+      <li><a href="#" data-game="2048">2048</a></li>
       <li><a href="#" data-game="breakout">Breakout</a></li>
       <li><a href="#" data-game="snake">Snake</a></li>
       <li><a href="#" data-game="space-invaders">Space Invaders</a></li>
