@@ -161,7 +161,7 @@ permalink: /arcade/
         case 'flappy_bird':
           gameIframe.src = 'flappy_bird.html';
           break;
-        case 'memory match':
+        case 'memory_match':
           gameIframe.src = 'memory_match.html';
           break;
         case 'snake':
