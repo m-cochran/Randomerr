@@ -7,271 +7,270 @@
     <style>
         body { margin: 0; }
         canvas { display: block; margin: auto; background: #000; }
-        #gameOverMessage { color: #fff; font-size: 40px; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
+    <div class="hud">
+        <div>Score: <span id="score">0</span></div>
+        <div>Lives: <span id="lives">3</span></div>
+    </div>
     <canvas id="spaceInvadersCanvas" width="800" height="600"></canvas>
-    <div id="gameOverMessage" style="display: none;"></div>
     <script>
         const canvas = document.getElementById('spaceInvadersCanvas');
         const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score');
+        const livesDisplay = document.getElementById('lives');
 
-        // Game Variables
+        let score = 0;
+        let lives = 3;
+
+        // Player setup
         const player = {
             x: canvas.width / 2 - 25,
             y: canvas.height - 50,
             width: 50,
             height: 10,
-            dx: 4
+            speed: 4,
+            bullets: [],
+            lives: 3
         };
 
-        const bulletSpeed = 5;
-        const initialEnemySpeed = 1;
-        const enemyRows = 3;
-        const enemyCols = 5;
-        let enemies = [];
-        let bullets = [];
-        let powerUps = [];
-        let score = 0;
-        let lives = 3;
-        let level = 1;
-        let rightPressed = false;
-        let leftPressed = false;
-        let spacePressed = false;
-        let enemyDirection = 1; // 1 for right, -1 for left
-        let enemySpeed = initialEnemySpeed;
-        let rapidFireActive = false;
-        let shieldActive = false;
+        // Enemy setup
+        const enemyRowCount = 5;
+        const enemyColumnCount = 10;
+        const enemies = [];
+        const enemySpeed = 1;
+        let enemyDirection = 1;
+        const enemyBullets = [];
 
-        // Load sound effects
-        const explosionSound = new Audio('explosion.mp3');
-        const shootSound = new Audio('shoot.mp3');
-        const gameOverSound = new Audio('gameover.mp3');
-        const powerUpSound = new Audio('powerup.mp3');
+        // Shields
+        const shields = [];
+        const shieldWidth = 60;
+        const shieldHeight = 20;
 
-        // Initialize Enemies
+        // Initialize enemies and shields
         function createEnemies() {
-            enemies = [];
-            for (let r = 0; r < enemyRows; r++) {
-                for (let c = 0; c < enemyCols; c++) {
-                    enemies.push({
-                        x: c * 60 + 50,
-                        y: r * 40 + 30,
+            for (let row = 0; row < enemyRowCount; row++) {
+                enemies[row] = [];
+                for (let col = 0; col < enemyColumnCount; col++) {
+                    enemies[row][col] = {
+                        x: col * 60 + 60,
+                        y: row * 40 + 30,
                         width: 40,
-                        height: 20
-                    });
+                        height: 20,
+                        alive: true
+                    };
                 }
             }
         }
 
-        // Initialize Power-Ups
-        function createPowerUps() {
-            if (Math.random() < 0.02) { // 2% chance to spawn a power-up
-                powerUps.push({
-                    x: Math.random() * (canvas.width - 20),
-                    y: 0,
-                    width: 20,
-                    height: 20,
-                    type: Math.random() < 0.5 ? 'rapidFire' : 'shield'
+        function createShields() {
+            for (let i = 0; i < 5; i++) {
+                shields.push({
+                    x: 120 + i * 130,
+                    y: canvas.height - 120,
+                    width: shieldWidth,
+                    height: shieldHeight,
+                    health: 3
                 });
             }
         }
 
-        // Draw Game Elements
+        // Player movement
+        let rightPressed = false;
+        let leftPressed = false;
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "ArrowRight") rightPressed = true;
+            if (e.key === "ArrowLeft") leftPressed = true;
+        });
+
+        document.addEventListener('keyup', function(e) {
+            if (e.key === "ArrowRight") rightPressed = false;
+            if (e.key === "ArrowLeft") leftPressed = false;
+        });
+
+        // Shooting
+        function shoot() {
+            player.bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 10 });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') shoot();
+        });
+
+        // Random enemy shooting
+        function enemyShoot() {
+            let randomRow = Math.floor(Math.random() * enemyRowCount);
+            let randomCol = Math.floor(Math.random() * enemyColumnCount);
+
+            if (enemies[randomRow][randomCol].alive) {
+                enemyBullets.push({
+                    x: enemies[randomRow][randomCol].x + enemies[randomRow][randomCol].width / 2 - 2.5,
+                    y: enemies[randomRow][randomCol].y + enemies[randomRow][randomCol].height,
+                    width: 5,
+                    height: 10
+                });
+            }
+        }
+
+        setInterval(enemyShoot, 1000);  // Enemy shoots every second
+
+        // Collision Detection
+        function detectCollisions() {
+            // Player bullets hit enemies
+            player.bullets.forEach((bullet, bulletIndex) => {
+                enemies.forEach(row => {
+                    row.forEach((enemy, enemyIndex) => {
+                        if (enemy.alive && bullet.x < enemy.x + enemy.width &&
+                            bullet.x + bullet.width > enemy.x &&
+                            bullet.y < enemy.y + enemy.height &&
+                            bullet.y + bullet.height > enemy.y) {
+                            enemy.alive = false;
+                            score += 10;
+                            scoreDisplay.textContent = score;
+                            player.bullets.splice(bulletIndex, 1);
+                        }
+                    });
+                });
+            });
+
+            // Enemy bullets hit player or shields
+            enemyBullets.forEach((bullet, bulletIndex) => {
+                if (bullet.x < player.x + player.width && bullet.x + bullet.width > player.x &&
+                    bullet.y < player.y + player.height && bullet.y + bullet.height > player.y) {
+                    lives -= 1;
+                    livesDisplay.textContent = lives;
+                    enemyBullets.splice(bulletIndex, 1);
+                    if (lives === 0) {
+                        alert("Game Over!");
+                        document.location.reload();
+                    }
+                }
+
+                shields.forEach((shield, shieldIndex) => {
+                    if (bullet.x < shield.x + shield.width && bullet.x + bullet.width > shield.x &&
+                        bullet.y < shield.y + shield.height && bullet.y + bullet.height > shield.y) {
+                        shield.health -= 1;
+                        enemyBullets.splice(bulletIndex, 1);
+                        if (shield.health <= 0) {
+                            shields.splice(shieldIndex, 1);
+                        }
+                    }
+                });
+            });
+
+            // Player bullets hit shields
+            player.bullets.forEach((bullet, bulletIndex) => {
+                shields.forEach((shield, shieldIndex) => {
+                    if (bullet.x < shield.x + shield.width && bullet.x + bullet.width > shield.x &&
+                        bullet.y < shield.y + shield.height && bullet.y + bullet.height > shield.y) {
+                        shield.health -= 1;
+                        player.bullets.splice(bulletIndex, 1);
+                        if (shield.health <= 0) {
+                            shields.splice(shieldIndex, 1);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Enemy movement
+        function moveEnemies() {
+            let shouldMoveDown = false;
+
+            enemies.forEach(row => {
+                row.forEach(enemy => {
+                    if (enemy.alive) {
+                        enemy.x += enemyDirection * enemySpeed;
+                        if (enemy.x + enemy.width > canvas.width || enemy.x < 0) {
+                            shouldMoveDown = true;
+                        }
+                    }
+                });
+            });
+
+            if (shouldMoveDown) {
+                enemies.forEach(row => {
+                    row.forEach(enemy => {
+                        enemy.y += 20;
+                    });
+                });
+                enemyDirection *= -1;
+            }
+        }
+
+        // Drawing functions
         function drawPlayer() {
             ctx.fillStyle = "#fff";
             ctx.fillRect(player.x, player.y, player.width, player.height);
         }
 
-        function drawBullets() {
-            ctx.fillStyle = "#ff0";
-            bullets.forEach(bullet => ctx.fillRect(bullet.x, bullet.y, 5, 15));
-        }
-
         function drawEnemies() {
-            ctx.fillStyle = "#f00";
-            enemies.forEach(enemy => ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height));
-        }
-
-        function drawPowerUps() {
-            powerUps.forEach(powerUp => {
-                ctx.fillStyle = powerUp.type === 'rapidFire' ? "#0f0" : "#00f";
-                ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
-            });
-        }
-
-        function drawScore() {
-            ctx.fillStyle = "#fff";
-            ctx.font = "20px Arial";
-            ctx.fillText(`Score: ${score}`, 10, 20);
-        }
-
-        function drawLives() {
-            ctx.fillStyle = "#fff";
-            ctx.font = "20px Arial";
-            ctx.fillText(`Lives: ${lives}`, canvas.width - 100, 20);
-        }
-
-        function drawLevel() {
-            ctx.fillStyle = "#fff";
-            ctx.font = "20px Arial";
-            ctx.fillText(`Level: ${level}`, canvas.width / 2 - 50, 20);
-        }
-
-        // Move Player
-        function movePlayer() {
-            if (rightPressed && player.x < canvas.width - player.width) {
-                player.x += player.dx;
-            } else if (leftPressed && player.x > 0) {
-                player.x -= player.dx;
-            }
-        }
-
-        // Shoot Bullets
-        function shootBullet() {
-            if (spacePressed) {
-                if (rapidFireActive) {
-                    for (let i = 0; i < 3; i++) {
-                        bullets.push({
-                            x: player.x + player.width / 2 - 2.5 + i * 5, 
-                            y: player.y
-                        });
-                    }
-                } else {
-                    bullets.push({
-                        x: player.x + player.width / 2 - 2.5, 
-                        y: player.y
-                    });
-                }
-                shootSound.play();
-                spacePressed = false; // Disable shooting until space is released
-            }
-        }
-
-        // Move Bullets
-        function moveBullets() {
-            bullets.forEach((bullet, index) => {
-                bullet.y -= bulletSpeed;
-                if (bullet.y < 0) bullets.splice(index, 1);
-            });
-        }
-
-        // Move Enemies
-        function moveEnemies() {
-            let shouldDrop = false;
-            enemies.forEach(enemy => {
-                enemy.x += enemySpeed * enemyDirection;
-                if (enemy.x + enemy.width > canvas.width || enemy.x < 0) {
-                    shouldDrop = true;
-                }
-            });
-
-            if (shouldDrop) {
-                enemyDirection *= -1;
-                enemies.forEach(enemy => enemy.y += 20);
-            }
-        }
-
-        // Detect Collisions
-        function detectCollisions() {
-            bullets.forEach((bullet, bIndex) => {
-                enemies.forEach((enemy, eIndex) => {
-                    if (bullet.x < enemy.x + enemy.width &&
-                        bullet.x + 5 > enemy.x &&
-                        bullet.y < enemy.y + enemy.height &&
-                        bullet.y + 15 > enemy.y) {
-                        enemies.splice(eIndex, 1);
-                        bullets.splice(bIndex, 1);
-                        score += 10;
-                        explosionSound.play();
+            enemies.forEach(row => {
+                row.forEach(enemy => {
+                    if (enemy.alive) {
+                        ctx.fillStyle = "#fff";
+                        ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
                     }
                 });
             });
+        }
 
-            enemies.forEach((enemy, eIndex) => {
-                if (enemy.y + enemy.height > player.y) {
-                    if (!shieldActive) {
-                        lives--;
-                        if (lives <= 0) gameOver();
-                        else enemies.splice(eIndex, 1);
-                    }
-                }
-            });
-
-            powerUps.forEach((powerUp, pIndex) => {
-                if (powerUp.y + powerUp.height > player.y &&
-                    powerUp.x < player.x + player.width &&
-                    powerUp.x + powerUp.width > player.x) {
-                    powerUps.splice(pIndex, 1);
-                    powerUpSound.play();
-                    activatePowerUp(powerUp.type);
-                }
+        function drawShields() {
+            shields.forEach(shield => {
+                ctx.fillStyle = shield.health === 3 ? "#00ff00" : (shield.health === 2 ? "#ffff00" : "#ff0000");
+                ctx.fillRect(shield.x, shield.y, shield.width, shield.height);
             });
         }
 
-        // Activate Power-Up
-        function activatePowerUp(type) {
-            if (type === 'rapidFire') {
-                rapidFireActive = true;
-                setTimeout(() => rapidFireActive = false, 5000); // 5 seconds
-            } else if (type === 'shield') {
-                shieldActive = true;
-                setTimeout(() => shieldActive = false, 5000); // 5 seconds
-            }
+        function drawBullets() {
+            player.bullets.forEach(bullet => {
+                ctx.fillStyle = "#00ff00";
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                bullet.y -= 5;
+            });
+
+            enemyBullets.forEach(bullet => {
+                ctx.fillStyle = "#ff0000";
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                bullet.y += 5;
+            });
         }
 
-        // Handle Game Over
-        function gameOver() {
-            gameOverSound.play();
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            document.getElementById('gameOverMessage').style.display = 'block';
-            document.getElementById('gameOverMessage').innerHTML = `Game Over<br>Score: ${score}`;
-            setTimeout(() => document.location.reload(), 3000);
-        }
-
-        // Main Game Loop
-        function draw() {
+        // Game loop
+        function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if (enemies.length === 0) {
-                level++;
-                createEnemies();
-                enemySpeed += 0.5;
-                createPowerUps();
+            // Player movement
+            if (rightPressed && player.x < canvas.width - player.width) {
+                player.x += player.speed;
+            } else if (leftPressed && player.x > 0) {
+                player.x -= player.speed;
             }
 
-            drawPlayer();
-            drawBullets();
-            drawEnemies();
-            drawPowerUps();
-            drawScore();
-            drawLives();
-            drawLevel();
-
-            movePlayer();
-            shootBullet();
-            moveBullets();
             moveEnemies();
             detectCollisions();
+
+            // Draw all elements
+            drawPlayer();
+            drawEnemies();
+            drawShields();
+            drawBullets();
+
+            requestAnimationFrame(gameLoop);
         }
 
-        // Keyboard Controls
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "ArrowRight") rightPressed = true;
-            else if (e.key === "ArrowLeft") leftPressed = true;
-            else if (e.key === " " || e.key === "Spacebar") spacePressed = true;
-        });
-
-        document.addEventListener("keyup", function (e) {
-            if (e.key === "ArrowRight") rightPressed = false;
-            else if (e.key === "ArrowLeft") leftPressed = false;
-            else if (e.key === " " || e.key === "Spacebar") spacePressed = false;
-        });
-
-        // Initialize Game
         createEnemies();
-        setInterval(draw, 20);
+        createShields();
+        gameLoop();
     </script>
 </body>
 </html>
