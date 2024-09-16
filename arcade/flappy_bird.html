@@ -7,14 +7,76 @@
     <style>
         body { margin: 0; }
         canvas { display: block; margin: auto; background: #4ec0ca; }
+        #score { font-family: Arial, sans-serif; position: absolute; top: 10px; left: 10px; font-size: 24px; color: white; }
+        #gameOver { display: none; text-align: center; font-size: 36px; color: red; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        button { font-size: 24px; padding: 10px 20px; }
     </style>
 </head>
 <body>
+    <div id="score">Score: 0</div>
+    <div id="gameOver">
+        <p>Game Over!</p>
+        <button id="restartBtn">Restart</button>
+    </div>
     <canvas id="flappyBirdCanvas" width="320" height="480"></canvas>
+    
     <script>
         const canvas = document.getElementById('flappyBirdCanvas');
         const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('gameOver');
+        const restartBtn = document.getElementById('restartBtn');
+
         const bird = { x: 50, y: 150, w: 20, h: 20, gravity: 0.6, lift: -15, velocity: 0 };
+        let pipes = [];
+        let score = 0;
+        let gameRunning = true;
+        let pipeInterval;
+        let gameLoop;
+
+        // Initialize pipes
+        function createPipe() {
+            const pipeHeight = Math.floor(Math.random() * (canvas.height / 2)) + 50;
+            const gap = 100; // Gap between pipes
+            pipes.push({
+                x: canvas.width,
+                y: 0,
+                w: 40,
+                h: pipeHeight,
+                gapStart: pipeHeight,
+                gapEnd: pipeHeight + gap
+            });
+        }
+
+        function drawPipes() {
+            ctx.fillStyle = "green";
+            pipes.forEach(pipe => {
+                // Top pipe
+                ctx.fillRect(pipe.x, pipe.y, pipe.w, pipe.h);
+                // Bottom pipe
+                ctx.fillRect(pipe.x, pipe.gapEnd, pipe.w, canvas.height - pipe.gapEnd);
+                pipe.x -= 2; // Move pipes left
+
+                // Remove pipes that go off screen
+                if (pipe.x + pipe.w < 0) {
+                    pipes.shift();
+                    score++;
+                    updateScore();
+                }
+            });
+        }
+
+        function updateScore() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        function checkCollision(pipe) {
+            // Check collision with pipe
+            if (bird.x < pipe.x + pipe.w && bird.x + bird.w > pipe.x &&
+                (bird.y < pipe.gapStart || bird.y + bird.h > pipe.gapEnd)) {
+                gameOver();
+            }
+        }
 
         function drawBird() {
             ctx.fillStyle = "yellow";
@@ -27,24 +89,58 @@
 
             if (bird.y + bird.h > canvas.height) {
                 bird.y = canvas.height - bird.h;
-                bird.velocity = 0;
+                gameOver();
             } else if (bird.y < 0) {
                 bird.y = 0;
-                bird.velocity = 0;
+                gameOver();
             }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBird();
+            drawPipes();
             updateBird();
+
+            pipes.forEach(pipe => {
+                checkCollision(pipe);
+            });
         }
 
+        // Handle user input
         canvas.addEventListener('click', function() {
-            bird.velocity = bird.lift;
+            if (gameRunning) {
+                bird.velocity = bird.lift;
+            }
         });
 
-        setInterval(draw, 20);
+        function gameOver() {
+            clearInterval(gameLoop);
+            clearInterval(pipeInterval);
+            gameRunning = false;
+            gameOverElement.style.display = 'block';
+        }
+
+        function restartGame() {
+            bird.y = 150;
+            bird.velocity = 0;
+            pipes = [];
+            score = 0;
+            gameRunning = true;
+            gameOverElement.style.display = 'none';
+            updateScore();
+            startGame();
+        }
+
+        restartBtn.addEventListener('click', restartGame);
+
+        function startGame() {
+            gameLoop = setInterval(draw, 20);
+            pipeInterval = setInterval(createPipe, 3000);
+        }
+
+        // Start the game for the first time
+        startGame();
     </script>
 </body>
 </html>
