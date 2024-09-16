@@ -12,7 +12,7 @@ permalink: /arcade/
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="2048">2048</a></li>
-      <li><a href="#" data-game="Brick_Breaker">Breakout</a></li>
+      <li><a href="#" data-game="Brick_Breaker">Brick_Breaker</a></li>
       <li><a href="#" data-game="Flappy_bird">Flappy Bird</a></li>
       <li><a href="#" data-game="Memory_Match">Memory Match</a></li>
       <li><a href="#" data-game="Snake">Snake</a></li>
