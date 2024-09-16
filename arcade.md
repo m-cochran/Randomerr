@@ -17,6 +17,7 @@ permalink: /arcade/
       <li><a href="#" data-game="memory_match">Memory Match</a></li>
       <li><a href="#" data-game="snake">Snake</a></li>
       <li><a href="#" data-game="space_invaders">Space Invaders</a></li>
+      <li><a href="#" data-game="solitaire">solitaire</a></li>
       <li><a href="#" data-game="tic_tac_toe">Tic Tac Toe</a></li>
       <li><a href="#" data-game="pong">Pong</a></li>
     </ul>
@@ -169,6 +170,9 @@ permalink: /arcade/
           break;
          case 'space_invaders':
           gameIframe.src = 'space_invaders.html';
+          break;
+         case 'pong':
+          gameIframe.src = 'solitaire.html';
           break;
          case 'tic_tac_toe':
           gameIframe.src = 'tic_tac_toe.html';
