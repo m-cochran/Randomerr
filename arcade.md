@@ -12,11 +12,11 @@ permalink: /arcade/
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="2048">2048</a></li>
-      <li><a href="#" data-game="brick_breaker">brick breaker</a></li>
+      <li><a href="#" data-game="brick_breaker">Brick Breaker</a></li>
       <li><a href="#" data-game="Flappy_bird">Flappy Bird</a></li>
       <li><a href="#" data-game="Memory_Match">Memory Match</a></li>
       <li><a href="#" data-game="Snake">Snake</a></li>
-      <li><a href="#" data-game="Space_Invaders">Space_Invaders</a></li>
+      <li><a href="#" data-game="Space_Invaders">Space Invaders</a></li>
       <li><a href="#" data-game="Tic_Tac_Toe">Tic Tac Toe</a></li>
       <li><a href="#" data-game="pong">Pong</a></li>
     </ul>
@@ -158,20 +158,20 @@ permalink: /arcade/
         case 'brick_breaker':
           gameIframe.src = 'brick_breaker.html';
           break;
-        case 'Flappy bird':
-          gameIframe.src = 'Flappy_Bird.html';
+        case 'flappy_bird':
+          gameIframe.src = 'flappy_bird.html';
           break;
-        case 'Memory Match':
-          gameIframe.src = 'Memory_Match.html';
+        case 'memory match':
+          gameIframe.src = 'memory_match.html';
           break;
-        case 'Snake':
-          gameIframe.src = 'Snake.html';
+        case 'snake':
+          gameIframe.src = 'snake.html';
           break;
-         case 'Space invaders':
-          gameIframe.src = 'Space_invaders.html';
+         case 'Space_invaders':
+          gameIframe.src = 'space_invaders.html';
           break;
-         case 'Tic Tat Toe':
-          gameIframe.src = 'Tic_Tac_Toe.html';
+         case 'tic_tac_toe':
+          gameIframe.src = 'tic_tac_toe.html';
           break;
          case 'pong':
           gameIframe.src = 'pong.html';
