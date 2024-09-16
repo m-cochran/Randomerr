@@ -152,17 +152,26 @@ permalink: /arcade/
         case 'pong':
           gameIframe.src = 'pong.html';
           break;
-        case 'breakout':
-          gameIframe.src = 'path_to_breakout_game.html';
+        case '2048':
+          gameIframe.src = '2048.html';
           break;
-        case 'snake':
-          gameIframe.src = 'path_to_snake_game.html';
+        case 'brick_breker':
+          gameIframe.src = 'brick_breker.html';
           break;
-        case 'space-invaders':
-          gameIframe.src = 'path_to_space_invaders_game.html';
+        case 'Flappy bird':
+          gameIframe.src = 'Flappy_bird.html';
           break;
-        case 'tetris':
-          gameIframe.src = 'path_to_tetris_game.html';
+        case 'Memory Match':
+          gameIframe.src = 'Memory_Match.html';
+          break;
+        case 'Snake':
+          gameIframe.src = 'Snake.html';
+          break;
+         case 'Space invaders':
+          gameIframe.src = 'Space_invaders.html';
+          break;
+         case 'Tic Tat Toe':
+          gameIframe.src = 'Tic_Tac_Toe.html';
           break;
         default:
           gameIframe.src = '';
