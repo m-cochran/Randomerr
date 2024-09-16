@@ -11,12 +11,14 @@ permalink: /arcade/
   <div class="sidebar">
     <h2>Game List</h2>
     <ul id="gameList">
-      <li><a href="#" data-game="pong">Pong</a></li>
       <li><a href="#" data-game="2048">2048</a></li>
-      <li><a href="#" data-game="breakout">Breakout</a></li>
-      <li><a href="#" data-game="snake">Snake</a></li>
-      <li><a href="#" data-game="space-invaders">Space Invaders</a></li>
-      <li><a href="#" data-game="tetris">Tetris</a></li>
+      <li><a href="#" data-game="Brick_Breaker">Breakout</a></li>
+      <li><a href="#" data-game="Flappy_bird">Flappy Bird</a></li>
+      <li><a href="#" data-game="Memory_Match">Memory Match</a></li>
+      <li><a href="#" data-game="Snake">Snake</a></li>
+      <li><a href="#" data-game="Space_Invaders">Space_Invaders</a></li>
+      <li><a href="#" data-game="Tic_Tac_Toe">Tic Tac Toe</a></li>
+      <li><a href="#" data-game="pong">Pong</a></li>
     </ul>
   </div>
 
