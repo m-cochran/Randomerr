@@ -152,17 +152,14 @@ permalink: /arcade/
       gameIframe.style.display = 'block';
 
       switch(game) {
-        case 'pong':
-          gameIframe.src = 'pong.html';
-          break;
         case '2048':
           gameIframe.src = '2048.html';
           break;
         case 'brick_breker':
-          gameIframe.src = 'brick_breker.html';
+          gameIframe.src = 'Brick_Breker.html';
           break;
         case 'Flappy bird':
-          gameIframe.src = 'Flappy_bird.html';
+          gameIframe.src = 'Flappy_Bird.html';
           break;
         case 'Memory Match':
           gameIframe.src = 'Memory_Match.html';
@@ -175,6 +172,9 @@ permalink: /arcade/
           break;
          case 'Tic Tat Toe':
           gameIframe.src = 'Tic_Tac_Toe.html';
+          break;
+         case 'pong':
+          gameIframe.src = 'pong.html';
           break;
         default:
           gameIframe.src = '';
