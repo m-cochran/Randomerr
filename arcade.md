@@ -171,7 +171,7 @@ permalink: /arcade/
          case 'space_invaders':
           gameIframe.src = 'space_invaders.html';
           break;
-         case 'pong':
+         case ''solitaire':
           gameIframe.src = 'solitaire.html';
           break;
          case 'tic_tac_toe':
