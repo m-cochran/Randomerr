@@ -156,7 +156,7 @@ permalink: /arcade/
           gameIframe.src = '2048.html';
           break;
         case 'brick_breker':
-          gameIframe.src = 'Brick_Breker.html';
+          gameIframe.src = 'Brick_Breaker.html';
           break;
         case 'Flappy bird':
           gameIframe.src = 'Flappy_Bird.html';
