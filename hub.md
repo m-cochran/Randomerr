@@ -71,7 +71,7 @@ Select a location to view available listings.
 
     const cities = {
         'Alabama': [ 'auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
-        'Alaska',: [ 'Anchorage/Mat-Su', 'Fairbanks', 'Kenai Peninsula', 'Southeast Alaska'],
+        'Alaska': [ 'Anchorage/Mat-Su', 'Fairbanks', 'Kenai Peninsula', 'Southeast Alaska'],
         'Arizona': [ 'Flagstaff/Sedona', 'Mohave County', 'Phoenix', 'Prescott', 'Show Low', 'Sierra Vista', 'Tucson', 'Yuma'],
         'California': ['Bakersfield', 'Chico', 'Fresno/Madera', 'Gold Country', 'Hanford-Corcoran', 'Humboldt County', 'Imperial County', 'Inland Empire', 'Los Angeles', 'Mendocino County', 'Merced', 'Modesto', 'Monterey Bay', 'Orange County', 'Palm Springs', 'Redding', 'Sacramento', 'San Diego', 'San Francisco Bay Area', 'San Luis Obispo', 'Santa Barbara', 'Santa Maria', 'Siskiyou County', 'Stockton', 'Susanville', 'Ventura County', 'Visalia-Tulare', 'Yuba-Sutter',],
         'Texas': ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Fort Worth'],
