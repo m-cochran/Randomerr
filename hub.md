@@ -41,17 +41,6 @@ Select a location to view available listings.
 </div>
 
 
-    <label for="province-state">Province/State:</label>
-    <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
-      <option value="">Select Province/State</option>
-    </select>
-
-    <label for="city-town">City/Town:</label>
-    <select id="city-town" name="city-town" aria-label="Select a city or town" class="full-width" disabled>
-      <option value="">Select City/Town</option>
-    </select>
-  </form>
-
 
 
 
