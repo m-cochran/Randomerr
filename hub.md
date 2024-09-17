@@ -142,6 +142,9 @@ Select a location to view available listings.
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two-column layout */
+    gap: 20px; /* Space between grid items */
 }
 
 label {
@@ -153,7 +156,6 @@ label {
 select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
     border-radius: 4px;
     border: 1px solid #ccc;
 }
@@ -161,6 +163,12 @@ select {
 select:disabled {
     background-color: #e9ecef;
 }
+
+/* Ensure that the select elements span across columns */
+select.full-width {
+    grid-column: span 2; /* Span across both columns */
+}
+
 </style>
 
 ---
