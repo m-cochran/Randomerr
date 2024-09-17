@@ -107,7 +107,7 @@ Select a location to view available listings.
          'North Carolina': [ 'Asheville', 'Boone', 'Charlotte', 'Eastern NC', 'Fayetteville', 'Greensboro', 'Hickory/Lenoir', 'Jacksonville', 'Outer Banks', 'Raleigh/Durham/CH', 'Wilmington', 'Winston-Salem',
          'North Dakota': [ 'Bismarck', 'Fargo/Moorhead', 'Grand Forks', 'North Dakota'],
          'Ohio': [ 'Akron/Canton', 'Ashtabula', 'Athens', 'Chillicothe', 'Cincinnati', 'Cleveland', 'Columbus', 'Dayton/Springfield', 'Lima/Findlay', 'Mansfield', 'Sandusky', 'Toledo', 'Tuscarawas Co', 'Youngstown', 'Zanesville/Cambridge'],
-         'Oklahoma': [ 'Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa',]
+         'Oklahoma': [ 'Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa'],
          'Oregon': [ 'Bend', 'Corvallis/Albany', 'East Oregon', 'Eugene', 'Klamath Falls', 'Medford-Ashland', 'Oregon Coast', 'Portland', 'Roseburg', 'Salem'],
          'Pennsylvania': [ 'Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
          'Rhode Island': [ 'Rhode Island'],
