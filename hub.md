@@ -109,7 +109,7 @@ Select a location to view available listings.
          'Ohio': [ 'Akron/Canton', 'Ashtabula', 'Athens', 'Chillicothe', 'Cincinnati', 'Cleveland', 'Columbus', 'Dayton/Springfield', 'Lima/Findlay', 'Mansfield', 'Sandusky', 'Toledo', 'Tuscarawas Co', 'Youngstown', 'Zanesville/Cambridge'],
          'Oklahoma': [ 'Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa',]
          'Oregon': [ 'Bend', 'Corvallis/Albany', 'East Oregon', 'Eugene', 'Klamath Falls', 'Medford-Ashland', 'Oregon Coast', 'Portland', 'Roseburg', 'Salem'],
-         'Pennsylvania' : [ 'Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
+         'Pennsylvania': [ 'Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
          'Rhode Island': [ 'Rhode Island'],
          'South Carolina': [ 'Charleston', 'Columbia', 'Florence', 'Greenville/Upstate', 'Hilton Head', 'Myrtle Beach'],
          'South Dakota': [ 'Northeast SD', 'Pierre/Central SD', 'Rapid City/West SD', 'Sioux Falls/SE SD', 'South Dakota'],
