@@ -52,10 +52,6 @@ Select a location to view available listings.
     </select>
   </form>
 
-  <!-- Map container -->
-  <div id="map" style="height: 400px; margin-top: 20px;"></div>
-</div>
-
 
 
 
