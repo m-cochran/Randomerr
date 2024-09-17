@@ -19,6 +19,7 @@ Select a location to view available listings.
 
 
 
+
 <form id="location-form">
 <label for="region">Region:</label>
 <select id="region" name="region">
@@ -46,18 +47,14 @@ Select a location to view available listings.
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const regionSelect = document.getElementById('region');
-        const provinceStateSelect = document.getElementById('province-state');
-        const cityTownSelect = document.getElementById('city-town');
-
-        // Initialize the map
         let map;
         let marker;
 
+        // Initialize the map
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 37.7749, lng: -122.4194 }, // Default center (San Francisco)
-                zoom: 4
+                zoom: 12
             });
             marker = new google.maps.Marker({
                 map: map
@@ -67,82 +64,36 @@ Select a location to view available listings.
         // Call initMap on page load
         initMap();
 
-        // Update map center and marker based on selected location
-        function updateMap(latitude, longitude) {
-            map.setCenter(new google.maps.LatLng(latitude, longitude));
-            marker.setPosition(new google.maps.LatLng(latitude, longitude));
+        // Function to handle location success
+        function handleLocationSuccess(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const userLocation = new google.maps.LatLng(latitude, longitude);
+
+            map.setCenter(userLocation);
+            marker.setPosition(userLocation);
         }
 
-        // Example coordinates (replace with actual coordinates)
-        const locations = {
-            'California': { lat: 36.7783, lng: -119.4179 },
-            'Texas': { lat: 31.9686, lng: -99.9018 },
-            'New York': { lat: 40.7128, lng: -74.0060 },
-            'Florida': { lat: 27.9946, lng: -81.7603 },
-            'Illinois': { lat: 40.6331, lng: -89.3985 }
-            // Add other locations here...
-        };
+        // Function to handle location error
+        function handleLocationError(error) {
+            console.log('Error getting location:', error.message);
+            // Optionally, you can set the map to a default location or show an error message
+        }
 
-        // Event listener for region selection
-        regionSelect.addEventListener('change', function() {
-            const region = this.value;
-            provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-            cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-            provinceStateSelect.disabled = !region;
-            cityTownSelect.disabled = true;
-
-            if (region) {
-                const provincesList = provinces[region];
-                provincesList.forEach(province => {
-                    const option = document.createElement('option');
-                    option.value = province;
-                    option.textContent = province;
-                    provinceStateSelect.appendChild(option);
-                });
+        // Function to get the user's location
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError);
+            } else {
+                console.log('Geolocation is not supported by this browser.');
             }
+        }
 
-            // Update the map to the default location for the selected region
-            if (locations[region]) {
-                updateMap(locations[region].lat, locations[region].lng);
-            }
-        });
-
-        // Event listener for province/state selection
-        provinceStateSelect.addEventListener('change', function() {
-            const province = this.value;
-            cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-            cityTownSelect.disabled = !province;
-
-            if (province) {
-                const citiesList = cities[province];
-                citiesList.forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city;
-                    option.textContent = city;
-                    cityTownSelect.appendChild(option);
-                });
-
-                // Update the map to the default location for the selected province
-                if (locations[province]) {
-                    updateMap(locations[province].lat, locations[province].lng);
-                }
-            }
-        });
-
-        // Event listener for city/town selection
-        cityTownSelect.addEventListener('change', function() {
-            const city = this.value;
-            if (city) {
-                // Example: Use static coordinates for cities
-                // Replace with actual coordinates if available
-                const cityLocation = locations[city];
-                if (cityLocation) {
-                    updateMap(cityLocation.lat, cityLocation.lng);
-                }
-            }
-        });
+        // Get the user's location when the page loads
+        getUserLocation();
     });
 </script>
+
 
 
 
