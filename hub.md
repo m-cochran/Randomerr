@@ -70,6 +70,7 @@ Select a location to view available listings.
     };
 
     const cities = {
+        'Alabama': [ 'auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
         'California': ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'San Jose'],
         'Texas': ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Fort Worth'],
         'New York': ['New York City', 'Buffalo', 'Rochester', 'Syracuse', 'Albany'],
