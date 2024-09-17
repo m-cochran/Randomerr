@@ -13,8 +13,9 @@ Select a location to view available listings.
 ---
 <div class="container-location">
 <h1>Location Selector</h1>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNCmAGyN4bJYu5qeLgbASzZafm-M5TA_o&amp;language=en&amp;zoom=16&amp;q=942%20Meldon%20Ave%20Donora%2C%20PA%2015033"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
 <div id="map" style="height: 400px; width: 100%;"></div>
+
 
 
 
@@ -46,53 +47,88 @@ Select a location to view available listings.
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let map;
-        let marker;
+document.addEventListener('DOMContentLoaded', function() {
+    const regionSelect = document.getElementById('region');
+    const provinceStateSelect = document.getElementById('province-state');
+    const cityTownSelect = document.getElementById('city-town');
+    const mapElement = document.getElementById('map');
+    let map, marker;
 
-        // Initialize the map
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 37.7749, lng: -122.4194 }, // Default center (San Francisco)
-                zoom: 12
-            });
-            marker = new google.maps.Marker({
-                map: map
-            });
-        }
+    // Initialize the map
+    function initMap() {
+        map = new google.maps.Map(mapElement, {
+            center: { lat: 37.7749, lng: -122.4194 }, // Default center (San Francisco)
+            zoom: 10
+        });
 
-        // Call initMap on page load
-        initMap();
+        marker = new google.maps.Marker({
+            map: map,
+            position: map.getCenter()
+        });
+    }
 
-        // Function to handle location success
-        function handleLocationSuccess(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            const userLocation = new google.maps.LatLng(latitude, longitude);
-
-            map.setCenter(userLocation);
-            marker.setPosition(userLocation);
-        }
-
-        // Function to handle location error
-        function handleLocationError(error) {
-            console.log('Error getting location:', error.message);
-            // Optionally, you can set the map to a default location or show an error message
-        }
-
-        // Function to get the user's location
-        function getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError);
+    // Update map and marker based on city/town selection
+    function updateMap(city) {
+        if (!city) return;
+        
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: city }, function(results, status) {
+            if (status === 'OK') {
+                map.setCenter(results[0].geometry.location);
+                marker.setPosition(results[0].geometry.location);
             } else {
-                console.log('Geolocation is not supported by this browser.');
+                alert('Geocode was not successful for the following reason: ' + status);
             }
-        }
+        });
+    }
 
-        // Get the user's location when the page loads
-        getUserLocation();
+    // Event listener for region selection
+    regionSelect.addEventListener('change', function() {
+        const region = this.value;
+        provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
+        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+        provinceStateSelect.disabled = !region;
+        cityTownSelect.disabled = true;
+
+        if (region) {
+            const provincesList = provinces[region];
+            provincesList.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                provinceStateSelect.appendChild(option);
+            });
+        }
     });
+
+    // Event listener for province/state selection
+    provinceStateSelect.addEventListener('change', function() {
+        const province = this.value;
+        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+        cityTownSelect.disabled = !province;
+
+        if (province) {
+            const citiesList = cities[province];
+            citiesList.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                cityTownSelect.appendChild(option);
+            });
+        }
+    });
+
+    // Event listener for city/town selection
+    cityTownSelect.addEventListener('change', function() {
+        const city = this.value;
+        updateMap(city);
+    });
+
+    // Initialize the map after the page loads
+    window.initMap = initMap;
+});
 </script>
+
 
 
 
