@@ -58,56 +58,6 @@ Select a location to view available listings.
 
 
 
-<script>
-// Initialize the map and set its view to a default location
-var map = L.map('map').setView([51.505, -0.09], 5); // Default coordinates
-
-// Add OpenStreetMap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-// Add a marker that updates with the dropdown selections or map clicks
-var marker = L.marker([51.505, -0.09]).addTo(map);
-
-// Event listeners for the region, province/state, and city/town dropdowns
-document.getElementById('region').addEventListener('change', updateMapFromForm);
-document.getElementById('province-state').addEventListener('change', updateMapFromForm);
-document.getElementById('city-town').addEventListener('change', updateMapFromForm);
-
-// Function to update map when form is changed
-function updateMapFromForm() {
-  // Example: Update based on form values
-  // You can extend this logic with real lat/lng coordinates based on the selection
-  var region = document.getElementById('region').value;
-  
-  if (region === 'north-america') {
-    map.setView([40.7128, -74.0060], 5); // New York, North America example
-    marker.setLatLng([40.7128, -74.0060]);
-  } else if (region === 'europe') {
-    map.setView([48.8566, 2.3522], 5); // Paris, Europe example
-    marker.setLatLng([48.8566, 2.3522]);
-  } else if (region === 'asia') {
-    map.setView([35.6762, 139.6503], 5); // Tokyo, Asia example
-    marker.setLatLng([35.6762, 139.6503]);
-  }
-}
-
-// Event listener for map clicks to update form
-map.on('click', function(e) {
-  var latlng = e.latlng;
-  marker.setLatLng(latlng);
-
-  // You would update the dropdowns based on the clicked location
-  // For example, reverse geocoding can be implemented to fetch the region, province, and city
-  alert("You clicked the map at " + latlng.toString());
-  // Update form fields accordingly (region, province/state, city/town)
-});
-</script>
-
-
-
-
 
 
 <script>
