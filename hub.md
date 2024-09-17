@@ -11,16 +11,6 @@ Explore items for sale or trade by location and category.
 ## Browse by Location
 Select a location to view available listings.
 ---
-<div class="container-location">
-<h1>Location Selector</h1>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
-
-
-
-
-
 
 
 <div class="container-location">
@@ -35,6 +25,21 @@ Select a location to view available listings.
       <option value="europe">Europe</option>
       <option value="asia">Asia</option>
     </select>
+
+    <label for="province-state">Province/State:</label>
+    <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
+      <option value="">Select Province/State</option>
+      <!-- Options will be populated based on selected region -->
+    </select>
+
+    <label for="city-town">City/Town:</label>
+    <select id="city-town" name="city-town" aria-label="Select a city or town" class="full-width" disabled>
+      <option value="">Select City/Town</option>
+      <!-- Options will be populated based on selected province/state -->
+    </select>
+  </form>
+</div>
+
 
     <label for="province-state">Province/State:</label>
     <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
