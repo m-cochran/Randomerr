@@ -13,7 +13,7 @@ Select a location to view available listings.
 ---
 <div class="container-location">
 <h1>Location Selector</h1>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNCmAGyN4bJYu5qeLgbASzZafm-M5TA_o&amp;language=en&amp;zoom=16&amp;q=942%20Meldon%20Ave%20Donora%2C%20PA%2015033"></script>
 <div id="map" style="height: 400px; width: 100%;"></div>
 
 
