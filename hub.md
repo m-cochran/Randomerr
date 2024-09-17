@@ -13,121 +13,93 @@ Select a location to view available listings.
 ---
 <div class="container-location">
 <h1>Location Selector</h1>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
-<div id="map" style="height: 400px; width: 100%;"></div>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 
 
 
 
 
-<form id="location-form">
-<label for="region">Region:</label>
-<select id="region" name="region">
-<option value="">Select Region</option>
-<option value="north-america">North America</option>
-<option value="canada">Canada</option>
-<option value="europe">Europe</option>
-<option value="asia">Asia</option>
-</select>
 
-<label for="province-state">Province/State:</label>
-<select id="province-state" name="province-state" disabled>
-<option value="">Select Province/State</option>
-<!-- Options will be populated based on selected region -->
-</select>
 
-<label for="city-town">City/Town:</label>
-<select id="city-town" name="city-town" disabled>
-<option value="">Select City/Town</option>
-<!-- Options will be populated based on selected province/state -->
-</select>
-</form>
+<div class="container-location">
+  <h1>Location Selector</h1>
+
+  <form id="location-form">
+    <label for="region">Region:</label>
+    <select id="region" name="region" aria-label="Select a region" class="full-width">
+      <option value="">Select Region</option>
+      <option value="north-america">North America</option>
+      <option value="canada">Canada</option>
+      <option value="europe">Europe</option>
+      <option value="asia">Asia</option>
+    </select>
+
+    <label for="province-state">Province/State:</label>
+    <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
+      <option value="">Select Province/State</option>
+    </select>
+
+    <label for="city-town">City/Town:</label>
+    <select id="city-town" name="city-town" aria-label="Select a city or town" class="full-width" disabled>
+      <option value="">Select City/Town</option>
+    </select>
+  </form>
+
+  <!-- Map container -->
+  <div id="map" style="height: 400px; margin-top: 20px;"></div>
 </div>
 
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const regionSelect = document.getElementById('region');
-    const provinceStateSelect = document.getElementById('province-state');
-    const cityTownSelect = document.getElementById('city-town');
-    const mapElement = document.getElementById('map');
-    let map, marker;
+// Initialize the map and set its view to a default location
+var map = L.map('map').setView([51.505, -0.09], 5); // Default coordinates
 
-    // Initialize the map
-    function initMap() {
-        map = new google.maps.Map(mapElement, {
-            center: { lat: 37.7749, lng: -122.4194 }, // Default center (San Francisco)
-            zoom: 10
-        });
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
-        marker = new google.maps.Marker({
-            map: map,
-            position: map.getCenter()
-        });
-    }
+// Add a marker that updates with the dropdown selections or map clicks
+var marker = L.marker([51.505, -0.09]).addTo(map);
 
-    // Update map and marker based on city/town selection
-    function updateMap(city) {
-        if (!city) return;
-        
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address: city }, function(results, status) {
-            if (status === 'OK') {
-                map.setCenter(results[0].geometry.location);
-                marker.setPosition(results[0].geometry.location);
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
+// Event listeners for the region, province/state, and city/town dropdowns
+document.getElementById('region').addEventListener('change', updateMapFromForm);
+document.getElementById('province-state').addEventListener('change', updateMapFromForm);
+document.getElementById('city-town').addEventListener('change', updateMapFromForm);
 
-    // Event listener for region selection
-    regionSelect.addEventListener('change', function() {
-        const region = this.value;
-        provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-        provinceStateSelect.disabled = !region;
-        cityTownSelect.disabled = true;
+// Function to update map when form is changed
+function updateMapFromForm() {
+  // Example: Update based on form values
+  // You can extend this logic with real lat/lng coordinates based on the selection
+  var region = document.getElementById('region').value;
+  
+  if (region === 'north-america') {
+    map.setView([40.7128, -74.0060], 5); // New York, North America example
+    marker.setLatLng([40.7128, -74.0060]);
+  } else if (region === 'europe') {
+    map.setView([48.8566, 2.3522], 5); // Paris, Europe example
+    marker.setLatLng([48.8566, 2.3522]);
+  } else if (region === 'asia') {
+    map.setView([35.6762, 139.6503], 5); // Tokyo, Asia example
+    marker.setLatLng([35.6762, 139.6503]);
+  }
+}
 
-        if (region) {
-            const provincesList = provinces[region];
-            provincesList.forEach(province => {
-                const option = document.createElement('option');
-                option.value = province;
-                option.textContent = province;
-                provinceStateSelect.appendChild(option);
-            });
-        }
-    });
+// Event listener for map clicks to update form
+map.on('click', function(e) {
+  var latlng = e.latlng;
+  marker.setLatLng(latlng);
 
-    // Event listener for province/state selection
-    provinceStateSelect.addEventListener('change', function() {
-        const province = this.value;
-        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-        cityTownSelect.disabled = !province;
-
-        if (province) {
-            const citiesList = cities[province];
-            citiesList.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city;
-                option.textContent = city;
-                cityTownSelect.appendChild(option);
-            });
-        }
-    });
-
-    // Event listener for city/town selection
-    cityTownSelect.addEventListener('change', function() {
-        const city = this.value;
-        updateMap(city);
-    });
-
-    // Initialize the map after the page loads
-    window.initMap = initMap;
+  // You would update the dropdowns based on the clicked location
+  // For example, reverse geocoding can be implemented to fetch the region, province, and city
+  alert("You clicked the map at " + latlng.toString());
+  // Update form fields accordingly (region, province/state, city/town)
 });
 </script>
+
 
 
 
