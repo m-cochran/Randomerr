@@ -36,6 +36,7 @@ Select a location to view available listings.
 <option value="">Select City/Town</option>
 <!-- Options will be populated based on selected province/state -->
 </select>
+</form>
 </div>
 
 <script>
