@@ -14,6 +14,8 @@ Select a location to view available listings.
 <div class="container-location">
 <h1>Location Selector</h1>
 
+
+<form id="location-form">
 <label for="region">Region:</label>
 <select id="region" name="region">
 <option value="">Select Region</option>
@@ -21,6 +23,7 @@ Select a location to view available listings.
 <option value="canada">Canada</option>
 <option value="europe">Europe</option>
 <option value="asia">Asia</option>
+</select>
 
 <label for="province-state">Province/State:</label>
 <select id="province-state" name="province-state" disabled>
