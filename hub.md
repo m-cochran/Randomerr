@@ -3,19 +3,13 @@ layout: default
 title: Hub
 permalink: /hub/
 ---
-
 # Hub
-
 Explore items for sale or trade by location and category.
-
 ## Browse by Location
 Select a location to view available listings.
 ---
-
-
 <div class="container-location">
   <h1>Location Selector</h1>
-
   <form id="location-form">
     <label for="region">Region:</label>
     <select id="region" name="region" aria-label="Select a region" class="full-width">
@@ -31,7 +25,6 @@ Select a location to view available listings.
       <option value="">Select Province/State</option>
       <!-- Options will be populated based on selected region -->
     </select>
-
     <label for="city-town">City/Town:</label>
     <select id="city-town" name="city-town" aria-label="Select a city or town" class="full-width" disabled>
       <option value="">Select City/Town</option>
@@ -40,191 +33,139 @@ Select a location to view available listings.
   </form>
 </div>
 
-
-
-
-
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const regionSelect = document.getElementById('region');
     const provinceStateSelect = document.getElementById('province-state');
     const cityTownSelect = document.getElementById('city-town');
-
+    // Expanded list of provinces/states and cities for each region
     // Expanded list of provinces/states and cities for each region
     const provinces = {
-        'north-america': [
-            'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'Guam', 'Puerto Rico', 'U.S. Virgin Islands'
-        ],
-        'canada': [
-            'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 
-'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 
-'Northwest Territories', 'Nunavut', 'Yukon'
-        ],
-        'europe': [
-            'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Luxembourg', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russian Federation', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom'
-        ],
-        'asia': [
-            'Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China (PRC)', 'East Timor', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Macau', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Qatar', 'Russia', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'The Philippines', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen'
-        ]
+      'north-america': [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'Guam', 'Puerto Rico', 'U.S. Virgin Islands'
+      ],
+      'canada': [
+        'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador',
+        'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan',
+        'Northwest Territories', 'Nunavut', 'Yukon'
+      ],
+      'europe': [
+        'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Luxembourg', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russian Federation', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom'
+      ],
+      'asia': [
+        'Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China (PRC)', 'East Timor', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Macau', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Qatar', 'Russia', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'The Philippines', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen'
+      ]
     };
-
     const cities = {
-        'Alabama': ['auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
-        'Alaska': ['Anchorage/Mat-Su', 'Fairbanks', 'Kenai Peninsula', 'Southeast Alaska'],
-        'Arizona': ['Flagstaff/Sedona', 'Mohave County', 'Phoenix', 'Prescott', 'Show Low', 'Sierra Vista', 'Tucson', 'Yuma'],
-        'California': ['Bakersfield', 'Chico', 'Fresno/Madera', 'Gold Country', 'Hanford-Corcoran', 'Humboldt County', 'Imperial County', 'Inland Empire', 'Los Angeles', 'Mendocino County', 'Merced', 'Modesto', 'Monterey Bay', 'Orange County', 'Palm Springs', 'Redding', 'Sacramento', 'San Diego', 'San Francisco Bay Area', 'San Luis Obispo', 'Santa Barbara', 'Santa Maria', 'Siskiyou County', 'Stockton', 'Susanville', 'Ventura County', 'Visalia-Tulare', 'Yuba-Sutter',],
-         'Colorado': ['Boulder', 'Colorado Springs', 'Denver', 'Eastern CO', 'Fort Collins/North CO', 'High Rockies', 'Pueblo', 'Western Slope'],
-         'Connecticut': ['Eastern CT', 'Hartford', 'New Haven', 'Northwest CT'],
-         'Delaware': ['Delaware'],
-         'District of Columbia': ['Washington'],
-         'Florida': ['Broward County', 'Daytona Beach', 'Florida Keys', 'Fort Lauderdale', 'Ft Myers/SW Florida', 'Gainesville', 'Heartland Florida', 'Jacksonville', 'Lakeland', 'Miami/Dade', 'North Central FL', 'Ocala', 'Okaloosa/Walton', 'Orlando', 'Panama City', 
-         'Pensacola', 'Sarasota-Bradenton', 'South Florida', 'Space Coast', 'St Augustine', 'Tallahassee', 'Tampa Bay Area', 'Treasure Coast', 'Palm Beach County'],
-         'Georgia': ['Albany', 'Athens', 'Atlanta', 'Augusta', 'Brunswick', 'Columbus', 'Macon/Warner Robins', 'Northwest GA', 'Savannah/Hinesville', 'Statesboro', 'Valdosta'],
-         'Hawaii': ['Hawaii'],
-         'Idaho': ['Boise', 'East Idaho', 'Lewiston/Clarkston', 'Twin Falls'],
-         'Illinois': ['Bloomington-Normal', 'Champaign-Urbana', 'Chicago', 'Decatur', 'La Salle Co', 'Mattoon-Charleston', 'Peoria', 'Rockford', 'Southern Illinois', 'Springfield', 'Western IL'],
-         'Indiana': ['Bloomington', 'Evansville', 'Fort Wayne', 'Indianapolis', 'Kokomo', 'Lafayette/West Lafayette', 'Muncie/Anderson', 'Richmond', 'South Bend/Michiana', 'Terre Haute'],
-         'Iowa': ['Ames', 'Cedar Rapids', 'Des Moines', 'Dubuque', 'Fort Dodge', 'Iowa City', 'Mason City', 'Quad Cities', 'Sioux City', 'Southeast IA', 'Waterloo/Cedar Falls'],
-         'Kansas': ['Lawrence', 'Manhattan', 'Northwest KS', 'Salina', 'Southeast KS', 'Southwest KS', 'Topeka', 'Wichita'],
-         'Kentucky': ['Bowling Green', 'Eastern Kentucky', 'Lexington', 'Louisville', 'Owensboro', 'Western KY'],
-         'Louisiana': ['Baton Rouge', 'Central Louisiana', 'Houma', 'Lafayette', 'Lake Charles', 'Monroe', 'New Orleans', 'Shreveport'],
-         'Maine': 'Maine'],
-         'Maryland': ['Annapolis', 'Baltimore', 'Eastern Shore', 'Frederick', 'Southern Maryland', 'Western Maryland'],
-         'Massachusetts': ['Boston', 'Cape Cod/Islands', 'South Coast', 'Western Massachusetts', 'Worcester/Central MA'],
-         'Michigan': ['Ann Arbor', 'Battle Creek', 'Central Michigan', 'Detroit Metro', 'Flint', 'Grand Rapids', 'Holland', 'Jackson', 'Kalamazoo', 'Lansing', 'Monroe', 'Muskegon', 'Northern Michigan', 'Port Huron', 'Saginaw-Midland-Bay City', 'Southwest Michigan', 'The Thumb', 'Upper Peninsula'],
-         'Minnesota': ['Bemidji', 'Brainerd', 'Duluth/Superior', 'Mankato', 'Minneapolis/St Paul', 'Rochester', 'Southwest MN', 'St Cloud'],
-         'Mississippi' : ['Gulfport/Biloxi', 'Hattiesburg', 'Jackson', 'Meridian', 'North Mississippi', 'Southwest MS'],
-         'Missouri': ['Columbia/Jeff City', 'Joplin', 'Kansas City', 'Kirksville', 'Lake of the Ozarks', 'Southeast Missouri', 'Springfield', 'St Joseph', 'St Louis'],
-         'Montana': ['Billings', 'Bozeman', 'Butte', 'Great Falls', 'Helena', 'Kalispell', 'Missoula', 'Eastern Montana'],
-         'Nebraska': ['Grand Island', 'Lincoln', 'North Platte', 'Omaha/Council Bluffs', 'Scottsbluff/Panhandle'],
-         'Nevada': ['Elko', 'Las Vegas', 'Reno/Tahoe'],
-         'New Hampshire': ['New Hampshire'],
-         'New Jersey': ['Central NJ', 'Jersey Shore', 'North Jersey', 'South Jersey'],
-         'New Mexico': ['Albuquerque', 'Clovis/Portales', 'Farmington', 'Las Cruces', 'Roswell/Carlsbad', 'Santa Fe/Taos'],
-         'New York': ['Albany', 'Binghamton', 'Buffalo', 'Catskills', 'Chautauqua', 'Elmira-Corning', 'Finger Lakes', 'Glens Falls', 'Hudson Valley', 'Ithaca', 'Long Island', 'New York City', 'Oneonta', 'Plattsburgh-Adirondacks', 'Potsdam-Canton-Massena', 'Rochester', 
-         'Syracuse', 'Twin Tiers NY/PA', 'Utica-Rome-Oneida', 'Watertown'],
-         'North Carolina': ['Asheville', 'Boone', 'Charlotte', 'Eastern NC', 'Fayetteville', 'Greensboro', 'Hickory/Lenoir', 'Jacksonville', 'Outer Banks', 'Raleigh/Durham/CH', 'Wilmington', 'Winston-Salem',
-         'North Dakota': ['Bismarck', 'Fargo/Moorhead', 'Grand Forks', 'North Dakota'],
-         'Ohio': ['Akron/Canton', 'Ashtabula', 'Athens', 'Chillicothe', 'Cincinnati', 'Cleveland', 'Columbus', 'Dayton/Springfield', 'Lima/Findlay', 'Mansfield', 'Sandusky', 'Toledo', 'Tuscarawas Co', 'Youngstown', 'Zanesville/Cambridge'],
-         'Oklahoma': ['Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa'],
-         'Oregon': ['Bend', 'Corvallis/Albany', 'East Oregon', 'Eugene', 'Klamath Falls', 'Medford-Ashland', 'Oregon Coast', 'Portland', 'Roseburg', 'Salem'],
-         'Pennsylvania': ['Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
-         'Rhode Island': ['Rhode Island'],
-         'South Carolina': ['Charleston', 'Columbia', 'Florence', 'Greenville/Upstate', 'Hilton Head', 'Myrtle Beach'],
-         'South Dakota': ['Northeast SD', 'Pierre/Central SD', 'Rapid City/West SD', 'Sioux Falls/SE SD', 'South Dakota'],
-         'Tennessee': ['Chattanooga', 'Clarksville', 'Cookeville', 'Jackson', 'Knoxville', 'Memphis', 'Nashville', 'Tri-Cities'],
-         'Texas': ['Abilene', 'Amarillo', 'Austin', 'Beaumont/Port Arthur', 'Brownsville', 'College Station', 'Corpus Christi', 'Dallas/Fort Worth', 'Deep East Texas', 'Del Rio/Eagle Pass', 'El Paso', 'Galveston', 'Houston', 'Killeen/Temple/Ft Hood', 'Laredo', 'Lubbock', 
-        'McAllen/Edinburg', 'Odessa/Midland', 'San Angelo', 'San Antonio', 'San Marcos', 'Southwest TX', 'Texoma', 'Tyler/East TX', 'Victoria', 'Waco', 'Wichita Falls'],
-        'Utah': ['Logan', 'Ogden-Clearfield', 'Provo/Orem', 'Salt Lake City', 'St George'],
-        'Vermont': ['Vermont'],
-        'Virginia': ['Charlottesville', 'Danville', 'Fredericksburg', 'Hampton Roads', 'Harrisonburg', 'Lynchburg', 'New River Valley', 'Richmond', 'Roanoke', 'Southwest VA', 'Winchester'],
-        'Washington': ['Bellingham', 'Kennewick-Pasco-Richland', 'Moses Lake', 'Olympic Peninsula', 'Pullman/Moscow', 'Seattle-Tacoma', 'Skagit/Island/SJI', 'Spokane/Coeur d'Alene', 'Wenatchee', 'Yakima'],
-        'West Virginia': ['Charleston', 'Eastern Panhandle', 'Huntington-Ashland', 'Morgantown', 'Northern Panhandle', 'Parkersburg-Marietta', 'Southern WV', 'West Virginia (Old)'],
-        'Wisconsin': ['Appleton-Oshkosh-FDL', 'Eau Claire', 'Green Bay', 'Janesville', 'Kenosha-Racine', 'La Crosse', 'Madison', 'Milwaukee', 'Northern WI', 'Sheboygan', 'Wausau'],
-        'Wyoming': ['Wyoming'],
-        'Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
-        'France': ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice'],
-        'Germany': ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne'],
-        'Italy': ['Rome', 'Milan', 'Florence', 'Venice', 'Naples'],
-        'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Bilbao'],
-        'United Kingdom': ['London', 'Manchester', 'Birmingham', 'Glasgow', 'Liverpool'],
-        'Netherlands': ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'],
-        'Belgium': ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Liege'],
-        'Switzerland': ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'],
-        'Austria': ['Vienna', 'Graz', 'Linz', 'Salzburg', 'Innsbruck'],
-        'Sweden': ['Stockholm', 'Gothenburg', 'Malmo', 'Uppsala', 'Vasteras'],
-        'China': ['Beijing', 'Shanghai', 'Shenzhen', 'Guangzhou', 'Chengdu'],
-        'Japan': ['Tokyo', 'Osaka', 'Kyoto', 'Nagoya', 'Hiroshima'],
-        'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
-        'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon'],
-        'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Hat Yai'],
-        'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang'],
-        'Malaysia': ['Kuala Lumpur', 'Penang', 'Johor Bahru', 'Kuching', 'Kota Kinabalu'],
-        'Singapore': ['Singapore'],
-        'Philippines': ['Manila', 'Quezon City', 'Cebu City', 'Davao City', 'Zamboanga City'],
-        'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Denpasar']
+      'Alabama': ['auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
+      'Alaska': ['Anchorage/Mat-Su', 'Fairbanks', 'Kenai Peninsula', 'Southeast Alaska'],
+      'Arizona': ['Flagstaff/Sedona', 'Mohave County', 'Phoenix', 'Prescott', 'Show Low', 'Sierra Vista', 'Tucson', 'Yuma'],
+      'California': ['Bakersfield', 'Chico', 'Fresno/Madera', 'Gold Country', 'Hanford-Corcoran', 'Humboldt County', 'Imperial County', 'Inland Empire', 'Los Angeles', 'Mendocino County', 'Merced', 'Modesto', 'Monterey Bay', 'Orange County', 'Palm Springs', 'Redding', 'Sacramento', 'San Diego', 'San Francisco Bay Area', 'San Luis Obispo', 'Santa Barbara', 'Santa Maria', 'Siskiyou County', 'Stockton', 'Susanville', 'Ventura County', 'Visalia-Tulare', 'Yuba-Sutter'],
+      'Colorado': ['Boulder', 'Colorado Springs', 'Denver', 'Eastern CO', 'Fort Collins/North CO', 'High Rockies', 'Pueblo', 'Western Slope'],
+      'Connecticut': ['Eastern CT', 'Hartford', 'New Haven', 'Northwest CT'],
+      'Delaware': ['Delaware'],
+      'District of Columbia': ['Washington'],
+      'Florida': ['Broward County', 'Daytona Beach', 'Florida Keys', 'Fort Lauderdale', 'Ft Myers/SW Florida', 'Gainesville', 'Heartland Florida', 'Jacksonville', 'Lakeland', 'Miami/Dade', 'North Central FL', 'Ocala', 'Okaloosa/Walton', 'Orlando', 'Panama City', 'Pensacola', 'Sarasota-Bradenton', 'South Florida', 'Space Coast', 'St Augustine', 'Tallahassee', 'Tampa Bay Area', 'Treasure Coast', 'Palm Beach County'],
+      'Georgia': ['Albany', 'Athens', 'Atlanta', 'Augusta', 'Brunswick', 'Columbus', 'Macon/Warner Robins', 'Northwest GA', 'Savannah/Hinesville', 'Statesboro', 'Valdosta'],
+      'Hawaii': ['Hawaii'],
+      'Idaho': ['Boise', 'East Idaho', 'Lewiston/Clarkston', 'Twin Falls'],
+      'Illinois': ['Bloomington-Normal', 'Champaign-Urbana', 'Chicago', 'Decatur', 'La Salle Co', 'Mattoon-Charleston', 'Peoria', 'Rockford', 'Southern Illinois', 'Springfield', 'Western IL'],
+      'Indiana': ['Bloomington', 'Evansville', 'Fort Wayne', 'Indianapolis', 'Kokomo', 'Lafayette/West Lafayette', 'Muncie/Anderson', 'Richmond', 'South Bend/Michiana', 'Terre Haute'],
+      'Iowa': ['Ames', 'Cedar Rapids', 'Des Moines', 'Dubuque', 'Fort Dodge', 'Iowa City', 'Mason City', 'Quad Cities', 'Sioux City', 'Southeast IA', 'Waterloo/Cedar Falls'],
+      'Kansas': ['Lawrence', 'Manhattan', 'Northwest KS', 'Salina', 'Southeast KS', 'Southwest KS', 'Topeka', 'Wichita'],
+      'Kentucky': ['Bowling Green', 'Eastern Kentucky', 'Lexington', 'Louisville', 'Owensboro', 'Western KY'],
+      'Louisiana': ['Baton Rouge', 'Central Louisiana', 'Houma', 'Lafayette', 'Lake Charles', 'Monroe', 'New Orleans', 'Shreveport'],
+      'Maine': ['Maine'],
+      'Maryland': ['Annapolis', 'Baltimore', 'Eastern Shore', 'Frederick', 'Southern Maryland', 'Western Maryland'],
+      'Massachusetts': ['Boston', 'Cape Cod/Islands', 'South Coast', 'Western Massachusetts', 'Worcester/Central MA'],
+      'Michigan': ['Ann Arbor', 'Battle Creek', 'Central Michigan', 'Detroit Metro', 'Flint', 'Grand Rapids', 'Holland', 'Jackson', 'Kalamazoo', 'Lansing', 'Monroe', 'Muskegon', 'Northern Michigan', 'Port Huron', 'Saginaw-Midland-Bay City', 'Southwest Michigan', 'The Thumb', 'Upper Peninsula'],
+      'Minnesota': ['Bemidji', 'Brainerd', 'Duluth/Superior', 'Mankato', 'Minneapolis/St Paul', 'Rochester', 'Southwest MN', 'St Cloud'],
+      'Mississippi': ['Gulfport/Biloxi', 'Hattiesburg', 'Jackson', 'Meridian', 'North Mississippi', 'Southwest MS'],
+      'Missouri': ['Columbia/Jeff City', 'Joplin', 'Kansas City', 'Kirksville', 'Lake of the Ozarks', 'Southeast Missouri', 'Springfield', 'St Joseph', 'St Louis'],
+      'Montana': ['Billings', 'Bozeman', 'Butte', 'Great Falls', 'Helena', 'Kalispell', 'Missoula', 'Eastern Montana'],
+      'Nebraska': ['Grand Island', 'Lincoln', 'North Platte', 'Omaha/Council Bluffs', 'Scottsbluff/Panhandle'],
+      'Nevada': ['Elko', 'Las Vegas', 'Reno/Tahoe'],
+      'New Hampshire': ['New Hampshire'],
+      'New Jersey': ['Central NJ', 'Jersey Shore', 'North Jersey', 'South Jersey'],
+      'New Mexico': ['Albuquerque', 'Clovis/Portales', 'Farmington', 'Las Cruces', 'Roswell/Carlsbad', 'Santa Fe/Taos'],
+      'New York': ['Albany', 'Binghamton', 'Buffalo', 'Catskills', 'Chautauqua', 'Elmira-Corning', 'Finger Lakes', 'Glens Falls', 'Hudson Valley', 'Ithaca', 'Long Island', 'New York City', 'Oneonta', 'Plattsburgh-Adirondacks', 'Potsdam-Canton-Massena', 'Rochester', 'Syracuse', 'Twin Tiers NY/PA', 'Utica-Rome-Oneida', 'Watertown'],
+      'North Carolina': ['Asheville', 'Boone', 'Charlotte', 'Eastern NC', 'Fayetteville', 'Greensboro', 'Hickory/Lenoir', 'Jacksonville', 'Outer Banks', 'Raleigh/Durham/CH', 'Wilmington', 'Winston-Salem'],
+      'North Dakota': ['Bismarck', 'Fargo/Moorhead', 'Grand Forks', 'North Dakota'],
+      'Ohio': ['Akron/Canton', 'Ashtabula', 'Athens', 'Chillicothe', 'Cincinnati', 'Cleveland', 'Columbus', 'Dayton/Springfield', 'Lima/Findlay', 'Mansfield', 'Sandusky', 'Toledo', 'Tuscarawas Co', 'Youngstown', 'Zanesville/Cambridge'],
+      'Oklahoma': ['Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa'],
+      'Oregon': ['Bend', 'Corvallis/Albany', 'East Oregon', 'Eugene', 'Klamath Falls', 'Medford-Ashland', 'Oregon Coast', 'Portland', 'Roseburg', 'Salem'],
+      'Pennsylvania': ['Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
+      'Rhode Island': ['Rhode Island'],
+      'South Carolina': ['Charleston', 'Columbia', 'Florence', 'Greenville/Upstate', 'Hilton Head', 'Myrtle Beach'],
+      'South Dakota': ['Northeast SD', 'Pierre/Central SD', 'Rapid City/West SD', 'Sioux Falls/SE SD', 'South Dakota'],
+      'Tennessee': ['Chattanooga', 'Clarksville', 'Cookeville', 'Jackson', 'Knoxville', 'Memphis', 'Nashville', 'Tri-Cities'],
+      'Texas': ['Abilene', 'Amarillo', 'Austin', 'Beaumont/Port Arthur', 'Brownsville', 'College Station', 'Corpus Christi', 'Dallas/Fort Worth', 'Deep East Texas', 'Del Rio/Eagle Pass', 'El Paso', 'Galveston', 'Houston', 'Killeen/Temple/Ft Hood', 'Laredo', 'Lubbock', 'McAllen/Edinburg', 'Odessa/Midland', 'San Angelo', 'San Antonio', 'San Marcos', 'Southwest TX', 'Texoma', 'Tyler/East TX', 'Victoria', 'Waco', 'Wichita Falls'],
+      'Utah': ['Logan', 'Ogden-Clearfield', 'Provo/Orem', 'Salt Lake City', 'St George'],
+      'Vermont': ['Vermont'],
+      'Virginia': ['Charlottesville', 'Danville', 'Fredericksburg', 'Hampton Roads', 'Harrisonburg', 'Lynchburg', 'New River Valley', 'Richmond', 'Roanoke', 'Southwest VA', 'Winchester'],
+      'Washington': ['Bellingham', 'Kennewick-Pasco-Richland', 'Moses Lake', 'Olympic Peninsula', 'Pullman/Moscow', 'Seattle-Tacoma', 'Skagit/Island/SJI', 'Spokane/Coeur d\'Alene', 'Wenatchee', 'Yakima'],
+      'West Virginia': ['Charleston', 'Eastern Panhandle', 'Huntington-Ashland', 'Morgantown', 'Northern Panhandle', 'Parkersburg-Marietta', 'Southern WV', 'West Virginia (Old)'],
+      'Wisconsin': ['Appleton-Oshkosh-FDL', 'Eau Claire', 'Green Bay', 'Janesville', 'Kenosha-Racine', 'La Crosse', 'Madison', 'Milwaukee', 'Northern WI', 'Sheboygan', 'Wausau'],
+      'Wyoming': ['Wyoming'],
+      'Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
+      'France': ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice'],
+      'Germany': ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne'],
+      'Italy': ['Rome', 'Milan', 'Florence', 'Venice', 'Naples'],
+      'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Bilbao'],
+      'United Kingdom': ['London', 'Manchester', 'Birmingham', 'Glasgow', 'Liverpool'],
+      'Netherlands': ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'],
+      'Belgium': ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Liege'],
+      'Switzerland': ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'],
+      'Austria': ['Vienna', 'Graz', 'Linz', 'Salzburg', 'Innsbruck'],
+      'Sweden': ['Stockholm', 'Gothenburg', 'Malmo', 'Uppsala', 'Vasteras'],
+      'China': ['Beijing', 'Shanghai', 'Shenzhen', 'Guangzhou', 'Chengdu'],
+      'Japan': ['Tokyo', 'Osaka', 'Kyoto', 'Nagoya', 'Hiroshima'],
+      'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
+      'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon'],
+      'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Hat Yai'],
+      'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang'],
+      'Malaysia': ['Kuala Lumpur', 'Penang', 'Johor Bahru', 'Kuching', 'Kota Kinabalu'],
+      'Singapore': ['Singapore'],
+      'Philippines': ['Manila', 'Quezon City', 'Cebu City', 'Davao City', 'Zamboanga City'],
+      'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Denpasar']
     };
-
     // Event listener for region selection
     regionSelect.addEventListener('change', function() {
-        const region = this.value;
-        provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-        provinceStateSelect.disabled = !region;
-        cityTownSelect.disabled = true;
-
-        if (region) {
-            const provincesList = provinces[region];
-            provincesList.forEach(province => {
-                const option = document.createElement('option');
-                option.value = province;
-                option.textContent = province;
-                provinceStateSelect.appendChild(option);
-            });
-        }
+      const region = this.value;
+      provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
+      cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+      provinceStateSelect.disabled = !region;
+      cityTownSelect.disabled = true;
+      if (region) {
+        const provincesList = provinces[region];
+        provincesList.forEach(province => {
+          const option = document.createElement('option');
+          option.value = province;
+          option.textContent = province;
+          provinceStateSelect.appendChild(option);
+        });
+      }
     });
-
     // Event listener for province/state selection
     provinceStateSelect.addEventListener('change', function() {
-        const province = this.value;
-        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-        cityTownSelect.disabled = !province;
-
-        if (province) {
-            const citiesList = cities[province];
-            citiesList.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city;
-                option.textContent = city;
-                cityTownSelect.appendChild(option);
-            });
-        }
+      const province = this.value;
+      cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+      cityTownSelect.disabled = !province;
+      if (province) {
+        const citiesList = cities[province];
+        citiesList.forEach(city => {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+          cityTownSelect.appendChild(option);
+        });
+      }
     });
-});
+  });
 </script>
 
-<style>
-.container-location {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two-column layout */
-    gap: 20px; /* Space between grid items */
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-select:disabled {
-    background-color: #e9ecef;
-}
-
-/* Ensure that the select elements span across columns */
-select.full-width {
-    grid-column: span 2; /* Span across both columns */
-}
-
-</style>
-
 ---
-
 ## Explore Categories
-
 ### Local Community
 - [Activities & Hobbies](#activities-hobbies)
 - [Creative Talents](#creative-talents)
@@ -242,7 +183,6 @@ select.full-width {
 - [Rants & Raves](#rants-raves)
 - [Carpool & Rideshare](#carpool-rideshare)
 - [Volunteer Opportunities](#volunteer-opportunities)
-
 ### Professional Services
 - [Auto Services](#auto-services)
 - [Beauty & Wellness](#beauty-wellness)
@@ -265,7 +205,6 @@ select.full-width {
 - [Small Business Ads](#small-business-ads)
 - [Travel & Vacation Planning](#travel-vacation-planning)
 - [Writing, Editing & Translation](#writing-editing-translation)
-
 ### Discussion Boards
 - [Apple & Tech Talk](#apple-tech-talk)
 - [Arts & Creativity](#arts-creativity)
@@ -315,7 +254,6 @@ select.full-width {
 - [TV Shows & Movies](#tv-shows-movies)
 - [Vegan Living](#vegan-living)
 - [Literature & Writing](#literature-writing)
-
 ### Housing & Rentals
 - [Apartments & Housing](#apartments-housing)
 - [Home Exchange](#home-exchange)
@@ -327,7 +265,6 @@ select.full-width {
 - [Roommates Wanted](#roommates-wanted)
 - [Temporary/Sublets](#temporary-sublets)
 - [Vacation Rentals](#vacation-rentals)
-
 ### For Sale
 - [Antiques](#antiques-sale)
 - [Home Appliances](#home-appliances-sale)
@@ -374,7 +311,6 @@ select.full-width {
 - [Video Gaming](#video-gaming-sale)
 - [Wanted Items](#wanted-items)
 - [Wheels & Tires](#wheels-tires-sale)
-
 ### Job Listings
 - [Finance & Accounting](#finance-accounting-jobs)
 - [Office & Admin](#office-admin-jobs)
@@ -401,7 +337,6 @@ select.full-width {
 - [Tech & IT Jobs](#tech-it-jobs)
 - [Transportation Jobs](#transportation-jobs)
 - [Writing & Editing Jobs](#writing-editing-jobs)
-
 ### Gigs & Short-Term Work
 - [Creative & Writing Gigs](#creative-writing-gigs)
 - [Computer & Tech Gigs](#computer-tech-gigs)
@@ -413,7 +348,6 @@ select.full-width {
 - [Tutoring & Lessons](#tutoring-lessons-gigs)
 - [Volunteering](#volunteering-gigs)
 - [Other Gigs](#other-gigs)
-
 ### Resumes & Employment Resources
 - [Resume Posting](#resume-posting)
 - [Job Search Tips](#job-search-tips)
@@ -422,7 +356,6 @@ select.full-width {
 - [Internships](#internships)
 - [Apprenticeships](#apprenticeships)
 - [Other Employment Resources](#other-employment-resources)
-
 - ### Miscellaneous Services
 - [Delivery & Errands](#delivery-errands-services)
 - [Event Planning](#event-planning-services)
@@ -431,94 +364,3 @@ select.full-width {
 - [Tailoring & Alterations](#tailoring-alterations-services)
 - [Wedding Services](#wedding-services)
 - [Other Services](#other-services)
-
-
-<style>
-/* Styling for the main container */
-.container-location {
-    max-width: 1000px;
-    margin: 0 auto;
-    border-radius: 8px;
-}
-
-/* Style for the headings */
-h1, h2, h3 {
-    color: #34495e;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-h1 {
-    font-size: 2.2rem;
-    margin-top: 30px;
-}
-
-h2 {
-    font-size: 1.8rem;
-    margin-top: 25px;
-}
-
-h3 {
-    font-size: 1.4rem;
-    margin-top: 15px;
-}
-
-/* Category listing styling */
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    margin: 12px 0;
-    padding: 12px;
-    background-color: #f9f9f9;
-    border-left: 5px solid #3498db;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-ul li a {
-    text-decoration: none;
-    color: #2c3e50;
-    font-weight: normal;
-    display: block;
-    padding: 8px;
-    border-radius: 4px;
-}
-
-ul li a:hover {
-    color: #2980b9;
-    background-color: #ecf0f1;
-}
-
-/* Category section styling */
-.category-section {
-    margin-bottom: 30px;
-}
-
-/* Button-like links for categories */
-ul li a {
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    h3 {
-        font-size: 1.2rem;
-    }
-
-    .container {
-        padding: 20px;
-    }
-}
-</style>
-
