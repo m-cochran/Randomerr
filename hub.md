@@ -109,7 +109,7 @@ Select a location to view available listings.
       'Wisconsin': ['Appleton-Oshkosh-FDL', 'Eau Claire', 'Green Bay', 'Janesville', 'Kenosha-Racine', 'La Crosse', 'Madison', 'Milwaukee', 'Northern WI', 'Sheboygan', 'Wausau'],
       'Wyoming': ['Wyoming'],
       'U.S. Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
-      'alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert'],
+      'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert'],
       'France': ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice'],
       'Germany': ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne'],
       'Italy': ['Rome', 'Milan', 'Florence', 'Venice', 'Naples'],
