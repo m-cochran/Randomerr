@@ -20,7 +20,7 @@ Select a location to view available listings.
       <option value="asia">Asia</option>
     </select>
 
-    <label for="province-state">Province/State:</label>
+  <label for="province-state">Province/State:</label>
     <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
       <option value="">Select Province/State</option>
       <!-- Options will be populated based on selected region -->
