@@ -199,8 +199,7 @@ Select a location to view available listings.
       'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras al-Khaimah', 'Fujairah', 'Umm al-Quwain', 'Al Ain', 'Khor Fakkan', 'Hatta'],
       'Uzbekistan': ['Tashkent', 'Samarkand', 'Bukhara', 'Khiva', 'Andijan', 'Namangan', 'Ferghana', 'Nukus', 'Jizzakh', 'Qarshi'],
       'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
-      'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun'
-    ]
+      'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
     // Event listener for region selection
     regionSelect.addEventListener('change', function() {
