@@ -121,7 +121,7 @@ Select a location to view available listings.
       'Saskatchewan': ['Saskatoon', 'Regina', 'Prince Albert', 'Moose Jaw', 'Yorkton'],
       'Northwest Territories': ['Yellowknife', 'Hay River', 'Inuvik', 'Fort Smith', 'Behchoko'],
       'Nunavut': ['Iqaluit', 'Rankin Inlet', 'Cambridge Bay', 'Arviat', 'Baker Lake'],
-      'Yukon': ['Whitehorse', 'Dawson City', 'Watson Lake', 'Haines Junction', 'Carmacks']
+      'Yukon': ['Whitehorse', 'Dawson City', 'Watson Lake', 'Haines Junction', 'Carmacks'],
       'France': ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice'],
       'Germany': ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne'],
       'Italy': ['Rome', 'Milan', 'Florence', 'Venice', 'Naples'],
