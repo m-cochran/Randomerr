@@ -42,7 +42,7 @@ Select a location to view available listings.
     // Expanded list of provinces/states and cities for each region
     const provinces = {
       'north-america': [
-        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'Guam', 'Puerto Rico', 'U.S. Virgin Islands'
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'U.S. Territories'
       ],
       'canada': [
         'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador',
@@ -107,7 +107,7 @@ Select a location to view available listings.
       'West Virginia': ['Charleston', 'Eastern Panhandle', 'Huntington-Ashland', 'Morgantown', 'Northern Panhandle', 'Parkersburg-Marietta', 'Southern WV', 'West Virginia (Old)'],
       'Wisconsin': ['Appleton-Oshkosh-FDL', 'Eau Claire', 'Green Bay', 'Janesville', 'Kenosha-Racine', 'La Crosse', 'Madison', 'Milwaukee', 'Northern WI', 'Sheboygan', 'Wausau'],
       'Wyoming': ['Wyoming'],
-      'Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
+      'U.S. Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
       'France': ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice'],
       'Germany': ['Berlin', 'Munich', 'Frankfurt', 'Hamburg', 'Cologne'],
       'Italy': ['Rome', 'Milan', 'Florence', 'Venice', 'Naples'],
