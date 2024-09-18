@@ -164,6 +164,44 @@ Select a location to view available listings.
   });
 </script>
 
+
+<style>
+.container-location {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two-column layout */
+    gap: 20px; /* Space between grid items */
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+select:disabled {
+    background-color: #e9ecef;
+}
+
+/* Ensure that the select elements span across columns */
+select.full-width {
+    grid-column: span 2; /* Span across both columns */
+}
+
+</style>
+
 ---
 ## Explore Categories
 ### Local Community
@@ -364,3 +402,93 @@ Select a location to view available listings.
 - [Tailoring & Alterations](#tailoring-alterations-services)
 - [Wedding Services](#wedding-services)
 - [Other Services](#other-services)
+
+
+<style>
+/* Styling for the main container */
+.container-location {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+/* Style for the headings */
+h1, h2, h3 {
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 25px;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-top: 15px;
+}
+
+/* Category listing styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 12px 0;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #3498db;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ul li a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: normal;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+ul li a:hover {
+    color: #2980b9;
+    background-color: #ecf0f1;
+}
+
+/* Category section styling */
+.category-section {
+    margin-bottom: 30px;
+}
+
+/* Button-like links for categories */
+ul li a {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+</style>
