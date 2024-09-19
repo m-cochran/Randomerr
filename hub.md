@@ -492,7 +492,7 @@ permalink: /hub/
 </div>
 
 
-
+<style>
 .container-location {
   max-width: 600px;
   margin: 20px auto;
@@ -606,3 +606,5 @@ select.full-width {
   }
 }
 
+
+  </style>
