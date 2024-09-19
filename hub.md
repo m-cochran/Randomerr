@@ -7,6 +7,17 @@ permalink: /hub/
 # Hub, your central destination for connecting with your community and discovering local opportunities. Whether you're looking to engage in local events, find professional services, or join discussion boards, the #Hub is designed to bring everything you need into one convenient space.
 
 
+
+
+    <title>Location Selector</title>
+    <style>
+        .full-width {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    </style>
+
+
 <div class="container-location">
   <h1>Location Selector</h1>
   <form id="location-form">
@@ -24,6 +35,7 @@ permalink: /hub/
       <option value="">Select Province/State</option>
       <!-- Options will be populated based on selected region -->
     </select>
+    
     <label for="city-town">City/Town:</label>
     <select id="city-town" name="city-town" aria-label="Select a city or town" class="full-width" disabled>
       <option value="">Select City/Town</option>
@@ -31,211 +43,6 @@ permalink: /hub/
     </select>
   </form>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const regionSelect = document.getElementById('region');
-    const provinceStateSelect = document.getElementById('province-state');
-    const cityTownSelect = document.getElementById('city-town');
-    // Expanded list of provinces/states and cities for each region
-    // Expanded list of provinces/states and cities for each region
-    const provinces = {
-      'north-america': [
-        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'U.S. Territories'
-      ],
-      'canada': [
-        'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador',
-        'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan',
-        'Northwest Territories', 'Nunavut', 'Yukon'
-      ],
-      'europe': [
-        'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Luxembourg', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russian Federation', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom'
-      ],
-      'asia': [
-        'Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China (PRC)', 'East Timor', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Macau', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Qatar', 'Russia', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'The Philippines', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen'
-      ]
-    };
-    const cities = {
-      'Alabama': ['auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
-      'Alaska': ['Anchorage/Mat-Su', 'Fairbanks', 'Kenai Peninsula', 'Southeast Alaska'],
-      'Arizona': ['Flagstaff/Sedona', 'Mohave County', 'Phoenix', 'Prescott', 'Show Low', 'Sierra Vista', 'Tucson', 'Yuma'],
-      'Arkansas': ['fayetteville', 'fort smith', 'jonesboro', 'little rock', 'texarkana'],
-      'California': ['Bakersfield', 'Chico', 'Fresno/Madera', 'Gold Country', 'Hanford-Corcoran', 'Humboldt County', 'Imperial County', 'Inland Empire', 'Los Angeles', 'Mendocino County', 'Merced', 'Modesto', 'Monterey Bay', 'Orange County', 'Palm Springs', 'Redding', 'Sacramento', 'San Diego', 'San Francisco Bay Area', 'San Luis Obispo', 'Santa Barbara', 'Santa Maria', 'Siskiyou County', 'Stockton', 'Susanville', 'Ventura County', 'Visalia-Tulare', 'Yuba-Sutter'],
-      'Colorado': ['Boulder', 'Colorado Springs', 'Denver', 'Eastern CO', 'Fort Collins/North CO', 'High Rockies', 'Pueblo', 'Western Slope'],
-      'Connecticut': ['Eastern CT', 'Hartford', 'New Haven', 'Northwest CT'],
-      'Delaware': ['Delaware'],
-      'District of Columbia': ['Washington'],
-      'Florida': ['Broward County', 'Daytona Beach', 'Florida Keys', 'Fort Lauderdale', 'Ft Myers/SW Florida', 'Gainesville', 'Heartland Florida', 'Jacksonville', 'Lakeland', 'Miami/Dade', 'North Central FL', 'Ocala', 'Okaloosa/Walton', 'Orlando', 'Panama City', 'Pensacola', 'Sarasota-Bradenton', 'South Florida', 'Space Coast', 'St Augustine', 'Tallahassee', 'Tampa Bay Area', 'Treasure Coast', 'Palm Beach County'],
-      'Georgia': ['Albany', 'Athens', 'Atlanta', 'Augusta', 'Brunswick', 'Columbus', 'Macon/Warner Robins', 'Northwest GA', 'Savannah/Hinesville', 'Statesboro', 'Valdosta'],
-      'Hawaii': ['Honolulu', 'Hilo', 'Kailua', 'Kapolei', 'Kahului', 'Waipahu', 'Kaneohe', 'Pearl City', 'Mililani Town', 'Lihue'],
-      'Idaho': ['Boise', 'East Idaho', 'Lewiston/Clarkston', 'Twin Falls'],
-      'Illinois': ['Bloomington-Normal', 'Champaign-Urbana', 'Chicago', 'Decatur', 'La Salle Co', 'Mattoon-Charleston', 'Peoria', 'Rockford', 'Southern Illinois', 'Springfield', 'Western IL'],
-      'Indiana': ['Bloomington', 'Evansville', 'Fort Wayne', 'Indianapolis', 'Kokomo', 'Lafayette/West Lafayette', 'Muncie/Anderson', 'Richmond', 'South Bend/Michiana', 'Terre Haute'],
-      'Iowa': ['Ames', 'Cedar Rapids', 'Des Moines', 'Dubuque', 'Fort Dodge', 'Iowa City', 'Mason City', 'Quad Cities', 'Sioux City', 'Southeast IA', 'Waterloo/Cedar Falls'],
-      'Kansas': ['Lawrence', 'Manhattan', 'Northwest KS', 'Salina', 'Southeast KS', 'Southwest KS', 'Topeka', 'Wichita'],
-      'Kentucky': ['Bowling Green', 'Eastern Kentucky', 'Lexington', 'Louisville', 'Owensboro', 'Western KY'],
-      'Louisiana': ['Baton Rouge', 'Central Louisiana', 'Houma', 'Lafayette', 'Lake Charles', 'Monroe', 'New Orleans', 'Shreveport'],
-      'Maine': ['Portland', 'Lewiston', 'Bangor', 'South Portland', 'Auburn', 'Biddeford', 'Sanford', 'Brunswick', 'Scarborough', 'Saco'],
-      'Maryland': ['Annapolis', 'Baltimore', 'Eastern Shore', 'Frederick', 'Southern Maryland', 'Western Maryland'],
-      'Massachusetts': ['Boston', 'Cape Cod/Islands', 'South Coast', 'Western Massachusetts', 'Worcester/Central MA'],
-      'Michigan': ['Ann Arbor', 'Battle Creek', 'Central Michigan', 'Detroit Metro', 'Flint', 'Grand Rapids', 'Holland', 'Jackson', 'Kalamazoo', 'Lansing', 'Monroe', 'Muskegon', 'Northern Michigan', 'Port Huron', 'Saginaw-Midland-Bay City', 'Southwest Michigan', 'The Thumb', 'Upper Peninsula'],
-      'Minnesota': ['Bemidji', 'Brainerd', 'Duluth/Superior', 'Mankato', 'Minneapolis/St Paul', 'Rochester', 'Southwest MN', 'St Cloud'],
-      'Mississippi': ['Gulfport/Biloxi', 'Hattiesburg', 'Jackson', 'Meridian', 'North Mississippi', 'Southwest MS'],
-      'Missouri': ['Columbia/Jeff City', 'Joplin', 'Kansas City', 'Kirksville', 'Lake of the Ozarks', 'Southeast Missouri', 'Springfield', 'St Joseph', 'St Louis'],
-      'Montana': ['Billings', 'Bozeman', 'Butte', 'Great Falls', 'Helena', 'Kalispell', 'Missoula', 'Eastern Montana'],
-      'Nebraska': ['Grand Island', 'Lincoln', 'North Platte', 'Omaha/Council Bluffs', 'Scottsbluff/Panhandle'],
-      'Nevada': ['Las Vegas', 'Reno', 'Henderson', 'North Las Vegas', 'Sparks', 'Carson City', 'Elko', 'Mesquite', 'Boulder City', 'Fernley'],
-      'New Hampshire': ['Manchester', 'Nashua', 'Concord', 'Derry', 'Dover', 'Rochester', 'Keene', 'Portsmouth', 'Laconia', 'Lebanon'],
-      'New Jersey': ['Central NJ', 'Jersey Shore', 'North Jersey', 'South Jersey'],
-      'New Mexico': ['Albuquerque', 'Clovis/Portales', 'Farmington', 'Las Cruces', 'Roswell/Carlsbad', 'Santa Fe/Taos'],
-      'New York': ['Albany', 'Binghamton', 'Buffalo', 'Catskills', 'Chautauqua', 'Elmira-Corning', 'Finger Lakes', 'Glens Falls', 'Hudson Valley', 'Ithaca', 'Long Island', 'New York City', 'Oneonta', 'Plattsburgh-Adirondacks', 'Potsdam-Canton-Massena', 'Rochester', 'Syracuse', 'Twin Tiers NY/PA', 'Utica-Rome-Oneida', 'Watertown'],
-      'North Carolina': ['Asheville', 'Boone', 'Charlotte', 'Eastern NC', 'Fayetteville', 'Greensboro', 'Hickory/Lenoir', 'Jacksonville', 'Outer Banks', 'Raleigh/Durham/CH', 'Wilmington', 'Winston-Salem'],
-      'North Dakota': ['Bismarck', 'Fargo/Moorhead', 'Grand Forks', 'North Dakota'],
-      'Ohio': ['Akron/Canton', 'Ashtabula', 'Athens', 'Chillicothe', 'Cincinnati', 'Cleveland', 'Columbus', 'Dayton/Springfield', 'Lima/Findlay', 'Mansfield', 'Sandusky', 'Toledo', 'Tuscarawas Co', 'Youngstown', 'Zanesville/Cambridge'],
-      'Oklahoma': ['Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa'],
-      'Oregon': ['Bend', 'Corvallis/Albany', 'East Oregon', 'Eugene', 'Klamath Falls', 'Medford-Ashland', 'Oregon Coast', 'Portland', 'Roseburg', 'Salem'],
-      'Pennsylvania': ['Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
-      'Rhode Island': ['Providence', 'Warwick', 'Cranston', 'Pawtucket', 'East Providence', 'Woonsocket', 'Coventry', 'Cumberland', 'North Providence', 'West Warwick'],
-      'South Carolina': ['Charleston', 'Columbia', 'Florence', 'Greenville/Upstate', 'Hilton Head', 'Myrtle Beach'],
-      'South Dakota': ['Northeast SD', 'Pierre/Central SD', 'Rapid City/West SD', 'Sioux Falls/SE SD', 'South Dakota'],
-      'Tennessee': ['Chattanooga', 'Clarksville', 'Cookeville', 'Jackson', 'Knoxville', 'Memphis', 'Nashville', 'Tri-Cities'],
-      'Texas': ['Abilene', 'Amarillo', 'Austin', 'Beaumont/Port Arthur', 'Brownsville', 'College Station', 'Corpus Christi', 'Dallas/Fort Worth', 'Deep East Texas', 'Del Rio/Eagle Pass', 'El Paso', 'Galveston', 'Houston', 'Killeen/Temple/Ft Hood', 'Laredo', 'Lubbock', 'McAllen/Edinburg', 'Odessa/Midland', 'San Angelo', 'San Antonio', 'San Marcos', 'Southwest TX', 'Texoma', 'Tyler/East TX', 'Victoria', 'Waco', 'Wichita Falls'],
-      'Utah': ['Logan', 'Ogden-Clearfield', 'Provo/Orem', 'Salt Lake City', 'St George'],
-      'Vermont': ['Burlington', 'Essex', 'South Burlington', 'Colchester', 'Rutland', 'Bennington', 'Brattleboro', 'Milton', 'Hartford', 'Williston'],
-      'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert', 'Medicine Hat', 'Grande Prairie', 'Airdrie', 'Spruce Grove', 'Leduc'],
-      'Virginia': ['Charlottesville', 'Danville', 'Fredericksburg', 'Hampton Roads', 'Harrisonburg', 'Lynchburg', 'New River Valley', 'Richmond', 'Roanoke', 'Southwest VA', 'Winchester'],
-      'Washington': ['Bellingham', 'Kennewick-Pasco-Richland', 'Moses Lake', 'Olympic Peninsula', 'Pullman/Moscow', 'Seattle-Tacoma', 'Skagit/Island/SJI', 'Spokane/Coeur d\'Alene', 'Wenatchee', 'Yakima'],
-      'West Virginia': ['Charleston', 'Eastern Panhandle', 'Huntington-Ashland', 'Morgantown', 'Northern Panhandle', 'Parkersburg-Marietta', 'Southern WV', 'West Virginia (Old)'],
-      'Wisconsin': ['Appleton-Oshkosh-FDL', 'Eau Claire', 'Green Bay', 'Janesville', 'Kenosha-Racine', 'La Crosse', 'Madison', 'Milwaukee', 'Northern WI', 'Sheboygan', 'Wausau'],
-      'Wyoming': ['Cheyenne', 'Casper', 'Laramie', 'Gillette', 'Rock Springs', 'Sheridan', 'Green River', 'Evanston', 'Riverton', 'Jackson'],
-      'U.S. Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
-      'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert', 'Medicine Hat', 'Grande Prairie', 'Airdrie', 'Spruce Grove', 'Leduc'],
-      'British Columbia': ['Vancouver', 'Victoria', 'Surrey', 'Burnaby', 'Richmond', 'Kelowna', 'Abbotsford', 'Coquitlam', 'Nanaimo', 'Kamloops'],
-      'Manitoba': ['Winnipeg', 'Brandon', 'Steinbach', 'Portage la Prairie', 'Thompson', 'Winkler', 'Selkirk', 'Dauphin', 'Morden', 'Flin Flon'],
-      'New Brunswick': ['Moncton', 'Saint John', 'Fredericton', 'Dieppe', 'Miramichi', 'Edmundston', 'Bathurst', 'Campbellton', 'Shediac', 'Oromocto'],
-      'Newfoundland and Labrador': ['St. John\'s', 'Corner Brook', 'Gander', 'Grand Falls-Windsor', 'Conception Bay South', 'Mount Pearl', 'Paradise', 'Labrador City', 'Stephenville', 'Happy Valley-Goose Bay'],
-      'Nova Scotia': ['Halifax', 'Sydney', 'Dartmouth', 'Truro', 'New Glasgow', 'Kentville', 'Amherst', 'Bridgewater', 'Yarmouth', 'Antigonish'],
-      'Ontario': ['Toronto', 'Ottawa', 'Mississauga', 'Brampton', 'Hamilton', 'London', 'Markham', 'Vaughan', 'Kitchener', 'Windsor'],
-      'Prince Edward Island': ['Charlottetown', 'Summerside', 'Cornwall', 'Stratford', 'Montague', 'Kensington', 'Souris', 'Alberton', 'Tignish', 'O\'Leary'],
-      'Quebec': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Longueuil', 'Sherbrooke', 'Trois-Rivières', 'Saguenay', 'Drummondville', 'Saint-Jean-sur-Richelieu'],
-      'Saskatchewan': ['Saskatoon', 'Regina', 'Prince Albert', 'Moose Jaw', 'Yorkton', 'Swift Current', 'North Battleford', 'Lloydminster', 'Estevan', 'Weyburn'],
-      'Northwest Territories': ['Yellowknife', 'Hay River', 'Inuvik', 'Fort Smith', 'Norman Wells', 'Behchokǫ̀', 'Fort Simpson', 'Tuktoyaktuk', 'Aklavik', 'Fort Providence'],
-      'Nunavut': ['Iqaluit', 'Rankin Inlet', 'Arviat', 'Baker Lake', 'Cambridge Bay', 'Pangnirtung', 'Igloolik', 'Kugluktuk', 'Cape Dorset', 'Hall Beach'],
-      'Yukon': ['Whitehorse', 'Dawson City', 'Watson Lake', 'Haines Junction', 'Carmacks', 'Faro', 'Mayo', 'Pelly Crossing', 'Teslin', 'Carcross'],
-      'Austria': ['Vienna', 'Graz', 'Linz', 'Salzburg', 'Innsbruck', 'Klagenfurt', 'Villach', 'Wels', 'Sankt Pölten', 'Dornbirn'],
-      'Belgium': ['Brussels', 'Antwerp', 'Ghent', 'Charleroi', 'Liège', 'Bruges', 'Namur', 'Leuven', 'Mons', 'Mechelen'],
-      'Bulgaria': ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven', 'Sliven', 'Dobrich', 'Shumen'],
-      'Croatia': ['Zagreb', 'Split', 'Rijeka', 'Osijek', 'Zadar', 'Slavonski Brod', 'Pula', 'Karlovac', 'Sisak', 'Varaždin'],
-      'Czech Republic': ['Prague', 'Brno', 'Ostrava', 'Plzeň', 'Liberec', 'Olomouc', 'Ústí nad Labem', 'Hradec Králové', 'Pardubice', 'Zlín'],
-      'Denmark': ['Copenhagen', 'Aarhus', 'Odense', 'Aalborg', 'Esbjerg', 'Randers', 'Kolding', 'Horsens', 'Vejle', 'Roskilde'],
-      'Finland': ['Helsinki', 'Espoo', 'Tampere', 'Vantaa', 'Oulu', 'Turku', 'Jyväskylä', 'Lahti', 'Kuopio', 'Pori'],
-      'France': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille'],
-      'Germany': ['Berlin', 'Hamburg', 'Munich', 'Cologne', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Dortmund', 'Essen', 'Leipzig'],
-      'Greece': ['Athens', 'Thessaloniki', 'Patras', 'Heraklion', 'Larissa', 'Volos', 'Rhodes', 'Ioannina', 'Chania', 'Kavala'],
-      'Hungary': ['Budapest', 'Debrecen', 'Szeged', 'Miskolc', 'Pécs', 'Győr', 'Nyíregyháza', 'Kecskemét', 'Székesfehérvár', 'Szombathely'],
-      'Iceland': ['Reykjavik', 'Kopavogur', 'Hafnarfjordur', 'Akureyri', 'Reykjanesbær', 'Garðabær', 'Mosfellsbær', 'Akranes', 'Selfoss', 'Hveragerði'],
-      'Ireland': ['Dublin', 'Cork', 'Limerick', 'Galway', 'Waterford', 'Drogheda', 'Dundalk', 'Swords', 'Bray', 'Navan'],
-      'Italy': ['Rome', 'Milan', 'Naples', 'Turin', 'Palermo', 'Genoa', 'Bologna', 'Florence', 'Bari', 'Catania'],
-      'Luxembourg': ['Luxembourg City', 'Esch-sur-Alzette', 'Differdange', 'Dudelange', 'Ettelbruck', 'Diekirch', 'Wiltz', 'Grevenmacher', 'Remich', 'Mersch'],
-      'Netherlands': ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven', 'Tilburg', 'Groningen', 'Almere', 'Breda', 'Nijmegen'],
-      'Norway': ['Oslo', 'Bergen', 'Trondheim', 'Stavanger', 'Drammen', 'Fredrikstad', 'Skien', 'Kristiansand', 'Tønsberg', 'Ålesund'],
-      'Poland': ['Warsaw', 'Kraków', 'Łódź', 'Wrocław', 'Poznań', 'Gdańsk', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok'],
-      'Portugal': ['Lisbon', 'Porto', 'Amadora', 'Braga', 'Coimbra', 'Funchal', 'Setúbal', 'Cacém', 'Almada', 'Vila Nova de Gaia'],
-      'Romania': ['Bucharest', 'Cluj-Napoca', 'Timișoara', 'Iași', 'Constanța', 'Craiova', 'Brașov', 'Galați', 'Ploiești', 'Oradea'],
-      'Russian Federation': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Nizhny Novgorod', 'Kazan', 'Chelyabinsk', 'Omsk', 'Samara', 'Rostov-on-Don'],
-      'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Zaragoza', 'Málaga', 'Murcia', 'Palma de Mallorca', 'Las Palmas', 'Bilbao'],
-      'Sweden': ['Stockholm', 'Gothenburg', 'Malmö', 'Uppsala', 'Västerås', 'Örebro', 'Linköping', 'Helsingborg', 'Jönköping', 'Norrköping'],
-      'Switzerland': ['Zurich', 'Geneva', 'Basel', 'Lausanne', 'Bern', 'Winterthur', 'Lucerne', 'St. Gallen', 'Lugano', 'Biel/Bienne'],
-      'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Adana', 'Gaziantep', 'Konya', 'Antalya', 'Kayseri', 'Mersin'],
-      'Ukraine': ['Kyiv', 'Kharkiv', 'Odessa', 'Dnipro', 'Donetsk', 'Zaporizhzhia', 'Lviv', 'Kryvyi Rih', 'Mykolaiv', 'Mariupol'],
-      'United Kingdom': ['London', 'Birmingham', 'Glasgow', 'Liverpool', 'Manchester', 'Leeds', 'Edinburgh', 'Bristol', 'Sheffield', 'Cardiff'],
-      'Afghanistan': ['Kabul', 'Kandahar', 'Herat', 'Mazar-i-Sharif', 'Jalalabad', 'Baghlan', 'Ghazni', 'Farah', 'Pul-e-Khumri', 'Khost'],
-      'Armenia': ['Yerevan', 'Gyumri', 'Vanadzor', 'Vagharshapat', 'Kapan', 'Artik', 'Hrazdan', 'Abovyan', 'Charentsavan', 'Ijevan'],
-      'Azerbaijan': ['Baku', 'Ganja', 'Sumqayit', 'Lankaran', 'Mingachevir', 'Sheki', 'Shamkir', 'Zagatala', 'Saki', 'Guba'],
-      'Bahrain': ['Manama', 'Riffa', 'Muharraq', 'Sitra', 'A\'ali', 'Hamad Town', 'Jidhafs', 'Budaiya', 'West Riffa', 'Isa Town'],
-      'Bangladesh': ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Barisal', 'Rangpur', 'Comilla', 'Mymensingh', 'Jamalpur'],
-      'Bhutan': ['Thimphu', 'Phuentsholing', 'Punakha', 'Wangdue Phodrang', 'Paro', 'Jakar', 'Mongar', 'Samdrup Jongkhar', 'Trashigang', 'Gelephu'],
-      'Brunei': ['Bandar Seri Begawan', 'Kuala Belait', 'Seria', 'Tutong', 'Bangar', 'Kampong Ayer', 'Lumut', 'Muara', 'Panchor', 'Temburong'],
-      'Cambodia': ['Phnom Penh', 'Siem Reap', 'Battambang', 'Sihanoukville', 'Kampong Cham', 'Kep', 'Kampong Speu', 'Pursat', 'Kandal', 'Kampong Thom'],
-      'China (PRC)': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Chengdu', 'Xi\'an', 'Hangzhou', 'Wuhan', 'Nanjing', 'Hong Kong'],
-      'East Timor': ['Dili', 'Baucau', 'Viqueque', 'Lospalos', 'Suai', 'Oecusse', 'Same', 'Maliana', 'Ermera', 'Ainaro'],
-      'Georgia': ['Tbilisi', 'Kutaisi', 'Zugdidi', 'Batumi', 'Rustavi', 'Zestafoni', 'Poti', 'Senaki', 'Telavi', 'Gori'],
-      'Hong Kong': ['Hong Kong Island', 'Kowloon', 'New Territories', 'Central', 'Causeway Bay', 'Tsim Sha Tsui', 'Mong Kok', 'Yau Ma Tei', 'Wan Chai', 'Sai Kung'],
-      'India': ['New Delhi', 'Mumbai', 'Bengaluru', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Jaipur', 'Lucknow'],
-      'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Batam', 'Makassar', 'Denpasar', 'Semarang', 'Palembang', 'Yogyakarta'],
-      'Iran': ['Tehran', 'Mashhad', 'Isfahan', 'Shiraz', 'Tabriz', 'Ahvaz', 'Kermanshah', 'Urmia', 'Zahedan', 'Yazd'],
-      'Iraq': ['Baghdad', 'Basra', 'Mosul', 'Erbil', 'Kirkuk', 'Sulaymaniyah', 'Najaf', 'Kufa', 'Amara', 'Hillah'],
-      'Israel': ['Jerusalem', 'Tel Aviv', 'Haifa', 'Rishon Lezion', 'Petah Tikva', 'Ashdod', 'Netanya', 'Beersheba', 'Hadera', 'Ra\'anana'],
-      'Japan': ['Tokyo', 'Osaka', 'Kyoto', 'Nagoya', 'Yokohama', 'Hiroshima', 'Sendai', 'Kobe', 'Fukuoka', 'Sapporo'],
-      'Jordan': ['Amman', 'Zarqa', 'Irbid', 'Aqaba', 'Wadi Musa', 'Mafraq', 'Salt', 'Jerash', 'Karak', 'Madaba'],
-      'Kazakhstan': ['Almaty', 'Nur-Sultan', 'Shymkent', 'Karaganda', 'Aktobe', 'Pavlodar', 'Semey', 'Taraz', 'Ust-Kamenogorsk', 'Kostanay'],
-      'Kuwait': ['Kuwait City', 'Hawalli', 'Salmiya', 'Jahra', 'Ahmadi', 'Farwaniya', 'Mangaf', 'Fahaheel', 'Shuwaikh', 'Sabah Al Salem'],
-      'Kyrgyzstan': ['Bishkek', 'Osh', 'Jalal-Abad', 'Karabalta', 'Tokmok', 'Karakol', 'Naryn', 'Uzgen', 'Kemin', 'Batken'],
-      'Laos': ['Vientiane', 'Luang Prabang', 'Pakse', 'Savannakhet', 'Xam Neua', 'Thakhek', 'Vang Vieng', 'Muang Xai', 'Oudomxay', 'Attapeu'],
-      'Lebanon': ['Beirut', 'Tripoli', 'Sidon', 'Tyre', 'Jounieh', 'Zahle', 'Byblos', 'Batroun', 'Baalbek', 'Rmeich'],
-      'Macau': ['Macau Peninsula', 'Taipa', 'Cotai', 'Coloane', 'Seng Pai', 'Nape', 'San Malo', 'Hac Sa', 'Kun Iam', 'Carmo'],
-      'Malaysia': ['Kuala Lumpur', 'George Town', 'Kota Kinabalu', 'Johor Bahru', 'Malacca', 'Ipoh', 'Shah Alam', 'Kuching', 'Alor Setar', 'Miri'],
-      'Maldives': ['Malé', 'Hinnavaru', 'Dhangethi', 'Dhigurah', 'Thulusdhoo', 'Maafushi', 'Villingili', 'Fuvahmulah', 'Kulhudhuffushi', 'Raa Atoll'],
-      'Mongolia': ['Ulaanbaatar', 'Erdenet', 'Darkhan', 'Mongolyn Tal', 'Zamiin-Uud', 'Choibalsan', 'Baganuur', 'Sainshand', 'Muran', 'Khovd'],
-      'Myanmar': ['Yangon', 'Mandalay', 'Naypyidaw', 'Bago', 'Sittwe', 'Pathein', 'Monywa', 'Dawei', 'Hpa-An', 'Lashio'],
-      'Nepal': ['Kathmandu', 'Pokhara', 'Lalitpur', 'Biratnagar', 'Bharatpur', 'Birgunj', 'Janakpur', 'Hetauda', 'Butwal', 'Dhangadhi'],
-      'North Korea': ['Pyongyang', 'Nampo', 'Wonsan', 'Kaesong', 'Sinuiju', 'Hamhung', 'Chongjin', 'Rason', 'Haeju', 'Kanggye'],
-      'Oman': ['Muscat', 'Sohar', 'Salalah', 'Nizwa', 'Sur', 'Ibra', 'Barka', 'Rustaq', 'Ibri', 'Dhofar'],
-      'Pakistan': ['Karachi', 'Lahore', 'Islamabad', 'Faisalabad', 'Rawalpindi', 'Multan', 'Peshawar', 'Quetta', 'Gujranwala', 'Sialkot'],
-      'Palestine': ['Ramallah', 'Hebron', 'Nablus', 'Jericho', 'Bethlehem', 'Gaza City', 'Khan Yunis', 'Jenin', 'Tulkarm', 'Salfit'],
-      'Qatar': ['Doha', 'Al Wakrah', 'Al Khor', 'Mesaieed', 'Umm Salal', 'Madinat ash Shamal', 'Ruwais', 'Dukhan', 'Al Rayyan', 'Al Daayen'],
-      'Russia': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Nizhny Novgorod', 'Kazan', 'Chelyabinsk', 'Omsk', 'Rostov-on-Don', 'Ufa'],
-      'Saudi Arabia': ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dhahran', 'Khobar', 'Dammam', 'Buraidah', 'Tabuk', 'Abha'],
-      'Singapore': ['Singapore City', 'Sentosa', 'Orchard', 'Marina Bay', 'Chinatown', 'Bugis', 'Little India', 'Raffles Place', 'Tanjong Pagar', 'East Coast'],
-      'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Jeju City', 'Ulsan', 'Changwon'],
-      'Sri Lanka': ['Colombo', 'Kandy', 'Galle', 'Negombo', 'Jaffna', 'Anuradhapura', 'Trincomalee', 'Batticaloa', 'Matara', 'Ratnapura'],
-      'Syria': ['Damascus', 'Aleppo', 'Homs', 'Latakia', 'Deir ez-Zor', 'Daraa', 'Qamishli', 'Raqqa', 'Hama', 'Hasakah'],
-      'Taiwan': ['Taipei', 'Kaohsiung', 'Taichung', 'Tainan', 'Hsinchu', 'Miaoli', 'Chiayi', 'Keelung', 'Taoyuan', 'Changhua'],
-      'Tajikistan': ['Dushanbe', 'Khujand', 'Kulob', 'Istaravshan', 'Tursunzoda', 'Vahdat', 'Panjakent', 'Isfara', 'Ghafurov', 'Roudaki'],
-      'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Khon Kaen', 'Nakhon Ratchasima', 'Udon Thani', 'Hua Hin', 'Nakhon Si Thammarat', 'Surat Thani'],
-      'The Philippines': ['Manila', 'Quezon City', 'Cebu City', 'Davao City', 'Zamboanga City', 'Taguig', 'Pasig', 'Makati', 'Antipolo', 'Iloilo City'],
-      'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Konya', 'Gaziantep', 'Mersin', 'Kayseri'],
-      'Turkmenistan': ['Ashgabat', 'Turkmenabat', 'Mary', 'Dashoguz', 'Balkanabat', 'Tejen', 'Kaka', 'Serdar', 'Gypjak', 'Bereket'],
-      'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras al-Khaimah', 'Fujairah', 'Umm al-Quwain', 'Al Ain', 'Khor Fakkan', 'Hatta'],
-      'Uzbekistan': ['Tashkent', 'Samarkand', 'Bukhara', 'Khiva', 'Andijan', 'Namangan', 'Ferghana', 'Nukus', 'Jizzakh', 'Qarshi'],
-      'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
-      'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
-    };
-    // Event listener for region selection
-    regionSelect.addEventListener('change', function() {
-      const region = this.value;
-      provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-      cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-      provinceStateSelect.disabled = !region;
-      cityTownSelect.disabled = true;
-      if (region) {
-        const provincesList = provinces[region];
-        provincesList.forEach(province => {
-          const option = document.createElement('option');
-          option.value = province;
-          option.textContent = province;
-          provinceStateSelect.appendChild(option);
-        });
-      }
-    });
-    // Event listener for province/state selection
-    provinceStateSelect.addEventListener('change', function() {
-      const province = this.value;
-      cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-      cityTownSelect.disabled = !province;
-      if (province) {
-        const citiesList = cities[province];
-        citiesList.forEach(city => {
-          const option = document.createElement('option');
-          option.value = city;
-          option.textContent = city;
-          cityTownSelect.appendChild(option);
-        });
-      }
-    });
-  });
-</script>
-
 
 <div class="categories-section">
   <h2>Explore Categories</h2>
@@ -484,6 +291,237 @@ permalink: /hub/
     </ul>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const regionSelect = document.getElementById('region');
+    const provinceStateSelect = document.getElementById('province-state');
+    const cityTownSelect = document.getElementById('city-town');
+    // Expanded list of provinces/states and cities for each region
+    const provinces = {
+      'north-america': [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', 'U.S. Territories'
+      ],
+      'canada': [
+        'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador',
+        'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan',
+        'Northwest Territories', 'Nunavut', 'Yukon'
+      ],
+      'europe': [
+        'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Luxembourg', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russian Federation', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom'
+      ],
+      'asia': [
+        'Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China (PRC)', 'East Timor', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Macau', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Qatar', 'Russia', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'The Philippines', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen'
+      ]
+    };
+    const cities = {
+      'Alabama': ['auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
+      'Alaska': ['Anchorage/Mat-Su', 'Fairbanks', 'Kenai Peninsula', 'Southeast Alaska'],
+      'Arizona': ['Flagstaff/Sedona', 'Mohave County', 'Phoenix', 'Prescott', 'Show Low', 'Sierra Vista', 'Tucson', 'Yuma'],
+      'Arkansas': ['fayetteville', 'fort smith', 'jonesboro', 'little rock', 'texarkana'],
+      'California': ['Bakersfield', 'Chico', 'Fresno/Madera', 'Gold Country', 'Hanford-Corcoran', 'Humboldt County', 'Imperial County', 'Inland Empire', 'Los Angeles', 'Mendocino County', 'Merced', 'Modesto', 'Monterey Bay', 'Orange County', 'Palm Springs', 'Redding', 'Sacramento', 'San Diego', 'San Francisco Bay Area', 'San Luis Obispo', 'Santa Barbara', 'Santa Maria', 'Siskiyou County', 'Stockton', 'Susanville', 'Ventura County', 'Visalia-Tulare', 'Yuba-Sutter'],
+      'Colorado': ['Boulder', 'Colorado Springs', 'Denver', 'Eastern CO', 'Fort Collins/North CO', 'High Rockies', 'Pueblo', 'Western Slope'],
+      'Connecticut': ['Eastern CT', 'Hartford', 'New Haven', 'Northwest CT'],
+      'Delaware': ['Delaware'],
+      'District of Columbia': ['Washington'],
+      'Florida': ['Broward County', 'Daytona Beach', 'Florida Keys', 'Fort Lauderdale', 'Ft Myers/SW Florida', 'Gainesville', 'Heartland Florida', 'Jacksonville', 'Lakeland', 'Miami/Dade', 'North Central FL', 'Ocala', 'Okaloosa/Walton', 'Orlando', 'Panama City', 'Pensacola', 'Sarasota-Bradenton', 'South Florida', 'Space Coast', 'St Augustine', 'Tallahassee', 'Tampa Bay Area', 'Treasure Coast', 'Palm Beach County'],
+      'Georgia': ['Albany', 'Athens', 'Atlanta', 'Augusta', 'Brunswick', 'Columbus', 'Macon/Warner Robins', 'Northwest GA', 'Savannah/Hinesville', 'Statesboro', 'Valdosta'],
+      'Hawaii': ['Honolulu', 'Hilo', 'Kailua', 'Kapolei', 'Kahului', 'Waipahu', 'Kaneohe', 'Pearl City', 'Mililani Town', 'Lihue'],
+      'Idaho': ['Boise', 'East Idaho', 'Lewiston/Clarkston', 'Twin Falls'],
+      'Illinois': ['Bloomington-Normal', 'Champaign-Urbana', 'Chicago', 'Decatur', 'La Salle Co', 'Mattoon-Charleston', 'Peoria', 'Rockford', 'Southern Illinois', 'Springfield', 'Western IL'],
+      'Indiana': ['Bloomington', 'Evansville', 'Fort Wayne', 'Indianapolis', 'Kokomo', 'Lafayette/West Lafayette', 'Muncie/Anderson', 'Richmond', 'South Bend/Michiana', 'Terre Haute'],
+      'Iowa': ['Ames', 'Cedar Rapids', 'Des Moines', 'Dubuque', 'Fort Dodge', 'Iowa City', 'Mason City', 'Quad Cities', 'Sioux City', 'Southeast IA', 'Waterloo/Cedar Falls'],
+      'Kansas': ['Lawrence', 'Manhattan', 'Northwest KS', 'Salina', 'Southeast KS', 'Southwest KS', 'Topeka', 'Wichita'],
+      'Kentucky': ['Bowling Green', 'Eastern Kentucky', 'Lexington', 'Louisville', 'Owensboro', 'Western KY'],
+      'Louisiana': ['Baton Rouge', 'Central Louisiana', 'Houma', 'Lafayette', 'Lake Charles', 'Monroe', 'New Orleans', 'Shreveport'],
+      'Maine': ['Portland', 'Lewiston', 'Bangor', 'South Portland', 'Auburn', 'Biddeford', 'Sanford', 'Brunswick', 'Scarborough', 'Saco'],
+      'Maryland': ['Annapolis', 'Baltimore', 'Eastern Shore', 'Frederick', 'Southern Maryland', 'Western Maryland'],
+      'Massachusetts': ['Boston', 'Cape Cod/Islands', 'South Coast', 'Western Massachusetts', 'Worcester/Central MA'],
+      'Michigan': ['Ann Arbor', 'Battle Creek', 'Central Michigan', 'Detroit Metro', 'Flint', 'Grand Rapids', 'Holland', 'Jackson', 'Kalamazoo', 'Lansing', 'Monroe', 'Muskegon', 'Northern Michigan', 'Port Huron', 'Saginaw-Midland-Bay City', 'Southwest Michigan', 'The Thumb', 'Upper Peninsula'],
+      'Minnesota': ['Bemidji', 'Brainerd', 'Duluth/Superior', 'Mankato', 'Minneapolis/St Paul', 'Rochester', 'Southwest MN', 'St Cloud'],
+      'Mississippi': ['Gulfport/Biloxi', 'Hattiesburg', 'Jackson', 'Meridian', 'North Mississippi', 'Southwest MS'],
+      'Missouri': ['Columbia/Jeff City', 'Joplin', 'Kansas City', 'Kirksville', 'Lake of the Ozarks', 'Southeast Missouri', 'Springfield', 'St Joseph', 'St Louis'],
+      'Montana': ['Billings', 'Bozeman', 'Butte', 'Great Falls', 'Helena', 'Kalispell', 'Missoula', 'Eastern Montana'],
+      'Nebraska': ['Grand Island', 'Lincoln', 'North Platte', 'Omaha/Council Bluffs', 'Scottsbluff/Panhandle'],
+      'Nevada': ['Las Vegas', 'Reno', 'Henderson', 'North Las Vegas', 'Sparks', 'Carson City', 'Elko', 'Mesquite', 'Boulder City', 'Fernley'],
+      'New Hampshire': ['Manchester', 'Nashua', 'Concord', 'Derry', 'Dover', 'Rochester', 'Keene', 'Portsmouth', 'Laconia', 'Lebanon'],
+      'New Jersey': ['Central NJ', 'Jersey Shore', 'North Jersey', 'South Jersey'],
+      'New Mexico': ['Albuquerque', 'Clovis/Portales', 'Farmington', 'Las Cruces', 'Roswell/Carlsbad', 'Santa Fe/Taos'],
+      'New York': ['Albany', 'Binghamton', 'Buffalo', 'Catskills', 'Chautauqua', 'Elmira-Corning', 'Finger Lakes', 'Glens Falls', 'Hudson Valley', 'Ithaca', 'Long Island', 'New York City', 'Oneonta', 'Plattsburgh-Adirondacks', 'Potsdam-Canton-Massena', 'Rochester', 'Syracuse', 'Twin Tiers NY/PA', 'Utica-Rome-Oneida', 'Watertown'],
+      'North Carolina': ['Asheville', 'Boone', 'Charlotte', 'Eastern NC', 'Fayetteville', 'Greensboro', 'Hickory/Lenoir', 'Jacksonville', 'Outer Banks', 'Raleigh/Durham/CH', 'Wilmington', 'Winston-Salem'],
+      'North Dakota': ['Bismarck', 'Fargo/Moorhead', 'Grand Forks', 'North Dakota'],
+      'Ohio': ['Akron/Canton', 'Ashtabula', 'Athens', 'Chillicothe', 'Cincinnati', 'Cleveland', 'Columbus', 'Dayton/Springfield', 'Lima/Findlay', 'Mansfield', 'Sandusky', 'Toledo', 'Tuscarawas Co', 'Youngstown', 'Zanesville/Cambridge'],
+      'Oklahoma': ['Lawton', 'Northwest OK', 'Oklahoma City', 'Stillwater', 'Tulsa'],
+      'Oregon': ['Bend', 'Corvallis/Albany', 'East Oregon', 'Eugene', 'Klamath Falls', 'Medford-Ashland', 'Oregon Coast', 'Portland', 'Roseburg', 'Salem'],
+      'Pennsylvania': ['Altoona-Johnstown', 'Cumberland Valley', 'Erie', 'Harrisburg', 'Lancaster', 'Lehigh Valley', 'Meadville', 'Philadelphia', 'Pittsburgh', 'Poconos', 'Reading', 'Scranton/Wilkes-Barre', 'State College', 'Williamsport', 'York'],
+      'Rhode Island': ['Providence', 'Warwick', 'Cranston', 'Pawtucket', 'East Providence', 'Woonsocket', 'Coventry', 'Cumberland', 'North Providence', 'West Warwick'],
+      'South Carolina': ['Charleston', 'Columbia', 'Florence', 'Greenville/Upstate', 'Hilton Head', 'Myrtle Beach'],
+      'South Dakota': ['Northeast SD', 'Pierre/Central SD', 'Rapid City/West SD', 'Sioux Falls/SE SD', 'South Dakota'],
+      'Tennessee': ['Chattanooga', 'Clarksville', 'Cookeville', 'Jackson', 'Knoxville', 'Memphis', 'Nashville', 'Tri-Cities'],
+      'Texas': ['Abilene', 'Amarillo', 'Austin', 'Beaumont/Port Arthur', 'Brownsville', 'College Station', 'Corpus Christi', 'Dallas/Fort Worth', 'Deep East Texas', 'Del Rio/Eagle Pass', 'El Paso', 'Galveston', 'Houston', 'Killeen/Temple/Ft Hood', 'Laredo', 'Lubbock', 'McAllen/Edinburg', 'Odessa/Midland', 'San Angelo', 'San Antonio', 'San Marcos', 'Southwest TX', 'Texoma', 'Tyler/East TX', 'Victoria', 'Waco', 'Wichita Falls'],
+      'Utah': ['Logan', 'Ogden-Clearfield', 'Provo/Orem', 'Salt Lake City', 'St George'],
+      'Vermont': ['Burlington', 'Essex', 'South Burlington', 'Colchester', 'Rutland', 'Bennington', 'Brattleboro', 'Milton', 'Hartford', 'Williston'],
+      'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert', 'Medicine Hat', 'Grande Prairie', 'Airdrie', 'Spruce Grove', 'Leduc'],
+      'Virginia': ['Charlottesville', 'Danville', 'Fredericksburg', 'Hampton Roads', 'Harrisonburg', 'Lynchburg', 'New River Valley', 'Richmond', 'Roanoke', 'Southwest VA', 'Winchester'],
+      'Washington': ['Bellingham', 'Kennewick-Pasco-Richland', 'Moses Lake', 'Olympic Peninsula', 'Pullman/Moscow', 'Seattle-Tacoma', 'Skagit/Island/SJI', 'Spokane/Coeur d\'Alene', 'Wenatchee', 'Yakima'],
+      'West Virginia': ['Charleston', 'Eastern Panhandle', 'Huntington-Ashland', 'Morgantown', 'Northern Panhandle', 'Parkersburg-Marietta', 'Southern WV', 'West Virginia (Old)'],
+      'Wisconsin': ['Appleton-Oshkosh-FDL', 'Eau Claire', 'Green Bay', 'Janesville', 'Kenosha-Racine', 'La Crosse', 'Madison', 'Milwaukee', 'Northern WI', 'Sheboygan', 'Wausau'],
+      'Wyoming': ['Cheyenne', 'Casper', 'Laramie', 'Gillette', 'Rock Springs', 'Sheridan', 'Green River', 'Evanston', 'Riverton', 'Jackson'],
+      'U.S. Territories': ['Guam-Micronesia', 'Puerto Rico', 'U.S. Virgin Islands'],
+      'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert', 'Medicine Hat', 'Grande Prairie', 'Airdrie', 'Spruce Grove', 'Leduc'],
+      'British Columbia': ['Vancouver', 'Victoria', 'Surrey', 'Burnaby', 'Richmond', 'Kelowna', 'Abbotsford', 'Coquitlam', 'Nanaimo', 'Kamloops'],
+      'Manitoba': ['Winnipeg', 'Brandon', 'Steinbach', 'Portage la Prairie', 'Thompson', 'Winkler', 'Selkirk', 'Dauphin', 'Morden', 'Flin Flon'],
+      'New Brunswick': ['Moncton', 'Saint John', 'Fredericton', 'Dieppe', 'Miramichi', 'Edmundston', 'Bathurst', 'Campbellton', 'Shediac', 'Oromocto'],
+      'Newfoundland and Labrador': ['St. John\'s', 'Corner Brook', 'Gander', 'Grand Falls-Windsor', 'Conception Bay South', 'Mount Pearl', 'Paradise', 'Labrador City', 'Stephenville', 'Happy Valley-Goose Bay'],
+      'Nova Scotia': ['Halifax', 'Sydney', 'Dartmouth', 'Truro', 'New Glasgow', 'Kentville', 'Amherst', 'Bridgewater', 'Yarmouth', 'Antigonish'],
+      'Ontario': ['Toronto', 'Ottawa', 'Mississauga', 'Brampton', 'Hamilton', 'London', 'Markham', 'Vaughan', 'Kitchener', 'Windsor'],
+      'Prince Edward Island': ['Charlottetown', 'Summerside', 'Cornwall', 'Stratford', 'Montague', 'Kensington', 'Souris', 'Alberton', 'Tignish', 'O\'Leary'],
+      'Quebec': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Longueuil', 'Sherbrooke', 'Trois-Rivières', 'Saguenay', 'Drummondville', 'Saint-Jean-sur-Richelieu'],
+      'Saskatchewan': ['Saskatoon', 'Regina', 'Prince Albert', 'Moose Jaw', 'Yorkton', 'Swift Current', 'North Battleford', 'Lloydminster', 'Estevan', 'Weyburn'],
+      'Northwest Territories': ['Yellowknife', 'Hay River', 'Inuvik', 'Fort Smith', 'Norman Wells', 'Behchokǫ̀', 'Fort Simpson', 'Tuktoyaktuk', 'Aklavik', 'Fort Providence'],
+      'Nunavut': ['Iqaluit', 'Rankin Inlet', 'Arviat', 'Baker Lake', 'Cambridge Bay', 'Pangnirtung', 'Igloolik', 'Kugluktuk', 'Cape Dorset', 'Hall Beach'],
+      'Yukon': ['Whitehorse', 'Dawson City', 'Watson Lake', 'Haines Junction', 'Carmacks', 'Faro', 'Mayo', 'Pelly Crossing', 'Teslin', 'Carcross'],
+      'Austria': ['Vienna', 'Graz', 'Linz', 'Salzburg', 'Innsbruck', 'Klagenfurt', 'Villach', 'Wels', 'Sankt Pölten', 'Dornbirn'],
+      'Belgium': ['Brussels', 'Antwerp', 'Ghent', 'Charleroi', 'Liège', 'Bruges', 'Namur', 'Leuven', 'Mons', 'Mechelen'],
+      'Bulgaria': ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse', 'Stara Zagora', 'Pleven', 'Sliven', 'Dobrich', 'Shumen'],
+      'Croatia': ['Zagreb', 'Split', 'Rijeka', 'Osijek', 'Zadar', 'Slavonski Brod', 'Pula', 'Karlovac', 'Sisak', 'Varaždin'],
+      'Czech Republic': ['Prague', 'Brno', 'Ostrava', 'Plzeň', 'Liberec', 'Olomouc', 'Ústí nad Labem', 'Hradec Králové', 'Pardubice', 'Zlín'],
+      'Denmark': ['Copenhagen', 'Aarhus', 'Odense', 'Aalborg', 'Esbjerg', 'Randers', 'Kolding', 'Horsens', 'Vejle', 'Roskilde'],
+      'Finland': ['Helsinki', 'Espoo', 'Tampere', 'Vantaa', 'Oulu', 'Turku', 'Jyväskylä', 'Lahti', 'Kuopio', 'Pori'],
+      'France': ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille'],
+      'Germany': ['Berlin', 'Hamburg', 'Munich', 'Cologne', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Dortmund', 'Essen', 'Leipzig'],
+      'Greece': ['Athens', 'Thessaloniki', 'Patras', 'Heraklion', 'Larissa', 'Volos', 'Rhodes', 'Ioannina', 'Chania', 'Kavala'],
+      'Hungary': ['Budapest', 'Debrecen', 'Szeged', 'Miskolc', 'Pécs', 'Győr', 'Nyíregyháza', 'Kecskemét', 'Székesfehérvár', 'Szombathely'],
+      'Iceland': ['Reykjavik', 'Kopavogur', 'Hafnarfjordur', 'Akureyri', 'Reykjanesbær', 'Garðabær', 'Mosfellsbær', 'Akranes', 'Selfoss', 'Hveragerði'],
+      'Ireland': ['Dublin', 'Cork', 'Limerick', 'Galway', 'Waterford', 'Drogheda', 'Dundalk', 'Swords', 'Bray', 'Navan'],
+      'Italy': ['Rome', 'Milan', 'Naples', 'Turin', 'Palermo', 'Genoa', 'Bologna', 'Florence', 'Bari', 'Catania'],
+      'Luxembourg': ['Luxembourg City', 'Esch-sur-Alzette', 'Differdange', 'Dudelange', 'Ettelbruck', 'Diekirch', 'Wiltz', 'Grevenmacher', 'Remich', 'Mersch'],
+      'Netherlands': ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven', 'Tilburg', 'Groningen', 'Almere', 'Breda', 'Nijmegen'],
+      'Norway': ['Oslo', 'Bergen', 'Trondheim', 'Stavanger', 'Drammen', 'Fredrikstad', 'Skien', 'Kristiansand', 'Tønsberg', 'Ålesund'],
+      'Poland': ['Warsaw', 'Kraków', 'Łódź', 'Wrocław', 'Poznań', 'Gdańsk', 'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok'],
+      'Portugal': ['Lisbon', 'Porto', 'Amadora', 'Braga', 'Coimbra', 'Funchal', 'Setúbal', 'Cacém', 'Almada', 'Vila Nova de Gaia'],
+      'Romania': ['Bucharest', 'Cluj-Napoca', 'Timișoara', 'Iași', 'Constanța', 'Craiova', 'Brașov', 'Galați', 'Ploiești', 'Oradea'],
+      'Russian Federation': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Nizhny Novgorod', 'Kazan', 'Chelyabinsk', 'Omsk', 'Samara', 'Rostov-on-Don'],
+      'Spain': ['Madrid', 'Barcelona', 'Valencia', 'Seville', 'Zaragoza', 'Málaga', 'Murcia', 'Palma de Mallorca', 'Las Palmas', 'Bilbao'],
+      'Sweden': ['Stockholm', 'Gothenburg', 'Malmö', 'Uppsala', 'Västerås', 'Örebro', 'Linköping', 'Helsingborg', 'Jönköping', 'Norrköping'],
+      'Switzerland': ['Zurich', 'Geneva', 'Basel', 'Lausanne', 'Bern', 'Winterthur', 'Lucerne', 'St. Gallen', 'Lugano', 'Biel/Bienne'],
+      'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Adana', 'Gaziantep', 'Konya', 'Antalya', 'Kayseri', 'Mersin'],
+      'Ukraine': ['Kyiv', 'Kharkiv', 'Odessa', 'Dnipro', 'Donetsk', 'Zaporizhzhia', 'Lviv', 'Kryvyi Rih', 'Mykolaiv', 'Mariupol'],
+      'United Kingdom': ['London', 'Birmingham', 'Glasgow', 'Liverpool', 'Manchester', 'Leeds', 'Edinburgh', 'Bristol', 'Sheffield', 'Cardiff'],
+      'Afghanistan': ['Kabul', 'Kandahar', 'Herat', 'Mazar-i-Sharif', 'Jalalabad', 'Baghlan', 'Ghazni', 'Farah', 'Pul-e-Khumri', 'Khost'],
+      'Armenia': ['Yerevan', 'Gyumri', 'Vanadzor', 'Vagharshapat', 'Kapan', 'Artik', 'Hrazdan', 'Abovyan', 'Charentsavan', 'Ijevan'],
+      'Azerbaijan': ['Baku', 'Ganja', 'Sumqayit', 'Lankaran', 'Mingachevir', 'Sheki', 'Shamkir', 'Zagatala', 'Saki', 'Guba'],
+      'Bahrain': ['Manama', 'Riffa', 'Muharraq', 'Sitra', 'A\'ali', 'Hamad Town', 'Jidhafs', 'Budaiya', 'West Riffa', 'Isa Town'],
+      'Bangladesh': ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Barisal', 'Rangpur', 'Comilla', 'Mymensingh', 'Jamalpur'],
+      'Bhutan': ['Thimphu', 'Phuentsholing', 'Punakha', 'Wangdue Phodrang', 'Paro', 'Jakar', 'Mongar', 'Samdrup Jongkhar', 'Trashigang', 'Gelephu'],
+      'Brunei': ['Bandar Seri Begawan', 'Kuala Belait', 'Seria', 'Tutong', 'Bangar', 'Kampong Ayer', 'Lumut', 'Muara', 'Panchor', 'Temburong'],
+      'Cambodia': ['Phnom Penh', 'Siem Reap', 'Battambang', 'Sihanoukville', 'Kampong Cham', 'Kep', 'Kampong Speu', 'Pursat', 'Kandal', 'Kampong Thom'],
+      'China (PRC)': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Chengdu', 'Xi\'an', 'Hangzhou', 'Wuhan', 'Nanjing', 'Hong Kong'],
+      'East Timor': ['Dili', 'Baucau', 'Viqueque', 'Lospalos', 'Suai', 'Oecusse', 'Same', 'Maliana', 'Ermera', 'Ainaro'],
+      'Georgia': ['Tbilisi', 'Kutaisi', 'Zugdidi', 'Batumi', 'Rustavi', 'Zestafoni', 'Poti', 'Senaki', 'Telavi', 'Gori'],
+      'Hong Kong': ['Hong Kong Island', 'Kowloon', 'New Territories', 'Central', 'Causeway Bay', 'Tsim Sha Tsui', 'Mong Kok', 'Yau Ma Tei', 'Wan Chai', 'Sai Kung'],
+      'India': ['New Delhi', 'Mumbai', 'Bengaluru', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Jaipur', 'Lucknow'],
+      'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Batam', 'Makassar', 'Denpasar', 'Semarang', 'Palembang', 'Yogyakarta'],
+      'Iran': ['Tehran', 'Mashhad', 'Isfahan', 'Shiraz', 'Tabriz', 'Ahvaz', 'Kermanshah', 'Urmia', 'Zahedan', 'Yazd'],
+      'Iraq': ['Baghdad', 'Basra', 'Mosul', 'Erbil', 'Kirkuk', 'Sulaymaniyah', 'Najaf', 'Kufa', 'Amara', 'Hillah'],
+      'Israel': ['Jerusalem', 'Tel Aviv', 'Haifa', 'Rishon Lezion', 'Petah Tikva', 'Ashdod', 'Netanya', 'Beersheba', 'Hadera', 'Ra\'anana'],
+      'Japan': ['Tokyo', 'Osaka', 'Kyoto', 'Nagoya', 'Yokohama', 'Hiroshima', 'Sendai', 'Kobe', 'Fukuoka', 'Sapporo'],
+      'Jordan': ['Amman', 'Zarqa', 'Irbid', 'Aqaba', 'Wadi Musa', 'Mafraq', 'Salt', 'Jerash', 'Karak', 'Madaba'],
+      'Kazakhstan': ['Almaty', 'Nur-Sultan', 'Shymkent', 'Karaganda', 'Aktobe', 'Pavlodar', 'Semey', 'Taraz', 'Ust-Kamenogorsk', 'Kostanay'],
+      'Kuwait': ['Kuwait City', 'Hawalli', 'Salmiya', 'Jahra', 'Ahmadi', 'Farwaniya', 'Mangaf', 'Fahaheel', 'Shuwaikh', 'Sabah Al Salem'],
+      'Kyrgyzstan': ['Bishkek', 'Osh', 'Jalal-Abad', 'Karabalta', 'Tokmok', 'Karakol', 'Naryn', 'Uzgen', 'Kemin', 'Batken'],
+      'Laos': ['Vientiane', 'Luang Prabang', 'Pakse', 'Savannakhet', 'Xam Neua', 'Thakhek', 'Vang Vieng', 'Muang Xai', 'Oudomxay', 'Attapeu'],
+      'Lebanon': ['Beirut', 'Tripoli', 'Sidon', 'Tyre', 'Jounieh', 'Zahle', 'Byblos', 'Batroun', 'Baalbek', 'Rmeich'],
+      'Macau': ['Macau Peninsula', 'Taipa', 'Cotai', 'Coloane', 'Seng Pai', 'Nape', 'San Malo', 'Hac Sa', 'Kun Iam', 'Carmo'],
+      'Malaysia': ['Kuala Lumpur', 'George Town', 'Kota Kinabalu', 'Johor Bahru', 'Malacca', 'Ipoh', 'Shah Alam', 'Kuching', 'Alor Setar', 'Miri'],
+      'Maldives': ['Malé', 'Hinnavaru', 'Dhangethi', 'Dhigurah', 'Thulusdhoo', 'Maafushi', 'Villingili', 'Fuvahmulah', 'Kulhudhuffushi', 'Raa Atoll'],
+      'Mongolia': ['Ulaanbaatar', 'Erdenet', 'Darkhan', 'Mongolyn Tal', 'Zamiin-Uud', 'Choibalsan', 'Baganuur', 'Sainshand', 'Muran', 'Khovd'],
+      'Myanmar': ['Yangon', 'Mandalay', 'Naypyidaw', 'Bago', 'Sittwe', 'Pathein', 'Monywa', 'Dawei', 'Hpa-An', 'Lashio'],
+      'Nepal': ['Kathmandu', 'Pokhara', 'Lalitpur', 'Biratnagar', 'Bharatpur', 'Birgunj', 'Janakpur', 'Hetauda', 'Butwal', 'Dhangadhi'],
+      'North Korea': ['Pyongyang', 'Nampo', 'Wonsan', 'Kaesong', 'Sinuiju', 'Hamhung', 'Chongjin', 'Rason', 'Haeju', 'Kanggye'],
+      'Oman': ['Muscat', 'Sohar', 'Salalah', 'Nizwa', 'Sur', 'Ibra', 'Barka', 'Rustaq', 'Ibri', 'Dhofar'],
+      'Pakistan': ['Karachi', 'Lahore', 'Islamabad', 'Faisalabad', 'Rawalpindi', 'Multan', 'Peshawar', 'Quetta', 'Gujranwala', 'Sialkot'],
+      'Palestine': ['Ramallah', 'Hebron', 'Nablus', 'Jericho', 'Bethlehem', 'Gaza City', 'Khan Yunis', 'Jenin', 'Tulkarm', 'Salfit'],
+      'Qatar': ['Doha', 'Al Wakrah', 'Al Khor', 'Mesaieed', 'Umm Salal', 'Madinat ash Shamal', 'Ruwais', 'Dukhan', 'Al Rayyan', 'Al Daayen'],
+      'Russia': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg', 'Nizhny Novgorod', 'Kazan', 'Chelyabinsk', 'Omsk', 'Rostov-on-Don', 'Ufa'],
+      'Saudi Arabia': ['Riyadh', 'Jeddah', 'Mecca', 'Medina', 'Dhahran', 'Khobar', 'Dammam', 'Buraidah', 'Tabuk', 'Abha'],
+      'Singapore': ['Singapore City', 'Sentosa', 'Orchard', 'Marina Bay', 'Chinatown', 'Bugis', 'Little India', 'Raffles Place', 'Tanjong Pagar', 'East Coast'],
+      'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Suwon', 'Jeju City', 'Ulsan', 'Changwon'],
+      'Sri Lanka': ['Colombo', 'Kandy', 'Galle', 'Negombo', 'Jaffna', 'Anuradhapura', 'Trincomalee', 'Batticaloa', 'Matara', 'Ratnapura'],
+      'Syria': ['Damascus', 'Aleppo', 'Homs', 'Latakia', 'Deir ez-Zor', 'Daraa', 'Qamishli', 'Raqqa', 'Hama', 'Hasakah'],
+      'Taiwan': ['Taipei', 'Kaohsiung', 'Taichung', 'Tainan', 'Hsinchu', 'Miaoli', 'Chiayi', 'Keelung', 'Taoyuan', 'Changhua'],
+      'Tajikistan': ['Dushanbe', 'Khujand', 'Kulob', 'Istaravshan', 'Tursunzoda', 'Vahdat', 'Panjakent', 'Isfara', 'Ghafurov', 'Roudaki'],
+      'Thailand': ['Bangkok', 'Chiang Mai', 'Phuket', 'Pattaya', 'Khon Kaen', 'Nakhon Ratchasima', 'Udon Thani', 'Hua Hin', 'Nakhon Si Thammarat', 'Surat Thani'],
+      'The Philippines': ['Manila', 'Quezon City', 'Cebu City', 'Davao City', 'Zamboanga City', 'Taguig', 'Pasig', 'Makati', 'Antipolo', 'Iloilo City'],
+      'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Konya', 'Gaziantep', 'Mersin', 'Kayseri'],
+      'Turkmenistan': ['Ashgabat', 'Turkmenabat', 'Mary', 'Dashoguz', 'Balkanabat', 'Tejen', 'Kaka', 'Serdar', 'Gypjak', 'Bereket'],
+      'United Arab Emirates': ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras al-Khaimah', 'Fujairah', 'Umm al-Quwain', 'Al Ain', 'Khor Fakkan', 'Hatta'],
+      'Uzbekistan': ['Tashkent', 'Samarkand', 'Bukhara', 'Khiva', 'Andijan', 'Namangan', 'Ferghana', 'Nukus', 'Jizzakh', 'Qarshi'],
+      'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
+      'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
+    };
+
+    // Event listener for region selection
+    regionSelect.addEventListener('change', function() {
+      const region = this.value;
+      provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
+      cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+      provinceStateSelect.disabled = !region;
+      cityTownSelect.disabled = true;
+
+      if (region) {
+        const provincesList = provinces[region];
+        provincesList.forEach(province => {
+          const option = document.createElement('option');
+          option.value = province;
+          option.textContent = province;
+          provinceStateSelect.appendChild(option);
+        });
+      }
+    });
+
+    // Event listener for province/state selection
+    provinceStateSelect.addEventListener('change', function() {
+      const province = this.value;
+      cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+      cityTownSelect.disabled = !province;
+
+      if (province) {
+        const citiesList = cities[province];
+        citiesList.forEach(city => {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+          cityTownSelect.appendChild(option);
+        });
+      }
+
+      updateCategoryLinks(); // Update category links when province/state changes
+    });
+
+    // Event listener for city/town selection
+    cityTownSelect.addEventListener('change', function() {
+      updateCategoryLinks(); // Update category links when city/town changes
+    });
+
+    // Function to update category links based on selected location
+    function updateCategoryLinks() {
+      const region = regionSelect.value.toUpperCase().replace(' ', '-');
+      const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
+      const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
+
+      if (region && province && city) {
+        const baseUrl = `${region}/${province}/${city}`;
+        document.querySelectorAll('.category-group ul li a').forEach(link => {
+          const href = link.getAttribute('href');
+          const newHref = `/${baseUrl}-${href.substring(1)}`;
+          link.setAttribute('href', newHref);
+        });
+      }
+    }
+  });
+</script>
+
 
 
 <style>
