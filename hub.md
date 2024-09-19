@@ -237,6 +237,10 @@ permalink: /hub/
 </script>
 
 
+<div class="categories-section">
+  <h2>Explore Categories</h2>
+  
+
   <div class="category-group">
     <h3>Local Community</h3>
     <ul>
