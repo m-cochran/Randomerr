@@ -1,13 +1,3 @@
----
-layout: default
-title: Hub
-permalink: /hub/
----
-# Hub
-Explore items for sale or trade by location and category.
-## Browse by Location
-Select a location to view available listings.
----
 <div class="container-location">
   <h1>Location Selector</h1>
   <form id="location-form">
@@ -20,7 +10,7 @@ Select a location to view available listings.
       <option value="asia">Asia</option>
     </select>
 
-  <label for="province-state">Province/State:</label>
+    <label for="province-state">Province/State:</label>
     <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
       <option value="">Select Province/State</option>
       <!-- Options will be populated based on selected region -->
@@ -53,7 +43,8 @@ Select a location to view available listings.
         'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Luxembourg', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Russian Federation', 'Spain', 'Sweden', 'Switzerland', 'Turkey', 'Ukraine', 'United Kingdom'
       ],
       'asia': [
-        'Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China (PRC)', 'East Timor', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Macau', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Qatar', 'Russia', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'The Philippines', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen']
+        'Afghanistan', 'Armenia', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Bhutan', 'Brunei', 'Cambodia', 'China (PRC)', 'East Timor', 'Georgia', 'Hong Kong', 'India', 'Indonesia', 'Iran', 'Iraq', 'Israel', 'Japan', 'Jordan', 'Kazakhstan', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Lebanon', 'Macau', 'Malaysia', 'Maldives', 'Mongolia', 'Myanmar', 'Nepal', 'North Korea', 'Oman', 'Pakistan', 'Palestine', 'Qatar', 'Russia', 'Saudi Arabia', 'Singapore', 'South Korea', 'Sri Lanka', 'Syria', 'Taiwan', 'Tajikistan', 'Thailand', 'The Philippines', 'Turkey', 'Turkmenistan', 'United Arab Emirates', 'Uzbekistan', 'Vietnam', 'Yemen'
+      ]
     };
     const cities = {
       'Alabama': ['auburn', 'birmingham', 'dothan', 'florence / muscle shoals', 'gadsden-anniston', 'huntsville / decatur', 'mobile', 'montgomery', 'tuscaloosa'],
@@ -102,7 +93,7 @@ Select a location to view available listings.
       'Texas': ['Abilene', 'Amarillo', 'Austin', 'Beaumont/Port Arthur', 'Brownsville', 'College Station', 'Corpus Christi', 'Dallas/Fort Worth', 'Deep East Texas', 'Del Rio/Eagle Pass', 'El Paso', 'Galveston', 'Houston', 'Killeen/Temple/Ft Hood', 'Laredo', 'Lubbock', 'McAllen/Edinburg', 'Odessa/Midland', 'San Angelo', 'San Antonio', 'San Marcos', 'Southwest TX', 'Texoma', 'Tyler/East TX', 'Victoria', 'Waco', 'Wichita Falls'],
       'Utah': ['Logan', 'Ogden-Clearfield', 'Provo/Orem', 'Salt Lake City', 'St George'],
       'Vermont': ['Burlington', 'Essex', 'South Burlington', 'Colchester', 'Rutland', 'Bennington', 'Brattleboro', 'Milton', 'Hartford', 'Williston'],
-'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert', 'Medicine Hat', 'Grande Prairie', 'Airdrie', 'Spruce Grove', 'Leduc'],
+      'Alberta': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'St. Albert', 'Medicine Hat', 'Grande Prairie', 'Airdrie', 'Spruce Grove', 'Leduc'],
       'Virginia': ['Charlottesville', 'Danville', 'Fredericksburg', 'Hampton Roads', 'Harrisonburg', 'Lynchburg', 'New River Valley', 'Richmond', 'Roanoke', 'Southwest VA', 'Winchester'],
       'Washington': ['Bellingham', 'Kennewick-Pasco-Richland', 'Moses Lake', 'Olympic Peninsula', 'Pullman/Moscow', 'Seattle-Tacoma', 'Skagit/Island/SJI', 'Spokane/Coeur d\'Alene', 'Wenatchee', 'Yakima'],
       'West Virginia': ['Charleston', 'Eastern Panhandle', 'Huntington-Ashland', 'Morgantown', 'Northern Panhandle', 'Parkersburg-Marietta', 'Southern WV', 'West Virginia (Old)'],
@@ -152,7 +143,7 @@ Select a location to view available listings.
       'Afghanistan': ['Kabul', 'Kandahar', 'Herat', 'Mazar-i-Sharif', 'Jalalabad', 'Baghlan', 'Ghazni', 'Farah', 'Pul-e-Khumri', 'Khost'],
       'Armenia': ['Yerevan', 'Gyumri', 'Vanadzor', 'Vagharshapat', 'Kapan', 'Artik', 'Hrazdan', 'Abovyan', 'Charentsavan', 'Ijevan'],
       'Azerbaijan': ['Baku', 'Ganja', 'Sumqayit', 'Lankaran', 'Mingachevir', 'Sheki', 'Shamkir', 'Zagatala', 'Saki', 'Guba'],
-      'Bahrain': ['Manama', 'Riffa', 'Muharraq', 'Sitra', 'A'ali', 'Hamad Town', 'Jidhafs', 'Budaiya', 'West Riffa', 'Isa Town'],
+      'Bahrain': ['Manama', 'Riffa', 'Muharraq', 'Sitra', 'A\'ali', 'Hamad Town', 'Jidhafs', 'Budaiya', 'West Riffa', 'Isa Town'],
       'Bangladesh': ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Barisal', 'Rangpur', 'Comilla', 'Mymensingh', 'Jamalpur'],
       'Bhutan': ['Thimphu', 'Phuentsholing', 'Punakha', 'Wangdue Phodrang', 'Paro', 'Jakar', 'Mongar', 'Samdrup Jongkhar', 'Trashigang', 'Gelephu'],
       'Brunei': ['Bandar Seri Begawan', 'Kuala Belait', 'Seria', 'Tutong', 'Bangar', 'Kampong Ayer', 'Lumut', 'Muara', 'Panchor', 'Temburong'],
@@ -201,7 +192,6 @@ Select a location to view available listings.
       'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
-    
     // Event listener for region selection
     regionSelect.addEventListener('change', function() {
       const region = this.value;
@@ -237,331 +227,365 @@ Select a location to view available listings.
   });
 </script>
 
+<div class="categories-section">
+  <h2>Explore Categories</h2>
+  
+  <div class="category-group">
+    <h3>Local Community</h3>
+    <ul>
+      <li><a href="#activities-hobbies">Activities & Hobbies</a></li>
+      <li><a href="#creative-talents">Creative Talents</a></li>
+      <li><a href="#childcare-services">Childcare Services</a></li>
+      <li><a href="#courses-workshops">Courses & Workshops</a></li>
+      <li><a href="#upcoming-events">Upcoming Events</a></li>
+      <li><a href="#miscellaneous">Miscellaneous</a></li>
+      <li><a href="#local-groups">Local Groups</a></li>
+      <li><a href="#neighborhood-news">Neighborhood News</a></li>
+      <li><a href="#lost-found">Lost & Found</a></li>
+      <li><a href="#missed-connections">Missed Connections</a></li>
+      <li><a href="#musicians-bands">Musicians & Bands</a></li>
+      <li><a href="#pet-care-adoptions">Pet Care & Adoptions</a></li>
+      <li><a href="#politics-advocacy">Politics & Advocacy</a></li>
+      <li><a href="#rants-raves">Rants & Raves</a></li>
+      <li><a href="#carpool-rideshare">Carpool & Rideshare</a></li>
+      <li><a href="#volunteer-opportunities">Volunteer Opportunities</a></li>
+    </ul>
+  </div>
+  
+  <div class="category-group">
+    <h3>Professional Services</h3>
+    <ul>
+      <li><a href="#auto-services">Auto Services</a></li>
+      <li><a href="#beauty-wellness">Beauty & Wellness</a></li>
+      <li><a href="#mobile-cell-repair">Mobile/Cell Repair</a></li>
+      <li><a href="#it-computer-help">IT & Computer Help</a></li>
+      <li><a href="#creative-services">Creative Services</a></li>
+      <li><a href="#bike-repair-sales">Bike Repair & Sales</a></li>
+      <li><a href="#event-services">Event Services</a></li>
+      <li><a href="#farming-gardening">Farming & Gardening</a></li>
+      <li><a href="#financial-services">Financial Services</a></li>
+      <li><a href="#health-fitness">Health & Fitness</a></li>
+      <li><a href="#household-services">Household Services</a></li>
+      <li><a href="#moving-labor-help">Moving & Labor Help</a></li>
+      <li><a href="#legal-assistance">Legal Assistance</a></li>
+      <li><a href="#tutoring-lessons">Tutoring & Lessons</a></li>
+      <li><a href="#marine-services">Marine Services</a></li>
+      <li><a href="#pet-care-services">Pet Care Services</a></li>
+      <li><a href="#real-estate-services">Real Estate Services</a></li>
+      <li><a href="#skilled-trades">Skilled Trades</a></li>
+      <li><a href="#small-business-ads">Small Business Ads</a></li>
+      <li><a href="#travel-vacation-planning">Travel & Vacation Planning</a></li>
+      <li><a href="#writing-editing-translation">Writing, Editing & Translation</a></li>
+    </ul>
+  </div>
 
-<style>
+  <div class="category-group">
+    <h3>Discussion Boards</h3>
+    <ul>
+      <li><a href="#apple-tech-talk">Apple & Tech Talk</a></li>
+      <li><a href="#arts-creativity">Arts & Creativity</a></li>
+      <li><a href="#atheism">Atheism</a></li>
+      <li><a href="#car-enthusiasts">Car Enthusiasts</a></li>
+      <li><a href="#beauty-style">Beauty & Style</a></li>
+      <li><a href="#bicycling">Bicycling</a></li>
+      <li><a href="#celebrity-news">Celebrity News</a></li>
+      <li><a href="#computer-tech">Computer & Tech</a></li>
+      <li><a href="#cosmic-discussion">Cosmic Discussion</a></li>
+      <li><a href="#health-diet">Health & Diet</a></li>
+      <li><a href="#divorce-support">Divorce Support</a></li>
+      <li><a href="#end-of-life-planning">End-of-Life Planning</a></li>
+      <li><a href="#environmental-issues">Environmental Issues</a></li>
+      <li><a href="#feedback-suggestions">Feedback & Suggestions</a></li>
+      <li><a href="#film-tv-discussion">Film & TV Discussion</a></li>
+      <li><a href="#diy-repairs">DIY & Repairs</a></li>
+      <li><a href="#food-drink">Food & Drink</a></li>
+      <li><a href="#frugal-living">Frugal Living</a></li>
+      <li><a href="#gaming-esports">Gaming & Esports</a></li>
+      <li><a href="#gardening">Gardening</a></li>
+      <li><a href="#creative-writing-haiku">Creative Writing (Haiku)</a></li>
+      <li><a href="#general-help">General Help</a></li>
+      <li><a href="#history-facts">History & Facts</a></li>
+      <li><a href="#housing-real-estate">Housing & Real Estate</a></li>
+      <li><a href="#job-career-advice">Job & Career Advice</a></li>
+      <li><a href="#humor-jokes">Humor & Jokes</a></li>
+      <li><a href="#legal-help">Legal Help</a></li>
+      <li><a href="#etiquette-manners">Etiquette & Manners</a></li>
+      <li><a href="#marriage-relationships">Marriage & Relationships</a></li>
+      <li><a href="#personal-finance">Personal Finance</a></li>
+      <li><a href="#music-discussion">Music Discussion</a></li>
+      <li><a href="#parenting-tips">Parenting Tips</a></li>
+      <li><a href="#pet-discussions">Pet Discussions</a></li>
+      <li><a href="#philosophy-talk">Philosophy Talk</a></li>
+      <li><a href="#photography">Photography</a></li>
+      <li><a href="#political-debates">Political Debates</a></li>
+      <li><a href="#mental-health-psychology">Mental Health & Psychology</a></li>
+      <li><a href="#addiction-recovery">Addiction & Recovery</a></li>
+      <li><a href="#religious-discussions">Religious Discussions</a></li>
+      <li><a href="#science-technology">Science & Technology</a></li>
+      <li><a href="#spirituality">Spirituality</a></li>
+      <li><a href="#sports-talk">Sports Talk</a></li>
+      <li><a href="#paranormal-supernatural">Paranormal & Supernatural</a></li>
+      <li><a href="#tax-advice">Tax Advice</a></li>
+      <li><a href="#travel-discussions">Travel Discussions</a></li>
+      <li><a href="#tv-shows-movies">TV Shows & Movies</a></li>
+      <li><a href="#vegan-living">Vegan Living</a></li>
+      <li><a href="#literature-writing">Literature & Writing</a></li>
+    </ul>
+  </div>
+
+  <div class="category-group">
+    <h3>Housing & Rentals</h3>
+    <ul>
+      <li><a href="#apartments-housing">Apartments & Housing</a></li>
+      <li><a href="#home-exchange">Home Exchange</a></li>
+      <li><a href="#housing-wanted">Housing Wanted</a></li>
+      <li><a href="#office-commercial-space">Office & Commercial Space</a></li>
+      <li><a href="#parking-storage">Parking & Storage</a></li>
+      <li><a href="#real-estate-for-sale">Real Estate for Sale</a></li>
+      <li><a href="#shared-rooms">Shared Rooms</a></li>
+      <li><a href="#roommates-wanted">Roommates Wanted</a></li>
+      <li><a href="#temporary-sublets">Temporary/Sublets</a></li>
+      <li><a href="#vacation-rentals">Vacation Rentals</a></li>
+    </ul>
+  </div>
+
+  <div class="category-group">
+    <h3>For Sale</h3>
+    <ul>
+      <li><a href="#antiques-sale">Antiques</a></li>
+      <li><a href="#home-appliances-sale">Home Appliances</a></li>
+      <li><a href="#arts-crafts-supplies">Arts & Crafts Supplies</a></li>
+      <li><a href="#atvs-snowmobiles-sale">ATVs & Snowmobiles</a></li>
+      <li><a href="#auto-parts-sale">Auto Parts</a></li>
+      <li><a href="#aircraft-sale">Aircraft</a></li>
+      <li><a href="#baby-kids-items-sale">Baby & Kids Items</a></li>
+      <li><a href="#barter-trade">Barter & Trade</a></li>
+      <li><a href="#beauty-health-items-sale">Beauty & Health Items</a></li>
+      <li><a href="#bike-parts-sale">Bike Parts</a></li>
+      <li><a href="#bicycles-sale">Bicycles</a></li>
+      <li><a href="#boat-parts-sale">Boat Parts</a></li>
+      <li><a href="#boats-sale">Boats</a></li>
+      <li><a href="#books-literature-sale">Books & Literature</a></li>
+      <li><a href="#business-equipment-sale">Business Equipment</a></li>
+      <li><a href="#cars-trucks-sale">Cars & Trucks</a></li>
+      <li><a href="#media-cds-dvds-vhs-sale">Media (CDs/DVDs/VHS)</a></li>
+      <li><a href="#cell-phones-sale">Cell Phones</a></li>
+      <li><a href="#clothing-accessories-sale">Clothing & Accessories</a></li>
+      <li><a href="#collectibles-sale">Collectibles</a></li>
+      <li><a href="#computer-parts-sale">Computer Parts</a></li>
+      <li><a href="#computers-sale">Computers</a></li>
+      <li><a href="#electronics-sale">Electronics</a></li>
+      <li><a href="#farm-garden-supplies-sale">Farm & Garden Supplies</a></li>
+      <li><a href="#free-items">Free Items</a></li>
+      <li><a href="#furniture-sale">Furniture</a></li>
+      <li><a href="#garage-sales">Garage Sales</a></li>
+      <li><a href="#general-goods-sale">General Goods</a></li>
+      <li><a href="#heavy-equipment-sale">Heavy Equipment</a></li>
+      <li><a href="#household-goods-sale">Household Goods</a></li>
+      <li><a href="#jewelry-sale">Jewelry</a></li>
+      <li><a href="#building-materials-sale">Building Materials</a></li>
+      <li><a href="#motorcycle-parts-sale">Motorcycle Parts</a></li>
+      <li><a href="#motorcycles-sale">Motorcycles</a></li>
+      <li><a href="#musical-instruments-sale">Musical Instruments</a></li>
+      <li><a href="#photo-video-gear-sale">Photo & Video Gear</a></li>
+      <li><a href="#rvs-campers-sale">RVs & Campers</a></li>
+      <li><a href="#sporting-equipment-sale">Sporting Equipment</a></li>
+      <li><a href="#tickets-sale">Tickets</a></li>
+      <li><a href="#tools-hardware-sale">Tools & Hardware</a></li>
+      <li><a href="#toys-games-sale">Toys & Games</a></li>
+      <li><a href="#utility-trailers-sale">Utility Trailers</a></li>
+      <li><a href="#video-gaming-sale">Video Gaming</a></li>
+      <li><a href="#wanted-items">Wanted Items</a></li>
+      <li><a href="#wheels-tires-sale">Wheels & Tires</a></li>
+    </ul>
+  </div>
+
+  <div class="category-group">
+    <h3>Job Listings</h3>
+    <ul>
+      <li><a href="#finance-accounting-jobs">Finance & Accounting</a></li>
+      <li><a href="#office-admin-jobs">Office & Admin</a></li>
+      <li><a href="#architecture-engineering-jobs">Architecture & Engineering</a></li>
+      <li><a href="#media-design-jobs">Media & Design</a></li>
+      <li><a href="#biotech-science-jobs">Biotech & Science</a></li>
+      <li><a href="#business-management-jobs">Business & Management</a></li>
+      <li><a href="#customer-support-jobs">Customer Support</a></li>
+      <li><a href="#education-teaching-jobs">Education & Teaching</a></li>
+      <li><a href="#food-hospitality-jobs">Food & Hospitality</a></li>
+      <li><a href="#general-labor-jobs">General Labor</a></li>
+      <li><a href="#government-public-sector-jobs">Government & Public Sector</a></li>
+      <li><a href="#human-resources-jobs">Human Resources</a></li>
+      <li><a href="#legal-paralegal-jobs">Legal & Paralegal</a></li>
+      <li><a href="#manufacturing-jobs">Manufacturing Jobs</a></li>
+      <li><a href="#marketing-pr-jobs">Marketing & PR</a></li>
+      <li><a href="#medical-health-jobs">Medical & Health Jobs</a></li>
+      <li><a href="#nonprofit-work">Nonprofit Work</a></li>
+      <li><a href="#real-estate-jobs">Real Estate Jobs</a></li>
+      <li><a href="#retail-sales-jobs">Retail & Sales</a></li>
+      <li><a href="#business-development-jobs">Business Development</a></li>
+      <li><a href="#salon-spa-jobs">Salon & Spa Jobs</a></li>
+      <li><a href="#security-work">Security Work</a></li>
+      <li><a href="#tech-it-jobs">Tech & IT Jobs</a></li>
+      <li><a href="#transportation-jobs">Transportation Jobs</a></li>
+      <li><a href="#writing-editing-jobs">Writing & Editing Jobs</a></li>
+    </ul>
+  </div>
+
+  <div class="category-group">
+    <h3>Gigs & Short-Term Work</h3>
+    <ul>
+      <li><a href="#creative-writing-gigs">Creative & Writing Gigs</a></li>
+      <li><a href="#computer-tech-gigs">Computer & Tech Gigs</a></li>
+      <li><a href="#events-promotions-gigs">Events & Promotions</a></li>
+      <li><a href="#household-help-gigs">Household Help</a></li>
+      <li><a href="#labor-gigs">Labor Gigs</a></li>
+      <li><a href="#local-community-gigs">Local Community Gigs</a></li>
+      <li><a href="#music-performance-gigs">Music & Performance</a></li>
+      <li><a href="#tutoring-lessons-gigs">Tutoring & Lessons</a></li>
+      <li><a href="#volunteering-gigs">Volunteering</a></li>
+      <li><a href="#other-gigs">Other Gigs</a></li>
+    </ul>
+  </div>
+
+  <div class="category-group">
+    <h3>Resumes & Employment Resources</h3>
+    <ul>
+      <li><a href="#resume-posting">Resume Posting</a></li>
+      <li><a href="#job-search-tips">Job Search Tips</a></li>
+      <li><a href="#career-coaching">Career Coaching</a></li>
+      <li><a href="#freelance-work">Freelance Work</a></li>
+      <li><a href="#internships">Internships</a></li>
+      <li><a href="#apprenticeships">Apprenticeships</a></li>
+      <li><a href="#other-employment-resources">Other Employment Resources</a></li>
+    </ul>
+  </div>
+
+  <div class="category-group">
+    <h3>Miscellaneous Services</h3>
+    <ul>
+      <li><a href="#delivery-errands-services">Delivery & Errands</a></li>
+      <li><a href="#event-planning-services">Event Planning</a></li>
+      <li><a href="#gift-wrapping-personal-shopping-services">Gift Wrapping & Personal Shopping</a></li>
+      <li><a href="#pet-sitting-dog-walking-services">Pet Sitting & Dog Walking</a></li>
+      <li><a href="#tailoring-alterations-services">Tailoring & Alterations</a></li>
+      <li><a href="#wedding-services">Wedding Services</a></li>
+      <li><a href="#other-services">Other Services</a></li>
+    </ul>
+  </div>
+</div>
+
+
+
 .container-location {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two-column layout */
-    gap: 20px; /* Space between grid items */
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 20px; /* Space between grid items */
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
 }
 
 select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 select:disabled {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 /* Ensure that the select elements span across columns */
 select.full-width {
-    grid-column: span 2; /* Span across both columns */
+  grid-column: span 2; /* Span across both columns */
 }
 
-</style>
-
----
-## Explore Categories
-### Local Community
-- [Activities & Hobbies](#activities-hobbies)
-- [Creative Talents](#creative-talents)
-- [Childcare Services](#childcare-services)
-- [Courses & Workshops](#courses-workshops)
-- [Upcoming Events](#upcoming-events)
-- [Miscellaneous](#miscellaneous)
-- [Local Groups](#local-groups)
-- [Neighborhood News](#neighborhood-news)
-- [Lost & Found](#lost-found)
-- [Missed Connections](#missed-connections)
-- [Musicians & Bands](#musicians-bands)
-- [Pet Care & Adoptions](#pet-care-adoptions)
-- [Politics & Advocacy](#politics-advocacy)
-- [Rants & Raves](#rants-raves)
-- [Carpool & Rideshare](#carpool-rideshare)
-- [Volunteer Opportunities](#volunteer-opportunities)
-### Professional Services
-- [Auto Services](#auto-services)
-- [Beauty & Wellness](#beauty-wellness)
-- [Mobile/Cell Repair](#mobile-cell-repair)
-- [IT & Computer Help](#it-computer-help)
-- [Creative Services](#creative-services)
-- [Bike Repair & Sales](#bike-repair-sales)
-- [Event Services](#event-services)
-- [Farming & Gardening](#farming-gardening)
-- [Financial Services](#financial-services)
-- [Health & Fitness](#health-fitness)
-- [Household Services](#household-services)
-- [Moving & Labor Help](#moving-labor-help)
-- [Legal Assistance](#legal-assistance)
-- [Tutoring & Lessons](#tutoring-lessons)
-- [Marine Services](#marine-services)
-- [Pet Care Services](#pet-care-services)
-- [Real Estate Services](#real-estate-services)
-- [Skilled Trades](#skilled-trades)
-- [Small Business Ads](#small-business-ads)
-- [Travel & Vacation Planning](#travel-vacation-planning)
-- [Writing, Editing & Translation](#writing-editing-translation)
-### Discussion Boards
-- [Apple & Tech Talk](#apple-tech-talk)
-- [Arts & Creativity](#arts-creativity)
-- [Atheism](#atheism)
-- [Car Enthusiasts](#car-enthusiasts)
-- [Beauty & Style](#beauty-style)
-- [Bicycling](#bicycling)
-- [Celebrity News](#celebrity-news)
-- [Computer & Tech](#computer-tech)
-- [Cosmic Discussion](#cosmic-discussion)
-- [Health & Diet](#health-diet)
-- [Divorce Support](#divorce-support)
-- [End-of-Life Planning](#end-of-life-planning)
-- [Environmental Issues](#environmental-issues)
-- [Feedback & Suggestions](#feedback-suggestions)
-- [Film & TV Discussion](#film-tv-discussion)
-- [DIY & Repairs](#diy-repairs)
-- [Food & Drink](#food-drink)
-- [Frugal Living](#frugal-living)
-- [Gaming & Esports](#gaming-esports)
-- [Gardening](#gardening)
-- [Creative Writing (Haiku)](#creative-writing-haiku)
-- [General Help](#general-help)
-- [History & Facts](#history-facts)
-- [Housing & Real Estate](#housing-real-estate)
-- [Job & Career Advice](#job-career-advice)
-- [Humor & Jokes](#humor-jokes)
-- [Legal Help](#legal-help)
-- [Etiquette & Manners](#etiquette-manners)
-- [Marriage & Relationships](#marriage-relationships)
-- [Personal Finance](#personal-finance)
-- [Music Discussion](#music-discussion)
-- [Parenting Tips](#parenting-tips)
-- [Pet Discussions](#pet-discussions)
-- [Philosophy Talk](#philosophy-talk)
-- [Photography](#photography)
-- [Political Debates](#political-debates)
-- [Mental Health & Psychology](#mental-health-psychology)
-- [Addiction & Recovery](#addiction-recovery)
-- [Religious Discussions](#religious-discussions)
-- [Science & Technology](#science-technology)
-- [Spirituality](#spirituality)
-- [Sports Talk](#sports-talk)
-- [Paranormal & Supernatural](#paranormal-supernatural)
-- [Tax Advice](#tax-advice)
-- [Travel Discussions](#travel-discussions)
-- [TV Shows & Movies](#tv-shows-movies)
-- [Vegan Living](#vegan-living)
-- [Literature & Writing](#literature-writing)
-### Housing & Rentals
-- [Apartments & Housing](#apartments-housing)
-- [Home Exchange](#home-exchange)
-- [Housing Wanted](#housing-wanted)
-- [Office & Commercial Space](#office-commercial-space)
-- [Parking & Storage](#parking-storage)
-- [Real Estate for Sale](#real-estate-for-sale)
-- [Shared Rooms](#shared-rooms)
-- [Roommates Wanted](#roommates-wanted)
-- [Temporary/Sublets](#temporary-sublets)
-- [Vacation Rentals](#vacation-rentals)
-### For Sale
-- [Antiques](#antiques-sale)
-- [Home Appliances](#home-appliances-sale)
-- [Arts & Crafts Supplies](#arts-crafts-supplies)
-- [ATVs & Snowmobiles](#atvs-snowmobiles-sale)
-- [Auto Parts](#auto-parts-sale)
-- [Aircraft](#aircraft-sale)
-- [Baby & Kids Items](#baby-kids-items-sale)
-- [Barter & Trade](#barter-trade)
-- [Beauty & Health Items](#beauty-health-items-sale)
-- [Bike Parts](#bike-parts-sale)
-- [Bicycles](#bicycles-sale)
-- [Boat Parts](#boat-parts-sale)
-- [Boats](#boats-sale)
-- [Books & Literature](#books-literature-sale)
-- [Business Equipment](#business-equipment-sale)
-- [Cars & Trucks](#cars-trucks-sale)
-- [Media (CDs/DVDs/VHS)](#media-cds-dvds-vhs-sale)
-- [Cell Phones](#cell-phones-sale)
-- [Clothing & Accessories](#clothing-accessories-sale)
-- [Collectibles](#collectibles-sale)
-- [Computer Parts](#computer-parts-sale)
-- [Computers](#computers-sale)
-- [Electronics](#electronics-sale)
-- [Farm & Garden Supplies](#farm-garden-supplies-sale)
-- [Free Items](#free-items)
-- [Furniture](#furniture-sale)
-- [Garage Sales](#garage-sales)
-- [General Goods](#general-goods-sale)
-- [Heavy Equipment](#heavy-equipment-sale)
-- [Household Goods](#household-goods-sale)
-- [Jewelry](#jewelry-sale)
-- [Building Materials](#building-materials-sale)
-- [Motorcycle Parts](#motorcycle-parts-sale)
-- [Motorcycles](#motorcycles-sale)
-- [Musical Instruments](#musical-instruments-sale)
-- [Photo & Video Gear](#photo-video-gear-sale)
-- [RVs & Campers](#rvs-campers-sale)
-- [Sporting Equipment](#sporting-equipment-sale)
-- [Tickets](#tickets-sale)
-- [Tools & Hardware](#tools-hardware-sale)
-- [Toys & Games](#toys-games-sale)
-- [Utility Trailers](#utility-trailers-sale)
-- [Video Gaming](#video-gaming-sale)
-- [Wanted Items](#wanted-items)
-- [Wheels & Tires](#wheels-tires-sale)
-### Job Listings
-- [Finance & Accounting](#finance-accounting-jobs)
-- [Office & Admin](#office-admin-jobs)
-- [Architecture & Engineering](#architecture-engineering-jobs)
-- [Media & Design](#media-design-jobs)
-- [Biotech & Science](#biotech-science-jobs)
-- [Business & Management](#business-management-jobs)
-- [Customer Support](#customer-support-jobs)
-- [Education & Teaching](#education-teaching-jobs)
-- [Food & Hospitality](#food-hospitality-jobs)
-- [General Labor](#general-labor-jobs)
-- [Government & Public Sector](#government-public-sector-jobs)
-- [Human Resources](#human-resources-jobs)
-- [Legal & Paralegal](#legal-paralegal-jobs)
-- [Manufacturing Jobs](#manufacturing-jobs)
-- [Marketing & PR](#marketing-pr-jobs)
-- [Medical & Health Jobs](#medical-health-jobs)
-- [Nonprofit Work](#nonprofit-work)
-- [Real Estate Jobs](#real-estate-jobs)
-- [Retail & Sales](#retail-sales-jobs)
-- [Business Development](#business-development-jobs)
-- [Salon & Spa Jobs](#salon-spa-jobs)
-- [Security Work](#security-work)
-- [Tech & IT Jobs](#tech-it-jobs)
-- [Transportation Jobs](#transportation-jobs)
-- [Writing & Editing Jobs](#writing-editing-jobs)
-### Gigs & Short-Term Work
-- [Creative & Writing Gigs](#creative-writing-gigs)
-- [Computer & Tech Gigs](#computer-tech-gigs)
-- [Events & Promotions](#events-promotions-gigs)
-- [Household Help](#household-help-gigs)
-- [Labor Gigs](#labor-gigs)
-- [Local Community Gigs](#local-community-gigs)
-- [Music & Performance](#music-performance-gigs)
-- [Tutoring & Lessons](#tutoring-lessons-gigs)
-- [Volunteering](#volunteering-gigs)
-- [Other Gigs](#other-gigs)
-### Resumes & Employment Resources
-- [Resume Posting](#resume-posting)
-- [Job Search Tips](#job-search-tips)
-- [Career Coaching](#career-coaching)
-- [Freelance Work](#freelance-work)
-- [Internships](#internships)
-- [Apprenticeships](#apprenticeships)
-- [Other Employment Resources](#other-employment-resources)
-- ### Miscellaneous Services
-- [Delivery & Errands](#delivery-errands-services)
-- [Event Planning](#event-planning-services)
-- [Gift Wrapping & Personal Shopping](#gift-wrapping-personal-shopping-services)
-- [Pet Sitting & Dog Walking](#pet-sitting-dog-walking-services)
-- [Tailoring & Alterations](#tailoring-alterations-services)
-- [Wedding Services](#wedding-services)
-- [Other Services](#other-services)
 
 
-<style>
-/* Styling for the main container */
-.container-location {
-    max-width: 1000px;
-    margin: 0 auto;
-    border-radius: 8px;
+
+
+
+
+
+
+
+
+
+
+/* Container for the entire categories section */
+.categories-section {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 800px; /* Set a maximum width for better readability */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Flexible column widths */
+  gap: 20px; /* Space between columns */
 }
 
-/* Style for the headings */
-h1, h2, h3 {
-    color: #34495e;
-    text-align: center;
-    margin-bottom: 15px;
+/* Style for each category group */
+.category-group {
+  background-color: #fff; /* Background color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 15px; /* Padding inside each category group */
+  overflow: hidden; /* Ensure content does not overflow */
+  /* Setting a minimum height for each category group to ensure a gap before the next one */
+  min-height: 200px; /* Adjust based on your needs */
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-top: 30px;
+/* Style for the category group headings */
+.category-group h3 {
+  margin: 0 0 10px; /* Space below the heading */
+  font-size: 1.5em; /* Font size for the headings */
+  border-bottom: 2px solid #ddd; /* Underline for headings */
+  padding-bottom: 5px; /* Padding below the heading */
 }
 
-h2 {
-    font-size: 1.8rem;
-    margin-top: 25px;
+/* Style for the unordered list inside category groups */
+.category-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9em; /* Smaller font size for list items */
 }
 
-h3 {
-    font-size: 1.4rem;
-    margin-top: 15px;
+/* Style for each list item */
+.category-group li {
+  margin-bottom: 10px; /* Space below each list item */
 }
 
-/* Category listing styling */
-ul {
-    list-style-type: none;
-    padding: 0;
+/* Style for links within list items */
+.category-group li a {
+  text-decoration: none;
+  color: #007bff; /* Link color */
+  transition: color 0.3s; /* Smooth transition for hover effect */
 }
 
-ul li {
-    margin: 12px 0;
-    padding: 12px;
-    background-color: #f9f9f9;
-    border-left: 5px solid #3498db;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Hover effect for links */
+.category-group li a:hover {
+  color: #0056b3; /* Darker shade for hover effect */
 }
 
-ul li a {
-    text-decoration: none;
-    color: #2c3e50;
-    font-weight: normal;
-    display: block;
-    padding: 8px;
-    border-radius: 4px;
-}
-
-ul li a:hover {
-    color: #2980b9;
-    background-color: #ecf0f1;
-}
-
-/* Category section styling */
-.category-section {
-    margin-bottom: 30px;
-}
-
-/* Button-like links for categories */
-ul li a {
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Responsive design */
+/* Responsive design adjustments */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    h3 {
-        font-size: 1.2rem;
-    }
-
-    .container {
-        padding: 20px;
-    }
+  .categories-section {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust columns for medium screens */
+  }
 }
-</style>
+
+@media (max-width: 480px) {
+  .categories-section {
+    grid-template-columns: 1fr; /* Single column layout for small screens */
+  }
+}
+
