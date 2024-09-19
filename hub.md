@@ -7,17 +7,6 @@ permalink: /hub/
 # Hub, your central destination for connecting with your community and discovering local opportunities. Whether you're looking to engage in local events, find professional services, or join discussion boards, the #Hub is designed to bring everything you need into one convenient space.
 
 
-
-
-    <title>Location Selector</title>
-    <style>
-        .full-width {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-    </style>
-
-
 <div class="container-location">
   <h1>Location Selector</h1>
   <form id="location-form">
