@@ -1,3 +1,20 @@
+---
+layout: default
+title: Hub
+permalink: /hub/
+---
+
+# Contact Us
+
+
+
+
+
+
+
+
+
+
 <div class="container-location">
   <h1>Location Selector</h1>
   <form id="location-form">
