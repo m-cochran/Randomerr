@@ -495,7 +495,7 @@ function updateCategoryLinks() {
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const href = link.getAttribute('href');
             const category = link.textContent.split(' ').join('-').toUpperCase(); // Convert category to URL format
-            const newHref = `/hub.html/${baseUrl}-${category}/`; // Ensure all links point to default.html
+            const newHref = `{{ site.baseurl }}/hub.html/${baseUrl}-${category}/`; // Ensure all links point to default.html
             link.setAttribute('href', newHref);
         });
     }
