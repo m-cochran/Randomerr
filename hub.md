@@ -495,7 +495,7 @@ permalink: /hub/
             document.querySelectorAll('.category-group ul li a').forEach(link => {
                 const href = link.getAttribute('href');
                 const category = link.textContent.split(' ').join('-').toUpperCase(); // Convert category to URL format
-                const newHref = /default.html/${baseUrl}-${category}/`;
+                const newHref = '/default.html/${baseUrl}-${category}/`;
                 link.setAttribute('href', newHref);
             });
         }
