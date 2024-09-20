@@ -497,9 +497,29 @@ function updateCategoryLinks() {
             const category = link.textContent.split(' ').join('-').toUpperCase(); // Convert category to URL format
             const newHref = `{{ site.baseurl }}/hub/${baseUrl}-${category}`; // Ensure all links point to default.html
             link.setAttribute('href', newHref);
-        });
+                // Add event listener for dynamically loading the content when clicking a category
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    const categoryUrl = newHref;
+
+                    // Load category content dynamically (e.g., from JSON or API)
+                    fetch(`/data/${category}.json`)  // Assume your categories are stored in JSON files
+                        .then(response => response.json())
+                        .then(data => {
+                            // Render the content dynamically on the page
+                            const contentArea = document.getElementById('content');
+                            contentArea.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
+                        })
+                        .catch(error => console.error('Error loading category data:', error));
+                });
+            });
+        }
     }
-}
+
+    regionSelect.addEventListener('change', updateCategoryLinks);
+    provinceStateSelect.addEventListener('change', updateCategoryLinks);
+    cityTownSelect.addEventListener('change', updateCategoryLinks);
 
 
     // Add event listeners to update links when selections change
