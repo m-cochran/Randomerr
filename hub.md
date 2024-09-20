@@ -517,11 +517,6 @@ function updateCategoryLinks() {
         }
     }
 
-    regionSelect.addEventListener('change', updateCategoryLinks);
-    provinceStateSelect.addEventListener('change', updateCategoryLinks);
-    cityTownSelect.addEventListener('change', updateCategoryLinks);
-
-
     // Add event listeners to update links when selections change
     regionSelect.addEventListener('change', updateCategoryLinks);
     provinceStateSelect.addEventListener('change', updateCategoryLinks);
