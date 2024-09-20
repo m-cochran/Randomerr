@@ -485,21 +485,22 @@ permalink: /hub/
     });
 
     // Update category links based on selected location
-    function updateCategoryLinks() {
-        const region = regionSelect.value.toUpperCase().replace(' ', '-');
-        const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
-        const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
+function updateCategoryLinks() {
+    const region = regionSelect.value.toUpperCase().replace(' ', '-');
+    const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
+    const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
 
-        if (region && province && city) {
-            const baseUrl = `${region}/${province}/${city}`;
-            document.querySelectorAll('.category-group ul li a').forEach(link => {
-                const href = link.getAttribute('href');
-                const category = link.textContent.split(' ').join('-').toUpperCase(); // Convert category to URL format
-                const newHref = '/default.html/${baseUrl}-${category}/`;
-                link.setAttribute('href', newHref);
-            });
-        }
+    if (region && province && city) {
+        const baseUrl = `${region}/${province}/${city}`;
+        document.querySelectorAll('.category-group ul li a').forEach(link => {
+            const href = link.getAttribute('href');
+            const category = link.textContent.split(' ').join('-').toUpperCase(); // Convert category to URL format
+            const newHref = `/default.html/${baseUrl}-${category}/`; // Ensure all links point to default.html
+            link.setAttribute('href', newHref);
+        });
     }
+}
+
 
     // Add event listeners to update links when selections change
     regionSelect.addEventListener('change', updateCategoryLinks);
