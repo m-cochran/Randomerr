@@ -4,10 +4,27 @@
       "ARIZONA": {
         "MOHAVE-COUNTY": {
           "categories": [
-            "Miscellaneous": {
-          "title": "Miscellaneous Category",
-          "description": "Information about the Miscellaneous category in Mohave, Arizona."
-        },
+            "Miscellaneous": [
+          {
+            "title": "Art Exhibition",
+            "location": "Mohave Art Gallery, Mohave, Arizona",
+            "price": "Free",
+            "picture": "https://example.com/images/art-exhibition.jpg",
+            "description": "A beautiful collection of contemporary art.",
+            "date": "2024-10-05"
+          },
+          {
+            "title": "Cultural Festival",
+            "location": "Downtown Mohave, Arizona",
+            "price": "$10",
+            "picture": "https://example.com/images/cultural-festival.jpg",
+            "description": "A celebration of local culture and cuisine.",
+            "date": "2024-10-10"
+          }
+        ]
+      }
+    }
+  },
             "Sports",
             "Education"
           ]
