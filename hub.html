@@ -20,7 +20,7 @@ title: Hub
             const category = urlPath[4];
 
 // Fetch JSON data and display relevant results
-fetch('categories.json')
+fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
     .then(response => response.json())
     .then(data => {
         const lowerRegion = region.toLowerCase();
