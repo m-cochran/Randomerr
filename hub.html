@@ -19,25 +19,41 @@ title: Hub
             const city = urlPath[3];
             const category = urlPath[4];
 
-            // Function to fetch and display category data
-            function fetchCategoryData(region, province, city, category) {
-                fetch('https://m-cochran.github.io/Randomerr/data/categories.json') // Path to your JSON data file
-                    .then(response => response.json())
-                    .then(data => {
-                        const categoryData = data[region][province][city][category];
-                        if (categoryData) {
-                            // Display category data on the page
-                            document.getElementById('category-title').textContent = categoryData.title;
-                            document.getElementById('category-description').textContent = categoryData.description;
-                        } else {
-                            // Handle case where data is not found
-                            document.getElementById('category-title').textContent = 'Category Not Found';
-                            document.getElementById('category-description').textContent = 'No data available for the selected category.';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching category data:', error);
-                    });
+// Fetch JSON data and display relevant results
+fetch('categories.json')
+    .then(response => response.json())
+    .then(data => {
+        const lowerRegion = region.toLowerCase();
+        const lowerProvince = province.toLowerCase();
+        const lowerCity = city.toLowerCase();
+        const lowerCategory = category.replace('-', ' ').toLowerCase();
+
+        // Check if data exists for the selected location and category
+        const results = data?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.[lowerCategory];
+
+        if (results && results.length > 0) {
+            const resultsContainer = document.getElementById('results');
+            results.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <img src="${item.picture}" alt="${item.title}" style="max-width: 200px;" />
+                    <p><strong>Location:</strong> ${item.location}</p>
+                    <p><strong>Price:</strong> ${item.price}</p>
+                    <p><strong>Date:</strong> ${item.date}</p>
+                    <p>${item.description}</p>
+                `;
+                resultsContainer.appendChild(div);
+            });
+        } else {
+            document.getElementById('results').textContent = 'No events found for this category.';
+        }
+    })
+    .catch(error => {
+        console.error('Error loading data:', error);
+        document.getElementById('results').textContent = 'Error loading data.';
+    });
+
             }
 
             // Load category data on page load based on URL
@@ -46,6 +62,85 @@ title: Hub
             }
         });
     </script>
+    <style>
+/* Basic styling for the results container */
+#results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Styling for individual event cards */
+#results div {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 300px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Add hover effect to the event cards */
+#results div:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Style for event images */
+#results img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Event title */
+#results h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Styling for event details (location, price, date, description) */
+#results p {
+  margin: 8px 0;
+  font-size: 1em;
+  color: #555;
+}
+
+/* Bold the labels (Location, Price, Date) */
+#results p strong {
+  color: #222;
+  font-weight: bold;
+}
+
+/* Style the price to stand out */
+#results p strong.price {
+  font-size: 1.2em;
+  color: #d9534f;
+}
+
+/* Style the event description */
+#results p:last-child {
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #results {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #results div {
+    width: 90%;
+  }
+}
+</style>
+    
 </head>
 <body>
     <h1 id="category-title"></h1>
