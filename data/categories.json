@@ -1,85 +1,80 @@
 {
-"regions": {
-"NORTH-AMERICA": {
-"ARIZONA": {
-"MOHAVE-COUNTY": {
-"categories": [
-"Miscellaneous": [
-{
-"title": "Art Exhibition",
-"location": "Mohave Art Gallery, Mohave, Arizona",
-"price": "Free",
-"picture": "https://lh3.googleusercontent.com/p/AF1QipNmeZnLWycwNqNRgzW7ZZjDDJlYGKJRI95LJuuy=s1360-w1360-h1020",
-"description": "A beautiful collection of contemporary art.",
-"date": "2024-10-05"
-},
-{
-"title": "Cultural Festival",
-"location": "Downtown Mohave, Arizona",
-"price": "$10",
-"picture": "https://example.com/images/cultural-festival.jpg",
-"description": "A celebration of local culture and cuisine.",
-"date": "2024-10-10"
-}
-]
-}
-}
-},
-"Sports",
-"Education"
-]
-},
-"PHOENIX": {
-"categories": [
-"Business",
-"Entertainment",
-"Health"
-]
-}
-},
-"CALIFORNIA": {
-"LOS-ANGELES": {
-"categories": [
-"Technology",
-"Fashion",
-"Travel"
-]
-},
-"SAN-FRANCISCO": {
-"categories": [
-"Startups",
-"Finance",
-"Real Estate"
-]
-}
-}
-},
-"CANADA": {
-"ONTARIO": {
-"TORONTO": {
-"categories": [
-"Music",
-"Film",
-"Art"
-]
-},
-"OTTAWA": {
-"categories": [
-"Government",
-"History",
-"Culture"
-]
-}
-},
-"BRITISH-COLUMBIA": {
-"VANCOUVER": {
-"categories": [
-"Nature",
-"Tourism",
-"Outdoors"
-]
-}
-}
-}
-}
+  "regions": {
+    "NORTH-AMERICA": {
+      "ARIZONA": {
+        "MOHAVE-COUNTY": {
+          "categories": {
+            "Miscellaneous": [
+              {
+                "title": "Art Exhibition",
+                "location": "Mohave Art Gallery, Mohave, Arizona",
+                "price": "Free",
+                "picture": "https://lh3.googleusercontent.com/p/AF1QipNmeZnLWycwNqNRgzW7ZZjDDJlYGKJRI95LJuuy=s1360-w1360-h1020",
+                "description": "A beautiful collection of contemporary art.",
+                "date": "2024-10-05"
+              },
+              {
+                "title": "Cultural Festival",
+                "location": "Downtown Mohave, Arizona",
+                "price": "$10",
+                "picture": "https://lh3.googleusercontent.com/p/AF1QipNmeZnLWycwNqNRgzW7ZZjDDJlYGKJRI95LJuuy=s1360-w1360-h1020",
+                "description": "A celebration of local culture and cuisine.",
+                "date": "2024-10-10"
+              }
+            ]
+          }
+        },
+        "PHOENIX": {
+          "categories": [
+            "Business",
+            "Entertainment",
+            "Health"
+          ]
+        }
+      }
+    },
+    "CALIFORNIA": {
+      "LOS-ANGELES": {
+        "categories": [
+          "Technology",
+          "Fashion",
+          "Travel"
+        ]
+      },
+      "SAN-FRANCISCO": {
+        "categories": [
+          "Startups",
+          "Finance",
+          "Real Estate"
+        ]
+      }
+    },
+    "CANADA": {
+      "ONTARIO": {
+        "TORONTO": {
+          "categories": [
+            "Music",
+            "Film",
+            "Art"
+          ]
+        },
+        "OTTAWA": {
+          "categories": [
+            "Government",
+            "History",
+            "Culture"
+          ]
+        }
+      },
+      "BRITISH-COLUMBIA": {
+        "VANCOUVER": {
+          "categories": [
+            "Nature",
+            "Tourism",
+            "Outdoors"
+          ]
+        }
+      }
+    }
+  }
 }
