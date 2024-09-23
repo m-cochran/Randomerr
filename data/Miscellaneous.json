@@ -4,7 +4,10 @@
       "ARIZONA": {
         "MOHAVE-COUNTY": {
           "categories": [
-            "Miscellaneous",
+            "Miscellaneous": {
+          "title": "Miscellaneous Category",
+          "description": "Information about the Miscellaneous category in Mohave, Arizona."
+        },
             "Sports",
             "Education"
           ]
