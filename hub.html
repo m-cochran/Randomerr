@@ -21,7 +21,7 @@ title: Hub
 
             // Function to fetch and display category data
             function fetchCategoryData(region, province, city, category) {
-                fetch('/path-to-your-data/categories.json') // Path to your JSON data file
+                fetch('https://m-cochran.github.io/Randomerr/data/categories.json') // Path to your JSON data file
                     .then(response => response.json())
                     .then(data => {
                         const categoryData = data[region][province][city][category];
