@@ -9,42 +9,46 @@ title: Hub
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Default Layout</title>
+    <title>Dynamic Category Data</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current URL path segments
+            const urlPath = window.location.pathname.split('/');
+            const region = urlPath[1];
+            const province = urlPath[2];
+            const city = urlPath[3];
+            const category = urlPath[4];
+
+            // Function to fetch and display category data
+            function fetchCategoryData(region, province, city, category) {
+                fetch('/path-to-your-data/categories.json') // Path to your JSON data file
+                    .then(response => response.json())
+                    .then(data => {
+                        const categoryData = data[region][province][city][category];
+                        if (categoryData) {
+                            // Display category data on the page
+                            document.getElementById('category-title').textContent = categoryData.title;
+                            document.getElementById('category-description').textContent = categoryData.description;
+                        } else {
+                            // Handle case where data is not found
+                            document.getElementById('category-title').textContent = 'Category Not Found';
+                            document.getElementById('category-description').textContent = 'No data available for the selected category.';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching category data:', error);
+                    });
+            }
+
+            // Load category data on page load based on URL
+            if (region && province && city && category) {
+                fetchCategoryData(region.toUpperCase(), province.toUpperCase(), city.toUpperCase(), category.toUpperCase());
+            }
+        });
+    </script>
 </head>
 <body>
-    <h1 id="page-title">Loading...</h1>
-    <div id="page-content">
-        <!-- Dynamic content will be loaded here based on URL -->
-    </div>
-
-    <script>
-        // Extract URL parameters
-        function getUrlSegments() {
-            const path = window.location.pathname;
-            const segments = path.split('/').filter(Boolean); // Split the path and remove empty parts
-            return segments;
-        }
-
-        function loadPageContent() {
-            const segments = getUrlSegments();
-            const region = segments[0];        // Example: NORTH-AMERICA
-            const province = segments[1];      // Example: ARIZONA
-            const city = segments[2];          // Example: MOHAVE
-            const category = segments[3];      // Example: MISCELLANEOUS
-
-            // Update page title and content based on the extracted segments
-            const title = `${category} in ${city}, ${province}, ${region}`;
-            document.getElementById('page-title').textContent = title;
-
-            // Here you can load specific content based on region, province, city, and category
-            // For example, fetch data from a server or load content dynamically
-            document.getElementById('page-content').innerHTML = `
-                <p>You are viewing the ${category} category in ${city}, ${province}, ${region}.</p>
-            `;
-        }
-
-        // Call the function when the page loads
-        window.onload = loadPageContent;
-    </script>
+    <h1 id="category-title"></h1>
+    <p id="category-description"></p>
 </body>
 </html>
