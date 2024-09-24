@@ -484,30 +484,54 @@ permalink: /hub/
         }
     });
 
-    // Update category links based on selected location
+// Function to update category links based on selected location
 function updateCategoryLinks() {
     const region = regionSelect.value.toUpperCase().replace(' ', '-');
     const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
     const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
 
     if (region && province && city) {
-        const baseUrl = /hub.html?region=${region}&province=${province}&city=${city};
+        const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
-            const newHref = {{ site.baseurl }}${baseUrl}&category=${category}; // Ensure all links point to default.html
+            const newHref = `{{ site.baseurl }}${baseUrl}&category=${category}`;
             link.setAttribute('href', newHref);
-                // Add event listener for dynamically loading the content when clicking a category
-                link.addEventListener('click', function(event) {
-                    window.location.href = newHref;
-                });
+
+            // Add event listener for dynamically loading the content when clicking a category
+            link.addEventListener('click', function(event) {
+                window.location.href = newHref;
+                event.preventDefault(); // Prevent default link behavior
+
+                const categoryUrl = newHref;
+
+                // Load category content dynamically (e.g., from JSON or API)
+                fetch(`/data/${category}.json`) // Ensure category JSON file exists
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Render the content dynamically on the page
+                        const contentArea = document.getElementById('content');
+                        if (contentArea) {
+                            contentArea.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
+                        } else {
+                            console.error('Content area not found');
+                        }
+                    })
+                    .catch(error => console.error('Error loading category data:', error));
+            });
         });
     }
-  }
+}
 
 // Add event listeners to update links when selections change
 regionSelect.addEventListener('change', updateCategoryLinks);
 provinceStateSelect.addEventListener('change', updateCategoryLinks);
 cityTownSelect.addEventListener('change', updateCategoryLinks);
+
 </script>
 
 
