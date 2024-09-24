@@ -30,7 +30,7 @@ title: Hub
           const lowerCategory = category?.replace('-', ' ').toLowerCase();
          
           // Check if data exists for the selected location and category
-          const results = data?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.[lowerCategory];
+          const results = data?.regions?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
           if (results && results.length > 0) {
             const resultsContainer = document.getElementById('results');
             resultsContainer.innerHTML = ''; // Clear existing content
