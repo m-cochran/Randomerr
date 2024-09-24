@@ -1,10 +1,10 @@
 {
-  "regions": {
-    "north-america": {
-      "pennsylvania": {
-        "pittsburgh": {
+  "REGIONS": {
+    "NORTH-AMERICA": {
+      "ARIZONA": {
+        "MOHAVE COUNTY": {
           "categories": {
-            "miscellaneous": [
+            "Miscellaneous": [
               {
                 "title": "Art Exhibition",
                 "location": "Mohave Art Gallery, Mohave, Arizona",
@@ -24,55 +24,55 @@
             ]
           }
         },
-        "phoenix": {
-          "categories": {
-            "business": [],
-            "entertainment": [],
-            "health": []
-          }
+        "PHOENIX": {
+          "categories": [
+            "Business",
+            "Entertainment",
+            "Health"
+          ]
         }
       }
     },
-    "california": {
-      "los-angeles": {
-        "categories": {
-          "technology": [],
-          "fashion": [],
-          "travel": []
-        }
+    "CALIFORNIA": {
+      "LOS-ANGELES": {
+        "categories": [
+          "Technology",
+          "Fashion",
+          "Travel"
+        ]
       },
-      "san-francisco": {
-        "categories": {
-          "startups": [],
-          "finance": [],
-          "real estate": []
-        }
+      "SAN-FRANCISCO": {
+        "categories": [
+          "Startups",
+          "Finance",
+          "Real Estate"
+        ]
       }
     },
-    "canada": {
-      "ontario": {
-        "toronto": {
-          "categories": {
-            "music": [],
-            "film": [],
-            "art": []
-          }
+    "CANADA": {
+      "ONTARIO": {
+        "TORONTO": {
+          "categories": [
+            "Music",
+            "Film",
+            "Art"
+          ]
         },
-        "ottawa": {
-          "categories": {
-            "government": [],
-            "history": [],
-            "culture": []
-          }
+        "OTTAWA": {
+          "categories": [
+            "Government",
+            "History",
+            "Culture"
+          ]
         }
       },
-      "british-columbia": {
-        "vancouver": {
-          "categories": {
-            "nature": [],
-            "tourism": [],
-            "outdoors": []
-          }
+      "BRITISH-COLUMBIA": {
+        "VANCOUVER": {
+          "categories": [
+            "Nature",
+            "Tourism",
+            "Outdoors"
+          ]
         }
       }
     }
