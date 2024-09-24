@@ -31,54 +31,54 @@
           }
         },
         "PHOENIX": {
-          "categories": [
-            "Business",
-            "Entertainment",
-            "Health"
-          ]
+          "categories": {
+            "Business": [],
+            "Entertainment": [],
+            "Health": []
+          }
         }
       }
     },
     "CALIFORNIA": {
       "LOS-ANGELES": {
-        "categories": [
-          "Technology",
-          "Fashion",
-          "Travel"
-        ]
+        "categories": {
+          "Technology": [],
+          "Fashion": [],
+          "Travel": []
+        }
       },
       "SAN-FRANCISCO": {
-        "categories": [
-          "Startups",
-          "Finance",
-          "Real Estate"
-        ]
+        "categories": {
+          "Startups": [],
+          "Finance": [],
+          "Real Estate": []
+        }
       }
     },
     "CANADA": {
       "ONTARIO": {
         "TORONTO": {
-          "categories": [
-            "Music",
-            "Film",
-            "Art"
-          ]
+          "categories": {
+            "Music": [],
+            "Film": [],
+            "Art": []
+          }
         },
         "OTTAWA": {
-          "categories": [
-            "Government",
-            "History",
-            "Culture"
-          ]
+          "categories": {
+            "Government": [],
+            "History": [],
+            "Culture": []
+          }
         }
       },
       "BRITISH-COLUMBIA": {
         "VANCOUVER": {
-          "categories": [
-            "Nature",
-            "Tourism",
-            "Outdoors"
-          ]
+          "categories": {
+            "Nature": [],
+            "Tourism": [],
+            "Outdoors": []
+          }
         }
       }
     }
