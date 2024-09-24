@@ -94,6 +94,25 @@ title: Hub
         });
       }
 
+      // Update modal content
+      const title = document.createElement('h2');
+      title.textContent = item.title;
+      title.style.textAlign = 'center'; // Center align the title
+
+      const price = document.createElement('p');
+      price.textContent = `Price: ${item.price}`;
+      price.style.textAlign = 'right'; // Align price to the right
+
+      const location = document.createElement('p');
+      location.textContent = `Location: ${item.location}`;
+      location.style.textAlign = 'right'; // Align location to the right
+
+      // Append title, price, and location to the modal content
+      const modalContent = document.querySelector('.modal-content');
+      modalContent.insertBefore(title, galleryContainer); // Add title above images
+      modalContent.appendChild(location); // Add location below images
+      modalContent.appendChild(price); // Add price above location
+
       description.textContent = item.description;
       modal.style.display = 'block'; // Show the modal
     }
