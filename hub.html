@@ -11,111 +11,105 @@ title: Hub
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Category Data</title>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Parse query parameters from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const region = urlParams.get('region');
-    const province = urlParams.get('province');
-    const city = urlParams.get('city');
-    const category = urlParams.get('category');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Parse query parameters from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const region = urlParams.get('region');
+      const province = urlParams.get('province');
+      const city = urlParams.get('city');
+      const category = urlParams.get('category');
 
-    // Fetch JSON data and display relevant results
-    fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
-      .then(response => response.json())
-      .then(data => {
-        // Corrected access to the data structure
-        const lowerRegion = region?.toUpperCase();
-        const lowerProvince = province?.toUpperCase();
-        const lowerCity = city?.toUpperCase();
-        const lowerCategory = category?.replace('-', ' '); // Ensure proper category format
-        
-        // Access the category title and description
-        const categoryTitle = document.getElementById('category-title');
-        const categoryDescription = document.getElementById('category-description');
-        
-        // Set the title and description
-        categoryTitle.textContent = lowerCategory.charAt(0).toUpperCase() + lowerCategory.slice(1);
-        categoryDescription.textContent = `Showing events in ${city}, ${province} for ${lowerCategory}`;
-        
-        // Access the correct region, province, city, and category
-        const results = data?.REGIONS?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
-        
-        // Check if results are available
-        if (results && results.length > 0) {
-          const resultsContainer = document.getElementById('results');
-          resultsContainer.innerHTML = ''; // Clear existing content
-          results.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'event-item';
-            div.innerHTML = `
-                  <h3>${item.title}</h3>
-                  <img src="${item.picture}" alt="${item.title}" style="max-width: 200px;" />
-                  <p><strong>Location:</strong> ${item.location}</p>
-                  <p><strong>Price:</strong> ${item.price}</p>
-                  <p><strong>Date:</strong> ${item.date}</p>
-                  <p>${item.description}</p>
-              `;
-
-
-           // Add a click event to open the modal
-           div.addEventListener('click', function() {
-             openModal(item);
-            });
-            
-            resultsContainer.appendChild(div);
-          });
-
-          // Function to open the modal
-function openModal(item) {
-  const modal = document.getElementById('event-modal');
-  const galleryContainer = document.querySelector('.gallery-images');
-  const description = document.getElementById('modal-description');
-
-  // Clear previous images
-  galleryContainer.innerHTML = '';
-
-  // Populate modal with images (assuming item.images is an array of image URLs)
-  item.images.forEach(imageUrl => {
-    const img = document.createElement('img');
-    img.src = imageUrl;
-    img.alt = item.title;
-    galleryContainer.appendChild(img);
-  });
-
-  description.textContent = item.description;
-
-  modal.style.display = 'block'; // Show the modal
-}
-
-// Close modal when the user clicks on <span> (x)
-document.querySelector('.close').onclick = function() {
-  document.getElementById('event-modal').style.display = 'none';
-}
-
-// Close modal when the user clicks anywhere outside of the modal
-window.onclick = function(event) {
-  const modal = document.getElementById('event-modal');
-  if (event.target == modal) {
-    modal.style.display = 'none';
-  }
-}
-
+      // Fetch JSON data and display relevant results
+      fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
+        .then(response => response.json())
+        .then(data => {
+          const lowerRegion = region?.toUpperCase();
+          const lowerProvince = province?.toUpperCase();
+          const lowerCity = city?.toUpperCase();
+          const lowerCategory = category?.replace('-', ' '); // Ensure proper category format
           
-        } else {
-          document.getElementById('results').textContent = 'No events found for this category.';
-        }
-      })
-      .catch(error => {
-        console.error('Error loading data:', error);
-        document.getElementById('results').textContent = 'Error loading data.';
-      });
-  });
-</script>
+          // Set the title and description
+          document.getElementById('category-title').textContent = lowerCategory.charAt(0).toUpperCase() + lowerCategory.slice(1);
+          document.getElementById('category-description').textContent = `Showing events in ${city}, ${province} for ${lowerCategory}`;
+          
+          // Access the correct region, province, city, and category
+          const results = data?.REGIONS?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
+          
+          // Check if results are available
+          if (results && results.length > 0) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = ''; // Clear existing content
+            results.forEach(item => {
+              const div = document.createElement('div');
+              div.className = 'event-item';
+              div.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <img src="${item.picture}" alt="${item.title}" style="max-width: 200px;" />
+                    <p><strong>Location:</strong> ${item.location}</p>
+                    <p><strong>Price:</strong> ${item.price}</p>
+                    <p><strong>Date:</strong> ${item.date}</p>
+                    <p>${item.description}</p>
+                `;
 
+              // Add a click event to open the modal
+              div.addEventListener('click', function() {
+                openModal(item);
+              });
+              
+              resultsContainer.appendChild(div);
+            });
+          } else {
+            document.getElementById('results').textContent = 'No events found for this category.';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading data:', error);
+          document.getElementById('results').textContent = 'Error loading data.';
+        });
+    });
 
-<style>
-  #category-title {
+    // Function to open the modal
+    function openModal(item) {
+      const modal = document.getElementById('event-modal');
+      const galleryContainer = document.querySelector('.gallery-images');
+      const description = document.getElementById('modal-description');
+
+      // Clear previous images
+      galleryContainer.innerHTML = '';
+
+      // Populate modal with images (if item.images is an array)
+      if (item.images && Array.isArray(item.images)) {
+        item.images.forEach(imageUrl => {
+          const img = document.createElement('img');
+          img.src = imageUrl;
+          img.alt = item.title;
+          galleryContainer.appendChild(img);
+        });
+      }
+
+      description.textContent = item.description;
+      modal.style.display = 'block'; // Show the modal
+    }
+
+    // Close modal when the user clicks on <span> (x)
+    document.addEventListener('click', function(event) {
+      if (event.target.classList.contains('close')) {
+        document.getElementById('event-modal').style.display = 'none';
+      }
+    });
+
+    // Close modal when the user clicks anywhere outside of the modal
+    window.onclick = function(event) {
+      const modal = document.getElementById('event-modal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+
+  <style>
+    #category-title {
       font-size: 2em;
       margin-bottom: 10px;
       text-align: center;
@@ -170,9 +164,65 @@ window.onclick = function(event) {
     .event-item strong {
       color: #000; /* Bold text color for labels */
     }
-  </style>
 
-  
+    /* Modal styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1000; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+      max-width: 600px; /* Maximum width of the modal */
+      position: relative;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .gallery-images {
+      display: flex;
+      overflow-x: auto; /* Enable horizontal scrolling */
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+    }
+
+    .gallery-images img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      scroll-snap-align: start; /* Snap to the start of the image */
+      border-radius: 5px;
+    }
+
+    #modal-description {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
 </head>
 
 <body>
@@ -180,80 +230,16 @@ window.onclick = function(event) {
   <p id="category-description"></p>
   <div id="results"></div>
 
-
   <!-- Modal for displaying detailed event information -->
-<div id="event-modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div id="modal-gallery" class="gallery">
-      <div class="gallery-images"></div>
-      <p id="modal-description"></p>
+  <div id="event-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modal-gallery" class="gallery">
+        <div class="gallery-images"></div>
+        <p id="modal-description"></p>
+      </div>
     </div>
   </div>
-</div>
-
-
-<style>
-  /* Modal styles */
-  .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
-  }
-
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 600px; /* Maximum width of the modal */
-    position: relative;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .gallery-images {
-    display: flex;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    scroll-snap-type: x mandatory;
-    gap: 10px;
-  }
-
-  .gallery-images img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    scroll-snap-align: start; /* Snap to the start of the image */
-    border-radius: 5px;
-  }
-
-  #modal-description {
-    margin-top: 10px;
-    font-size: 1.2em;
-    color: #333;
-  }
-</style>
-
-
 </body>
 
 </html>
