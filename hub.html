@@ -19,6 +19,7 @@ title: Hub
       const province = urlPath[2];
       const city = urlPath[3];
       const category = urlPath[4];
+     
       // Fetch JSON data and display relevant results
       fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
         .then(response => response.json())
@@ -27,6 +28,7 @@ title: Hub
           const lowerProvince = province.toLowerCase();
           const lowerCity = city.toLowerCase();
           const lowerCategory = category.replace('-', ' ').toLowerCase();
+         
           // Check if data exists for the selected location and category
           const results = data?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.[lowerCategory];
           if (results && results.length > 0) {
