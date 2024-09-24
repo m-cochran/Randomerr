@@ -493,7 +493,6 @@ function updateCategoryLinks() {
     if (region && province && city) {
         const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
         document.querySelectorAll('.category-group ul li a').forEach(link => {
-            const href = link.getAttribute('href');
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
             const newHref = `{{ site.baseurl }}${baseUrl}&category=${category}`; // Ensure all links point to default.html
             link.setAttribute('href', newHref);
@@ -505,11 +504,20 @@ function updateCategoryLinks() {
 
                     // Load category content dynamically (e.g., from JSON or API)
                     fetch(`/data/${category}.json`)  // Assume your categories are stored in JSON files
-                        .then(response => response.json())
+                        .then(response => { 
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
                         .then(data => {
                             // Render the content dynamically on the page
                             const contentArea = document.getElementById('content');
-                            contentArea.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`;
+                            if (contentArea) {
+                                contentArea.innerHTML = `<h1>${data.title}</h1><p>${data.description}</p>`; 
+                            } else { 
+                                console.error('Content area not found');
+                            }
                         })
                         .catch(error => console.error('Error loading category data:', error));
                 });
