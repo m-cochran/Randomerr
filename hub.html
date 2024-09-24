@@ -47,6 +47,7 @@ title: Hub
           resultsContainer.innerHTML = ''; // Clear existing content
           results.forEach(item => {
             const div = document.createElement('div');
+            div.className = 'event-item';
             div.innerHTML = `
                   <h3>${item.title}</h3>
                   <img src="${item.picture}" alt="${item.title}" style="max-width: 200px;" />
@@ -69,6 +70,65 @@ title: Hub
 </script>
 
 
+<style>
+  #category-title {
+      font-size: 2em;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #0056b3; /* Dark blue color for the title */
+    }
+
+    #category-description {
+      font-size: 1.2em;
+      text-align: center;
+      color: #666; /* Gray color for the description */
+      margin-bottom: 20px;
+    }
+
+    #results {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px; /* Space between items */
+    }
+
+    .event-item {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 300px; /* Fixed width for event items */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .event-item:hover {
+      transform: scale(1.05); /* Scale effect on hover */
+    }
+
+    .event-item img {
+      max-width: 100%;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .event-item h3 {
+      font-size: 1.5em;
+      color: #333;
+      margin: 0 0 10px;
+    }
+
+    .event-item p {
+      margin: 5px 0;
+      color: #555; /* Darker gray for paragraph text */
+    }
+
+    .event-item strong {
+      color: #000; /* Bold text color for labels */
+    }
+  </style>
+
+  
 </head>
 
 <body>
