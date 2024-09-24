@@ -22,8 +22,12 @@ title: Hub
 
       // Fetch JSON data and display relevant results
       fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
-        .then(response => response.json())
+        .then(response => {
+          console.log('Response status:', response.status); // Log the response status
+          return response.json();
+        })
         .then(data => {
+          console.log('Fetched data:', data); // Log the fetched data
           const lowerRegion = region?.toUpperCase();
           const lowerProvince = province?.toUpperCase();
           const lowerCity = city?.toUpperCase();
@@ -35,6 +39,7 @@ title: Hub
 
           // Access the correct region, province, city, and category
           const results = data?.REGIONS?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
+          console.log('Results for selected category:', results); // Log results for the selected category
 
           // Check if results are available
           if (results && results.length > 0) {
@@ -54,6 +59,7 @@ title: Hub
 
               // Add a click event to open the modal
               div.addEventListener('click', function() {
+                console.log('Opening modal for:', item); // Log item
                 openModal(item);
               });
 
