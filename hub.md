@@ -450,9 +450,6 @@ permalink: /hub/
       'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
-
-    
-document.addEventListener('DOMContentLoaded', function() {
     // Event listener for region selection
     regionSelect.addEventListener('change', function() {
         const region = this.value;
@@ -507,7 +504,7 @@ function updateCategoryLinks() {
                     const categoryUrl = newHref;
 
                     // Load category content dynamically (e.g., from JSON or API)
-                    fetch(`https://m-cochran.github.io/Randomerr/data/categories.json`)  // Assume your categories are stored in JSON files
+                    fetch(`/data/${category}.json`)  // Assume your categories are stored in JSON files
                         .then(response => response.json())
                         .then(data => {
                             // Render the content dynamically on the page
