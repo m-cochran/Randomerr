@@ -27,7 +27,7 @@ title: Hub
           const lowerRegion = region?.toLowerCase();
           const lowerProvince = province?.toLowerCase();
           const lowerCity = city?.toLowerCase();
-          const lowerCategory = category?.replace('-', ' ').toLowerCase();
+          const lowerCategory = category?.replace('-', ' '); // Convert dashes to spaces but keep case-sensitive comparison
          
           // Check if data exists for the selected location and category
           const results = data?.regions?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
