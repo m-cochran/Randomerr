@@ -13,48 +13,51 @@ title: Hub
   <title>Dynamic Category Data</title>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Parse query parameters from the URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const region = urlParams.get('region');
-      const province = urlParams.get('province');
-      const city = urlParams.get('city');
-      const category = urlParams.get('category');
-     
-      // Fetch JSON data and display relevant results
-      fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
-        .then(response => response.json())
-        .then(data => {
-          const lowerRegion = region?.toLowerCase();
-          const lowerProvince = province?.toLowerCase();
-          const lowerCity = city?.toLowerCase();
-          const lowerCategory = category?.replace('-', ' '); // Convert dashes to spaces but keep case-sensitive comparison
-         
-          // Check if data exists for the selected location and category
-          const results = data?.regions?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
-          if (results && results.length > 0) {
-            const resultsContainer = document.getElementById('results');
-            resultsContainer.innerHTML = ''; // Clear existing content
-            results.forEach(item => {
-              const div = document.createElement('div');
-              div.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <img src="${item.picture}" alt="${item.title}" style="max-width: 200px;" />
-                    <p><strong>Location:</strong> ${item.location}</p>
-                    <p><strong>Price:</strong> ${item.price}</p>
-                    <p><strong>Date:</strong> ${item.date}</p>
-                    <p>${item.description}</p>
-                `;
-              resultsContainer.appendChild(div);
-            });
-          } else {
-            document.getElementById('results').textContent = 'No events found for this category.';
-          }
-        })
-        .catch(error => {
-          console.error('Error loading data:', error);
-          document.getElementById('results').textContent = 'Error loading data.';
+  // Parse query parameters from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const region = urlParams.get('region');
+  const province = urlParams.get('province');
+  const city = urlParams.get('city');
+  const category = urlParams.get('category');
+ 
+  // Fetch JSON data and display relevant results
+  fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
+    .then(response => response.json())
+    .then(data => {
+      // Corrected access to the data structure
+      const lowerRegion = region?.toUpperCase();
+      const lowerProvince = province?.toUpperCase();
+      const lowerCity = city?.toUpperCase();
+      const lowerCategory = category?.replace('-', ' '); // Ensure proper category format
+      
+      // Correctly access the regions key
+      const results = data?.REGIONS?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
+      
+      if (results && results.length > 0) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = ''; // Clear existing content
+        results.forEach(item => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+                <h3>${item.title}</h3>
+                <img src="${item.picture}" alt="${item.title}" style="max-width: 200px;" />
+                <p><strong>Location:</strong> ${item.location}</p>
+                <p><strong>Price:</strong> ${item.price}</p>
+                <p><strong>Date:</strong> ${item.date}</p>
+                <p>${item.description}</p>
+            `;
+          resultsContainer.appendChild(div);
         });
+      } else {
+        document.getElementById('results').textContent = 'No events found for this category.';
+      }
+    })
+    .catch(error => {
+      console.error('Error loading data:', error);
+      document.getElementById('results').textContent = 'Error loading data.';
     });
+});
+
   </script>
 
 
