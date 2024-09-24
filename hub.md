@@ -452,7 +452,7 @@ permalink: /hub/
     };
 // Event listener for region selection
 regionSelect.addEventListener('change', function() {
-    const region = this.value;
+    const region = this.value.toUpperCase();
     provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
     cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
     provinceStateSelect.disabled = !region;
@@ -470,7 +470,7 @@ regionSelect.addEventListener('change', function() {
 
 // Event listener for province/state selection
 provinceStateSelect.addEventListener('change', function() {
-    const province = this.value;
+    const province = this.value.toUpperCase();
     cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
     cityTownSelect.disabled = !province;
     if (province) {
