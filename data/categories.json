@@ -1,10 +1,10 @@
 {
   "regions": {
-    "NORTH-AMERICA": {
-      "PENNSYLVANIA": {
-        "PITTSBURGH": {
+    "north-america": {
+      "pennsylvania": {
+        "pittsburgh": {
           "categories": {
-            "Miscellaneous": [
+            "miscellaneous": [
               {
                 "title": "Art Exhibition",
                 "location": "Mohave Art Gallery, Mohave, Arizona",
@@ -24,54 +24,54 @@
             ]
           }
         },
-        "PHOENIX": {
+        "phoenix": {
           "categories": {
-            "Business": [],
-            "Entertainment": [],
-            "Health": []
+            "business": [],
+            "entertainment": [],
+            "health": []
           }
         }
       }
     },
-    "CALIFORNIA": {
-      "LOS-ANGELES": {
+    "california": {
+      "los-angeles": {
         "categories": {
-          "Technology": [],
-          "Fashion": [],
-          "Travel": []
+          "technology": [],
+          "fashion": [],
+          "travel": []
         }
       },
-      "SAN-FRANCISCO": {
+      "san-francisco": {
         "categories": {
-          "Startups": [],
-          "Finance": [],
-          "Real Estate": []
+          "startups": [],
+          "finance": [],
+          "real estate": []
         }
       }
     },
-    "CANADA": {
-      "ONTARIO": {
-        "TORONTO": {
+    "canada": {
+      "ontario": {
+        "toronto": {
           "categories": {
-            "Music": [],
-            "Film": [],
-            "Art": []
+            "music": [],
+            "film": [],
+            "art": []
           }
         },
-        "OTTAWA": {
+        "ottawa": {
           "categories": {
-            "Government": [],
-            "History": [],
-            "Culture": []
+            "government": [],
+            "history": [],
+            "culture": []
           }
         }
       },
-      "BRITISH-COLUMBIA": {
-        "VANCOUVER": {
+      "british-columbia": {
+        "vancouver": {
           "categories": {
-            "Nature": [],
-            "Tourism": [],
-            "Outdoors": []
+            "nature": [],
+            "tourism": [],
+            "outdoors": []
           }
         }
       }
