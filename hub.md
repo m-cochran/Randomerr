@@ -498,7 +498,6 @@ function updateCategoryLinks() {
             link.setAttribute('href', newHref);
                 // Add event listener for dynamically loading the content when clicking a category
                 link.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent default link behavior
                     window.location.href = newHref;
                 });
         });
