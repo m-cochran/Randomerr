@@ -28,14 +28,14 @@ title: Hub
           const lowerProvince = province?.toUpperCase();
           const lowerCity = city?.toUpperCase();
           const lowerCategory = category?.replace('-', ' '); // Ensure proper category format
-          
+
           // Set the title and description
           document.getElementById('category-title').textContent = lowerCategory.charAt(0).toUpperCase() + lowerCategory.slice(1);
           document.getElementById('category-description').textContent = `Showing events in ${city}, ${province} for ${lowerCategory}`;
-          
+
           // Access the correct region, province, city, and category
           const results = data?.REGIONS?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
-          
+
           // Check if results are available
           if (results && results.length > 0) {
             const resultsContainer = document.getElementById('results');
@@ -56,7 +56,7 @@ title: Hub
               div.addEventListener('click', function() {
                 openModal(item);
               });
-              
+
               resultsContainer.appendChild(div);
             });
           } else {
