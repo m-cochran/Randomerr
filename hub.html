@@ -75,54 +75,60 @@ title: Hub
         });
     });
 
-    // Function to open the modal
-    function openModal(item) {
-      const modal = document.getElementById('event-modal');
-      const galleryContainer = document.querySelector('.gallery-images');
-      const description = document.getElementById('modal-description');
+// Function to open the modal
+function openModal(item) {
+  const modal = document.getElementById('event-modal');
+  const galleryContainer = document.querySelector('.gallery-images');
+  const description = document.getElementById('modal-description');
 
-      // Clear previous images
-      galleryContainer.innerHTML = '';
+  // Clear previous images
+  galleryContainer.innerHTML = '';
 
-      // Populate modal with images (if item.images is an array)
-      if (item.images && Array.isArray(item.images)) {
-        item.images.forEach(imageUrl => {
-          const img = document.createElement('img');
-          img.src = imageUrl;
-          img.alt = item.title;
-          galleryContainer.appendChild(img);
-        });
-      }
+  // Populate modal with images (if item.images is an array)
+  if (item.images && Array.isArray(item.images)) {
+    item.images.forEach(imageUrl => {
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = item.title;
+      galleryContainer.appendChild(img);
+    });
+  }
 
-      // Clear existing title, price, and location
-      const modalContent = document.querySelector('.modal-content');
-      modalContent.querySelector('h2')?.remove();
-      modalContent.querySelector('.price')?.remove();
-      modalContent.querySelector('.location')?.remove();
+  // Clear existing title, price, and location
+  const modalContent = document.querySelector('.modal-content');
+  const existingTitle = modalContent.querySelector('h2');
+  const existingPrice = modalContent.querySelector('.price');
+  const existingLocation = modalContent.querySelector('.location');
 
-      // Create new title, price, and location elements
-      const title = document.createElement('h2');
-      title.textContent = item.title;
-      title.style.textAlign = 'center'; // Center align the title
+  // Remove existing elements
+  if (existingTitle) existingTitle.remove();
+  if (existingPrice) existingPrice.remove();
+  if (existingLocation) existingLocation.remove();
 
-      const price = document.createElement('p');
-      price.textContent = `Price: ${item.price}`;
-      price.classList.add('price'); // Add a class for potential styling
-      price.style.textAlign = 'right'; // Align price to the right
+  // Create new title, price, and location elements
+  const title = document.createElement('h2');
+  title.textContent = item.title;
+  title.style.textAlign = 'center'; // Center align the title
 
-      const location = document.createElement('p');
-      location.textContent = `Location: ${item.location}`;
-      location.classList.add('location'); // Add a class for potential styling
-      location.style.textAlign = 'right'; // Align location to the right
+  const price = document.createElement('p');
+  price.textContent = `Price: ${item.price}`;
+  price.classList.add('price'); // Add a class for potential styling
+  price.style.textAlign = 'right'; // Align price to the right
 
-      // Append title, price, and location to the modal content
-      modalContent.insertBefore(title, galleryContainer); // Add title above images
-      modalContent.appendChild(location); // Add location below images
-      modalContent.appendChild(price); // Add price below location
+  const location = document.createElement('p');
+  location.textContent = `Location: ${item.location}`;
+  location.classList.add('location'); // Add a class for potential styling
+  location.style.textAlign = 'right'; // Align location to the right
 
-      description.textContent = item.description;
-      modal.style.display = 'block'; // Show the modal
-    }
+  // Append title, price, and location to the modal content
+  modalContent.appendChild(title); // Add title above images
+  modalContent.appendChild(location); // Add location below images
+  modalContent.appendChild(price); // Add price below location
+
+  description.textContent = item.description;
+  modal.style.display = 'block'; // Show the modal
+}
+
 
     // Close modal when the user clicks on <span> (x)
     document.addEventListener('click', function(event) {
