@@ -53,7 +53,7 @@ title: Hub
           console.error('Error loading data:', error);
           document.getElementById('results').textContent = 'Error loading data.';
         });
-    }
+      
     // Load category data on page load based on URL
     if (region && province && city && category) {
       fetchCategoryData(region.toUpperCase(), province.toUpperCase(), city.toUpperCase(), category.toUpperCase());
