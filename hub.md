@@ -494,7 +494,7 @@ function updateCategoryLinks() {
         const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const href = link.getAttribute('href');
-            const category = link.textContent.split(' ').join('-').toUpperCase(); // Convert category to URL format
+            const category = link.textContent.split(' ').join('-'); // Convert category to URL format
             const newHref = `{{ site.baseurl }}${baseUrl}&category=${category}`; // Ensure all links point to default.html
             link.setAttribute('href', newHref);
                 // Add event listener for dynamically loading the content when clicking a category
