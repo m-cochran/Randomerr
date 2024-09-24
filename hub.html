@@ -94,24 +94,31 @@ title: Hub
         });
       }
 
-      // Update modal content
+      // Clear existing title, price, and location
+      const modalContent = document.querySelector('.modal-content');
+      modalContent.querySelector('h2')?.remove();
+      modalContent.querySelector('.price')?.remove();
+      modalContent.querySelector('.location')?.remove();
+
+      // Create new title, price, and location elements
       const title = document.createElement('h2');
       title.textContent = item.title;
       title.style.textAlign = 'center'; // Center align the title
 
       const price = document.createElement('p');
       price.textContent = `Price: ${item.price}`;
+      price.classList.add('price'); // Add a class for potential styling
       price.style.textAlign = 'right'; // Align price to the right
 
       const location = document.createElement('p');
       location.textContent = `Location: ${item.location}`;
+      location.classList.add('location'); // Add a class for potential styling
       location.style.textAlign = 'right'; // Align location to the right
 
       // Append title, price, and location to the modal content
-      const modalContent = document.querySelector('.modal-content');
       modalContent.insertBefore(title, galleryContainer); // Add title above images
       modalContent.appendChild(location); // Add location below images
-      modalContent.appendChild(price); // Add price above location
+      modalContent.appendChild(price); // Add price below location
 
       description.textContent = item.description;
       modal.style.display = 'block'; // Show the modal
@@ -209,12 +216,12 @@ title: Hub
       background-color: #fefefe;
       margin: 15% auto;
       width: 80%;
-     max-width: 600px;
-     }
+      max-width: 600px;
+    }
 
     .modal-content h2 {
       margin: 0 0 10px; /* Margin for spacing below title */
-     }
+    }
 
     .modal-content p {
       margin: 5px 0; /* Standard margin for paragraphs */
@@ -223,7 +230,6 @@ title: Hub
     .modal-content .right-align {
       text-align: right; /* Right alignment class for price and location */
     }
-
 
     .close {
       color: #aaa;
