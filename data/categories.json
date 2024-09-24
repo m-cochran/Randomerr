@@ -11,7 +11,13 @@
                 "price": "Free",
                 "picture": "https://lh3.googleusercontent.com/p/AF1QipNmeZnLWycwNqNRgzW7ZZjDDJlYGKJRI95LJuuy=s1360-w1360-h1020",
                 "description": "A beautiful collection of contemporary art.",
-                "date": "2024-10-05"
+                "date": "2024-10-05",
+                "images": [
+                  "https://example.com/image1.jpg",
+                  "https://example.com/image2.jpg",
+                  "https://example.com/image3.jpg"
+                  // Up to 16 images
+                ]
               },
               {
                 "title": "Cultural Festival",
