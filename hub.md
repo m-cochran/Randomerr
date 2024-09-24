@@ -450,69 +450,87 @@ permalink: /hub/
       'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
-// Event listener for region selection
-regionSelect.addEventListener('change', function() {
-    const region = this.value;
-    provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    provinceStateSelect.disabled = !region;
-    cityTownSelect.disabled = true;
-    if (region) {
-        const provincesList = provinces[region];
-        provincesList.forEach(province => {
-            const option = document.createElement('option');
-            option.value = province;
-            option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
-            provinceStateSelect.appendChild(option);
-        });
-    }
-});
+ // Event listener for region selection
+    regionSelect.addEventListener('change', function() {
+        const region = this.value;
+        provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
+        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+        provinceStateSelect.disabled = !region;
+        cityTownSelect.disabled = true;
+        if (region) {
+            const provincesList = provinces[region];
+            provincesList.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
+                provinceStateSelect.appendChild(option);
+            });
+        }
+    });
 
-// Event listener for province/state selection
-provinceStateSelect.addEventListener('change', function() {
-    const province = this.value;
-    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    cityTownSelect.disabled = !province;
-    if (province) {
-        const citiesList = cities[province];
-        citiesList.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city;
-            option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
-            cityTownSelect.appendChild(option);
-        });
-    }
-});
+    // Event listener for province/state selection
+    provinceStateSelect.addEventListener('change', function() {
+        const province = this.value;
+        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+        cityTownSelect.disabled = !province;
+        if (province) {
+            const citiesList = cities[province];
+            citiesList.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
+                cityTownSelect.appendChild(option);
+            });
+        }
+    });
 
-// Update category links based on selected location
+    // Update category links based on selected location
 function updateCategoryLinks() {
     const region = regionSelect.value.toUpperCase().replace(' ', '-');
     const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
     const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
 
     if (region && province && city) {
-        const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
+        const baseUrl = /hub.html?region=${region}&province=${province}&city=${city};
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
-            const newHref = `https://m-cochran.github.io/Randomerr${baseUrl}&category=${category}`; // Ensure the correct site base URL
+            const newHref = {{ site.baseurl }}${baseUrl}&category=${category}; // Ensure all links point to default.html
             link.setAttribute('href', newHref);
+                // Add event listener for dynamically loading the content when clicking a category
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    window.location.href = newHref;
 
-            // Add event listener to navigate to the constructed URL when clicked
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default behavior
+                    const categoryUrl = newHref;
 
-                // Navigate to the new URL
-                window.location.href = newHref;
+                    // Load category content dynamically (e.g., from JSON or API)
+                    fetch(/data/${category}.json)  // Assume your categories are stored in JSON files
+                        .then(response => { 
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Render the content dynamically on the page
+                            const contentArea = document.getElementById('content');
+                            if (contentArea) {
+                                contentArea.innerHTML = <h1>${data.title}</h1><p>${data.description}</p>; 
+                            } else { 
+                                console.error('Content area not found');
+                            }
+                        })
+                        .catch(error => console.error('Error loading category data:', error));
+                });
             });
-        });
+        }
     }
-}
 
-// Add event listeners to update links when selections change
-regionSelect.addEventListener('change', updateCategoryLinks);
-provinceStateSelect.addEventListener('change', updateCategoryLinks);
-cityTownSelect.addEventListener('change', updateCategoryLinks);
-
+    // Add event listeners to update links when selections change
+    regionSelect.addEventListener('change', updateCategoryLinks);
+    provinceStateSelect.addEventListener('change', updateCategoryLinks);
+    cityTownSelect.addEventListener('change', updateCategoryLinks);
+});
 </script>
 
 
