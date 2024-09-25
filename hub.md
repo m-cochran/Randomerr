@@ -451,6 +451,41 @@ permalink: /hub/
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
 
+    // Restore the user's selections from localStorage on page load
+    window.addEventListener('load', function() {
+        const savedRegion = localStorage.getItem('selectedRegion');
+        const savedProvince = localStorage.getItem('selectedProvince');
+        const savedCity = localStorage.getItem('selectedCity');
+
+        if (savedRegion) {
+            regionSelect.value = savedRegion;
+            const provincesList = provinces[savedRegion];
+            provincesList.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
+                provinceStateSelect.appendChild(option);
+            });
+            provinceStateSelect.disabled = false;
+        }
+
+        if (savedProvince) {
+            provinceStateSelect.value = savedProvince;
+            const citiesList = cities[savedProvince];
+            citiesList.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
+                cityTownSelect.appendChild(option);
+            });
+            cityTownSelect.disabled = false;
+        }
+
+        if (savedCity) {
+            cityTownSelect.value = savedCity;
+        }
+    });
+
     // Event listener for region selection
     regionSelect.addEventListener('change', function() {
         const region = this.value;
@@ -458,54 +493,79 @@ permalink: /hub/
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         provinceStateSelect.disabled = !region;
         cityTownSelect.disabled = true;
+
         if (region) {
             const provincesList = provinces[region];
             provincesList.forEach(province => {
                 const option = document.createElement('option');
                 option.value = province;
-                option.textContent = province;
+                option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
                 provinceStateSelect.appendChild(option);
             });
+
+            localStorage.setItem('selectedRegion', region);
         }
     });
 
     // Event listener for province/state selection
     provinceStateSelect.addEventListener('change', function() {
         const province = this.value;
+
+        if (!regionSelect.value) {
+            alert('You must select a region first.');
+            this.value = ''; // Reset selection
+            return;
+        }
+
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         cityTownSelect.disabled = !province;
+
         if (province) {
             const citiesList = cities[province];
             citiesList.forEach(city => {
                 const option = document.createElement('option');
                 option.value = city;
-                option.textContent = city;
+                option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
                 cityTownSelect.appendChild(option);
             });
+
+            localStorage.setItem('selectedProvince', province);
         }
+    });
+
+    // Event listener for city/town selection
+    cityTownSelect.addEventListener('change', function() {
+        const city = this.value;
+
+        if (!provinceStateSelect.value) {
+            alert('You must select a province/state first.');
+            this.value = ''; // Reset selection
+            return;
+        }
+
+        localStorage.setItem('selectedCity', city);
     });
 
     // Function to update category links based on selected location
     function updateCategoryLinks() {
-        const region = regionSelect.value.toUpperCase().replace(' ', '-');
-        const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
-        const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
+        const region = regionSelect.value;
+        const province = provinceStateSelect.value;
+        const city = cityTownSelect.value;
 
-        if (!region || !province || !city) {
-            alert('You must select a location first.');
-            return;
-        }
-
-        const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
         document.querySelectorAll('.category-group ul li a').forEach(link => {
-            const category = link.textContent.split(' ').join('-'); // Convert category to URL format
-            const newHref = `https://m-cochran.github.io/Randomerr${baseUrl}&category=${category}`;
-            link.setAttribute('href', newHref);
-
-            // Ensure navigation occurs when clicking on the link
             link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                window.location.href = newHref; // Redirect to the correct URL
+                // Check if region, province, and city are selected
+                if (!region || !province || !city) {
+                    // Show alert if location is not fully selected
+                    event.preventDefault();
+                    alert('You must select a location first.');
+                    return;
+                }
+
+                // If location is selected, proceed with URL update
+                const category = link.textContent.split(' ').join('-'); // Convert category to URL format
+                const newHref = `https://m-cochran.github.io/Randomerr/hub.html?region=${region.toUpperCase()}&province=${province.toUpperCase()}&city=${city.toUpperCase()}&category=${category}`;
+                window.location.href = newHref; // Redirect to the new URL
             });
         });
     }
