@@ -451,19 +451,13 @@ permalink: /hub/
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
 
-   // Event listener for region selection
+    // Event listener for region selection
     regionSelect.addEventListener('change', function() {
         const region = this.value;
         provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         provinceStateSelect.disabled = !region;
         cityTownSelect.disabled = true;
-
-        // Prevent moving forward without selecting a region
-        if (!region) {
-            alert("You must select a region first.");
-            return;
-        }
 
         if (region) {
             const provincesList = provinces[region];
@@ -482,19 +476,6 @@ permalink: /hub/
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         cityTownSelect.disabled = !province;
 
-        // Prevent selecting province/state without selecting a region first
-        if (!regionSelect.value) {
-            alert("You must select a region first.");
-            provinceStateSelect.disabled = true;
-            return;
-        }
-
-        // Prevent moving forward without selecting a province/state
-        if (!province) {
-            alert("You must select a province/state first.");
-            return;
-        }
-
         if (province) {
             const citiesList = cities[province];
             citiesList.forEach(city => {
@@ -506,28 +487,32 @@ permalink: /hub/
         }
     });
 
+    // Function to check if all location selections are made
+    function areAllSelectionsMade() {
+        const region = regionSelect.value;
+        const province = provinceStateSelect.value;
+        const city = cityTownSelect.value;
+
+        return region && province && city; // Returns true if all are selected
+    }
+
     // Function to update category links based on selected location
     function updateCategoryLinks() {
         const region = regionSelect.value.toUpperCase().replace(' ', '-');
         const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
         const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
 
-        // If any part of the location is not selected, show a pop-up message and prevent URL change
-        if (!region || !province || !city) {
-            alert('You must select a region, province/state, and city/town before choosing a category.');
-            return;
-        }
-
-        const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
-            const newHref = `https://m-cochran.github.io/Randomerr${baseUrl}&category=${category}`;
+            const newHref = `https://m-cochran.github.io/Randomerr/hub.html?region=${region}&province=${province}&city=${city}&category=${category}`;
             link.setAttribute('href', newHref);
 
-            // Ensure navigation occurs when clicking on the link
+            // Add event listener to check selections before allowing the click
             link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                window.location.href = newHref; // Redirect to the correct URL
+                if (!areAllSelectionsMade()) {
+                    event.preventDefault(); // Prevent link from being followed
+                    alert('You must select a region, province/state, and city/town before choosing a category.');
+                }
             });
         });
     }
@@ -536,10 +521,11 @@ permalink: /hub/
     regionSelect.addEventListener('change', updateCategoryLinks);
     provinceStateSelect.addEventListener('change', updateCategoryLinks);
     cityTownSelect.addEventListener('change', updateCategoryLinks);
-}); // Ensure this closing parenthesis is here
+
+    // Initial call to set up category links
+    updateCategoryLinks();
+});
 </script>
-
-
 
 <style>
 .container-location {
