@@ -455,8 +455,8 @@ regionSelect.addEventListener('change', function() {
     const region = this.value;
     provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
     cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    provinceStateSelect.disabled = !region;
-    cityTownSelect.disabled = true;
+    provinceStateSelect.disabled = !region; // Ensure this enables if a region is selected
+    cityTownSelect.disabled = true; // Always disable city initially when a new region is selected
 
     if (region) {
         const provincesList = provinces[region];
@@ -466,21 +466,22 @@ regionSelect.addEventListener('change', function() {
             option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
             provinceStateSelect.appendChild(option);
         });
+
+        // Save the selected region to localStorage
+        localStorage.setItem('selectedRegion', region);
     }
 
-    // Reset city when region changes
+    // Reset the city dropdown and disable it initially
     cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
     cityTownSelect.disabled = true;
-
-    // Save the selected region to localStorage
-    localStorage.setItem('selectedRegion', region);
 });
 
 // Event listener for province/state selection
 provinceStateSelect.addEventListener('change', function() {
     const province = this.value;
     cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    cityTownSelect.disabled = !province;
+    cityTownSelect.disabled = !province; // Ensure this enables if a province is selected
+
     if (province) {
         const citiesList = cities[province];
         citiesList.forEach(city => {
@@ -489,14 +490,10 @@ provinceStateSelect.addEventListener('change', function() {
             option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
             cityTownSelect.appendChild(option);
         });
+
+        // Save the selected province to localStorage
+        localStorage.setItem('selectedProvince', province);
     }
-
-    // Reset city when province changes
-    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    cityTownSelect.disabled = true;
-
-    // Save the selected province to localStorage
-    localStorage.setItem('selectedProvince', province);
 });
 
 // Event listener for city/town selection
@@ -514,18 +511,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (savedRegion) {
         regionSelect.value = savedRegion;
-        regionSelect.dispatchEvent(new Event('change'));
+        regionSelect.dispatchEvent(new Event('change')); // This will load provinces
     }
 
     if (savedProvince) {
         provinceStateSelect.value = savedProvince;
-        provinceStateSelect.dispatchEvent(new Event('change'));
+        provinceStateSelect.dispatchEvent(new Event('change')); // This will load cities
     }
 
     if (savedCity) {
         cityTownSelect.value = savedCity;
     }
 });
+
 
 // Function to update category links based on selected location
 function updateCategoryLinks() {
