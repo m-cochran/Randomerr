@@ -450,88 +450,60 @@ permalink: /hub/
       'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
-// Event listener for region selection
-regionSelect.addEventListener('change', function() {
-    const region = this.value;
-    provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    provinceStateSelect.disabled = !region; // Ensure this enables if a region is selected
-    cityTownSelect.disabled = true; // Always disable city initially when a new region is selected
 
-    if (region) {
-        const provincesList = provinces[region];
-        provincesList.forEach(province => {
-            const option = document.createElement('option');
-            option.value = province;
-            option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
-            provinceStateSelect.appendChild(option);
-        });
 
-        // Save the selected region to localStorage
-        localStorage.setItem('selectedRegion', region);
-    }
-
-    // Reset the city dropdown and disable it initially
-    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    cityTownSelect.disabled = true;
-});
-
-// Event listener for province/state selection
-provinceStateSelect.addEventListener('change', function() {
-    const province = this.value;
-    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-    cityTownSelect.disabled = !province; // Ensure this enables if a province is selected
-
-    if (province) {
-        const citiesList = cities[province];
-        citiesList.forEach(city => {
-            const option = document.createElement('option');
-            option.value = city;
-            option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
-            cityTownSelect.appendChild(option);
-        });
-
-        // Save the selected province to localStorage
-        localStorage.setItem('selectedProvince', province);
-    }
-});
-
-// Event listener for city/town selection
-cityTownSelect.addEventListener('change', function() {
-    const city = this.value;
-    // Save the selected city to localStorage
-    localStorage.setItem('selectedCity', city);
-});
-
-// Restore selections on page load
+// Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    const savedRegion = localStorage.getItem('selectedRegion');
-    const savedProvince = localStorage.getItem('selectedProvince');
-    const savedCity = localStorage.getItem('selectedCity');
+    const regionSelect = document.getElementById('region');
+    const provinceStateSelect = document.getElementById('province-state');
+    const cityTownSelect = document.getElementById('city-town');
+  
 
-    if (savedRegion) {
-        regionSelect.value = savedRegion;
-        regionSelect.dispatchEvent(new Event('change')); // This will load provinces
-    }
+    // Event listener for region selection
+    regionSelect.addEventListener('change', function() {
+        const region = this.value;
+        provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
+        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+        provinceStateSelect.disabled = !region;
+        cityTownSelect.disabled = true;
+        if (region) {
+            const provincesList = provinces[region];
+            provincesList.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                provinceStateSelect.appendChild(option);
+            });
+        }
+    });
 
-    if (savedProvince) {
-        provinceStateSelect.value = savedProvince;
-        provinceStateSelect.dispatchEvent(new Event('change')); // This will load cities
-    }
+    // Event listener for province/state selection
+    provinceStateSelect.addEventListener('change', function() {
+        const province = this.value;
+        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+        cityTownSelect.disabled = !province;
+        if (province) {
+            const citiesList = cities[province];
+            citiesList.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                cityTownSelect.appendChild(option);
+            });
+        }
+    });
 
-    if (savedCity) {
-        cityTownSelect.value = savedCity;
-    }
-});
+    // Function to update category links based on selected location
+    function updateCategoryLinks() {
+        const region = regionSelect.value.toUpperCase().replace(' ', '-');
+        const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
+        const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
 
+        if (!region || !province || !city) {
+            alert('You must select a location first.');
+            return;
+        }
 
-// Function to update category links based on selected location
-function updateCategoryLinks() {
-    const region = regionSelect.value.toUpperCase().replace(' ', '-');
-    const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
-    const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
-
-    if (region && province && city) {
         const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
@@ -545,27 +517,12 @@ function updateCategoryLinks() {
             });
         });
     }
-}
 
-// Prevent navigation and show alert if location is not selected
-document.querySelectorAll('.category-group ul li a').forEach(link => {
-    link.addEventListener('click', function(event) {
-        const region = regionSelect.value;
-        const province = provinceStateSelect.value;
-        const city = cityTownSelect.value;
-
-        if (!region || !province || !city) {
-            event.preventDefault();
-            alert('You must select a region, province/state, and city/town before choosing a category.');
-        }
-    });
+    // Add event listeners to update links when selections change
+    regionSelect.addEventListener('change', updateCategoryLinks);
+    provinceStateSelect.addEventListener('change', updateCategoryLinks);
+    cityTownSelect.addEventListener('change', updateCategoryLinks);
 });
-
-// Add event listeners to update links when selections change
-regionSelect.addEventListener('change', updateCategoryLinks);
-provinceStateSelect.addEventListener('change', updateCategoryLinks);
-cityTownSelect.addEventListener('change', updateCategoryLinks);
-
 
 </script>
 
