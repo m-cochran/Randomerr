@@ -450,67 +450,124 @@ permalink: /hub/
       'Vietnam': ['Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hue', 'Nha Trang', 'Can Tho', 'Hai Phong', 'Vinh', 'Bac Ninh', 'Long Xuyen'],
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
- // Event listener for region selection
-    regionSelect.addEventListener('change', function() {
-        const region = this.value;
-        provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
-        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-        provinceStateSelect.disabled = !region;
-        cityTownSelect.disabled = true;
-        if (region) {
-            const provincesList = provinces[region];
-            provincesList.forEach(province => {
-                const option = document.createElement('option');
-                option.value = province;
-                option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
-                provinceStateSelect.appendChild(option);
-            });
-        }
-    });
+// Event listener for region selection
+regionSelect.addEventListener('change', function() {
+    const region = this.value;
+    provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
+    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+    provinceStateSelect.disabled = !region;
+    cityTownSelect.disabled = true;
 
-    // Event listener for province/state selection
-    provinceStateSelect.addEventListener('change', function() {
-        const province = this.value;
-        cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
-        cityTownSelect.disabled = !province;
-        if (province) {
-            const citiesList = cities[province];
-            citiesList.forEach(city => {
-                const option = document.createElement('option');
-                option.value = city;
-                option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
-                cityTownSelect.appendChild(option);
-            });
-        }
-    });
-
-    // Function to update category links based on selected location
-    function updateCategoryLinks() {
-        const region = regionSelect.value.toUpperCase().replace(' ', '-');
-        const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
-        const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
-
-        if (region && province && city) {
-            const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
-            document.querySelectorAll('.category-group ul li a').forEach(link => {
-                const category = link.textContent.split(' ').join('-'); // Convert category to URL format
-                const newHref = `https://m-cochran.github.io/Randomerr${baseUrl}&category=${category}`;
-                link.setAttribute('href', newHref);
-
-                // Ensure navigation occurs when clicking on the link
-                link.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent default link behavior
-                    window.location.href = newHref; // Redirect to the correct URL
-                });
-            });
-        }
+    if (region) {
+        const provincesList = provinces[region];
+        provincesList.forEach(province => {
+            const option = document.createElement('option');
+            option.value = province;
+            option.textContent = province.charAt(0).toUpperCase() + province.slice(1);
+            provinceStateSelect.appendChild(option);
+        });
     }
 
-    // Add event listeners to update links when selections change
-    regionSelect.addEventListener('change', updateCategoryLinks);
-    provinceStateSelect.addEventListener('change', updateCategoryLinks);
-    cityTownSelect.addEventListener('change', updateCategoryLinks);
+    // Reset city when region changes
+    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+    cityTownSelect.disabled = true;
+
+    // Save the selected region to localStorage
+    localStorage.setItem('selectedRegion', region);
 });
+
+// Event listener for province/state selection
+provinceStateSelect.addEventListener('change', function() {
+    const province = this.value;
+    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+    cityTownSelect.disabled = !province;
+    if (province) {
+        const citiesList = cities[province];
+        citiesList.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city.charAt(0).toUpperCase() + city.slice(1);
+            cityTownSelect.appendChild(option);
+        });
+    }
+
+    // Reset city when province changes
+    cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
+    cityTownSelect.disabled = true;
+
+    // Save the selected province to localStorage
+    localStorage.setItem('selectedProvince', province);
+});
+
+// Event listener for city/town selection
+cityTownSelect.addEventListener('change', function() {
+    const city = this.value;
+    // Save the selected city to localStorage
+    localStorage.setItem('selectedCity', city);
+});
+
+// Restore selections on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const savedRegion = localStorage.getItem('selectedRegion');
+    const savedProvince = localStorage.getItem('selectedProvince');
+    const savedCity = localStorage.getItem('selectedCity');
+
+    if (savedRegion) {
+        regionSelect.value = savedRegion;
+        regionSelect.dispatchEvent(new Event('change'));
+    }
+
+    if (savedProvince) {
+        provinceStateSelect.value = savedProvince;
+        provinceStateSelect.dispatchEvent(new Event('change'));
+    }
+
+    if (savedCity) {
+        cityTownSelect.value = savedCity;
+    }
+});
+
+// Function to update category links based on selected location
+function updateCategoryLinks() {
+    const region = regionSelect.value.toUpperCase().replace(' ', '-');
+    const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
+    const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
+
+    if (region && province && city) {
+        const baseUrl = `/hub.html?region=${region}&province=${province}&city=${city}`;
+        document.querySelectorAll('.category-group ul li a').forEach(link => {
+            const category = link.textContent.split(' ').join('-'); // Convert category to URL format
+            const newHref = `https://m-cochran.github.io/Randomerr${baseUrl}&category=${category}`;
+            link.setAttribute('href', newHref);
+
+            // Ensure navigation occurs when clicking on the link
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                window.location.href = newHref; // Redirect to the correct URL
+            });
+        });
+    }
+}
+
+// Prevent navigation and show alert if location is not selected
+document.querySelectorAll('.category-group ul li a').forEach(link => {
+    link.addEventListener('click', function(event) {
+        const region = regionSelect.value;
+        const province = provinceStateSelect.value;
+        const city = cityTownSelect.value;
+
+        if (!region || !province || !city) {
+            event.preventDefault();
+            alert('You must select a region, province/state, and city/town before choosing a category.');
+        }
+    });
+});
+
+// Add event listeners to update links when selections change
+regionSelect.addEventListener('change', updateCategoryLinks);
+provinceStateSelect.addEventListener('change', updateCategoryLinks);
+cityTownSelect.addEventListener('change', updateCategoryLinks);
+
 
 </script>
 
