@@ -468,6 +468,10 @@ permalink: /hub/
                 provinceStateSelect.appendChild(option);
             });
         }
+
+        // Clear city selection if region changes
+        cityTownSelect.value = '';
+        updateCategoryLinks(); // Update the links since the selection has changed
     });
 
     // Event listener for province/state selection
@@ -485,6 +489,10 @@ permalink: /hub/
                 cityTownSelect.appendChild(option);
             });
         }
+
+        // Clear city selection if province/state changes
+        cityTownSelect.value = '';
+        updateCategoryLinks(); // Update the links since the selection has changed
     });
 
     // Function to check if all location selections are made
@@ -496,11 +504,21 @@ permalink: /hub/
         return region && province && city; // Returns true if all are selected
     }
 
+    // Function to remove all previous event listeners from category links
+    function removeCategoryLinkListeners() {
+        document.querySelectorAll('.category-group ul li a').forEach(link => {
+            const clone = link.cloneNode(true);
+            link.parentNode.replaceChild(clone, link); // Replace the element with its clone to remove all listeners
+        });
+    }
+
     // Function to update category links based on selected location
     function updateCategoryLinks() {
         const region = regionSelect.value.toUpperCase().replace(' ', '-');
         const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
         const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
+
+        removeCategoryLinkListeners(); // Ensure old listeners are removed
 
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
