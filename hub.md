@@ -451,13 +451,20 @@ permalink: /hub/
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
 
-    // Event listener for region selection
+   // Event listener for region selection
     regionSelect.addEventListener('change', function() {
         const region = this.value;
         provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         provinceStateSelect.disabled = !region;
         cityTownSelect.disabled = true;
+
+        // Prevent moving forward without selecting a region
+        if (!region) {
+            alert("You must select a region first.");
+            return;
+        }
+
         if (region) {
             const provincesList = provinces[region];
             provincesList.forEach(province => {
@@ -474,6 +481,20 @@ permalink: /hub/
         const province = this.value;
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         cityTownSelect.disabled = !province;
+
+        // Prevent selecting province/state without selecting a region first
+        if (!regionSelect.value) {
+            alert("You must select a region first.");
+            provinceStateSelect.disabled = true;
+            return;
+        }
+
+        // Prevent moving forward without selecting a province/state
+        if (!province) {
+            alert("You must select a province/state first.");
+            return;
+        }
+
         if (province) {
             const citiesList = cities[province];
             citiesList.forEach(city => {
@@ -491,8 +512,9 @@ permalink: /hub/
         const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
         const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
 
+        // If any part of the location is not selected, show a pop-up message and prevent URL change
         if (!region || !province || !city) {
-            alert('You must select a location first.');
+            alert('You must select a region, province/state, and city/town before choosing a category.');
             return;
         }
 
@@ -514,8 +536,8 @@ permalink: /hub/
     regionSelect.addEventListener('change', updateCategoryLinks);
     provinceStateSelect.addEventListener('change', updateCategoryLinks);
     cityTownSelect.addEventListener('change', updateCategoryLinks);
-}); // <-- Ensure this closing parenthesis is here
-</script> <!-- And ensure this closing script tag is here -->
+}); // Ensure this closing parenthesis is here
+</script>
 
 
 
