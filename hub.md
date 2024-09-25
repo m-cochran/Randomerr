@@ -451,7 +451,7 @@ permalink: /hub/
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
 
-
+<script>
 // Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     const regionSelect = document.getElementById('region');
