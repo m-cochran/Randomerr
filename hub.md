@@ -451,14 +451,6 @@ permalink: /hub/
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
 
-<script>
-// Wait for the DOM to load
-document.addEventListener('DOMContentLoaded', function() {
-    const regionSelect = document.getElementById('region');
-    const provinceStateSelect = document.getElementById('province-state');
-    const cityTownSelect = document.getElementById('city-town');
-  
-
     // Event listener for region selection
     regionSelect.addEventListener('change', function() {
         const region = this.value;
@@ -523,7 +515,6 @@ document.addEventListener('DOMContentLoaded', function() {
     provinceStateSelect.addEventListener('change', updateCategoryLinks);
     cityTownSelect.addEventListener('change', updateCategoryLinks);
 });
-
 </script>
 
 
