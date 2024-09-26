@@ -452,9 +452,36 @@ permalink: /hub/
       'Yemen': ['Sana\'a', 'Aden', 'Taiz', 'Hodeidah', 'Mukalla', 'Dhamar', 'Ibb', 'Al Hudaydah', 'Marib', 'Sayun']
     };
 
-    // Event listener for region selection
-    regionSelect.addEventListener('change', function() {
-        const region = this.value;
+    // Function to save the selections to local storage
+    function saveSelections() {
+        localStorage.setItem('region', regionSelect.value);
+        localStorage.setItem('province', provinceStateSelect.value);
+        localStorage.setItem('city', cityTownSelect.value);
+    }
+
+    // Function to restore selections from local storage
+    function restoreSelections() {
+        const savedRegion = localStorage.getItem('region');
+        const savedProvince = localStorage.getItem('province');
+        const savedCity = localStorage.getItem('city');
+
+        if (savedRegion) {
+            regionSelect.value = savedRegion;
+            populateProvinces(savedRegion);
+        }
+
+        if (savedProvince) {
+            provinceStateSelect.value = savedProvince;
+            populateCities(savedProvince);
+        }
+
+        if (savedCity) {
+            cityTownSelect.value = savedCity;
+        }
+    }
+
+    // Function to populate provinces based on selected region
+    function populateProvinces(region) {
         provinceStateSelect.innerHTML = '<option value="">Select Province/State</option>';
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         provinceStateSelect.disabled = !region;
@@ -469,15 +496,10 @@ permalink: /hub/
                 provinceStateSelect.appendChild(option);
             });
         }
+    }
 
-        // Clear city selection if region changes
-        cityTownSelect.value = '';
-        updateCategoryLinks(); // Update the links since the selection has changed
-    });
-
-    // Event listener for province/state selection
-    provinceStateSelect.addEventListener('change', function() {
-        const province = this.value;
+    // Function to populate cities based on selected province
+    function populateCities(province) {
         cityTownSelect.innerHTML = '<option value="">Select City/Town</option>';
         cityTownSelect.disabled = !province;
 
@@ -490,10 +512,35 @@ permalink: /hub/
                 cityTownSelect.appendChild(option);
             });
         }
+    }
 
-        // Clear city selection if province/state changes
+    // Event listener for region selection
+    regionSelect.addEventListener('change', function() {
+        const region = this.value;
+        populateProvinces(region);
+
+        // Clear previous selections for province and city
+        provinceStateSelect.value = '';
         cityTownSelect.value = '';
-        updateCategoryLinks(); // Update the links since the selection has changed
+        saveSelections(); // Save the updated selections
+        updateCategoryLinks();
+    });
+
+    // Event listener for province/state selection
+    provinceStateSelect.addEventListener('change', function() {
+        const province = this.value;
+        populateCities(province);
+
+        // Clear previous city selection
+        cityTownSelect.value = '';
+        saveSelections(); // Save the updated selections
+        updateCategoryLinks();
+    });
+
+    // Event listener for city/town selection
+    cityTownSelect.addEventListener('change', function() {
+        saveSelections(); // Save the updated selections
+        updateCategoryLinks();
     });
 
     // Function to check if all location selections are made
@@ -505,21 +552,11 @@ permalink: /hub/
         return region && province && city; // Returns true if all are selected
     }
 
-    // Function to remove all previous event listeners from category links
-    function removeCategoryLinkListeners() {
-        document.querySelectorAll('.category-group ul li a').forEach(link => {
-            const clone = link.cloneNode(true);
-            link.parentNode.replaceChild(clone, link); // Replace the element with its clone to remove all listeners
-        });
-    }
-
     // Function to update category links based on selected location
     function updateCategoryLinks() {
         const region = regionSelect.value.toUpperCase().replace(' ', '-');
         const province = provinceStateSelect.value.toUpperCase().replace(' ', '-');
         const city = cityTownSelect.value.toUpperCase().replace(' ', '-');
-
-        removeCategoryLinkListeners(); // Ensure old listeners are removed
 
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
@@ -536,12 +573,10 @@ permalink: /hub/
         });
     }
 
-    // Add event listeners to update links when selections change
-    regionSelect.addEventListener('change', updateCategoryLinks);
-    provinceStateSelect.addEventListener('change', updateCategoryLinks);
-    cityTownSelect.addEventListener('change', updateCategoryLinks);
+    // Restore selections from local storage when the page loads
+    restoreSelections();
 
-    // Initial call to set up category links
+    // Update category links when the page loads
     updateCategoryLinks();
 });
 </script>
