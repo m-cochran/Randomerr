@@ -57,10 +57,11 @@ title: Hub
                     <p>${item.description}</p>
                 `;
 
-              // Add a click event to open the modal
+              // Add a click event to navigate to the event details page
               div.addEventListener('click', function() {
-                console.log('Opening modal for:', item); // Log item
-                openModal(item);
+                console.log('Navigating to details page for:', item); // Log item
+                const detailsUrl = `/event-details.html?id=${item.id}`; // Construct the URL with the event ID
+                window.location.href = detailsUrl; // Navigate to the new URL
               });
 
               resultsContainer.appendChild(div);
@@ -74,76 +75,6 @@ title: Hub
           document.getElementById('results').textContent = 'Error loading data.';
         });
     });
-
-// Function to open the modal
-function openModal(item) {
-  const modal = document.getElementById('event-modal');
-  const galleryContainer = document.querySelector('.gallery-images');
-  const description = document.getElementById('modal-description');
-
-  // Clear previous images
-  galleryContainer.innerHTML = '';
-
-  // Populate modal with images (if item.images is an array)
-  if (item.images && Array.isArray(item.images)) {
-    item.images.forEach(imageUrl => {
-      const img = document.createElement('img');
-      img.src = imageUrl;
-      img.alt = item.title;
-      galleryContainer.appendChild(img);
-    });
-  }
-
-  // Clear existing title, price, and location
-  const modalContent = document.querySelector('.modal-content');
-  const existingTitle = modalContent.querySelector('h2');
-  const existingPrice = modalContent.querySelector('.price');
-  const existingLocation = modalContent.querySelector('.location');
-
-  // Remove existing elements
-  if (existingTitle) existingTitle.remove();
-  if (existingPrice) existingPrice.remove();
-  if (existingLocation) existingLocation.remove();
-
-  // Create new title, price, and location elements
-  const title = document.createElement('h2');
-  title.textContent = item.title;
-  title.style.textAlign = 'center'; // Center align the title
-
-  const price = document.createElement('p');
-  price.textContent = `Price: ${item.price}`;
-  price.classList.add('price'); // Add a class for potential styling
-  price.style.textAlign = 'right'; // Align price to the right
-
-  const location = document.createElement('p');
-  location.textContent = `Location: ${item.location}`;
-  location.classList.add('location'); // Add a class for potential styling
-  location.style.textAlign = 'right'; // Align location to the right
-
-  // Append title, price, and location to the modal content
-  modalContent.appendChild(title); // Add title above images
-  modalContent.appendChild(location); // Add location below images
-  modalContent.appendChild(price); // Add price below location
-
-  description.textContent = item.description;
-  modal.style.display = 'block'; // Show the modal
-}
-
-
-    // Close modal when the user clicks on <span> (x)
-    document.addEventListener('click', function(event) {
-      if (event.target.classList.contains('close')) {
-        document.getElementById('event-modal').style.display = 'none';
-      }
-    });
-
-    // Close modal when the user clicks anywhere outside of the modal
-    window.onclick = function(event) {
-      const modal = document.getElementById('event-modal');
-      if (event.target == modal) {
-        modal.style.display = 'none';
-      }
-    }
   </script>
 
   <style>
@@ -176,6 +107,7 @@ function openModal(item) {
       width: 300px; /* Fixed width for event items */
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s;
+      cursor: pointer; /* Change cursor to pointer */
     }
 
     .event-item:hover {
@@ -202,75 +134,6 @@ function openModal(item) {
     .event-item strong {
       color: #000; /* Bold text color for labels */
     }
-
-    /* Modal styles */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1000; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgba(0, 0, 0, 0.8); /* Black with transparency */
-    }
-
-    .modal-content {
-      position: relative;
-      padding: 20px;
-      background-color: #fefefe;
-      margin: 15% auto;
-      width: 80%;
-      max-width: 600px;
-    }
-
-    .modal-content h2 {
-      margin: 0 0 10px; /* Margin for spacing below title */
-    }
-
-    .modal-content p {
-      margin: 5px 0; /* Standard margin for paragraphs */
-    }
-
-    .modal-content .right-align {
-      text-align: right; /* Right alignment class for price and location */
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .gallery-images {
-      display: flex;
-      overflow-x: auto; /* Enable horizontal scrolling */
-      scroll-snap-type: x mandatory;
-      gap: 10px;
-    }
-
-    .gallery-images img {
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      scroll-snap-align: start; /* Snap to the start of the image */
-      border-radius: 5px;
-    }
-
-    #modal-description {
-      margin-top: 10px;
-      font-size: 1.2em;
-      color: #333;
-    }
   </style>
 </head>
 
@@ -278,17 +141,6 @@ function openModal(item) {
   <h1 id="category-title"></h1>
   <p id="category-description"></p>
   <div id="results"></div>
-
-  <!-- Modal for displaying detailed event information -->
-  <div id="event-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div id="modal-gallery" class="gallery">
-        <div class="gallery-images"></div>
-        <p id="modal-description"></p>
-      </div>
-    </div>
-  </div>
 </body>
 
 </html>
