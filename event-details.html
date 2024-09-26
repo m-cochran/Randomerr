@@ -13,16 +13,16 @@ title: Result
     <title>Event Details</title>
     <style>
 
-        .main-image-container {
-         width: 100%;
-         height: auto;
-         position: relative; /* Allow positioning of the overlay if needed */
-         overflow: hidden; /* Hide overflow to maintain the aspect ratio */
-         border-radius: 8px; /* Rounded corners for the container */
-         margin-bottom: 20px; /* Space below the main image */
-         max-width: 70vw; /* Scales the width to 70% of the viewport */
-         max-height: 600px; /* Restrict the image height to 600px */
-         }
+        /* Main image container */
+      .main-image-container img {
+       width: 100%;         /* Full width of the container */
+       max-width: 600px;    /* Limit the max width of the image */
+       height: auto;        /* Automatically adjust height to maintain aspect ratio */
+       object-fit: contain; /* Fit image without cropping */
+       border-radius: 8px;
+       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+       transition: transform 0.3s ease;
+       }
 
        .main-image-container img {
         width: 100%;
@@ -70,9 +70,11 @@ title: Result
 
         .gallery-images img {
             width: 100px;
-            height: auto;
+            height: 100px;
+            object-fit: contain;
             border-radius: 5px;
             cursor: pointer; /* Add pointer cursor for gallery images */
+            transition: transform 0.3s ease;
         }
 
         /* Style for enlarged main image */
