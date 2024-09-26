@@ -1,7 +1,7 @@
 ---
 layout: default
 paginate: true
-title: Event Details
+title: Result
 ---
 
 <!DOCTYPE html>
@@ -26,6 +26,7 @@ title: Event Details
             max-width: 100%;
             border-radius: 5px;
             margin-bottom: 10px;
+            cursor: pointer; /* Add pointer cursor */
         }
 
         .event-details h1 {
@@ -38,29 +39,58 @@ title: Event Details
             color: #555;
         }
 
-        .gallery-images {
+        .event-details .gallery {
             display: flex;
             overflow-x: auto;
             gap: 10px;
         }
 
-        .gallery-images img {
+        .event-details .gallery img {
             width: 100px;
             height: auto;
             border-radius: 5px;
+            cursor: pointer; /* Add pointer cursor for gallery images */
+        }
+
+        /* Style for enlarged main image */
+        .enlarged-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .enlarged-image img {
+            max-width: 90%;
+            max-height: 90%;
         }
     </style>
 </head>
 
 <body>
 
-<div class="event-details" id="event-details">
+<div id="event-details">
   <h2 id="event-title"></h2>
   <p id="event-location"></p>
   <p id="event-price"></p>
   <p id="event-date"></p>
   <p id="event-description"></p>
+
+  <div class="main-image-container">
+      <img id="main-image" src="" alt="Main Event Image" onclick="enlargeImage(this)" />
+  </div>
+  
   <div class="gallery-images"></div>
+</div>
+
+<div class="enlarged-image" id="enlargedImage" onclick="this.style.display='none'">
+    <img id="enlargedImageContent" src="" alt="Enlarged Image" />
 </div>
 
 <script>
@@ -85,14 +115,14 @@ title: Event Details
                 if (event) {
                   displayEventDetails(event);
                   eventFound = true;
-                  break; // Exit the loop when the event is found
+                  break;
                 }
               }
-              if (eventFound) break; // Exit the loop when the event is found
+              if (eventFound) break; // Stop searching if the event is found
             }
-            if (eventFound) break; // Exit the loop when the event is found
+            if (eventFound) break; // Stop searching if the event is found
           }
-          if (eventFound) break; // Exit the loop when the event is found
+          if (eventFound) break; // Stop searching if the event is found
         }
 
         if (!eventFound) {
@@ -112,7 +142,11 @@ title: Event Details
     document.getElementById('event-date').textContent = `Date: ${event.date}`;
     document.getElementById('event-description').textContent = event.description;
 
-    // Display images if present
+    // Display main image
+    const mainImage = document.getElementById('main-image');
+    mainImage.src = event.picture; // Assuming 'picture' is the main image URL
+
+    // Display gallery images if present
     const galleryContainer = document.querySelector('.gallery-images');
     galleryContainer.innerHTML = ''; // Clear previous images
     if (event.images && Array.isArray(event.images)) {
@@ -120,9 +154,19 @@ title: Event Details
         const img = document.createElement('img');
         img.src = imageUrl;
         img.alt = event.title;
+        img.onclick = function() {
+          mainImage.src = imageUrl; // Change main image on click
+        };
         galleryContainer.appendChild(img);
       });
     }
+  }
+
+  function enlargeImage(img) {
+    const enlargedImageDiv = document.getElementById('enlargedImage');
+    const enlargedImageContent = document.getElementById('enlargedImageContent');
+    enlargedImageContent.src = img.src; // Set the enlarged image source
+    enlargedImageDiv.style.display = 'flex'; // Show the enlarged image overlay
   }
 </script>
 
