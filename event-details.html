@@ -54,17 +54,15 @@ title: Result
 
 <body>
 
-    <div class="event-details">
-        <h1 id="event-title"></h1>
-        <img id="event-picture" alt="Event Picture" />
-        <p><strong>Location:</strong> <span id="event-location"></span></p>
-        <p><strong>Price:</strong> <span id="event-price"></span></p>
-        <p><strong>Date:</strong> <span id="event-date"></span></p>
-        <p id="event-description"></p>
+<div id="event-details">
+  <h2 id="event-title"></h2>
+  <p id="event-location"></p>
+  <p id="event-price"></p>
+  <p id="event-date"></p>
+  <p id="event-description"></p>
+  <div class="gallery-images"></div>
+</div>
 
-        <h2>Gallery</h2>
-        <div class="gallery" id="event-gallery"></div>
-    </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
