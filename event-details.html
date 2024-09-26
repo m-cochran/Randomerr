@@ -64,60 +64,71 @@ title: Result
 
         <h2>Gallery</h2>
         <div class="gallery" id="event-gallery"></div>
-
-        <a href="javascript:history.back()" class="back-button">Back</a>
     </div>
 
-    <script>
-        // Function to fetch event details based on ID from URL
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const eventId = urlParams.get('id');
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the event ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('id');
 
-            // Fetch JSON data
-            fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Find the event by ID
-                    const allEvents = Object.values(data.REGIONS).flatMap(region =>
-                        Object.values(region).flatMap(province =>
-                            Object.values(province).flatMap(city =>
-                                Object.values(city.categories).flatMap(category =>
-                                    category.filter(item => item.id == eventId)
-                                )
-                            )
-                        )
-                    );
+    // Fetch JSON data
+    fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
+      .then(response => response.json())
+      .then(data => {
+        // Search for the event in the data structure
+        let eventFound = false;
+        for (const region in data.REGIONS) {
+          for (const province in data.REGIONS[region]) {
+            for (const city in data.REGIONS[region][province]) {
+              const categories = data.REGIONS[region][province][city].categories;
+              for (const category in categories) {
+                const events = categories[category];
+                const event = events.find(event => event.id === eventId);
+                if (event) {
+                  displayEventDetails(event);
+                  eventFound = true;
+                  break;
+                }
+              }
+              if (eventFound) break; // Stop searching if the event is found
+            }
+            if (eventFound) break; // Stop searching if the event is found
+          }
+          if (eventFound) break; // Stop searching if the event is found
+        }
 
-                    if (allEvents.length > 0) {
-                        const event = allEvents[0]; // Assuming IDs are unique
-                        document.getElementById('event-title').textContent = event.title;
-                        document.getElementById('event-location').textContent = event.location;
-                        document.getElementById('event-price').textContent = event.price;
-                        document.getElementById('event-date').textContent = event.date;
-                        document.getElementById('event-description').textContent = event.description;
-                        document.getElementById('event-picture').src = event.picture;
+        if (!eventFound) {
+          document.getElementById('event-details').textContent = 'Event not found.';
+        }
+      })
+      .catch(error => {
+        console.error('Error loading data:', error);
+        document.getElementById('event-details').textContent = 'Error loading event details.';
+      });
+  });
 
-                        // Populate the gallery
-                        const galleryContainer = document.getElementById('event-gallery');
-                        if (event.images && Array.isArray(event.images)) {
-                            event.images.forEach(imageUrl => {
-                                const img = document.createElement('img');
-                                img.src = imageUrl;
-                                img.alt = event.title;
-                                galleryContainer.appendChild(img);
-                            });
-                        }
-                    } else {
-                        document.querySelector('.event-details').innerHTML = '<p>Event not found.</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading event data:', error);
-                    document.querySelector('.event-details').innerHTML = '<p>Error loading event details.</p>';
-                });
-        });
-    </script>
+  function displayEventDetails(event) {
+    document.getElementById('event-title').textContent = event.title;
+    document.getElementById('event-location').textContent = event.location;
+    document.getElementById('event-price').textContent = `Price: ${event.price}`;
+    document.getElementById('event-date').textContent = `Date: ${event.date}`;
+    document.getElementById('event-description').textContent = event.description;
+
+    // Display images if present
+    const galleryContainer = document.querySelector('.gallery-images');
+    galleryContainer.innerHTML = ''; // Clear previous images
+    if (event.images && Array.isArray(event.images)) {
+      event.images.forEach(imageUrl => {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = event.title;
+        galleryContainer.appendChild(img);
+      });
+    }
+  }
+</script>
+
 </body>
 
 </html>
