@@ -565,15 +565,18 @@ permalink: /hub/
             const newHref = `https://m-cochran.github.io/Randomerr/hub.html?region=${region}&province=${province}&city=${city}&category=${category}`;
             link.setAttribute('href', newHref);
 
-            // Add a single event listener for each category link
-            link.addEventListener('click', function(event) {
-                if (!areAllSelectionsMade()) {
-                    event.preventDefault(); // Prevent link from being followed
-                    alert('You must select a region, province/state, and city/town before choosing a category.');
-                    return false; // Stop the event propagation
-                }
-            }, { once: true }); // Ensure the event listener is triggered only once
+            // Remove existing click event listener to prevent multiple triggers
+            link.removeEventListener('click', handleCategoryClick);
+            link.addEventListener('click', handleCategoryClick);
         });
+    }
+
+    // Click event handler for category links
+    function handleCategoryClick(event) {
+        if (!areAllSelectionsMade()) {
+            event.preventDefault(); // Prevent link from being followed
+            alert('You must select a region, province/state, and city/town before choosing a category.');
+        }
     }
 
     // Restore selections from local storage when the page loads
