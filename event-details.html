@@ -12,6 +12,27 @@ title: Result
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Details</title>
     <style>
+
+        .main-image-container {
+         position: relative; /* Allow positioning of the overlay if needed */
+         overflow: hidden; /* Hide overflow to maintain the aspect ratio */
+         border-radius: 8px; /* Rounded corners for the container */
+         margin-bottom: 20px; /* Space below the main image */
+         }
+
+        .main-image-container img {
+         width: 100%; /* Make the image take the full width of the container */
+         height: auto; /* Maintain aspect ratio */
+         border-radius: 8px; /* Rounded corners for the image */
+         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+         transition: transform 0.3s ease; /* Smooth transition for hover effect */
+         }
+
+        .main-image-container img:hover {
+         transform: scale(1.05); /* Slightly enlarge the image on hover */
+         cursor: pointer; /* Pointer cursor to indicate clickability */
+         }
+
         .event-details {
             background-color: white;
             border: 1px solid #ddd;
