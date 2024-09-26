@@ -39,13 +39,13 @@ title: Result
             color: #555;
         }
 
-        .event-details .gallery {
+        .gallery-images {
             display: flex;
             overflow-x: auto;
             gap: 10px;
         }
 
-        .event-details .gallery img {
+        .gallery-images img {
             width: 100px;
             height: auto;
             border-radius: 5px;
@@ -86,7 +86,7 @@ title: Result
       <img id="main-image" src="" alt="Main Event Image" onclick="enlargeImage(this)" />
   </div>
   
-  <div class="gallery-images"></div>
+  <div class="gallery-images" id="gallery-images"></div>
 </div>
 
 <div class="enlarged-image" id="enlargedImage" onclick="this.style.display='none'">
@@ -147,7 +147,7 @@ title: Result
     mainImage.src = event.picture; // Assuming 'picture' is the main image URL
 
     // Display gallery images if present
-    const galleryContainer = document.querySelector('.gallery-images');
+    const galleryContainer = document.getElementById('gallery-images');
     galleryContainer.innerHTML = ''; // Clear previous images
     if (event.images && Array.isArray(event.images)) {
       event.images.forEach(imageUrl => {
