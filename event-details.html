@@ -1,7 +1,7 @@
 ---
 layout: default
 paginate: true
-title: Result
+title: Event Details
 ---
 
 <!DOCTYPE html>
@@ -38,13 +38,13 @@ title: Result
             color: #555;
         }
 
-        .event-details .gallery {
+        .gallery-images {
             display: flex;
             overflow-x: auto;
             gap: 10px;
         }
 
-        .event-details .gallery img {
+        .gallery-images img {
             width: 100px;
             height: auto;
             border-radius: 5px;
@@ -54,7 +54,7 @@ title: Result
 
 <body>
 
-<div id="event-details">
+<div class="event-details" id="event-details">
   <h2 id="event-title"></h2>
   <p id="event-location"></p>
   <p id="event-price"></p>
@@ -62,7 +62,6 @@ title: Result
   <p id="event-description"></p>
   <div class="gallery-images"></div>
 </div>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -86,14 +85,14 @@ title: Result
                 if (event) {
                   displayEventDetails(event);
                   eventFound = true;
-                  break;
+                  break; // Exit the loop when the event is found
                 }
               }
-              if (eventFound) break; // Stop searching if the event is found
+              if (eventFound) break; // Exit the loop when the event is found
             }
-            if (eventFound) break; // Stop searching if the event is found
+            if (eventFound) break; // Exit the loop when the event is found
           }
-          if (eventFound) break; // Stop searching if the event is found
+          if (eventFound) break; // Exit the loop when the event is found
         }
 
         if (!eventFound) {
