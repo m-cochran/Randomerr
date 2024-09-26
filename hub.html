@@ -57,15 +57,14 @@ title: Hub
                     <p>${item.description}</p>
                 `;
 
-              // Add a click event to navigate to the event details page
-              div.addEventListener('click', function() {
-                console.log('Navigating to details page for:', item); // Log item
-                const detailsUrl = `/event-details.html?id=${item.id}`; // Construct the URL with the event ID
-                window.location.href = detailsUrl; // Navigate to the new URL
-              });
+    // Change this to navigate to the details page with the event ID
+    div.addEventListener('click', function() {
+        const eventId = item.id; // Get the event ID
+        window.location.href = `event-details.html?id=${eventId}`; // Redirect to the event details page
+    });
 
-              resultsContainer.appendChild(div);
-            });
+    resultsContainer.appendChild(div);
+});
           } else {
             document.getElementById('results').textContent = 'No events found for this category.';
           }
