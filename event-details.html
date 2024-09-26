@@ -24,13 +24,16 @@ title: Result
          max-height: 600px; /* Restrict the image height to 600px */
          }
 
-        .main-image-container img {
-         max-width: 50%; /* Make the image take the full width of the container */
-         max-height: 500px; /* Restrict the image height to 600px */
-         height: auto; /* Maintain aspect ratio */
-         border-radius: 8px; /* Rounded corners for the image */
-         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-         }
+       .main-image-container img {
+        width: 100%;
+        max-width: 500px; /* Set a fixed width for the main image */
+        height: 400px; /* Set a fixed height for the main image */
+        object-fit: cover; /* Ensures the image scales to fill the container while maintaining aspect ratio */
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        }
 
         .event-details {
             background-color: white;
