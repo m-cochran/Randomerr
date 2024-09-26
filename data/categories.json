@@ -6,6 +6,7 @@
           "categories": {
             "Miscellaneous": [
               {
+                "id": "event-1",
                 "title": "Art Exhibition",
                 "location": "Mohave Art Gallery, Mohave, Arizona",
                 "price": "Free",
@@ -32,6 +33,7 @@
                 ]
               },
               {
+                "id": "event-2",
                 "title": "Cultural Festival",
                 "location": "Downtown Mohave, Arizona",
                 "price": "$10",
