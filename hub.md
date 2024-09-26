@@ -453,6 +453,7 @@ permalink: /hub/
     };
 
 
+
     // Function to save the selections to local storage
     function saveSelections() {
         localStorage.setItem('region', regionSelect.value);
@@ -564,16 +565,14 @@ permalink: /hub/
             const newHref = `https://m-cochran.github.io/Randomerr/hub.html?region=${region}&province=${province}&city=${city}&category=${category}`;
             link.setAttribute('href', newHref);
 
-            // Remove any previously attached event listener to prevent duplicate popups
-            link.replaceWith(link.cloneNode(true));
-
             // Add a single event listener for each category link
             link.addEventListener('click', function(event) {
                 if (!areAllSelectionsMade()) {
                     event.preventDefault(); // Prevent link from being followed
                     alert('You must select a region, province/state, and city/town before choosing a category.');
+                    return false; // Stop the event propagation
                 }
-            });
+            }, { once: true }); // Ensure the event listener is triggered only once
         });
     }
 
