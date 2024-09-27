@@ -36,15 +36,25 @@ permalink: /contact/
 
 
   <style>
-    /* Container for the form */
-    .form-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+ /* Container for the Google Form iframe */
+.google-form-container {
+    width: 100%; /* Full width */
+    max-width: 900px; /* Max width for the form container */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add padding around the iframe */
+    box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
+}
+
+/* Iframe Styling */
+.google-form {
+    width: 100%; /* Full width */
+    height: 850px; /* Set height based on the form content */
+    border: none; /* Remove border */
+    overflow: hidden; /* Ensure no scrollbars */
+    display: block; /* Ensure the iframe takes up block-level space */
+}
+
+  
 
     /* Form heading */
     .form-container h2 {
@@ -61,14 +71,6 @@ permalink: /contact/
       color: #666;
       text-align: center;
       margin-bottom: 20px;
-    }
-
-    /* Styling the embedded Google Form iframe */
-    .google-form {
-      width: 100%;
-      height: calc(100vh - 300px); /* Dynamically adjust height based on viewport */
-      border: none;
-      border-radius: 10px;
     }
 
     /* Styling for the map */
