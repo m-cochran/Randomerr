@@ -27,7 +27,11 @@ permalink: /about/
 Check out our <strong>store</strong> for exclusive <strong>offers</strong> and the latest in style and functionality. We can’t wait to serve you!</p>
     </div>
 
-    <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">Visit Our Store<img src="/Randomerr/assets/images/logo.png" alt="Randomerr Logo"></a>
+ <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">
+  Visit Our Store
+  <img src="/Randomerr/assets/images/logo.png" alt="Randomerr Logo" class="store-logo">
+</a>
+
 
 
 <style>
@@ -93,5 +97,24 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     border-left: 5px solid #07f;
     margin-bottom: 30px;
 }
+
+.btn {
+  display: flex;
+  flex-direction: column; /* Stack text and image vertically */
+  align-items: center;    /* Center align the items */
+  text-decoration: none;   /* Remove underline from link */
+  color: #333;            /* Text color */
+  background-color: #f9f9f9; /* Background color */
+  padding: 10px 20px;     /* Padding around the button */
+  border-radius: 5px;     /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+.store-logo {
+  width: 100px; /* Set the width of the image */
+  height: auto; /* Maintain aspect ratio */
+  margin-top: 10px; /* Add space between text and image */
+}
+
     
 </style>
