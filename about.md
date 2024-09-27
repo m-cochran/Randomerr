@@ -92,30 +92,21 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 }
 
 
-   /* Center the entire button on the page */
-    .btn-container {
-      display: flex;
-      justify-content: center; /* Center the button horizontally */
-      align-items: center;     /* Center the button vertically if needed */
-      height: 100vh;          /* Optional: Set a height for vertical centering */
-    }
+.btn {
+  display: block;          /* Make the link a block element */
+  text-align: center;     /* Center text inside the button */
+  text-decoration: none;   /* Remove underline from link */
+  color: #333;             /* Text color */
+  width: 100px;            /* Set button width to 100px */
+  padding: 10px 0;        /* Padding only for top and bottom */
+  border-radius: 5px;     /* Rounded corners */
+  background-color: #f9f9f9; /* Optional: Button background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Button shadow */
+}
 
-    .btn {
-      display: flex;
-      flex-direction: column;  /* Stack text and image vertically */
-      align-items: center;     /* Center align the items */
-      text-decoration: none;   /* Remove underline from link */
-      color: #333;             /* Text color */
-      width: 100px;            /* Set button width to 100px */
-      padding: 10px 0;        /* Padding only for top and bottom */
-      border-radius: 5px;     /* Rounded corners */
-      background-color: #f9f9f9; /* Optional: Button background color */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Button shadow */
-    }
-
-    .store-logo {
-      width: 100px;  /* Set the width of the image */
-      height: auto;  /* Maintain aspect ratio */
-      margin-top: 10px; /* Add space between text and image */
-    
+.store-logo {
+  width: 100px;  /* Set the width of the image */
+  height: auto;  /* Maintain aspect ratio */
+  margin-top: 10px; /* Add space between text and image */
+}
 </style>
