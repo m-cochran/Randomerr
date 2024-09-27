@@ -8,8 +8,6 @@ permalink: /contact/
 
 
 
-<main>
-
   <div class="form-container">
     <h2>Get in Touch</h2>
     <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
@@ -104,6 +102,3 @@ permalink: /contact/
       }
     }
   </style>
-
-
-</main>
