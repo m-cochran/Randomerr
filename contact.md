@@ -12,7 +12,7 @@ permalink: /contact/
     <h2>Get in Touch</h2>
     <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
 
-    <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/formResponse" method="POST" target="_self" onsubmit="showSuccessMessage(); return false;">
+    <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/formResponse" method="POST" target="_self">
       <!-- Name Field -->
       <label for="name">Name:</label>
       <input type="text" id="name" name="entry.2005620554" placeholder="Your Name" required>
@@ -25,12 +25,18 @@ permalink: /contact/
       <label for="message">Message:</label>
       <textarea id="message" name="entry.839337160" placeholder="Your Message" required></textarea>
 
+      <!-- Agreement Checkbox -->
+      <label>
+        <input type="checkbox" id="agree" required>
+        I agree to the collection of my email address for contact purposes.
+      </label>
+
       <!-- Submit Button -->
       <button type="submit">Submit</button>
     </form>
 
     <div id="success-message" style="display: none; text-align: center;">
-      <h3>Your message has been received. We'll get back to you as soon as possible. In the meantime, feel free to explore more on our website or follow us on social media!</h3>
+      <h3>Thanks for submitting your contact info!</h3>
       <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
         Follow us on social media:
       </p>
@@ -93,7 +99,7 @@ permalink: /contact/
 
     /* Submit Button */
     button {
-      background-color: #06f; /* Green background */
+      background-color: #28a745; /* Green background */
       color: white; /* White text */
       border: none; /* No border */
       padding: 10px 20px; /* Padding */
@@ -103,7 +109,7 @@ permalink: /contact/
     }
 
     button:hover {
-      background-color: #07f; /* Darker green on hover */
+      background-color: #218838; /* Darker green on hover */
     }
 
     /* Styling for the map */
@@ -135,10 +141,32 @@ permalink: /contact/
   </style>
 
   <script>
-    // Show success message after form submission
-    function showSuccessMessage() {
-      document.getElementById('contact-form').style.display = 'none';
-      document.getElementById('success-message').style.display = 'block';
-    }
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();  // Prevent default form submission
+
+      // Check if the agreement checkbox is checked
+      const agreementCheckbox = document.getElementById('agree');
+      if (!agreementCheckbox.checked) {
+        alert("Please agree to the email collection terms.");
+        return;
+      }
+
+      // Prepare form data for submission
+      const form = e.target;
+      const formData = new FormData(form);
+
+      // Submit form data to Google Forms
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'  // Avoid CORS issues
+      }).then(() => {
+        // Hide the form and show the success message
+        form.style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
+      }).catch((error) => {
+        console.error('Error!', error.message);
+      });
+    });
   </script>
 </main>
