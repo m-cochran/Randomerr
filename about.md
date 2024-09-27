@@ -104,7 +104,6 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
   color: #333;            /* Text color */
   padding: 10px 20px;     /* Padding around the button */
   border-radius: 5px;     /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
 .store-logo {
