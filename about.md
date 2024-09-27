@@ -27,7 +27,7 @@ permalink: /about/
 Check out our <strong>store</strong> for exclusive <strong>offers</strong> and the latest in style and functionality. We can’t wait to serve you!</p>
     </div>
 
-    <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">Visit Our Store</a>
+    <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">Visit Our Store<img src="/Randomerr/assets/images/logo.png" alt="Randomerr Logo"></a>
 
 
 <style>
@@ -83,7 +83,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 .about-container .driven-by-passion {
     background-color: #f7f7f7;
     padding: 20px;
-    border-left: 5px solid #2980b9;
+    border-left: 5px solid #06f;
     margin-bottom: 30px;
 }
 
