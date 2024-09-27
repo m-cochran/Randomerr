@@ -105,18 +105,5 @@ permalink: /contact/
     }
   </style>
 
-  <script>
-    // Adjust iframe height dynamically
-    function adjustIframeHeight() {
-      const iframe = document.getElementById('google-form');
-      const formContainer = document.querySelector('.form-container');
-      const headerHeight = document.getElementById('contact-us').offsetHeight;
-      const availableHeight = window.innerHeight - formContainer.offsetTop - headerHeight - 20; // 20px for margin
 
-      iframe.style.height = `${availableHeight}px`;
-    }
-
-    window.addEventListener('resize', adjustIframeHeight);
-    window.addEventListener('load', adjustIframeHeight);
-  </script>
 </main>
