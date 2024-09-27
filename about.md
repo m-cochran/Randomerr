@@ -8,7 +8,6 @@ permalink: /about/
 
 
 <div class="about-container">
-    <h2>About Randomerr</h2>
 
     <div class="our-story hidden">
         <h3>Our Story</h3>
