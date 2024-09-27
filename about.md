@@ -36,7 +36,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
 }
@@ -94,82 +94,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     margin-bottom: 30px;
 }
 
-/* Button styling */
-.about-container .btn {
-    display: inline-block;
-    background-color: #06f;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 20px;
-}
 
-.about-container .btn:hover {
-    background-color: #07f;
-}
-
-.btn {
-    display: inline-block;
-    background-color: #2980b9;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 20px;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.5s ease;
-    border-radius: 50%;
-    z-index: 0;
-}
-
-.btn:hover::before {
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.btn:hover {
-    color: #1abc9c;
-}
-
-.btn span {
-    position: relative;
-    z-index: 1;
-}
 
     
 </style>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const elements = document.querySelectorAll('.hidden');
-
-    function onScroll() {
-        elements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight) {
-                el.classList.add('visible');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', onScroll);
-    onScroll(); // Initial check in case elements are already in view
-});
-</script>
