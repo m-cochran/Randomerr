@@ -27,8 +27,8 @@ permalink: /contact/
 
       <!-- Agreement Checkbox -->
       <label>
-        <input type="checkbox" id="agree" required>
         I agree to the collection of my email address for contact purposes.
+        <input type="checkbox" id="agree" required>
       </label>
 
       <!-- Submit Button -->
