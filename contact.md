@@ -7,22 +7,20 @@ permalink: /contact/
 # Contact Us
 
 <main>
-
   <div class="form-container">
     <h2>Get in Touch</h2>
     <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
 
-    <!-- Custom Contact Form -->
+    <!-- Custom HTML Form -->
     <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/formResponse" method="POST" target="_self">
-      
       <!-- Name Field -->
       <label for="name">Name:</label>
       <input type="text" id="name" name="entry.2005620554" placeholder="Your Name" required>
-      
+
       <!-- Email Field -->
       <label for="email">Email:</label>
       <input type="email" id="email" name="entry.1045781291" placeholder="Your Email" required>
-      
+
       <!-- Message Field -->
       <label for="message">Message:</label>
       <textarea id="message" name="entry.839337160" placeholder="Your Message" required></textarea>
@@ -33,7 +31,8 @@ permalink: /contact/
 
     <!-- Success Message -->
     <div id="success-message" style="display:none;">
-      <p>Thanks for submitting your contact info!</p>
+      <h3>Thank You!</h3>
+      <p>Your message has been received. We'll get back to you as soon as possible. In the meantime, feel free to explore more on our website or follow us on social media!</p>
     </div>
   </div>
 
@@ -46,7 +45,6 @@ permalink: /contact/
     <p>If you have any questions, feel free to email us at <a href="mailto:contact@randomerr.com">contact@randomerr.com</a>.</p>
   </div>
 
-  <!-- CSS Styling -->
   <style>
     /* Container for the form */
     .form-container {
@@ -75,47 +73,15 @@ permalink: /contact/
       margin-bottom: 20px;
     }
 
-    /* Input fields and textarea styling */
-    #contact-form label {
-      display: block;
-      font-size: 1rem;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    #contact-form input, #contact-form textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    #contact-form button {
-      background-color: #28a745;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    #contact-form button:hover {
-      background-color: #218838;
-    }
-
+    /* Success message */
     #success-message {
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background-color: #d4edda;
-      color: #155724;
       text-align: center;
+      color: #28a745;
+      font-size: 1.2rem;
+      margin-top: 20px;
     }
 
-    /* Styling for the map */
+    /* Google Map */
     .google-map-container {
       margin-top: 20px;
     }
@@ -125,6 +91,37 @@ permalink: /contact/
       height: 400px;
       border: none;
       border-radius: 10px;
+    }
+
+    /* Input Fields */
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: 'Arial', sans-serif;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
     }
 
     /* Responsive adjustments */
@@ -140,10 +137,13 @@ permalink: /contact/
       .form-description {
         font-size: 1rem;
       }
+
+      .google-map {
+        height: 300px;
+      }
     }
   </style>
 
-  <!-- JavaScript for handling form submission -->
   <script>
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();  // Prevent default form submission
