@@ -61,7 +61,7 @@ permalink: /contact/
 
     @media (max-width: 318px) {
         .google-form {
-            height: 400px; /* Set a smaller height for very narrow screens */
+            height: 1100px; /* Set a smaller height for very narrow screens */
         }
     }
 
