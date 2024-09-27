@@ -99,7 +99,7 @@ permalink: /contact/
 
     /* Submit Button */
     button {
-      background-color: #28a745; /* Green background */
+      background-color: #06f; /* Green background */
       color: white; /* White text */
       border: none; /* No border */
       padding: 10px 20px; /* Padding */
@@ -109,7 +109,7 @@ permalink: /contact/
     }
 
     button:hover {
-      background-color: #218838; /* Darker green on hover */
+      background-color: #07f; /* Darker green on hover */
     }
 
     /* Styling for the map */
