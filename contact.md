@@ -22,9 +22,7 @@ permalink: /contact/
 <div class="google-form-container">
     <iframe class="google-form" id="google-form" 
         src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true"
-        >
-        Loading…
-    </iframe>
+        allowfullscreen=""></iframe>
 </div>
 
 
@@ -39,6 +37,7 @@ permalink: /contact/
     width: 100%; /* Full width */
     height: 1050px; /* Set height based on the form content */
     border: none; /* Remove border */
+    border-radius: 10px;
 }
 
   
