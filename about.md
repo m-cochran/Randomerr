@@ -62,7 +62,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 }
 
 .about-container a {
-    color: #2980b9;
+    color: #06f;
     text-decoration: none;
     border-bottom: 2px solid #2980b9;
 }
@@ -90,7 +90,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 .about-container .experience-matters {
     background-color: #ffffff;
     padding: 20px;
-    border-left: 5px solid #1abc9c;
+    border-left: 5px solid #07f;
     margin-bottom: 30px;
 }
     
