@@ -21,8 +21,7 @@ permalink: /contact/
 <!-- Google Form Embed -->
 <div class="google-form-container">
     <iframe class="google-form" id="google-form" 
-        src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true"
-        allowfullscreen=""></iframe>
+        src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 </div>
 
 
@@ -35,9 +34,12 @@ permalink: /contact/
 /* Iframe Styling */
 .google-form {
     width: 100%; /* Full width */
-    height: 1050px; /* Set height based on the form content */
-    border: none; /* Remove border */
-    border-radius: 10px;
+    height: 100%; /* Set height based on the form content */
+    border: 0; /* Remove border */
+    overflow: hidden; /* Prevent scrollbars inside the iframe */
+    position: absolute; /* Position it relative to the container */
+    top: 0;
+    left: 0;
 }
 
   
