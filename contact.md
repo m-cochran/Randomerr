@@ -77,23 +77,4 @@ permalink: /contact/
       border: none;
       border-radius: 10px;
     }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .form-container {
-        padding: 15px;
-      }
-
-      .form-container h2 {
-        font-size: 1.5rem;
-      }
-
-      .form-description {
-        font-size: 1rem;
-      }
-
-      .google-form {
-        height: calc(100vh - 250px); /* Adjust height for smaller screens */
-      }
-    }
   </style>
