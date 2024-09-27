@@ -21,7 +21,7 @@ permalink: /about/
 
     <div class="experience-matters hidden">
         <h3>Your Experience Matters</h3>
-        <p>Whether you’re looking for something <strong>unique</strong> or simply browsing for the best deals, we’ve got you covered. Our team at <strong>My Cup of Earth</strong> is dedicated to making your shopping experience as easy and <strong>enjoyable</strong> as possible. Have questions? Special requests? We’re here to help.
+        <p>Whether you’re looking for something <strong>unique</strong> or simply browsing for the best deals, we’ve got you covered. Our team at <strong>MY CUP OF EARTH</strong> is dedicated to making your shopping experience as easy and <strong>enjoyable</strong> as possible. Have questions? Special requests? We’re here to help.
 
 Check out our <strong>store</strong> for exclusive <strong>offers</strong> and the latest in style and functionality. We can’t wait to serve you!</p>
     </div>
