@@ -95,17 +95,12 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 
 .btn {
   display: block;          /* Make the link a block element */
-  justify-content: center;
-  height: 100vh;
-  margin: 0; 
+
+
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;     /* Center text inside the button */
-  text-decoration: none;   /* Remove underline from link */
-  color: #333;             /* Text color */
   width: 100px;            /* Set button width to 100px */
-  padding: 10px 0;        /* Padding only for top and bottom */
-  border-radius: 5px;     /* Rounded corners */
-  background-color: #f9f9f9; /* Optional: Button background color */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Button shadow */
 }
 
 .store-logo {
