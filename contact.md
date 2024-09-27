@@ -26,10 +26,6 @@ permalink: /contact/
 
 
   <style>
- /* Container for the Google Form iframe */
-.google-form-container {
-    margin-top: 20px; /* Center the container */
-}
 
 /* Iframe Styling */
 .google-form {
