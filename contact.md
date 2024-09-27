@@ -25,8 +25,14 @@ permalink: /contact/
       <label for="message">Message:</label>
       <textarea id="message" name="entry.839337160" placeholder="Your Message" required></textarea>
 
+      <!-- Email Collection Agreement -->
+      <div class="email-collection">
+        <input type="checkbox" id="agree" name="agree" required>
+        <label for="agree">By using this form, you agree to the collection of your email for communication purposes.</label>
+      </div>
+
       <!-- Submit Button -->
-      <button type="submit">Submit</button>
+      <button type="submit" id="submit-button">Submit</button>
     </form>
 
     <!-- Success Message -->
@@ -79,6 +85,15 @@ permalink: /contact/
       color: #06f;
       font-size: 1.2rem;
       margin-top: 20px;
+    }
+
+    /* Email collection agreement */
+    .email-collection {
+      margin-bottom: 20px;
+    }
+
+    .email-collection input[type="checkbox"] {
+      margin-right: 10px;
     }
 
     /* Google Map */
@@ -147,6 +162,13 @@ permalink: /contact/
   <script>
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();  // Prevent default form submission
+
+      // Check if the agreement checkbox is checked
+      const agreementCheckbox = document.getElementById('agree');
+      if (!agreementCheckbox.checked) {
+        alert("Please agree to the email collection terms.");
+        return;
+      }
 
       // Prepare form data for submission
       const form = e.target;
