@@ -41,7 +41,7 @@ permalink: /contact/
 /* Iframe Styling */
 .google-form {
     width: 100%; /* Full width */
-    height: 850px; /* Set height based on the form content */
+    height: 1050px; /* Set height based on the form content */
     border: none; /* Remove border */
     overflow: hidden; /* Ensure no scrollbars */
     display: block; /* Ensure the iframe takes up block-level space */
