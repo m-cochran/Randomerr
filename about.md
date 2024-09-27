@@ -91,6 +91,14 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     margin-bottom: 30px;
 }
 
+
+.btn-container {
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  align-items: center;     /* Center the button vertically if needed */
+  height: 100vh;          /* Optional: Set a height for vertical centering */
+}
+
 .btn:hover {
     color: #07f;
 }
