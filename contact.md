@@ -37,7 +37,7 @@ permalink: /contact/
     /* Parent container for the iframe */
     .google-form-container {
         width: 100%;
-        max-width: 600px; /* Max width for form */
+        max-width: 900px; /* Max width for form */
         margin: 20px auto; /* Center the form */
         overflow: hidden; /* Prevent scrollbars */
         position: relative; /* For absolute positioning of iframe */
@@ -46,11 +46,23 @@ permalink: /contact/
     /* Iframe Styling */
     .google-form {
         width: 100%; /* Full width */
-        height: 100vh; /* Use full viewport height */
+        height: 600px; /* Fixed height */
         border: 0; /* Remove border */
         overflow: hidden; /* Prevent scrollbars */
         position: relative; /* Positioning within the container */
-        min-height: 900px; /* Minimum height to accommodate the form */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+        .google-form {
+            height: auto; /* Allow height to adjust automatically */
+        }
+    }
+
+    @media (max-width: 318px) {
+        .google-form {
+            height: 400px; /* Set a smaller height for very narrow screens */
+        }
     }
 
     /* Form heading */
