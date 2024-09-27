@@ -67,7 +67,6 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 .about-container a {
     color: #06f;
     text-decoration: none;
-    border-bottom: 2px solid #2980b9;
 }
 
 /* Styling for specific sections */
