@@ -92,6 +92,14 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 }
 
 
+    body {
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center;     /* Center vertically */
+      height: 100vh;          /* Full height of the viewport */
+      margin: 0;              /* Remove default margin */
+    }
+
 .btn {
   display: block;          /* Make the link a block element */
   text-align: center;     /* Center text inside the button */
