@@ -112,7 +112,7 @@ permalink: /contact/
 
     button {
       padding: 10px 20px;
-      background-color: #28a745;
+      background-color: #06f;
       color: white;
       border: none;
       border-radius: 5px;
@@ -121,7 +121,7 @@ permalink: /contact/
     }
 
     button:hover {
-      background-color: #218838;
+      background-color: #07f;
     }
 
     /* Responsive adjustments */
