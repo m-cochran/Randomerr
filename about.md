@@ -51,7 +51,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 
 .about-container h3 {
     font-size: 1.75rem;
-    color: #2980b9;
+    color: #06f;
     margin-bottom: 10px;
 }
 
@@ -93,8 +93,5 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     border-left: 5px solid #1abc9c;
     margin-bottom: 30px;
 }
-
-
-
     
 </style>
