@@ -10,7 +10,7 @@ permalink: /contact/
 
   <div class="form-container">
     <h2>Get in Touch</h2>
-    <p class="form-description">>Your message has been received. We'll get back to you as soon as possible. In the meantime, feel free to explore more on our website or follow us on social media!</p>
+    <p class="form-description">We'd love to hear from you! Fill out the form below, and we'll get back to you shortly.</p>
 
     <form id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/formResponse" method="POST" target="_self" onsubmit="showSuccessMessage(); return false;">
       <!-- Name Field -->
@@ -30,8 +30,8 @@ permalink: /contact/
     </form>
 
     <div id="success-message" style="display: none; text-align: center;">
-      <h3>Thanks for submitting your contact info!</h3>
-      <p style="font-size: 14px; color: #06f; margin-bottom: 10px;">
+      <h3>Your message has been received. We'll get back to you as soon as possible. In the meantime, feel free to explore more on our website or follow us on social media!</h3>
+      <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
         Follow us on social media:
       </p>
       <div style="margin-top: 10px;">
@@ -59,7 +59,9 @@ permalink: /contact/
     <iframe id="google-map" class="google-map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCNCmAGyN4bJYu5qeLgbASzZafm-M5TA_o&amp;language=en&amp;zoom=16&amp;q=942%20Meldon%20Ave%20Donora%2C%20PA%2015033" allowfullscreen="" title="Location on map"></iframe>
   </div>
 
-
+  <div class="contact-email">
+    <p>If you have any questions, feel free to email us at <a href="mailto:contact@randomerr.com">contact@randomerr.com</a>.</p>
+  </div>
 
   <style>
     /* Container for the form */
@@ -87,6 +89,21 @@ permalink: /contact/
       color: #666;
       text-align: center;
       margin-bottom: 20px;
+    }
+
+    /* Submit Button */
+    button {
+      background-color: #06f; /* Green background */
+      color: white; /* White text */
+      border: none; /* No border */
+      padding: 10px 20px; /* Padding */
+      font-size: 1rem; /* Font size */
+      cursor: pointer; /* Pointer cursor on hover */
+      border-radius: 5px; /* Rounded corners */
+    }
+
+    button:hover {
+      background-color: #07f; /* Darker green on hover */
     }
 
     /* Styling for the map */
