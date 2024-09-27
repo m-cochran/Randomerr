@@ -19,12 +19,22 @@ permalink: /contact/
     </div>
 
     <!-- Google Form Embed -->
-    <div class="google-form-container">
-        <iframe class="google-form" id="google-form" 
-                src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true" 
-                frameborder="0" title="Google Form">Loading…</iframe>
-    </div>
-</div>
+     <iframe
+  src=https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true"
+  style="
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    z-index: 999999;
+    height: 100%;
+  ">
+</iframe>
 
 <style>
     /* Container styles */
@@ -37,32 +47,13 @@ permalink: /contact/
         position: relative; /* Required for positioning */
     }
 
-    /* Iframe styling */
-    .google-form {
-        width: 100%; /* Full width */
-        height: calc(900px - 400px); /* Subtracting map height */
-        border: 0; /* Remove border */
-        overflow: hidden; /* Prevent scrollbars */
-    }
+ 
 
     .google-map {
         width: 100%;
         height: 400px; /* Set height for the map */
         border: none;
         border-radius: 10px;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 900px) {
-        .google-form {
-            height: calc(100vh - 400px); /* Use viewport height minus map */
-        }
-    }
-
-    @media (max-width: 200px) {
-        .google-form {
-            height: 500px; /* Set a height for very narrow screens */
-        }
     }
 
     /* Form heading */
