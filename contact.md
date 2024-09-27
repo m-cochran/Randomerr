@@ -27,8 +27,8 @@ permalink: /contact/
 
       <!-- Email Collection Agreement -->
       <div class="email-collection">
-        <input type="checkbox" id="agree" name="agree" required>
         <label for="agree">By using this form, you agree to the collection of your email for communication purposes.</label>
+        <input type="checkbox" id="agree" name="agree" required>
       </div>
 
       <!-- Submit Button -->
