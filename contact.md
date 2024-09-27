@@ -31,11 +31,7 @@ permalink: /contact/
   <style>
  /* Container for the Google Form iframe */
 .google-form-container {
-    width: 100%; /* Full width */
-    max-width: 900px; /* Max width for the form container */
-    margin: 0 auto; /* Center the container */
-    padding: 20px; /* Add padding around the iframe */
-    box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
+    margin-top: 20px; /* Center the container */
 }
 
 /* Iframe Styling */
@@ -43,8 +39,6 @@ permalink: /contact/
     width: 100%; /* Full width */
     height: 1050px; /* Set height based on the form content */
     border: none; /* Remove border */
-    overflow: hidden; /* Ensure no scrollbars */
-    display: block; /* Ensure the iframe takes up block-level space */
 }
 
   
