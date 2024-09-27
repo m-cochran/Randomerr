@@ -49,6 +49,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+  // Ensure anchor tags work properly
+  const anchors = slider.querySelectorAll("a");
+  anchors.forEach(anchor => {
+    anchor.addEventListener("click", function(event) {
+      // Ensure the default action is taken (i.e., opening the link)
+      event.stopPropagation(); // Stop event from bubbling up
+    });
+  });
+});
+
 
 
 
