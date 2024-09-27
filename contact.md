@@ -22,8 +22,9 @@ permalink: /contact/
   </div>
 
   <!-- Google Form Embed -->
-  <div class="google-form">
+  <div class="google-form-container">
     <iframe 
+      class="google-form" 
       width="100%" 
       height="100%" 
       frameborder="0" 
@@ -33,16 +34,12 @@ permalink: /contact/
 </div>
 
 <style>
-    .google-form {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-        position: absolute;
-        left: 0; 
-        right: 0; 
-        bottom: 0;
-        top: 0; 
+    .form-container {
+        position: relative; /* Set position relative for proper stacking */
+    }
+
+    .google-map-container {
+        margin-bottom: 20px; /* Add some space between map and form */
     }
 
     .google-map {
@@ -50,6 +47,22 @@ permalink: /contact/
         height: 400px; /* Set height for the map */
         border: none;
         border-radius: 10px;
+    }
+
+    .google-form-container {
+        position: relative; /* Make sure the form container stays below the map */
+        height: 900px; /* Set a specific height for the form container */
+        overflow: hidden; /* Hide overflow */
+    }
+
+    .google-form {
+        width: 100%; 
+        height: 100%; 
+        border: none;
+        overflow: hidden;
+        position: absolute; /* Position it absolutely within the form container */
+        top: 0;
+        left: 0;
     }
 
     /* Form heading */
