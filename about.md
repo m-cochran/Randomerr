@@ -70,11 +70,6 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     border-bottom: 2px solid #2980b9;
 }
 
-.about-container a:hover {
-    color: #1abc9c;
-    border-bottom: 2px solid #1abc9c;
-}
-
 /* Styling for specific sections */
 .about-container .our-story {
     background-color: #ecf0f1;
@@ -97,13 +92,16 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
     margin-bottom: 30px;
 }
 
+.btn:hover {
+    color: #07f;
+}
+
 .btn {
   display: flex;
   flex-direction: column; /* Stack text and image vertically */
   align-items: center;    /* Center align the items */
   text-decoration: none;   /* Remove underline from link */
   color: #333;            /* Text color */
-  background-color: #f9f9f9; /* Background color */
   padding: 10px 20px;     /* Padding around the button */
   border-radius: 5px;     /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
