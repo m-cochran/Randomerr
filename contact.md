@@ -76,7 +76,7 @@ permalink: /contact/
     /* Success message */
     #success-message {
       text-align: center;
-      color: #28a745;
+      color: #06f;
       font-size: 1.2rem;
       margin-top: 20px;
     }
