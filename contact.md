@@ -22,46 +22,46 @@ permalink: /contact/
     <div class="google-form-container">
         <iframe class="google-form" id="google-form" 
                 src="https://docs.google.com/forms/d/e/1FAIpQLScjRTlq41Ca-Tizns-XS5b8ZffB26ux1gd63zPCvcY1J-7a9Q/viewform?embedded=true" 
-                frameborder="0" scrolling="no" title="Google Form">Loading…</iframe>
+                frameborder="0" title="Google Form">Loading…</iframe>
     </div>
 </div>
 
 <style>
-    /* Ensure the body takes up the full height of the viewport */
-    html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-    }
-
-    /* Parent container for the iframe */
-    .google-form-container {
+    /* Container styles */
+    .form-container {
         width: 100%;
         max-width: 900px; /* Max width for form */
         margin: 20px auto; /* Center the form */
         overflow: hidden; /* Prevent scrollbars */
-        position: relative; /* For absolute positioning of iframe */
+        height: 900px; /* Max height for the container */
+        position: relative; /* Required for positioning */
     }
 
-    /* Iframe Styling */
+    /* Iframe styling */
     .google-form {
         width: 100%; /* Full width */
-        height: 900px; /* Fixed height */
+        height: calc(900px - 400px); /* Subtracting map height */
         border: 0; /* Remove border */
         overflow: hidden; /* Prevent scrollbars */
-        position: relative; /* Positioning within the container */
+    }
+
+    .google-map {
+        width: 100%;
+        height: 400px; /* Set height for the map */
+        border: none;
+        border-radius: 10px;
     }
 
     /* Responsive adjustments */
     @media (max-width: 900px) {
         .google-form {
-            height: auto; /* Allow height to adjust automatically */
+            height: calc(100vh - 400px); /* Use viewport height minus map */
         }
     }
 
-    @media (max-width: 318px) {
+    @media (max-width: 200px) {
         .google-form {
-            height: 1200px; /* Set a smaller height for very narrow screens */
+            height: 500px; /* Set a height for very narrow screens */
         }
     }
 
@@ -80,17 +80,5 @@ permalink: /contact/
         color: #666;
         text-align: center;
         margin-bottom: 20px;
-    }
-
-    /* Styling for the map */
-    .google-map-container {
-        margin-top: 20px;
-    }
-
-    .google-map {
-        width: 100%;
-        height: 400px; /* Set height for the map */
-        border: none;
-        border-radius: 10px;
     }
 </style>
