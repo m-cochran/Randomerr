@@ -31,6 +31,9 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
   </div>
 </div>
 
+
+
+<script src="{{ site.baseurl }}/assets/js/cart.js"></script>
 <!-- Cart Icon -->
 <div id="cart-icon" class="cart-icon" style="display: none;">
   🛒
