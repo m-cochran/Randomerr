@@ -695,60 +695,6 @@ button:hover {
 
 
 
-
-
-
-
-
-/* Slider Styles */
-.slider {
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.slide-track {
-  display: flex;
-  width: calc(250px * 20);
-  animation: scroll 40s linear infinite;
-}
-
-.slide {
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
-  flex: auto;
-  width: 250px; /* Adjust based on image width */
-  margin-right: 0px; /* Adjust spacing between slides */
-}
-
-.slide img {
-  border-radius: 8px; /* Adjust the radius for more or less roundness */
-  display: block;
-  width: 100%; /* Ensure images fill the slide */
-  height: 100px;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-250px * 11));
-  }
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .slide {
-    width: 200px; /* Adjust for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .slide {
-    width: 150px; /* Further adjust for very small screens */
-  }
-}
-
 /* Footer Styles */
 footer {
   background: #333;
