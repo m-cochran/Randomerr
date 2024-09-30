@@ -1,4 +1,4 @@
-/* Slider container */
+/* Slider Styles */
 .slider {
   overflow: hidden;
   position: relative;
@@ -7,59 +7,40 @@
 
 .slide-track {
   display: flex;
-  width: calc(250px * 22); /* 20 slides + 2 extra for looping */
-  animation: scroll 40s linear infinite;
+  animation: scroll linear infinite; /* Animation will be dynamically set in JS */
 }
 
 .slide {
-  box-sizing: border-box; /* Ensures padding and border are included */
-  flex: 0 0 250px; /* Slide width is 250px */
-  margin-right: 0px;
+  flex: 0 0 250px; /* Fixed width for each slide */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+  margin-right: 0; /* Adjust spacing between slides */
+}
+
+.slide img {
+  border-radius: 8px; /* Adjust the radius for more or less roundness */
+  display: block;
+  width: 100%; /* Ensure images fill the slide */
+  height: 100px; /* Fixed height for consistency */
 }
 
 @keyframes scroll {
   0% {
-    transform: translateX(0); /* Start position */
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-250px * 12)); /* Slide 12 full-width slides */
+    transform: translateX(calc(-250px * 10)); /* Adjust based on number of duplicate slides */
   }
 }
 
-/* Adjusting image style */
-.slide img {
-  border-radius: 8px;
-  width: 100%;
-  height: 100px;
-}
-
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .slide {
-    width: 200px;
-  }
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-200px * 12));
-    }
+    flex: 0 0 200px; /* Adjust for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .slide {
-    width: 150px;
-  }
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-150px * 12));
-    }
+    flex: 0 0 150px; /* Further adjust for very small screens */
   }
 }
