@@ -195,6 +195,8 @@ permalink: /thank-you/
 
 
 <!-- Slider -->
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/slider.css">
+<script src="{{ site.baseurl }}/assets/js/slider.js"></script>
 
 <div class="slider">
   <div class="slide-track">
