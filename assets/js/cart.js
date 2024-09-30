@@ -147,10 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load cart items from localStorage and fetch product data on page load
   window.addEventListener("load", () => {
-    fetchProductData();
     loadCartFromLocalStorage();
   });
-});
   
 // Load cart items from localStorage
 const loadCartFromLocalStorage = () => {
