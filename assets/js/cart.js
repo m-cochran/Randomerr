@@ -1,4 +1,11 @@
-// cart.js
+// Handle cart icon click
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("cart-icon").addEventListener("click", () => {
+    const cart = document.getElementById("cart");
+    cart.style.display = cart.style.display === "none" ? "block" : "none";
+  });
+});
+
 
 // Array to store cart items
 const cartItems = [];
@@ -138,6 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Load cart items from localStorage and fetch product data on page load
+  window.addEventListener("load", () => {
+    fetchProductData();
+    loadCartFromLocalStorage();
+  });
+});
+
 // Load cart items from localStorage
 const loadCartFromLocalStorage = () => {
   const savedCartItems = localStorage.getItem("cartItems");
@@ -153,14 +167,3 @@ const removeCartItem = (index) => {
   cartItems.splice(index, 1);
   updateCart();
 };
-
-// Handle cart icon click
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("cart-icon").addEventListener("click", () => {
-    const cart = document.getElementById("cart");
-    cart.style.display = cart.style.display === "none" ? "block" : "none";
-  });
-
-  // Load cart items from localStorage on page load
-  loadCartFromLocalStorage();
-});
