@@ -36,7 +36,7 @@ permalink: /contact/
     </form>
 
     <div id="success-message" style="display: none; text-align: center;">
-      <h3>Your message has been received. We'll get back to you as soon as possible. In the meantime, feel free to explore more on our website or follow us on social media!</h3>
+      <h3>Thanks for submitting your contact info!</h3>
       <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
         Follow us on social media:
       </p>
@@ -61,8 +61,12 @@ permalink: /contact/
   </div>
 
   <div class="google-map-container">
-    <h2>Our Location</h2>
+    <h3>Our Location</h3>
     <iframe id="google-map" class="google-map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCNCmAGyN4bJYu5qeLgbASzZafm-M5TA_o&amp;language=en&amp;zoom=16&amp;q=942%20Meldon%20Ave%20Donora%2C%20PA%2015033" allowfullscreen="" title="Location on map"></iframe>
+  </div>
+
+  <div class="contact-email">
+    <p>If you have any questions, feel free to email us at <a href="mailto:contact@randomerr.com">contact@randomerr.com</a>.</p>
   </div>
 
   <style>
