@@ -7,13 +7,14 @@
 
 .slide-track {
   display: flex;
+  /* Duplicate slides for seamless scrolling */
+  width: calc(250px * 20); /* Adjust based on the total number of slides */
   animation: scroll linear infinite; /* Animation will be dynamically set in JS */
 }
 
 .slide {
   flex: 0 0 250px; /* Fixed width for each slide */
   box-sizing: border-box; /* Ensure padding and border are included in width */
-  margin-right: 0; /* Adjust spacing between slides */
 }
 
 .slide img {
@@ -28,7 +29,7 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-250px * 10)); /* Adjust based on number of duplicate slides */
+    transform: translateX(-calc(250px * 10)); /* Adjust based on number of duplicate slides */
   }
 }
 
