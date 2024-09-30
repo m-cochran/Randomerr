@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const slides = document.querySelectorAll(".slide");
 
   // Set the desired speed (in pixels per second)
-  const speed = 100; // Adjust speed as needed (e.g., 50 pixels per second)
+  const speed = 140; // Adjust speed as needed (e.g., 50 pixels per second)
 
   // Get the width of a single slide
   const slideWidth = slides[0].clientWidth; // Width of each slide
