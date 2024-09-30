@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
   slider.addEventListener("mouseout", function () {
     slider.style.animationPlayState = "running";
   });
-});
 
   // Ensure anchor tags work properly
   const anchors = slider.querySelectorAll("a");
