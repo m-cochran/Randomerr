@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 // Function to truncate text to a specific length
 const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) {
@@ -298,5 +297,3 @@ const populateProducts = (data) => {
 window.addEventListener("load", () => {
   fetchProductData();
 });
-
-
