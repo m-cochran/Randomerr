@@ -10,7 +10,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 
 <!-- Product List -->
-<script src="{{ site.baseurl }}/assets/js/shop.js"></script>
+
 <div id="product-list" class="product-list"></div>
 
 <!-- Product Details Modal -->
@@ -34,7 +34,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 
 
-<script src="{{ site.baseurl }}/assets/js/cart.js"></script>
+
 <!-- Cart Icon -->
 <div id="cart-icon" class="cart-icon" style="display: none;">
   🛒
