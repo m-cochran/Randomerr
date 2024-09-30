@@ -498,7 +498,7 @@ p {
   right: 20px;
   bottom: 80px;
   width: 300px;
-  max-height: 400px;
+  max-height: 30vw;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
