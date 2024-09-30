@@ -29,11 +29,7 @@
 
 <body>
   {% include header.html %}
-
-  <!-- Cart: included on every page except checkout -->
-  {% if page.url != '/checkout' %}
-    {% include cart.html %}
-  {% endif %}
+  {% include cart.html %}
 
   <main>
     {{ content }}
