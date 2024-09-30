@@ -8,7 +8,7 @@ permalink: /shop/
 
 Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
 
-
+<script src="{{ site.baseurl }}/assets/js/shop.js">
 <!-- Product List -->
 <div id="product-list" class="product-list"></div>
 
