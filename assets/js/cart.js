@@ -124,6 +124,20 @@ const updateCart = () => {
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
 
+// Add event listener for the checkout button
+document.addEventListener("DOMContentLoaded", () => {
+  const checkoutButton = document.getElementById("checkout-button"); // Access the button by ID
+
+  checkoutButton.addEventListener("click", () => {
+    // Check if there are items in the cart
+    if (cartItems.length === 0) {
+      alert("Your cart is empty. Add items to the cart before proceeding.");
+    } else {
+      // Redirect to the checkout page
+      window.location.href = "https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
+    }
+  });
+
 // Load cart items from localStorage
 const loadCartFromLocalStorage = () => {
   const savedCartItems = localStorage.getItem("cartItems");
