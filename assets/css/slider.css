@@ -32,16 +32,3 @@
     transform: translateX(-100%); /* Adjust based on number of duplicate slides */
   }
 }
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .slide {
-    flex: 0 0 200px; /* Adjust for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .slide {
-    flex: 0 0 150px; /* Further adjust for very small screens */
-  }
-}
