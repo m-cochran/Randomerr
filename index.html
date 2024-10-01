@@ -27,8 +27,10 @@ title: Home
 
 <!-- List of Remaining Posts -->
 <ul class="post-list">
+  {% assign counter = 0 %}
   {% for post in paginator.posts offset: 6 %}
-    {% if forloop.index % 4 == 0 %}
+    {% assign counter = counter | plus: 1 %}
+    {% if counter % 4 == 0 %}
       <li class="post-different-layout">
         <a href="{{ post.url | relative_url }}">
           <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
@@ -62,7 +64,6 @@ title: Home
     <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
   {% endif %}
 </div>
-
 
 <!-- Slider -->
 
