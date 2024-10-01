@@ -208,6 +208,7 @@ p {
 }
 
 .post-thumbnail img {
+  object-fit: cover
   width: 160px;
   height: 120px;
   display: block;
