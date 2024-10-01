@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cartIcon = document.getElementById("cart-icon");
   const cartContainer = document.getElementById("cart");
-  
+  const checkoutButton = document.getElementById("checkout-button"); // Ensure the button is correctly selected
+
   // Check cart toggle state in localStorage
   const cartVisible = localStorage.getItem("cartVisible") === "true";
 
-  // Apply cart toggle state on page load
   if (cartContainer && cartVisible) {
     cartContainer.style.display = "block";
   } else if (cartContainer) {
@@ -17,7 +17,19 @@ document.addEventListener("DOMContentLoaded", () => {
     cartIcon.addEventListener("click", () => {
       const isCartVisible = cartContainer.style.display === "block";
       cartContainer.style.display = isCartVisible ? "none" : "block";
-      localStorage.setItem("cartVisible", !isCartVisible); // Store state in localStorage
+      localStorage.setItem("cartVisible", !isCartVisible);
+    });
+  }
+
+  // Handle checkout button click
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", () => {
+      if (cartItems.length === 0) {
+        alert("Your cart is empty. Add items to the cart before proceeding.");
+      } else {
+        // Redirect to the checkout page
+        window.location.href = "https://m-cochran.github.io/Randomerr/checkout/";
+      }
     });
   }
 
@@ -28,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Array to store cart items
 const cartItems = [];
 
-// Function to trigger cart icon animation
+// Function to trigger the cart icon animation
 const animateCartIcon = () => {
   const cartIcon = document.getElementById("cart-icon");
   if (cartIcon) {
@@ -57,7 +69,6 @@ const addToCart = (product) => {
     });
   }
 
-  // Update cart icon visibility and trigger animation
   const cartIcon = document.getElementById("cart-icon");
   if (cartItems.length > 0 && cartIcon) {
     cartIcon.style.display = "block";
