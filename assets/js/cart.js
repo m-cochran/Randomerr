@@ -63,7 +63,7 @@ const addToCart = (product) => {
   } else {
     cartItems.push({
       name: product.name,
-      price: product.retail_price,
+      price: parseFloat(product.retail_price), // Ensure price is a number
       image: product.thumbnail_url,
       sku: product.sku,
       quantity: 1,
