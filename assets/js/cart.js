@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartIcon = document.getElementById("cart-icon");
   const cartContainer = document.getElementById("cart");
   const checkoutButton = document.getElementById("checkout-button");
-  const cartText = document.getElementById("cart-text"); // Reference for cart text
+  const cartText = document.getElementById("cart-text"); // Define cartText here
 
   // Load cart items from localStorage on page load
   loadCartFromLocalStorage();
