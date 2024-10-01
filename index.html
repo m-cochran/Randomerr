@@ -27,27 +27,15 @@ title: Home
 
 <!-- List of Remaining Posts -->
 <ul class="post-list">
-  {% assign post_index = 0 %}
   {% for post in paginator.posts offset: 6 %}
   {% if post.thumbnail %}
-    {% if post_index % 4 == 0 %}
-      <li class="post-different-layout">
-        <a href="{{ post.url | relative_url }}">
-          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
-        </a>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
-      </li>
-    {% else %}
-      <li class="post-thumbnail">
-        <a href="{{ post.url | relative_url }}">
-          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
-        </a>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
-      </li>
-    {% endif %}
-    {% assign post_index = post_index | plus: 1 %}
+  <li class="post-thumbnail">
+    <a href="{{ post.url | relative_url }}">
+      <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
+    </a>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    <small>{{ post.date | date: "%B %d, %Y" }}</small>
+  </li>
   {% endif %}
   {% endfor %}
 </ul>
@@ -62,18 +50,6 @@ title: Home
     <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
   {% endif %}
 </div>
-
-<style>
-.post-different-layout {
-  background-color: #f0f0f0; /* Example background color */
-  border: 2px solid #ccc; /* Example border */
-  padding: 10px; /* Example padding */
-  margin-bottom: 15px; /* Example margin */
-}
-
-
-</style>
-
 
 
 
