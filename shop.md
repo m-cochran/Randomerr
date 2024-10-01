@@ -10,7 +10,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 
 
 <!-- Product List -->
-
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/shop.css">
 <script src="{{ site.baseurl }}/assets/js/shop.js"></script>
 
 <div id="product-list" class="product-list"></div>
