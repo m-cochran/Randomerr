@@ -1,26 +1,31 @@
 // Handle cart icon click
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("cart-icon").addEventListener("click", () => {
-    const cart = document.getElementById("cart");
-    cart.style.display = cart.style.display === "none" ? "block" : "none";
-  });
+  const cartIcon = document.getElementById("cart-icon");
+  const cart = document.getElementById("cart");
 
-  // Add event listener for the checkout button
-  const checkoutButton = document.getElementById("checkout-button"); // Access the button by ID
-  if (checkoutButton) {
-    checkoutButton.addEventListener("click", () => {
-      // Check if there are items in the cart
-      if (cartItems.length === 0) {
-        alert("Your cart is empty. Add items to the cart before proceeding.");
-      } else {
-        // Redirect to the checkout page
-        window.location.href = "https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
-      }
+  // Check if the cart icon exists (exclude on the checkout page)
+  if (cartIcon) {
+    cartIcon.addEventListener("click", () => {
+      cart.style.display = cart.style.display === "none" ? "block" : "none";
     });
-  }
 
-  // Load cart items from localStorage on page load
-  loadCartFromLocalStorage();
+    // Add event listener for the checkout button
+    const checkoutButton = document.getElementById("checkout-button"); // Access the button by ID
+    if (checkoutButton) {
+      checkoutButton.addEventListener("click", () => {
+        // Check if there are items in the cart
+        if (cartItems.length === 0) {
+          alert("Your cart is empty. Add items to the cart before proceeding.");
+        } else {
+          // Redirect to the checkout page
+          window.location.href = "https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
+        }
+      });
+    }
+
+    // Load cart items from localStorage on page load
+    loadCartFromLocalStorage();
+  }
 });
 
 // Array to store cart items
@@ -29,12 +34,14 @@ const cartItems = [];
 // Function to trigger the cart icon animation
 const animateCartIcon = () => {
   const cartIcon = document.getElementById("cart-icon");
-  cartIcon.classList.add("cart-icon-bounce");
+  if (cartIcon) { // Ensure the cart icon exists
+    cartIcon.classList.add("cart-icon-bounce");
 
-  // Remove the class after the animation ends to allow for future animations
-  setTimeout(() => {
-    cartIcon.classList.remove("cart-icon-bounce");
-  }, 600); // Duration should match the animation duration in CSS
+    // Remove the class after the animation ends to allow for future animations
+    setTimeout(() => {
+      cartIcon.classList.remove("cart-icon-bounce");
+    }, 600); // Duration should match the animation duration in CSS
+  }
 };
 
 // Function to add item to cart
@@ -58,7 +65,10 @@ const addToCart = (product) => {
 
   // Update cart icon visibility based on the number of items
   if (cartItems.length > 0) {
-    document.getElementById("cart-icon").style.display = "block";
+    const cartIcon = document.getElementById("cart-icon");
+    if (cartIcon) {
+      cartIcon.style.display = "block";
+    }
   }
 
   updateCart();
@@ -75,9 +85,14 @@ const updateCart = () => {
 
   if (cartItems.length === 0) {
     cartItemsContainer.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
-    document.getElementById("cart-icon").style.display = "none";
+    const cartIcon = document.getElementById("cart-icon");
+    if (cartIcon) {
+      cartIcon.style.display = "none";
+    }
     // Hide the cart when it's empty
-    cart.style.display = "none";
+    if (cart) {
+      cart.style.display = "none";
+    }
     // Clear cart from localStorage when it's empty
     localStorage.removeItem("cartItems");
     return;
@@ -138,10 +153,14 @@ const updateCart = () => {
     0
   );
   const totalDiv = document.getElementById("cart-total");
-  totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+  if (totalDiv) { // Check if totalDiv exists
+    totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+  }
 
   // Show the cart
-  cart.style.display = "block";
+  if (cart) {
+    cart.style.display = "block";
+  }
 
   // Save cart to localStorage
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -152,7 +171,10 @@ const loadCartFromLocalStorage = () => {
   const savedCartItems = localStorage.getItem("cartItems");
   if (savedCartItems) {
     cartItems.push(...JSON.parse(savedCartItems));
-    document.getElementById("cart-icon").style.display = "block";
+    const cartIcon = document.getElementById("cart-icon");
+    if (cartIcon) {
+      cartIcon.style.display = "block";
+    }
     updateCart();
   }
 };
