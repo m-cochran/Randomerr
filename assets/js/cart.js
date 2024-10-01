@@ -5,8 +5,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Check if the cart icon exists (exclude on the checkout page)
   if (cartIcon) {
+    // Restore the cart visibility state from localStorage
+    const cartVisible = localStorage.getItem("cartVisible") === "true";
+    if (cartVisible && cartItems.length > 0) {
+      cart.style.display = "block"; // Show the cart if it was visible
+    } else {
+      cart.style.display = "none"; // Hide it otherwise
+    }
+
     cartIcon.addEventListener("click", () => {
-      cart.style.display = cart.style.display === "none" ? "block" : "none";
+      const isCartVisible = cart.style.display === "block";
+      cart.style.display = isCartVisible ? "none" : "block";
+      localStorage.setItem("cartVisible", !isCartVisible); // Save the toggle state
     });
 
     // Add event listener for the checkout button
@@ -172,7 +182,7 @@ const loadCartFromLocalStorage = () => {
   if (savedCartItems) {
     cartItems.push(...JSON.parse(savedCartItems));
     const cartIcon = document.getElementById("cart-icon");
-    if (cartIcon) {
+    if (cartIcon && cartItems.length > 0) {
       cartIcon.style.display = "block";
     }
     updateCart();
