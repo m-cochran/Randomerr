@@ -25,7 +25,10 @@
 
 <body>
   {% include header.html %}
-  {% include cart.html %}
+  <!-- Conditionally include cart -->
+  {% unless page.url == "/checkout/" %}
+    {% include cart.html %}
+  {% endunless %}
 
   <main>
     {{ content }}
