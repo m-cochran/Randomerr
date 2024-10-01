@@ -4,8 +4,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const cart = document.getElementById("cart");
     cart.style.display = cart.style.display === "none" ? "block" : "none";
   });
-});
 
+  // Add event listener for the checkout button
+  const checkoutButton = document.getElementById("checkout-button"); // Access the button by ID
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", () => {
+      // Check if there are items in the cart
+      if (cartItems.length === 0) {
+        alert("Your cart is empty. Add items to the cart before proceeding.");
+      } else {
+        // Redirect to the checkout page
+        window.location.href = "https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
+      }
+    });
+  }
+
+  // Load cart items from localStorage on page load
+  loadCartFromLocalStorage();
+});
 
 // Array to store cart items
 const cartItems = [];
@@ -14,7 +30,7 @@ const cartItems = [];
 const animateCartIcon = () => {
   const cartIcon = document.getElementById("cart-icon");
   cartIcon.classList.add("cart-icon-bounce");
-  
+
   // Remove the class after the animation ends to allow for future animations
   setTimeout(() => {
     cartIcon.classList.remove("cart-icon-bounce");
@@ -36,7 +52,7 @@ const addToCart = (product) => {
       price: product.retail_price,
       image: product.thumbnail_url,
       sku: product.sku,
-      quantity: 1
+      quantity: 1,
     });
   }
 
@@ -46,7 +62,7 @@ const addToCart = (product) => {
   }
 
   updateCart();
-  
+
   // Trigger the cart icon animation
   animateCartIcon();
 };
@@ -131,25 +147,6 @@ const updateCart = () => {
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 };
 
-// Add event listener for the checkout button
-document.addEventListener("DOMContentLoaded", () => {
-  const checkoutButton = document.getElementById("checkout-button"); // Access the button by ID
-
-  checkoutButton.addEventListener("click", () => {
-    // Check if there are items in the cart
-    if (cartItems.length === 0) {
-      alert("Your cart is empty. Add items to the cart before proceeding.");
-    } else {
-      // Redirect to the checkout page
-      window.location.href = "https://m-cochran.github.io/Randomerr/checkout"; // Update the URL based on your site's structure
-    }
-  });
-
-  // Load cart items from localStorage and fetch product data on page load
-  window.addEventListener("load", () => {
-    loadCartFromLocalStorage();
-  });
-  
 // Load cart items from localStorage
 const loadCartFromLocalStorage = () => {
   const savedCartItems = localStorage.getItem("cartItems");
