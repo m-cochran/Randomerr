@@ -29,13 +29,24 @@ title: Home
 <ul class="post-list">
   {% for post in paginator.posts offset: 6 %}
   {% if post.thumbnail %}
-  <li class="post-thumbnail">
-    <a href="{{ post.url | relative_url }}">
-      <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
-    </a>
-    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%B %d, %Y" }}</small>
-  </li>
+    {% if forloop.index0 % 4 == 0 and forloop.index0 > 0 %}
+      <!-- Every 4th post after the first page -->
+      <li class="post-special">
+        <a href="{{ post.url | relative_url }}">
+          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
+        </a>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <small>{{ post.date | date: "%B %d, %Y" }}</small>
+      </li>
+    {% else %}
+      <li class="post-thumbnail">
+        <a href="{{ post.url | relative_url }}">
+          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
+        </a>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <small>{{ post.date | date: "%B %d, %Y" }}</small>
+      </li>
+    {% endif %}
   {% endif %}
   {% endfor %}
 </ul>
@@ -50,7 +61,6 @@ title: Home
     <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
   {% endif %}
 </div>
-
 
 
 <!-- Slider -->
