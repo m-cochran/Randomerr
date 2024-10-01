@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cartIcon = document.getElementById("cart-icon");
   const cartContainer = document.getElementById("cart");
-  const checkoutButton = document.getElementById("checkout-button"); // Ensure the button is correctly selected
+  const checkoutButton = document.getElementById("checkout-button");
+
+  // Load cart items from localStorage on page load
+  loadCartFromLocalStorage();
 
   // Check cart toggle state in localStorage
   const cartVisible = localStorage.getItem("cartVisible") === "true";
 
-  if (cartContainer && cartVisible) {
+  if (cartContainer && cartVisible && cartItems.length > 0) {
     cartContainer.style.display = "block";
   } else if (cartContainer) {
-    cartContainer.style.display = "none";
+    cartContainer.style.display = "none"; // Hide if no items in cart
   }
 
   // Handle cart icon click to toggle cart visibility
@@ -32,9 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-  // Load cart items from localStorage on page load
-  loadCartFromLocalStorage();
 });
 
 // Array to store cart items
@@ -90,6 +90,7 @@ const updateCart = () => {
     if (cartIcon) {
       cartIcon.style.display = "none";
     }
+    // Hide the cart when it's empty
     if (cartContainer) {
       cartContainer.style.display = "none";
     }
@@ -158,6 +159,11 @@ const updateCart = () => {
 
   // Save cart to localStorage
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+  // Ensure cart is shown when there are items
+  if (cartContainer && cartItems.length > 0) {
+    cartContainer.style.display = "block";
+  }
 };
 
 // Load cart items from localStorage
@@ -170,6 +176,12 @@ const loadCartFromLocalStorage = () => {
       cartIcon.style.display = "block";
     }
     updateCart();
+  } else {
+    // Hide the cart if there are no items in localStorage
+    const cartContainer = document.getElementById("cart");
+    if (cartContainer) {
+      cartContainer.style.display = "none";
+    }
   }
 };
 
