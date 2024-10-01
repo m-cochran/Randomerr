@@ -1,6 +1,6 @@
 ---
 layout: default
-paginate: true
+paginate: 35
 title: Home
 ---
 
@@ -10,7 +10,7 @@ title: Home
 <h2>Latest Posts</h2>
 
 <div class="wrapper">
-  {% for post in site.posts limit: 6 %}
+  {% for post in paginator.posts %}
   <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% when 6 %}six{% endcase %}">
     <a href="{{ post.url | relative_url }}">
       <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
@@ -22,6 +22,7 @@ title: Home
   </div>
   {% endfor %}
 </div>
+
 
 
 <!-- List of the Next 20 Posts -->
