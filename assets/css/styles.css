@@ -481,7 +481,7 @@ p {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-size: 24px;
-  z-index: 1000;
+  z-index: 1001;
   transition: background-color 0.3s ease;
 }
 
@@ -505,7 +505,7 @@ p {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
   padding: 10px;
-  z-index: 1000;
+  z-index: 1001;
   transition: transform 0.3s ease;
   transform: translateY(0);
 }
