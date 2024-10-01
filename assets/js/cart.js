@@ -9,12 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check cart toggle state in localStorage
   const cartVisible = localStorage.getItem("cartVisible") === "true";
 
-  if (cartContainer) {
-    if (cartVisible && cartItems.length > 0) {
-      cartContainer.style.display = "block";
-    } else {
-      cartContainer.style.display = "none"; // Ensure cart is hidden unless explicitly opened
-    }
+  if (cartContainer && cartVisible && cartItems.length > 0) {
+    cartContainer.style.display = "block";
+  } else if (cartContainer) {
+    cartContainer.style.display = "none"; // Hide if no items in cart or not toggled
   }
 
   // Handle cart icon click to toggle cart visibility
@@ -22,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartIcon.addEventListener("click", () => {
       const isCartVisible = cartContainer.style.display === "block";
       cartContainer.style.display = isCartVisible ? "none" : "block";
-      localStorage.setItem("cartVisible", !isCartVisible); // Save the toggle state
+      localStorage.setItem("cartVisible", !isCartVisible);
     });
   }
 
@@ -73,7 +71,7 @@ const addToCart = (product) => {
 
   const cartIcon = document.getElementById("cart-icon");
   if (cartItems.length > 0 && cartIcon) {
-    cartIcon.style.display = "block"; // Show the cart icon when there are items
+    cartIcon.style.display = "block";
   }
 
   updateCart();
@@ -93,7 +91,7 @@ const updateCart = () => {
     }
     const cartContainer = document.getElementById("cart");
     if (cartContainer) {
-      cartContainer.style.display = "none"; // Hide the cart if empty
+      cartContainer.style.display = "none";
     }
     localStorage.removeItem("cartItems");
     return;
@@ -167,17 +165,15 @@ const loadCartFromLocalStorage = () => {
   const savedCartItems = localStorage.getItem("cartItems");
   if (savedCartItems) {
     cartItems.push(...JSON.parse(savedCartItems));
-
     const cartIcon = document.getElementById("cart-icon");
-    if (cartIcon && cartItems.length > 0) {
-      cartIcon.style.display = "block"; // Show the cart icon if items exist
+    if (cartIcon) {
+      cartIcon.style.display = "block";
     }
-
     updateCart();
   } else {
     const cartContainer = document.getElementById("cart");
     if (cartContainer) {
-      cartContainer.style.display = "none"; // Ensure the cart is hidden on page load if no items
+      cartContainer.style.display = "none";
     }
   }
 };
