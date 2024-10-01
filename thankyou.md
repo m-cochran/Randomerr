@@ -12,7 +12,13 @@ permalink: /thank-you/
     <!-- Items will be dynamically populated here -->
   </div>
 
-  <p>We hope you enjoy your purchase. If you have any questions, feel free to <a href="/contact/">contact us</a>.</p>
+  <a href="https://m-cochran.github.io/Randomerr/contact/" style="text-decoration: none; color: inherit;">
+  <p>
+    We hope you enjoy your purchase. If you have any questions, feel free to 
+    contact us.
+  </p>
+</a>
+
 </div>
 
 <style>
