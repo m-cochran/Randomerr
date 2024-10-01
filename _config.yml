@@ -7,3 +7,5 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
+paginate: 35             # Set the default pagination to 35 posts per page
+paginate_path: "/page:num/" # Customize the pagination path
