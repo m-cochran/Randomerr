@@ -32,7 +32,7 @@ title: Home
   {% for post in paginator.posts offset: 6 %}
     {% assign post_index = post_index | plus: 1 %}
 
-    <!-- Only apply the special layout to every 4th post -->
+    <!-- Every 4th Post After the First 6 Gets a Different Layout -->
     {% if post_index % 4 == 0 %}
       <li class="post-different-layout">
         <a href="{{ post.url | relative_url }}">
@@ -46,13 +46,11 @@ title: Home
     {% else %}
       <!-- Regular Post Layout -->
       <li class="post-list-item">
-        <div class="post-thumbnail">
-          <a href="{{ post.url | relative_url }}">
-            <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
-          </a>
-        </div>
+        <a href="{{ post.url | relative_url }}" class="post-thumbnail">
+          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
+        </a>
         <div class="post-content">
-          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
           <small>{{ post.date | date: "%B %d, %Y" }}</small>
         </div>
       </li>
