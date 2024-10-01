@@ -148,6 +148,9 @@ permalink: /thank-you/
 <p>Check out these exclusive deals just for you:</p>
 
 <!-- Product List -->
+
+<script src="{{ site.baseurl }}/assets/js/shop.js"></script>
+
 <div id="product-list" class="product-list"></div>
 
 <!-- Product Details Modal -->
@@ -169,25 +172,7 @@ permalink: /thank-you/
   </div>
 </div>
 
-<!-- Cart Icon -->
-<div id="cart-icon" class="cart-icon" style="display: none;">
-  🛒
-</div><!-- Add this inside your cart-icon element in the HTML -->
-<div id="cart-badge" class="cart-badge"></div>
 
-<!-- Cart Container -->
-<div id="cart" class="cart-container" style="display: none;">
-  <h2>Your Cart</h2>
-  <div id="cart-items">
-    <!-- Cart items will be dynamically populated here -->
-  </div>
-  <div id="cart-summary" class="cart-summary">
-    <div id="cart-total">Total: $0.00</div>
-    <div id="cart-actions">
-      <button id="checkout-button" class="checkout-button">Checkout</button>
-    </div>
-  </div>
-</div>
 
 
 
