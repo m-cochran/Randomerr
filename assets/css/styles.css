@@ -93,11 +93,19 @@ p {
   margin: 0 0 15px;
 }
 
-/* Irregular Grid for Top 6 Posts */
-{
+
+
+
+
+
+/* Global Reset for Box-Sizing */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+/* Irregular Grid for Top 6 Posts */
 .wrapper {
   max-width: 940px;
   margin: 0 auto;
@@ -221,16 +229,6 @@ p {
   display: flex;
   align-items: center;
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Styles for every 4th post */
 .post-different-layout {
