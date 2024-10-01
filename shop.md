@@ -12,7 +12,7 @@ Randomerr is a space for creative exploration. We share ideas, thoughts, and eve
 <!-- Product List -->
 
 <div id="product-list" class="product-list"></div>
-<script src="{{ site.baseurl }}/assets/js/shop.js"></script>
+
 <!-- Product Details Modal -->
 <div id="product-details-modal" class="product-details-modal">
   <div class="modal-content">
