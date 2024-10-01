@@ -70,7 +70,7 @@ const addToCart = (product) => {
     });
   }
 
-  const cartIcon = document.getElementById("cart-icon");
+  // Show the cart icon if there are items in the cart
   if (cartItems.length > 0 && cartIcon) {
     cartIcon.style.display = "block";
   }
@@ -88,7 +88,7 @@ const updateCart = () => {
     cartItemsContainer.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
     const cartIcon = document.getElementById("cart-icon");
     if (cartIcon) {
-      cartIcon.style.display = "none";
+      cartIcon.style.display = "none"; // Hide cart icon if empty
     }
     const cartContainer = document.getElementById("cart");
     if (cartContainer) {
@@ -98,7 +98,8 @@ const updateCart = () => {
 
     // Update the cart text to reflect the empty cart
     if (cartText) {
-      cartText.textContent = "No items in cart";
+      cartText.textContent = "No items in cart"; // Update cart text
+      cartText.style.display = "block"; // Show empty cart text
     }
     return;
   }
@@ -137,7 +138,7 @@ const updateCart = () => {
 
     const price = document.createElement("div");
     price.className = "cart-item-price";
-    price.textContent = `$${item.price}`;
+    price.textContent = `$${item.price.toFixed(2)}`; // Format price to two decimal places
     li.appendChild(price);
 
     const removeButton = document.createElement("button");
@@ -159,13 +160,14 @@ const updateCart = () => {
   );
   const totalDiv = document.getElementById("cart-total");
   if (totalDiv) {
-    totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+    totalDiv.textContent = `Total: $${total.toFixed(2)}`; // Format total to two decimal places
   }
 
   // Update the cart text based on the number of items
   const itemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
   if (cartText) {
     cartText.textContent = `${itemCount} item${itemCount > 1 ? "s" : ""} in cart - click to view cart`;
+    cartText.style.display = "block"; // Show cart text
   }
 
   // Save cart to localStorage
@@ -179,13 +181,18 @@ const loadCartFromLocalStorage = () => {
     cartItems.push(...JSON.parse(savedCartItems));
     const cartIcon = document.getElementById("cart-icon");
     if (cartIcon) {
-      cartIcon.style.display = "block";
+      cartIcon.style.display = "block"; // Show cart icon if there are items
     }
     updateCart();
   } else {
     const cartContainer = document.getElementById("cart");
     if (cartContainer) {
       cartContainer.style.display = "none"; // Hide cart container if there are no items
+    }
+    // Ensure cart text reflects the empty state on load
+    if (cartText) {
+      cartText.textContent = "No items in cart";
+      cartText.style.display = "block"; // Show empty cart text
     }
   }
 };
