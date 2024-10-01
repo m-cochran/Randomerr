@@ -6,6 +6,9 @@ permalink: /contact/
 
 # Contact Us
 
+
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/contact-page.css">
+
 <main>
 
   <div class="form-container">
