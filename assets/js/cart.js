@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cartContainer && cartVisible && cartItems.length > 0) {
     cartContainer.style.display = "block";
   } else if (cartContainer) {
-    cartContainer.style.display = "none"; // Hide if no items in cart
+    cartContainer.style.display = "none"; // Hide if no items in cart or not toggled
   }
 
   // Handle cart icon click to toggle cart visibility
@@ -80,7 +80,6 @@ const addToCart = (product) => {
 
 // Function to update cart display and save to localStorage
 const updateCart = () => {
-  const cartContainer = document.getElementById("cart");
   const cartItemsContainer = document.getElementById("cart-items");
   cartItemsContainer.innerHTML = "";
 
@@ -90,7 +89,7 @@ const updateCart = () => {
     if (cartIcon) {
       cartIcon.style.display = "none";
     }
-    // Hide the cart when it's empty
+    const cartContainer = document.getElementById("cart");
     if (cartContainer) {
       cartContainer.style.display = "none";
     }
@@ -159,11 +158,6 @@ const updateCart = () => {
 
   // Save cart to localStorage
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
-
-  // Ensure cart is shown when there are items
-  if (cartContainer && cartItems.length > 0) {
-    cartContainer.style.display = "block";
-  }
 };
 
 // Load cart items from localStorage
@@ -177,7 +171,6 @@ const loadCartFromLocalStorage = () => {
     }
     updateCart();
   } else {
-    // Hide the cart if there are no items in localStorage
     const cartContainer = document.getElementById("cart");
     if (cartContainer) {
       cartContainer.style.display = "none";
