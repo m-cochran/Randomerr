@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cartIcon = document.getElementById("cart-icon");
   const cartContainer = document.getElementById("cart");
   const checkoutButton = document.getElementById("checkout-button");
-  const cartText = document.getElementById("cart-text"); // New reference for cart text
+  const cartText = document.getElementById("cart-text"); // Reference for cart text
 
   // Load cart items from localStorage on page load
   loadCartFromLocalStorage();
@@ -10,10 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check cart toggle state in localStorage
   const cartVisible = localStorage.getItem("cartVisible") === "true";
 
-  if (cartContainer && cartVisible && cartItems.length > 0) {
-    cartContainer.style.display = "block";
-  } else if (cartContainer) {
-    cartContainer.style.display = "none"; // Hide if no items in cart or not toggled
+  // Set cart visibility based on localStorage state and item count
+  if (cartContainer) {
+    cartContainer.style.display = cartVisible && cartItems.length > 0 ? "block" : "none";
   }
 
   // Handle cart icon click to toggle cart visibility
@@ -63,14 +62,14 @@ const addToCart = (product) => {
   } else {
     cartItems.push({
       name: product.name,
-      price: parseFloat(product.retail_price), // Ensure price is a number
+      price: product.retail_price,
       image: product.thumbnail_url,
       sku: product.sku,
       quantity: 1,
     });
   }
 
-  // Show the cart icon if there are items in the cart
+  const cartIcon = document.getElementById("cart-icon");
   if (cartItems.length > 0 && cartIcon) {
     cartIcon.style.display = "block";
   }
@@ -98,8 +97,8 @@ const updateCart = () => {
 
     // Update the cart text to reflect the empty cart
     if (cartText) {
-      cartText.textContent = "No items in cart"; // Update cart text
-      cartText.style.display = "block"; // Show empty cart text
+      cartText.textContent = "No items in cart";
+      cartText.style.display = "none"; // Hide cart text if empty
     }
     return;
   }
@@ -138,7 +137,7 @@ const updateCart = () => {
 
     const price = document.createElement("div");
     price.className = "cart-item-price";
-    price.textContent = `$${item.price.toFixed(2)}`; // Format price to two decimal places
+    price.textContent = `$${item.price}`;
     li.appendChild(price);
 
     const removeButton = document.createElement("button");
@@ -160,7 +159,7 @@ const updateCart = () => {
   );
   const totalDiv = document.getElementById("cart-total");
   if (totalDiv) {
-    totalDiv.textContent = `Total: $${total.toFixed(2)}`; // Format total to two decimal places
+    totalDiv.textContent = `Total: $${total.toFixed(2)}`;
   }
 
   // Update the cart text based on the number of items
@@ -189,10 +188,8 @@ const loadCartFromLocalStorage = () => {
     if (cartContainer) {
       cartContainer.style.display = "none"; // Hide cart container if there are no items
     }
-    // Ensure cart text reflects the empty state on load
     if (cartText) {
-      cartText.textContent = "No items in cart";
-      cartText.style.display = "block"; // Show empty cart text
+      cartText.style.display = "none"; // Hide cart text if there are no items
     }
   }
 };
