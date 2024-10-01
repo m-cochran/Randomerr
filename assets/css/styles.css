@@ -223,6 +223,23 @@ p {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
 }
 
+.post-list-item {
+  padding: 15px;
+  background-color: #fff; /* Background color for the list items */
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Rounded corners */
+  display: flex; /* Flexbox layout for alignment */
+  align-items: center; /* Center items vertically */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+}
+
+.post-list-item:hover {
+  background-color: #f1f1f1; /* Light background on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+
+
 
 
 
