@@ -13,15 +13,15 @@ title: Home
 {% if paginator.page == 1 %}
   <div class="wrapper">
     {% for post in paginator.posts limit: 6 %}
-    <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% when 6 %}six{% endcase %}">
-      <a href="{{ post.url | relative_url }}">
-        <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
-      </a>
-      <div class="overlay">
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
+      <div class="grid-item {% case forloop.index %}{% when 1 %}one{% when 2 %}two{% when 3 %}three{% when 4 %}four{% when 5 %}five{% when 6 %}six{% endcase %}">
+        <a href="{{ post.url | relative_url }}">
+          <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
+        </a>
+        <div class="overlay">
+          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+          <small>{{ post.date | date: "%B %d, %Y" }}</small>
+        </div>
       </div>
-    </div>
     {% endfor %}
   </div>
 {% endif %}
@@ -50,7 +50,7 @@ title: Home
           <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
         </a>
         <div class="post-content">
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
           <small>{{ post.date | date: "%B %d, %Y" }}</small>
         </div>
       </li>
@@ -68,8 +68,6 @@ title: Home
     <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
   {% endif %}
 </div>
-
-
 
 
 
