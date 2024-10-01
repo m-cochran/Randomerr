@@ -154,7 +154,7 @@ permalink: /thank-you/
 <p>Check out these exclusive deals just for you:</p>
 
 <!-- Product List -->
-
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/shop.css">
 <script src="{{ site.baseurl }}/assets/js/shop.js"></script>
 
 <div id="product-list" class="product-list"></div>
