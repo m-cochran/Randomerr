@@ -45,15 +45,15 @@ title: Home
       </li>
     {% else %}
       <!-- Regular Post Layout -->
-      {% if post.thumbnail %}
-      <li class="post-thumbnail">
-        <a href="{{ post.url | relative_url }}">
+      <li class="post-list-item">
+        <a href="{{ post.url | relative_url }}" class="post-thumbnail">
           <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
         </a>
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        <small>{{ post.date | date: "%B %d, %Y" }}</small>
+        <div class="post-content">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <small>{{ post.date | date: "%B %d, %Y" }}</small>
+        </div>
       </li>
-      {% endif %}
     {% endif %}
   {% endfor %}
 </ul>
@@ -68,6 +68,7 @@ title: Home
     <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next</a>
   {% endif %}
 </div>
+
 
 
 <!-- Slider -->
