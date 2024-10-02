@@ -6,7 +6,6 @@ permalink: /checkout/
 
 # Checkout
 
-Feel free to reach out via email at [contact@randomerr.com](mailto:contact@randomerr.com).
 
 <script src="https://js.stripe.com/v3/"></script>
 <style>
