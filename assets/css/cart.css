@@ -28,10 +28,10 @@
 /* Cart Container Styles */
 .cart-container {
   position: fixed;
-  right: 20px;
+  right: 5px;
   bottom: 80px;
   width: 300px;
-  max-height: 30vw;
+  max-height: 80vw;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
