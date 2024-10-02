@@ -126,11 +126,6 @@ permalink: /contact/
       border-radius: 10px;
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .form-container {
-        padding: 15px;
-      }
 
       .form-container h2 {
         font-size: 1.5rem;
