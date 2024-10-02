@@ -15,8 +15,8 @@ label {
 }
 
 input, textarea {
-  max-width: 97%;
-  min-width: 97%;
+  max-width: 95%;
+  min-width: 95%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
