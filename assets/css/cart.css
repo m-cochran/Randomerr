@@ -31,7 +31,8 @@
   right: 0px;
   bottom: 85px;
   max-height: 60vh;
-  max-width: 200px;
+  min-width: 200px;
+  max-width: 300px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
