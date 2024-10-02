@@ -81,19 +81,23 @@ const addToCart = (product) => {
 // Function to update cart display and save to localStorage
 const updateCart = () => {
   const cartItemsContainer = document.getElementById("cart-items");
+  const cartIcon = document.getElementById("cart-icon");
   cartItemsContainer.innerHTML = "";
 
   if (cartItems.length === 0) {
     cartItemsContainer.innerHTML = "<div class='empty-cart'>Your cart is empty.</div>";
-    const cartIcon = document.getElementById("cart-icon");
+    
     if (cartIcon) {
-      cartIcon.style.display = "none";
+      cartIcon.style.display = "none"; // Hide cart icon when empty
     }
     const cartContainer = document.getElementById("cart");
     if (cartContainer) {
-      cartContainer.style.display = "none";
+      cartContainer.style.display = "none"; // Hide cart container when empty
     }
+
+    // Clear cart from localStorage when it's empty
     localStorage.removeItem("cartItems");
+    localStorage.removeItem("cartVisible"); // Remove cartVisible state if empty
     return;
   }
 
@@ -163,17 +167,21 @@ const updateCart = () => {
 // Load cart items from localStorage
 const loadCartFromLocalStorage = () => {
   const savedCartItems = localStorage.getItem("cartItems");
+  const cartIcon = document.getElementById("cart-icon");
+
   if (savedCartItems) {
     cartItems.push(...JSON.parse(savedCartItems));
-    const cartIcon = document.getElementById("cart-icon");
-    if (cartIcon) {
+    if (cartIcon && cartItems.length > 0) {
       cartIcon.style.display = "block";
     }
     updateCart();
   } else {
     const cartContainer = document.getElementById("cart");
+    if (cartIcon) {
+      cartIcon.style.display = "none"; // Hide cart icon on page load if empty
+    }
     if (cartContainer) {
-      cartContainer.style.display = "none";
+      cartContainer.style.display = "none"; // Hide cart container on page load if empty
     }
   }
 };
