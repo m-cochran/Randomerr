@@ -28,9 +28,8 @@
 /* Cart Container Styles */
 .cart-container {
   position: fixed;
-  right: 5px;
-  bottom: 80px;
-  width: 300px;
+  right: 0px;
+  bottom: 85px;
   max-height: 80vw;
   background-color: #fff;
   border: 1px solid #ddd;
