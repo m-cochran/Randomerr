@@ -54,7 +54,7 @@ permalink: /arcade/
   padding: 20px;
   background-color: #06f;
   color: #ecf0f1;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .sidebar h2 {
@@ -124,13 +124,6 @@ permalink: /arcade/
   border: none;
   display: none;
 }
-
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    height: 30vh;
-    overflow-y: hidden;
-  }
   
   .game-display {
     width: 100%;
