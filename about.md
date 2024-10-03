@@ -28,7 +28,7 @@ Check out our <strong>store</strong> for exclusive <strong>offers</strong> and t
 
  <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">
   Visit Our Store
-  <img src="/Randomerr/assets/images/logo.png" alt="Randomerr Logo" class="store-logo">
+  <img src="/Randomerr/assets/images/logo.svg" alt="Randomerr Logo" class="store-logo">
 </a>
 
 
