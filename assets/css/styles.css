@@ -17,19 +17,30 @@ body {
 header {
   display: flex;
   align-items: center;
-  background-image: url("https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg");
-  background-size: cover;
-  background-position: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: transparent;
   color: #fff;
   padding: 20px;
   position: relative;
+  z-index: 10;
 }
 
-header img {
-  height: 72px;
-  width: 72px;/* Adjust size */
-  margin: auto; /* Space between logo and text */
+/* Logo positioning */
+.logo {
+  position: relative;
+  z-index: 10;
 }
+
+.logo img {
+  max-height: 100px;
+  position: relative;
+  z-index: 10;
+  /* Move the logo down to overlap the background */
+  top: 3%; /* Adjust percentage for desired overlap */
+  transform: translateY(3%);
+}
+
 
 header h1 {
   margin: 0;
