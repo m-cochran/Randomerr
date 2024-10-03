@@ -15,9 +15,8 @@ body {
 
 /* Header Styles */
 header {
-  display: block;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
   background-image: url("https://m-cochran.github.io/Randomerr/assets/images/header-background.jpg");
   background-size: cover;
   background-position: center;
