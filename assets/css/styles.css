@@ -28,7 +28,7 @@ header {
 header img {
   height: 72px;
   width: 72px;/* Adjust size */
-  padding-right: 20px; /* Space between logo and text */
+  margin: auto; /* Space between logo and text */
 }
 
 header h1 {
