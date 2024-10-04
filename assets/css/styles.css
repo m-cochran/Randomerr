@@ -68,6 +68,8 @@ nav {
   display: flex;
   justify-content: center;
   flex-grow: 1;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 nav ul {
