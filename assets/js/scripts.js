@@ -1,15 +1,3 @@
-<!-- Add CSS for smooth transitions -->
-<style>
-    #autoNav li {
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    }
-
-    #autoNavMoreList li {
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    }
-</style>
-
-<script>
 document.addEventListener("DOMContentLoaded", function () {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
@@ -112,4 +100,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial adjustment on page load
     manageMenuItems();
 });
-</script>
