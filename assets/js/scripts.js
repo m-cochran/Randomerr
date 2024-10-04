@@ -2,67 +2,56 @@ document.addEventListener("DOMContentLoaded", function () {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
     const moreButton = document.getElementById("autoNavMore");
-    
+
     // Always keep the Donate item in the More dropdown
     const donateItem = document.createElement('li');
     donateItem.innerHTML = '<a href="{{ site.baseurl }}/donate/">Donate</a>';
     moreNav.appendChild(donateItem); // Always add Donate to More
 
-    // Define the order in which items should be moved to the More dropdown
-    const itemOrder = [
-        "{{ site.baseurl }}/hub/",
-        "{{ site.baseurl }}/arcade/",
-        "{{ site.baseurl }}/shop/",
-        "{{ site.baseurl }}/contact/",
-        "{{ site.baseurl }}/about/"
-    ];
-
     function manageMenuItems() {
-        const navWidth = mainNav.clientWidth; // Width of the main nav
-        const itemWidths = Array.from(mainNav.children).map(item => item.offsetWidth); // Widths of each item
-        const moreButtonWidth = moreButton.offsetWidth; // Width of the More button
-        const availableSpace = navWidth - moreButtonWidth; // Space left for nav items
-        let usedSpace = 0;
+        // Get the width of the window
+        const windowWidth = window.innerWidth;
 
-        // Reset the More dropdown (except for the Donate item)
-        while (moreNav.children.length > 1) { // Keep only the Donate item
+        // List of menu items in order of priority to move to More
+        const items = Array.from(mainNav.children).slice(0, -1); // Exclude More button
+
+        // Remove all items from the dropdown except for Donate
+        while (moreNav.children.length > 1) {
             moreNav.removeChild(moreNav.lastChild);
         }
 
-        // Move items to the More dropdown based on available space
-        for (let i = 0; i < mainNav.children.length; i++) {
-            const item = mainNav.children[i];
-
-            // Check if the item should be moved to More based on the defined order
-            if (itemOrder.includes(item.querySelector('a').getAttribute('href'))) {
-                usedSpace += itemWidths[i];
-
-                // If used space exceeds available space, move item to More
-                if (usedSpace > availableSpace) {
-                    if (!moreNav.contains(item)) {
-                        moreNav.appendChild(item); // Move item to More dropdown
-                    }
-                }
-            }
+        // Add items to the dropdown based on window width
+        if (windowWidth <= 200) {
+            // If the width is 200px or less, move all items to More
+            items.forEach(item => moreNav.appendChild(item));
+        } else if (windowWidth <= 300) {
+            // Move About, Contact, Shop, Arcade, and Hub to More
+            moreNav.appendChild(items[items.length - 1]); // Move Hub
+            moreNav.appendChild(items[items.length - 2]); // Move Arcade
+            moreNav.appendChild(items[items.length - 3]); // Move Shop
+            moreNav.appendChild(items[items.length - 4]); // Move Contact
+            moreNav.appendChild(items[items.length - 5]); // Move About
+        } else if (windowWidth <= 400) {
+            moreNav.appendChild(items[items.length - 1]); // Move Hub
+            moreNav.appendChild(items[items.length - 2]); // Move Arcade
+            moreNav.appendChild(items[items.length - 3]); // Move Shop
+            // Keep About and Contact
+        } else if (windowWidth <= 500) {
+            moreNav.appendChild(items[items.length - 1]); // Move Hub
+            moreNav.appendChild(items[items.length - 2]); // Move Arcade
+            // Keep Shop, Contact, and About
+        } else if (windowWidth <= 599) {
+            moreNav.appendChild(items[items.length - 1]); // Move Hub
+            // Keep Arcade, Shop, Contact, and About
+        } else {
+            // If the width is greater than 599px, all items should be in the main nav
+            items.forEach(item => mainNav.appendChild(item));
         }
-
-        // Move items back to main nav if there is available space
-        usedSpace = 0; // Reset used space
-        const moreItems = Array.from(moreNav.children).slice(1); // Get items in More except for Donate
-
-        moreItems.forEach(item => {
-            if (usedSpace + item.offsetWidth <= availableSpace) {
-                mainNav.appendChild(item); // Move item back to main nav
-                usedSpace += item.offsetWidth; // Update used space
-            }
-        });
     }
 
     // Initial adjustment on page load
     manageMenuItems();
 
     // Observe changes in the window size
-    window.addEventListener('resize', () => {
-        manageMenuItems(); // Call manageMenuItems on resizing
-    });
+    window.addEventListener('resize', manageMenuItems); // Call manageMenuItems on resizing
 });
