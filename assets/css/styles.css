@@ -152,7 +152,7 @@ nav ul li a:hover {
   background-size: cover; /* Ensure the image covers the entire width */
   background-position: center; /* Keep the image centered */
   background-repeat: no-repeat; /* Prevent repetition */
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
 }
 
 .background-photo img {
