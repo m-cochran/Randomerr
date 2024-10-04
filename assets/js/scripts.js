@@ -1,38 +1,60 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const mainNav = document.getElementById("autoNav");
-  const moreNav = document.getElementById("autoNavMoreList");
-  const moreButton = document.getElementById("autoNavMore");
+    const mainNav = document.getElementById("autoNav");
+    const moreNav = document.getElementById("autoNavMoreList");
+    const moreButton = document.getElementById("autoNavMore");
+    const mainNavItems = Array.from(mainNav.children); // Convert HTMLCollection to array
 
-  function adjustMenu() {
-    const availableSpace = mainNav.offsetWidth - moreButton.offsetWidth;
-    let totalItemWidth = 0;
-    
-    // Move items to "More" dropdown if there is no space
-    Array.from(mainNav.children).forEach(item => {
-      if (item !== moreButton) {
-        totalItemWidth += item.offsetWidth;
-        if (totalItemWidth > availableSpace) {
-          moreNav.appendChild(item);
+    // Ensure the More dropdown is shown when hovering over More
+    moreButton.addEventListener("mouseenter", function () {
+        moreNav.classList.add("visible"); // Show dropdown
+    });
+
+    // Hide dropdown when mouse leaves the dropdown area
+    moreButton.addEventListener("mouseleave", function () {
+        moreNav.classList.remove("visible"); // Hide dropdown
+    });
+
+    moreNav.addEventListener("mouseenter", function () {
+        moreNav.classList.add("visible"); // Keep dropdown open
+    });
+
+    moreNav.addEventListener("mouseleave", function () {
+        moreNav.classList.remove("visible"); // Hide the dropdown
+    });
+
+    // Create a Donate item that is always present
+    const donateItem = document.createElement('li');
+    donateItem.innerHTML = '<a href="{{ site.baseurl }}/donate/">Donate</a>';
+    moreNav.appendChild(donateItem); // Always add Donate to More
+
+    // Function to manage menu items
+    function manageMenuItems() {
+        const windowWidth = window.innerWidth;
+        const maxVisibleItems = windowWidth < 600 ? 2 : windowWidth < 800 ? 3 : 5; // Adjust these values as needed
+
+        // Clear previous items from More, except for Donate
+        while (moreNav.children.length > 1) { // Keep the Donate item
+            moreNav.removeChild(moreNav.lastChild);
         }
-      }
+
+        // Add items to the dropdown if they exceed the max visible count
+        const itemsToMove = mainNavItems.slice(maxVisibleItems); // Get items to move
+        itemsToMove.forEach(item => {
+            // Check if the item is already in the More dropdown
+            if (!Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML)) {
+                mainNav.removeChild(item); // Remove from main nav
+                moreNav.appendChild(item); // Move item to More dropdown
+            }
+        });
+    }
+
+    // Observe changes in the window size
+    const resizeObserver = new ResizeObserver(() => {
+        manageMenuItems(); // Call manageMenuItems when resizing
     });
 
-    // Move items back to the main menu if space allows
-    let moreItems = Array.from(moreNav.children);
-    moreItems.forEach(item => {
-      if (totalItemWidth + item.offsetWidth <= availableSpace) {
-        mainNav.insertBefore(item, moreButton);
-        totalItemWidth += item.offsetWidth;
-      }
-    });
+    resizeObserver.observe(document.body); // Observe the body for changes
 
-    // Toggle "More" button visibility
-    moreButton.style.display = moreNav.children.length > 0 ? "inline-block" : "none";
-  }
-
-  // Adjust menu on page load
-  adjustMenu();
-
-  // Adjust menu on window resize
-  window.addEventListener("resize", adjustMenu);
+    // Initial adjustment on page load
+    manageMenuItems();
 });
