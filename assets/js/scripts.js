@@ -4,38 +4,56 @@ document.addEventListener("DOMContentLoaded", function () {
     const moreButton = document.getElementById("autoNavMore");
     
     // Always keep the Donate item in the More dropdown
-    const donateItem = moreNav.querySelector('li'); // This is the Donate item
-    const navItems = Array.from(mainNav.children).filter(item => item !== moreButton); // All items excluding More
-    
+    const donateItem = document.createElement('li');
+    donateItem.innerHTML = '<a href="{{ site.baseurl }}/donate/">Donate</a>';
+    moreNav.appendChild(donateItem); // Always add Donate to More
+
+    // Define the order in which items should be moved to the More dropdown
+    const itemOrder = [
+        "{{ site.baseurl }}/hub/",
+        "{{ site.baseurl }}/arcade/",
+        "{{ site.baseurl }}/shop/",
+        "{{ site.baseurl }}/contact/",
+        "{{ site.baseurl }}/about/"
+    ];
+
     function manageMenuItems() {
-        const navWidth = mainNav.clientWidth; // Get width of the main nav
-        const moreButtonWidth = moreButton.offsetWidth; // Get width of the More button
-        const availableSpace = navWidth - moreButtonWidth; // Calculate available space
+        const navWidth = mainNav.clientWidth; // Width of the main nav
+        const itemWidths = Array.from(mainNav.children).map(item => item.offsetWidth); // Widths of each item
+        const moreButtonWidth = moreButton.offsetWidth; // Width of the More button
+        const availableSpace = navWidth - moreButtonWidth; // Space left for nav items
         let usedSpace = 0;
 
-        // Reset the More dropdown except for the Donate item
-        moreNav.innerHTML = ''; // Clear the dropdown
-        moreNav.appendChild(donateItem.cloneNode(true)); // Keep Donate in dropdown
+        // Reset the More dropdown (except for the Donate item)
+        while (moreNav.children.length > 1) { // Keep only the Donate item
+            moreNav.removeChild(moreNav.lastChild);
+        }
 
-        // Move items to More if there's not enough space
-        navItems.forEach(item => {
-            usedSpace += item.offsetWidth; // Add item's width to used space
+        // Move items to the More dropdown based on available space
+        for (let i = 0; i < mainNav.children.length; i++) {
+            const item = mainNav.children[i];
 
-            if (usedSpace > availableSpace) {
-                moreNav.appendChild(item.cloneNode(true)); // Move item to More dropdown
-                mainNav.removeChild(item); // Remove from main nav
+            // Check if the item should be moved to More based on the defined order
+            if (itemOrder.includes(item.querySelector('a').getAttribute('href'))) {
+                usedSpace += itemWidths[i];
+
+                // If used space exceeds available space, move item to More
+                if (usedSpace > availableSpace) {
+                    if (!moreNav.contains(item)) {
+                        moreNav.appendChild(item); // Move item to More dropdown
+                    }
+                }
             }
-        });
+        }
 
-        // Move items back to main nav if there's enough space
+        // Move items back to main nav if there is available space
         usedSpace = 0; // Reset used space
         const moreItems = Array.from(moreNav.children).slice(1); // Get items in More except for Donate
-        
+
         moreItems.forEach(item => {
             if (usedSpace + item.offsetWidth <= availableSpace) {
-                mainNav.appendChild(item.cloneNode(true)); // Move item back to main nav
+                mainNav.appendChild(item); // Move item back to main nav
                 usedSpace += item.offsetWidth; // Update used space
-                moreNav.removeChild(item); // Remove from More dropdown
             }
         });
     }
