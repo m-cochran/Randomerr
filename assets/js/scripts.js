@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Custom breakpoints
-        const breakpoints = [200, 300, 400, 500, 600]; // Define breakpoints for responsiveness
+        const breakpoints = [250, 350, 450,  550, 650]; // Define breakpoints for responsiveness
 
         // Adjust logic based on custom breakpoints
         if (adjustedWindowWidth <= breakpoints[0]) {
@@ -95,8 +98,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Throttled resize event listener for better performance
-    window.addEventListener('resize', throttle(manageMenuItems, 200)); // Throttle with a 200ms limit
+    window.addEventListener('resize', throttle(manageMenuItems, 20)); // Throttle with a 200ms limit
 
     // Initial adjustment on page load
     manageMenuItems();
 });
+
