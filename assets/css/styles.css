@@ -73,7 +73,7 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
-  gap: 20px; /* Space between menu items */
+  gap: 30px; /* Space between menu items */
   margin: 0;
   padding: 0;
 }
@@ -81,8 +81,9 @@ nav ul {
 /* Main menu item styling */
 nav ul li a {
   text-decoration: none; /* Remove underline */
-  color: #000; /* Text color */
+  color: #333; /* Text color */
   font-size: 16px; /* Font size */
+  font-weight: bold;
   transition: color 0.3s, background-color 0.3s; /* Smooth transition for color and background */
 }
 
@@ -102,7 +103,7 @@ nav ul li a:hover {
   display: inline-block; /* Allow padding and background */
   padding: 10px 15px; /* Adjust padding for better click area */
   color: #ffffff; /* Text color */
-  background-color: #007BFF; /* Background color */
+  background-color: #06f; /* Background color */
   border-radius: 5px; /* Rounded corners */
   text-decoration: none; /* Remove underline */
   font-weight: bold; /* Make text bold */
@@ -146,7 +147,7 @@ nav ul li a:hover {
 
 /* Section for background photo */
 .background-photo {
-  margin-top: -35px; /* Pull the background image closer to the header */
+  margin-top: -40px; /* Pull the background image closer to the header */
   z-index: 1; /* Background should be behind the logo */
   position: relative;
   width: 100%;
