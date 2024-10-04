@@ -1,44 +1,47 @@
-// MAIN MENU
 document.addEventListener("DOMContentLoaded", function () {
-  const mainMenu = document.getElementById("mainMenu");
-  const autoNav = document.getElementById("autoNav");
-  const autoNavMore = document.getElementById("autoNavMore");
-  const autoNavMoreList = document.getElementById("autoNavMoreList");
+  const mainNav = document.getElementById("autoNav");
+  const moreNav = document.getElementById("autoNavMoreList");
+  const moreButton = document.getElementById("autoNavMore");
 
-  function autoNavMoreHandler() {
-    let childNumber = 2;
+  let resizeTimeout;
 
-    if (window.innerWidth >= 320) {
-      const menuWidth = mainMenu.offsetWidth;
-      const autoNavWidth = autoNav.offsetWidth;
-      if (autoNavWidth > menuWidth) {
-        autoNavMoreList.prepend(
-          autoNav.children[autoNav.children.length - childNumber]
-        );
-        autoNavMoreHandler();
-      } else {
-        const autoNavMoreFirstWidth =
-          autoNavMoreList.children[0]?.offsetWidth || 0;
-        if (autoNavWidth + autoNavMoreFirstWidth < menuWidth) {
-          autoNav.insertBefore(autoNavMoreList.children[0], autoNavMore);
-        }
+  function moveItemsToMore() {
+    const navItems = Array.from(mainNav.children);
+    const moreItems = Array.from(moreNav.children);
+
+    // Ensure that the "More" button is the last item
+    mainNav.appendChild(moreButton);
+
+    // Move overflowing items to the "More" dropdown
+    navItems.forEach(item => {
+      if (item !== moreButton && mainNav.scrollWidth > mainNav.clientWidth) {
+        moreNav.appendChild(item);
       }
-      if (autoNavMoreList.children.length > 0) {
-        autoNavMore.style.display = "block";
-        childNumber = 2;
-      } else {
-        autoNavMore.style.display = "none";
-        childNumber = 1;
-      }
+    });
+
+    // Move items back to the main menu when there's space
+    while (moreNav.children.length > 0 && mainNav.scrollWidth <= mainNav.clientWidth) {
+      const firstMoreItem = moreNav.children[0];
+      mainNav.insertBefore(firstMoreItem, moreButton);
+    }
+
+    // Show or hide the "More" button based on whether there are items in the dropdown
+    moreButton.style.display = moreNav.children.length > 0 ? "inline-block" : "none";
+  }
+
+  // Throttle function to reduce the frequency of calls during resizing
+  function throttleResize() {
+    if (!resizeTimeout) {
+      resizeTimeout = setTimeout(() => {
+        resizeTimeout = null;
+        requestAnimationFrame(moveItemsToMore);
+      }, 100); // Adjust timeout for smoother performance
     }
   }
 
-  autoNavMoreHandler();
-  window.addEventListener("resize", autoNavMoreHandler);
+  // Attach event listener for window resizing
+  window.addEventListener("resize", throttleResize);
+
+  // Initial call on page load to place items correctly
+  moveItemsToMore();
 });
-
-
-
-
-
-
