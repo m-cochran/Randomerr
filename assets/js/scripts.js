@@ -3,45 +3,36 @@ document.addEventListener("DOMContentLoaded", function () {
   const moreNav = document.getElementById("autoNavMoreList");
   const moreButton = document.getElementById("autoNavMore");
 
-  let resizeTimeout;
-
-  function moveItemsToMore() {
-    const navItems = Array.from(mainNav.children);
-    const moreItems = Array.from(moreNav.children);
-
-    // Ensure that the "More" button is the last item
-    mainNav.appendChild(moreButton);
-
-    // Move overflowing items to the "More" dropdown
-    navItems.forEach(item => {
-      if (item !== moreButton && mainNav.scrollWidth > mainNav.clientWidth) {
-        moreNav.appendChild(item);
+  function adjustMenu() {
+    const availableSpace = mainNav.offsetWidth - moreButton.offsetWidth;
+    let totalItemWidth = 0;
+    
+    // Move items to "More" dropdown if there is no space
+    Array.from(mainNav.children).forEach(item => {
+      if (item !== moreButton) {
+        totalItemWidth += item.offsetWidth;
+        if (totalItemWidth > availableSpace) {
+          moreNav.appendChild(item);
+        }
       }
     });
 
-    // Move items back to the main menu when there's space
-    while (moreNav.children.length > 0 && mainNav.scrollWidth <= mainNav.clientWidth) {
-      const firstMoreItem = moreNav.children[0];
-      mainNav.insertBefore(firstMoreItem, moreButton);
-    }
+    // Move items back to the main menu if space allows
+    let moreItems = Array.from(moreNav.children);
+    moreItems.forEach(item => {
+      if (totalItemWidth + item.offsetWidth <= availableSpace) {
+        mainNav.insertBefore(item, moreButton);
+        totalItemWidth += item.offsetWidth;
+      }
+    });
 
-    // Show or hide the "More" button based on whether there are items in the dropdown
+    // Toggle "More" button visibility
     moreButton.style.display = moreNav.children.length > 0 ? "inline-block" : "none";
   }
 
-  // Throttle function to reduce the frequency of calls during resizing
-  function throttleResize() {
-    if (!resizeTimeout) {
-      resizeTimeout = setTimeout(() => {
-        resizeTimeout = null;
-        requestAnimationFrame(moveItemsToMore);
-      }, 100); // Adjust timeout for smoother performance
-    }
-  }
+  // Adjust menu on page load
+  adjustMenu();
 
-  // Attach event listener for window resizing
-  window.addEventListener("resize", throttleResize);
-
-  // Initial call on page load to place items correctly
-  moveItemsToMore();
+  // Adjust menu on window resize
+  window.addEventListener("resize", adjustMenu);
 });
