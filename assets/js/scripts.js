@@ -1,3 +1,15 @@
+<!-- Add CSS for smooth transitions -->
+<style>
+    #autoNav li {
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+
+    #autoNavMoreList li {
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+</style>
+
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
@@ -11,6 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // Track all items except the More button
     const items = Array.from(mainNav.children).slice(0, -1); // Exclude More button
 
+    // Throttle function to optimize resize event handling
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
     function getAdjustedWindowWidth() {
         return window.innerWidth * window.devicePixelRatio;
     }
@@ -18,11 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function manageMenuItems() {
         const windowWidth = window.innerWidth;      // Get browser window width
         const screenWidth = screen.width;           // Get total screen resolution
-        const devicePixelRatio = window.devicePixelRatio;  // Get pixel density
-
         const adjustedWindowWidth = getAdjustedWindowWidth(); // Adjust width based on pixel ratio
-        console.log(`Window width: ${windowWidth}, Screen width: ${screenWidth}, Pixel Ratio: ${devicePixelRatio}`);
-        console.log(`Adjusted Window width: ${adjustedWindowWidth}`);
+
+        console.log(`Window width: ${windowWidth}, Adjusted Width: ${adjustedWindowWidth}`);
 
         // Clear the dropdown except for Donate
         while (moreNav.children.length > 1) {
@@ -36,25 +60,31 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Adjust logic based on screen resolution and viewport width
-        if (screenWidth <= 360 || adjustedWindowWidth <= 200) {
+        // Custom breakpoints
+        const breakpoints = [200, 300, 400, 500, 600]; // Define breakpoints for responsiveness
+
+        // Adjust logic based on custom breakpoints
+        if (adjustedWindowWidth <= breakpoints[0]) {
             // Move all items to More for very small devices or very narrow windows
             items.forEach(moveToMore);
-        } else if (screenWidth <= 768 || adjustedWindowWidth <= 300) {
+        } else if (adjustedWindowWidth <= breakpoints[1]) {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
             moveToMore(items[items.length - 3]); // Move Shop
             moveToMore(items[items.length - 4]); // Move Contact
             moveToMore(items[items.length - 5]); // Move About
-        } else if (screenWidth <= 1024 || adjustedWindowWidth <= 400) {
+        } else if (adjustedWindowWidth <= breakpoints[2]) {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
             moveToMore(items[items.length - 3]); // Move Shop
             // Keep About and Contact
-        } else if (screenWidth <= 1366 || adjustedWindowWidth <= 500) {
+        } else if (adjustedWindowWidth <= breakpoints[3]) {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
             // Keep Shop, Contact, and About
+        } else if (adjustedWindowWidth <= breakpoints[4]) {
+            moveToMore(items[items.length - 1]); // Move Hub
+            // Keep Arcade, Shop, Contact, and About
         } else {
             // For larger screens, keep all items in the main navigation
             items.forEach(item => mainNav.appendChild(item));
@@ -76,9 +106,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML);
     }
 
+    // Throttled resize event listener for better performance
+    window.addEventListener('resize', throttle(manageMenuItems, 200)); // Throttle with a 200ms limit
+
     // Initial adjustment on page load
     manageMenuItems();
-
-    // Observe changes in the window size
-    window.addEventListener('resize', manageMenuItems); // Call manageMenuItems on resizing
 });
+</script>
