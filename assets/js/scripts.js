@@ -68,12 +68,17 @@ document.addEventListener("DOMContentLoaded", function () {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
             moveToMore(items[items.length - 3]); // Move Shop
-            // Keep About and Contact
+            moveToMore(items[items.length - 4]); // Move Contact
         } else if (adjustedWindowWidth <= breakpoints[3]) {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
-            // Keep Shop, Contact, and About
+            moveToMore(items[items.length - 3]); // Move Shop
+            // Keep About and Contact
         } else if (adjustedWindowWidth <= breakpoints[4]) {
+            moveToMore(items[items.length - 1]); // Move Hub
+            moveToMore(items[items.length - 2]); // Move Arcade
+            // Keep Shop, Contact, and About
+        } else if (adjustedWindowWidth <= breakpoints[5]) {
             moveToMore(items[items.length - 1]); // Move Hub
             // Keep Arcade, Shop, Contact, and About
         } else {
