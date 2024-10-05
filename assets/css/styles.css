@@ -74,7 +74,6 @@ nav ul {
   padding: 0;
   flex-wrap: wrap; /* Allow items to wrap on smaller screens */
   max-width: 100%; /* Ensure the navigation stays within its container */
-  overflow-x: hidden; /* Prevent horizontal scroll within navigation */
 }
 
 /* Main menu item styling */
