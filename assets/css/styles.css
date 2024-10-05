@@ -72,7 +72,7 @@ nav ul {
   gap: 30px; /* Space between menu items */
   margin: 0;
   padding: 0;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  flex-wrap: nowrap; /* Allow items to wrap on smaller screens */
 }
 
 /* Main menu item styling */
