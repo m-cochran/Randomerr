@@ -51,6 +51,89 @@ title: Home
   {% endif %}
 </div>
 
+
+
+
+<div class="pagination">
+    <a href="#" class="prev-page">&laquo; Prev</a>
+    <a href="#" class="page-num active">1</a>
+    <a href="#" class="page-num">2</a>
+    <a href="#" class="page-num">3</a>
+    <a href="#" class="page-num">4</a>
+    <a href="#" class="page-num">5</a>
+    <a href="#" class="next-page">Next &raquo;</a>
+</div>
+
+
+
+
+
+
+/* Pagination container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    padding: 10px 0;
+    margin: 20px 0;
+}
+
+/* Pagination links */
+.pagination a {
+    color: #333;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Active or current page */
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+/* Hover effect */
+.pagination a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+/* Disabled state for previous or next buttons */
+.pagination a.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    color: #999;
+    background-color: #f1f1f1;
+}
+
+/* Next and Previous buttons */
+.pagination .prev-page,
+.pagination .next-page {
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .pagination a {
+        padding: 6px 12px;
+    }
+    .pagination {
+        padding: 5px 0;
+    }
+}
+
+
+
+
+
+
+
+
 <!-- Slider -->
 
 
