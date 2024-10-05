@@ -95,7 +95,7 @@ nav ul li a {
 /* Hover effect for main menu items */
 nav ul li a:hover {
   color: #07f; /* Change text color on hover */
-  background-color: #06f
+  background-color: rgba(0, 123, 255, 0.1);
   border-radius: 5px; /* Rounded corners for the background */
 }
 
