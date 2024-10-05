@@ -56,13 +56,13 @@ header {
   transform: translateY(3%); /* Overlap the logo with the background */
 }
 
- .nav-container {
-   max-width: 100%;  /* Constrain the nav width to the page layout */
-   width: 100%;      /* Set full width */
-   overflow-x: hidden;  /* Prevent horizontal overflow */
-   box-sizing: border-box;
-   padding: 0 20px;    /* Add padding to ensure it doesn’t touch the edges */
- }
+.nav-container {
+  max-width: 100%;  /* Constrain the nav width to the page layout */
+  width: 100%;      /* Set full width */
+  overflow-x: hidden;  /* Prevent horizontal overflow */
+  box-sizing: border-box;
+  padding: 0 20px;    /* Add padding to ensure it doesn’t touch the edges */
+}
 
 /* Navigation styling */
 nav {
