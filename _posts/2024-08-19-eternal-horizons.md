@@ -108,23 +108,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 
 
-
-    <!-- Pagination Links -->
-    <div class="pagination">
-        <a href="#previous" class="previous">Previous</a>
-        <span>Page 1 of 5</span>
-        <a href="#next" class="next">Next</a>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
 <style>
 /* General essay container styles */
 .essay-container {
