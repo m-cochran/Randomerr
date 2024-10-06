@@ -77,7 +77,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
         {% endfor %}
     </ul>
 
-    <h2>Next Posts</h2>
+ <h2>Next Posts</h2>
     <ul>
         {% assign next_posts = site.posts | where: "date", ">", page.date | sort: "date" %}
         {% for post in next_posts limit: 2 %}
@@ -88,7 +88,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
         {% endfor %}
     </ul>
 
-    <h2>Random Post</h2>
+<h2>Random Post</h2>
     <ul>
         {% assign random_post = site.posts | sample: 1 %}
         <li>
