@@ -36,19 +36,19 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0px;
+  padding: 0px;
+  margin: 0px
   background-color: transparent; /* Keep header transparent */
   position: relative; /* Allows positioning of elements like logo */
   z-index: 10; /* Keeps header on top of other elements */
   max-width: 100%;  /* Constrain the nav width to the page layout */
-  width: 100%;      /* Set full width */
 }
 
 /* Logo positioning */
 .logo {
   position: relative;
   z-index: 10; /* Ensure the logo stays on top */
-  padding: 20px
+  padding: 10px 20px;
 }
 
 .logo img {
@@ -175,6 +175,10 @@ nav ul li a:hover {
   max-height: 100%; /* Keep the image within the section's height */
   object-fit: cover; /* Keep aspect ratio */
 }
+
+
+
+
 
 
 
