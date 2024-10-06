@@ -57,6 +57,58 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
         <p>As we stand on the brink of a new era of exploration, both in the physical world and in our personal lives, let us not be afraid to chase the horizon. Let us remember that the horizon is not an endpoint, but a gateway to new possibilities. And with each new horizon we reach, may we continue to dream bigger, push further, and explore the endless opportunities that lie ahead. Horizons are limitless, just as the dreams we carry within ourselves are infinite. The key is to keep moving forward, always chasing the next horizon.</p>
     </section>
 
+
+
+
+
+
+
+
+
+<div class="related-posts">
+    <h2>Previous Posts</h2>
+    <ul>
+        {% assign previous_posts = site.posts | where: "date", "<", page.date | sort: "date" | reverse %}
+        {% for post in previous_posts limit: 2 %}
+            <li>
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                <small>{{ post.date | date: "%B %d, %Y" }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Next Posts</h2>
+    <ul>
+        {% assign next_posts = site.posts | where: "date", ">", page.date | sort: "date" %}
+        {% for post in next_posts limit: 2 %}
+            <li>
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                <small>{{ post.date | date: "%B %d, %Y" }}</small>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Random Post</h2>
+    <ul>
+        {% assign random_post = site.posts | sample: 1 %}
+        <li>
+            <a href="{{ random_post.first.url | relative_url }}">{{ random_post.first.title }}</a>
+            <small>{{ random_post.first.date | date: "%B %d, %Y" }}</small>
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Pagination Links -->
     <div class="pagination">
         <a href="#previous" class="previous">Previous</a>
