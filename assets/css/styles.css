@@ -75,7 +75,7 @@ nav {
   flex-grow: 1;
   margin-left: 10px;
   margin-right: 10px;
-  width: 100%;
+  width: auto;
 }
 
 nav ul {
