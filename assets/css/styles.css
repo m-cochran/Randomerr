@@ -42,6 +42,7 @@ header {
   position: relative; /* Allows positioning of elements like logo */
   z-index: 10; /* Keeps header on top of other elements */
   max-width: 100%; /* Constrain the nav width to the page layout */
+  box-sizing: border-box;
 }
 
 /* Logo positioning */
