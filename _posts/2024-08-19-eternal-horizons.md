@@ -72,3 +72,100 @@ Explore the eternal horizons and let your imagination run free beyond the visibl
     </div>
 </div>
 
+<style>
+/* General essay container styles */
+.essay-container {
+    max-width: 800px;   /* Limit width for better readability */
+    margin: 0 auto;     /* Center the essay */
+    padding: 20px;
+    line-height: 1.6;   /* Increase line spacing for readability */
+    font-family: Georgia, serif; /* Professional font choice */
+    font-size: 18px;
+}
+
+/* Style the headings */
+.essay-container h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.essay-container h2, .essay-container h3 {
+    font-size: 26px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* Introduction, main body, and conclusion section styles */
+.introduction, .conclusion {
+    font-weight: bold;
+    text-align: justify;
+}
+
+.main-body {
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+/* Image styling */
+.essay-container img {
+    max-width: 100%;    /* Responsive image width */
+    height: auto;       /* Maintain aspect ratio */
+    display: block;
+    margin: 20px auto;  /* Center the images */
+    border-radius: 8px; /* Slight rounding for better aesthetics */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Optional: Style captions under images */
+.essay-container figure {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.essay-container figcaption {
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Pagination styles for essay pages */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background-color: #0056b3;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .essay-container {
+        padding: 10px;
+        font-size: 16px;
+    }
+    .essay-container h1 {
+        font-size: 28px;
+    }
+    .essay-container h2, .essay-container h3 {
+        font-size: 22px;
+    }
+}
+
+</style>
+
