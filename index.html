@@ -57,30 +57,32 @@ title: Home
 
 
 <!-- CSS for Pagination -->
+<!-- CSS for Enhanced Pagination -->
 <style>
 .pagination {
     display: flex;
     justify-content: center; /* Center pagination */
     align-items: center;
-    padding-top: 10px;
-    padding-bottom: 50px;
-    font-family: Arial, sans-serif;
+    padding: 20px 0;
+    font-family: 'Arial', sans-serif;
 }
 
 .pagination a {
-    padding: 10px 15px;
-    margin: 0 5px;
+    display: inline-block; /* Ensure the link behaves like a block for padding */
+    padding: 12px 18px; /* Add padding for a larger click area */
+    margin: 0 8px; /* Spacing between links */
     text-decoration: none;
-    color: #fff;  /* Default link color */
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #06f;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    color: #fff; /* Text color for links */
+    border: 2px solid transparent; /* Border for hover effect */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #007bff; /* Primary button color */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
 }
 
 .pagination a:hover {
-    background-color: #07f;
-    color: #fff;  /* Change text color on hover */
+    background-color: #0056b3; /* Darker shade on hover */
+    color: #fff; /* Keep text white on hover */
+    border-color: #0056b3; /* Change border color on hover */
 }
 
 .pagination .previous, 
@@ -89,19 +91,29 @@ title: Home
 }
 
 .pagination span {
-    padding: 10px 15px;
-    margin: 0 5px;
-    background-color: #e9ecef;
-    color: #495057;
-    border-radius: 5px;
+    padding: 12px 18px; /* Same padding as links */
+    margin: 0 8px; /* Spacing between the page info and links */
+    background-color: #f1f1f1; /* Light background for current page indicator */
+    color: #333; /* Dark text color */
+    border-radius: 8px; /* Rounded corners */
+    font-weight: bold; /* Bold font for emphasis */
 }
 
 .pagination a.disabled {
-    pointer-events: none;
-    background-color: #e9ecef;
-    color: #6c757d;
+    pointer-events: none; /* Prevent clicking */
+    background-color: #e0e0e0; /* Light grey for disabled state */
+    color: #9e9e9e; /* Dark grey for text */
+    border-color: #d0d0d0; /* Light border for disabled state */
+}
+
+@media (max-width: 600px) {
+    .pagination a, .pagination span {
+        padding: 10px 15px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
 }
 </style>
+
 
 
 
