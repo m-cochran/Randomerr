@@ -49,7 +49,8 @@ header {
 }
 
 .logo img {
-  max-height: 72px;
+  height: 72px;
+  width: 72px;
   position: relative;
   z-index: 10;
   top: 3%; /* Adjust percentage for desired overlap */
