@@ -37,11 +37,11 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0px;
-  margin: 0px
+  margin: 0px; /* Added missing semicolon */
   background-color: transparent; /* Keep header transparent */
   position: relative; /* Allows positioning of elements like logo */
   z-index: 10; /* Keeps header on top of other elements */
-  max-width: 100%;  /* Constrain the nav width to the page layout */
+  max-width: 100%; /* Constrain the nav width to the page layout */
 }
 
 /* Logo positioning */
@@ -60,12 +60,13 @@ header {
   transform: translateY(3%); /* Overlap the logo with the background */
 }
 
+/* Navigation container */
 .nav-container {
-  max-width: 100%;  /* Constrain the nav width to the page layout */
-  width: 100%;      /* Set full width */
-  overflow-x: hidden;  /* Prevent horizontal overflow */
+  max-width: 100%; /* Constrain the nav width to the page layout */
+  width: 100%; /* Set full width */
+  overflow-x: hidden; /* Prevent horizontal overflow */
   box-sizing: border-box;
-  padding: 0 20px;    /* Add padding to ensure it doesn’t touch the edges */
+  padding: 0 20px; /* Add padding to ensure it doesn’t touch the edges */
 }
 
 /* Navigation styling */
@@ -84,7 +85,8 @@ nav ul {
   gap: 30px; /* Space between menu items */
   margin: 0;
   padding: 0;
-  flex-wrap: nowrap; /* Allow items to wrap on smaller screens */
+  flex-wrap: nowrap; /* Prevent items from wrapping */
+
 }
 
 /* Main menu item styling */
@@ -123,7 +125,7 @@ nav ul li a:hover {
 .auto-nav-more-list {
   position: absolute;
   top: 100%; /* Position below the button */
-  right: 0; /* Align to the left */
+  right: 0; /* Align to the right */
   background: #fff; /* Background color of the dropdown */
   list-style: none; /* Remove bullet points */
   padding: 10px 0; /* Space around items */
@@ -172,7 +174,6 @@ nav ul li a:hover {
 .background-photo img {
   width: 100%; /* Make image full width */
   height: auto; /* Maintain aspect ratio */
-  max-height: 100%; /* Keep the image within the section's height */
   object-fit: cover; /* Keep aspect ratio */
 }
 
