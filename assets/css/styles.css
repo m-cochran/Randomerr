@@ -57,6 +57,13 @@ header {
   transform: translateY(3%); /* Overlap the logo with the background */
 }
 
+.nav-container {
+  max-width: 100%;  /* Constrain the nav width to the page layout */
+  width: 100%;      /* Set full width */
+  overflow-x: hidden;  /* Prevent horizontal overflow */
+  box-sizing: border-box;
+  padding: 0 20px;    /* Add padding to ensure it doesn’t touch the edges */
+}
 
 /* Navigation styling */
 nav {
@@ -65,9 +72,7 @@ nav {
   flex-grow: 1;
   margin-left: 20px;
   margin-right: 20px;
-  width: 100%; /* Full width */
-  max-width: 1050px; /* Set a max width according to your design */
-  overflow: hidden; /* Prevent horizontal overflow */
+  width: 100%;
 }
 
 nav ul {
