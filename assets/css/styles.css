@@ -40,6 +40,8 @@ header {
   background-color: transparent; /* Keep header transparent */
   position: relative; /* Allows positioning of elements like logo */
   z-index: 10; /* Keeps header on top of other elements */
+  max-width: 100%;  /* Constrain the nav width to the page layout */
+  width: 100%;      /* Set full width */
 }
 
 /* Logo positioning */
@@ -70,8 +72,8 @@ nav {
   display: flex;
   justify-content: center;
   flex-grow: 1;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   width: 100%;
 }
 
@@ -120,7 +122,7 @@ nav ul li a:hover {
 .auto-nav-more-list {
   position: absolute;
   top: 100%; /* Position below the button */
-  left: 0; /* Align to the left */
+  right: 0; /* Align to the left */
   background: #fff; /* Background color of the dropdown */
   list-style: none; /* Remove bullet points */
   padding: 10px 0; /* Space around items */
@@ -172,6 +174,10 @@ nav ul li a:hover {
   max-height: 100%; /* Keep the image within the section's height */
   object-fit: cover; /* Keep aspect ratio */
 }
+
+
+
+
 
 
 
