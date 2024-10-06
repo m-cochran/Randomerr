@@ -64,67 +64,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 
 
-
-<div class="related-posts">
-    <h2>Previous Posts</h2>
-    <ul>
-        {% assign previous_posts = site.posts | where: "date", "<", page.date | sort: "date" | reverse %}
-        {% for post in previous_posts limit: 2 %}
-            <li>
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                <small>{{ post.date | date: "%B %d, %Y" }}</small>
-            </li>
-        {% endfor %}
-    </ul>
-
- <h2>Next Posts</h2>
-    <ul>
-        {% assign next_posts = site.posts | where: "date", ">", page.date | sort: "date" %}
-        {% for post in next_posts limit: 2 %}
-            <li>
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                <small>{{ post.date | date: "%B %d, %Y" }}</small>
-            </li>
-        {% endfor %}
-    </ul>
-
-<h2>Random Post</h2>
-    <ul>
-        {% assign random_post = site.posts | sample: 1 %}
-        <li>
-            <a href="{{ random_post.first.url | relative_url }}">{{ random_post.first.title }}</a>
-            <small>{{ random_post.first.date | date: "%B %d, %Y" }}</small>
-        </li>
-    </ul>
-</div>
-
-
-
-<style>
-.related-posts {
-    margin: 20px 0;
-}
-
-.related-posts h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.related-posts ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.related-posts li {
-    margin: 5px 0;
-}
-</style>
-
-
-
-
-
-
 <style>
 /* General essay container styles */
 .essay-container {
