@@ -67,6 +67,7 @@ nav {
   margin-right: 20px;
   width: 100%; /* Full width */
   max-width: 1050px; /* Set a max width according to your design */
+  overflow: hidden; /* Prevent horizontal overflow */
 }
 
 nav ul {
