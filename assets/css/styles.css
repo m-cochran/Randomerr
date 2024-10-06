@@ -78,6 +78,7 @@ nav {
   margin-left: 10px;
   margin-right: 10px;
   width: 100%;
+  min-width: 10%;
 }
 
 nav ul {
