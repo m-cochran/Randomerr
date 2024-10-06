@@ -66,14 +66,13 @@ header {
   max-width: 100%; /* Constrain the nav width to the page layout */
   width: 100%; /* Set full width */
   overflow-x: hidden; /* Prevent horizontal overflow */
-  box-sizing: border-box;
-  padding: 0 20px; /* Add padding to ensure it doesn’t touch the edges */
 }
 
 /* Navigation styling */
 nav {
   display: flex;
   justify-content: center;
+  flex-grow: 1;
   margin-left: 10px;
   margin-right: 10px;
   width: 100%;
