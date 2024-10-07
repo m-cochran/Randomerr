@@ -103,7 +103,7 @@ function initAutoNav() {
   }
 
   // Attach throttled resize event listener
-  window.addEventListener("resize", throttle(manageMenuItems, 100));
+  window.addEventListener("resize", throttle(manageMenuItems, 1));
   window.addEventListener("orientationchange", triggerResize);
 
   // Ensure calculation on page load with a slightly longer delay
