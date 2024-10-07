@@ -1,4 +1,4 @@
-window.addEventListener("load", function () {
+function initMenu() {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
     const moreButton = document.getElementById("autoNavMore");
@@ -6,15 +6,13 @@ window.addEventListener("load", function () {
     // Always keep the Donate item in the More dropdown
     const donateItem = document.createElement('li');
     donateItem.innerHTML = '<a href="{{ site.baseurl }}/donate/">Donate</a>';
-    moreNav.appendChild(donateItem); // Always add Donate to More
+    moreNav.appendChild(donateItem);
 
-    // Track all items except the More button
     const items = Array.from(mainNav.children).slice(0, -1); // Exclude More button
 
-    // Throttle function to optimize resize event handling
     function throttle(func, limit) {
         let inThrottle;
-        return function() {
+        return function () {
             const args = arguments;
             const context = this;
             if (!inThrottle) {
@@ -30,9 +28,7 @@ window.addEventListener("load", function () {
     }
 
     function manageMenuItems() {
-        const adjustedWindowWidth = getAdjustedWindowWidth(); // Adjust width based on pixel ratio
-
-        console.log(`Adjusted Width: ${adjustedWindowWidth}`);
+        const adjustedWindowWidth = getAdjustedWindowWidth();
 
         // Clear the dropdown except for Donate
         while (moreNav.children.length > 1) {
@@ -46,18 +42,16 @@ window.addEventListener("load", function () {
             }
         });
 
-        // Custom breakpoints for responsiveness
         const breakpoints = [250, 350, 450, 550, 650]; // Define breakpoints
 
-        // Adjust logic based on custom breakpoints
         if (adjustedWindowWidth <= breakpoints[0]) {
             items.forEach(moveToMore);
         } else if (adjustedWindowWidth <= breakpoints[1]) {
-            moveToMore(items[items.length - 1]); // Move Hub
-            moveToMore(items[items.length - 2]); // Move Arcade
-            moveToMore(items[items.length - 3]); // Move Shop
-            moveToMore(items[items.length - 4]); // Move Contact
-            moveToMore(items[items.length - 5]); // Move About
+            moveToMore(items[items.length - 1]);
+            moveToMore(items[items.length - 2]);
+            moveToMore(items[items.length - 3]);
+            moveToMore(items[items.length - 4]);
+            moveToMore(items[items.length - 5]);
         } else if (adjustedWindowWidth <= breakpoints[2]) {
             moveToMore(items[items.length - 1]);
             moveToMore(items[items.length - 2]);
@@ -76,7 +70,6 @@ window.addEventListener("load", function () {
             items.forEach(item => mainNav.appendChild(item));
         }
 
-        // Ensure the More button remains last
         if (mainNav.lastChild !== moreButton) {
             mainNav.appendChild(moreButton);
         }
@@ -92,11 +85,16 @@ window.addEventListener("load", function () {
         return Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML);
     }
 
-    // Throttled resize event listener for better performance
     window.addEventListener('resize', throttle(manageMenuItems, 10));
 
-    // Use requestAnimationFrame and a short delay to ensure proper width calculation
-    setTimeout(function () {
-        requestAnimationFrame(manageMenuItems);
-    }, 50);
-});
+    // Force recalculation after a short delay
+    setTimeout(() => {
+        manageMenuItems(); // Initial call after page load
+        requestAnimationFrame(() => manageMenuItems()); // Ensure any layout shift handled
+    }, 100); // Slight delay to handle environment rendering
+}
+
+// Trigger on DOM load, full page load, and a custom delay
+document.addEventListener("DOMContentLoaded", initMenu);
+window.addEventListener("load", initMenu);
+setTimeout(initMenu, 200); // Additional fallback after a small delay
