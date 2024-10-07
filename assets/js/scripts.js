@@ -1,18 +1,21 @@
-function initMenu() {
+function initAutoNav() {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
     const moreButton = document.getElementById("autoNavMore");
 
+    if (!mainNav || !moreNav || !moreButton) return; // Make sure elements are loaded
+
     // Always keep the Donate item in the More dropdown
     const donateItem = document.createElement('li');
     donateItem.innerHTML = '<a href="{{ site.baseurl }}/donate/">Donate</a>';
-    moreNav.appendChild(donateItem);
+    moreNav.appendChild(donateItem); // Always add Donate to More
 
-    const items = Array.from(mainNav.children).slice(0, -1); // Exclude More button
+    const items = Array.from(mainNav.children).slice(0, -1); // Exclude the More button
 
+    // Throttle function to optimize resize event handling
     function throttle(func, limit) {
         let inThrottle;
-        return function () {
+        return function() {
             const args = arguments;
             const context = this;
             if (!inThrottle) {
@@ -28,9 +31,11 @@ function initMenu() {
     }
 
     function manageMenuItems() {
-        const adjustedWindowWidth = getAdjustedWindowWidth();
+        const adjustedWindowWidth = getAdjustedWindowWidth(); // Adjust width based on pixel ratio
 
-        // Clear the dropdown except for Donate
+        console.log(`Adjusted Width: ${adjustedWindowWidth}`);
+
+        // Clear the More dropdown except for Donate
         while (moreNav.children.length > 1) {
             moreNav.removeChild(moreNav.lastChild);
         }
@@ -70,6 +75,7 @@ function initMenu() {
             items.forEach(item => mainNav.appendChild(item));
         }
 
+        // Ensure the More button remains last
         if (mainNav.lastChild !== moreButton) {
             mainNav.appendChild(moreButton);
         }
@@ -85,16 +91,25 @@ function initMenu() {
         return Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML);
     }
 
-    window.addEventListener('resize', throttle(manageMenuItems, 10));
+    // Throttled resize event listener for better performance
+    window.addEventListener('resize', throttle(manageMenuItems, 100));
 
-    // Force recalculation after a short delay
-    setTimeout(() => {
-        manageMenuItems(); // Initial call after page load
-        requestAnimationFrame(() => manageMenuItems()); // Ensure any layout shift handled
-    }, 100); // Slight delay to handle environment rendering
+    // Manually trigger a resize event to ensure the layout is correct
+    setTimeout(function () {
+        manageMenuItems();
+        window.dispatchEvent(new Event('resize')); // Trigger a resize event after load
+    }, 200);
 }
 
-// Trigger on DOM load, full page load, and a custom delay
-document.addEventListener("DOMContentLoaded", initMenu);
-window.addEventListener("load", initMenu);
-setTimeout(initMenu, 200); // Additional fallback after a small delay
+// Ensure the script runs after both the DOM and all resources are fully loaded
+window.addEventListener('load', function () {
+    // Slight delay to ensure resources have loaded and layout is settled
+    setTimeout(function () {
+        initAutoNav();
+        // Force a small layout change to recalculate sizes
+        document.body.style.overflow = 'hidden'; // Force a tiny change to reflow
+        setTimeout(function () {
+            document.body.style.overflow = ''; // Revert the change
+        }, 50); 
+    }, 150);
+});
