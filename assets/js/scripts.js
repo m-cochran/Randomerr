@@ -91,4 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initial run after DOM loads
     manageMenuItems();
+
+    // Force a resize event after load to ensure correct layout adjustment
+    window.dispatchEvent(new Event('resize'));
 });
