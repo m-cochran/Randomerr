@@ -25,10 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     }
 
+    // Function to get window width adjusted by device pixel ratio
     function getAdjustedWindowWidth() {
-        return window.innerWidth * window.devicePixelRatio;
+        const pixelRatio = window.devicePixelRatio || 1;
+        return window.innerWidth * pixelRatio;
     }
 
+    // Function to manage items in navigation menu
     function manageMenuItems() {
         const windowWidth = window.innerWidth;      // Get browser window width
         const adjustedWindowWidth = getAdjustedWindowWidth(); // Adjust width based on pixel ratio
@@ -47,12 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Custom breakpoints
-        const breakpoints = [250, 350, 450,  550, 650]; // Define breakpoints for responsiveness
+        // Custom breakpoints for handling responsiveness
+        const breakpoints = [250, 350, 450,  550, 650]; 
 
-        // Adjust logic based on custom breakpoints
+        // Adjust based on custom breakpoints
         if (adjustedWindowWidth <= breakpoints[0]) {
-            // Move all items to More for very small devices or very narrow windows
+            // Move all items to More for very small devices
             items.forEach(moveToMore);
         } else if (adjustedWindowWidth <= breakpoints[1]) {
             moveToMore(items[items.length - 1]); // Move Hub
@@ -69,14 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
             moveToMore(items[items.length - 3]); // Move Shop
-            // Keep About and Contact
         } else if (adjustedWindowWidth <= breakpoints[4]) {
             moveToMore(items[items.length - 1]); // Move Hub
             moveToMore(items[items.length - 2]); // Move Arcade
-            // Keep Shop, Contact, and About
-        } else if (adjustedWindowWidth <= breakpoints[5]) {
-            moveToMore(items[items.length - 1]); // Move Hub
-            // Keep Arcade, Shop, Contact, and About
         } else {
             // For larger screens, keep all items in the main navigation
             items.forEach(item => mainNav.appendChild(item));
@@ -88,24 +86,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Move an item to the More dropdown
     function moveToMore(item) {
         if (!isInMore(item)) {
             moreNav.appendChild(item);
         }
     }
 
+    // Check if an item is already in the More dropdown
     function isInMore(item) {
         return Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML);
     }
 
-    // Trigger the menu management after the DOM is fully loaded
-    function triggerMenuManagement() {
-        requestAnimationFrame(manageMenuItems); // Wait for page to render
-    }
-
     // Throttled resize event listener for better performance
-    window.addEventListener('resize', throttle(manageMenuItems, 10)); // Throttle with a 10ms limit
+    window.addEventListener('resize', throttle(manageMenuItems, 100));
+
+    // Ensure resizing and applying proper width after the page is fully loaded
+    window.addEventListener('load', manageMenuItems);
 
     // Initial adjustment on page load
-    triggerMenuManagement();
+    manageMenuItems();
 });
