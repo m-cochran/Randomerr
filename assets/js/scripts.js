@@ -1,6 +1,3 @@
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const mainNav = document.getElementById("autoNav");
     const moreNav = document.getElementById("autoNavMoreList");
@@ -103,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Throttled resize event listener for better performance
-    window.addEventListener('resize', throttle(manageMenuItems, 20)); // Throttle with a 200ms limit
+    window.addEventListener('resize', throttle(manageMenuItems, 10)); // Throttle with a 200ms limit
 
     // Initial adjustment on page load
     manageMenuItems();
