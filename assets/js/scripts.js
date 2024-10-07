@@ -30,10 +30,9 @@ window.addEventListener("load", function () {
     }
 
     function manageMenuItems() {
-        const windowWidth = window.innerWidth;      // Get browser window width
         const adjustedWindowWidth = getAdjustedWindowWidth(); // Adjust width based on pixel ratio
 
-        console.log(`Window width: ${windowWidth}, Adjusted Width: ${adjustedWindowWidth}`);
+        console.log(`Adjusted Width: ${adjustedWindowWidth}`);
 
         // Clear the dropdown except for Donate
         while (moreNav.children.length > 1) {
@@ -96,6 +95,8 @@ window.addEventListener("load", function () {
     // Throttled resize event listener for better performance
     window.addEventListener('resize', throttle(manageMenuItems, 10));
 
-    // Initial adjustment on page load
-    manageMenuItems();
+    // Use requestAnimationFrame and a short delay to ensure proper width calculation
+    setTimeout(function () {
+        requestAnimationFrame(manageMenuItems);
+    }, 50);
 });
