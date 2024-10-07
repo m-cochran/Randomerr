@@ -1,32 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
     function initAutoNav() {
+        // Navigation elements
         const mainNav = document.getElementById("autoNav");
         const moreNav = document.getElementById("autoNavMoreList");
         const moreButton = document.getElementById("autoNavMore");
 
         if (!mainNav || !moreNav || !moreButton) return;
 
+        // Add Donate item
         const donateItem = document.createElement('li');
         donateItem.innerHTML = '<a href="{{ site.baseurl }}/donate/">Donate</a>';
         moreNav.appendChild(donateItem);
 
         const items = Array.from(mainNav.children).slice(0, -1);
 
-        // Throttle function for performance
-        function throttle(func, limit) {
-            let inThrottle;
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
             return function () {
-                const args = arguments;
                 const context = this;
-                if (!inThrottle) {
-                    func.apply(context, args);
-                    inThrottle = true;
-                    setTimeout(() => (inThrottle = false), limit);
-                }
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
             };
         }
 
-        // Recalculate based on pixel ratio and window width
         function getAdjustedWindowWidth() {
             return Math.min(window.innerWidth, screen.width) * window.devicePixelRatio;
         }
@@ -49,32 +47,17 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             const breakpoints = [250, 350, 450, 550, 650];
+            const itemsToMove = [1, 2, 3, 4, 5];
 
-            if (adjustedWindowWidth <= breakpoints[0]) {
-                items.forEach(moveToMore);
-            } else if (adjustedWindowWidth <= breakpoints[1]) {
-                moveToMore(items[items.length - 1]);
-                moveToMore(items[items.length - 2]);
-                moveToMore(items[items.length - 3]);
-                moveToMore(items[items.length - 4]);
-                moveToMore(items[items.length - 5]);
-            } else if (adjustedWindowWidth <= breakpoints[2]) {
-                moveToMore(items[items.length - 1]);
-                moveToMore(items[items.length - 2]);
-                moveToMore(items[items.length - 3]);
-                moveToMore(items[items.length - 4]);
-            } else if (adjustedWindowWidth <= breakpoints[3]) {
-                moveToMore(items[items.length - 1]);
-                moveToMore(items[items.length - 2]);
-                moveToMore(items[items.length - 3]);
-            } else if (adjustedWindowWidth <= breakpoints[4]) {
-                moveToMore(items[items.length - 1]);
-                moveToMore(items[items.length - 2]);
-            } else if (adjustedWindowWidth <= breakpoints[5]) {
-                moveToMore(items[items.length - 1]);
-            }
+            breakpoints.forEach((breakpoint, index) => {
+                if (adjustedWindowWidth <= breakpoint) {
+                    itemsToMove.slice(0, index + 1).forEach(offset => {
+                        moveToMore(items[items.length - offset - 1]);
+                    });
+                }
+            });
 
-            // Ensure the More button is always the last child
+            // Ensure More button is last child
             if (mainNav.lastChild !== moreButton) {
                 mainNav.appendChild(moreButton);
             }
@@ -87,21 +70,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function isInMore(item) {
-            return Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML);
+            return Array.from(moreNav.children).some(child => 
+                child.innerHTML === item.innerHTML && 
+                !child.innerHTML.includes('Donate')
+            );
         }
 
-        // Use requestAnimationFrame for layout calculation after rendering
         function triggerResize() {
-            requestAnimationFrame(manageMenuItems);
+            manageMenuItems();
         }
 
-        // Attach throttled resize event listener
-        window.addEventListener("resize", throttle(manageMenuItems, 100));
+        // Attach debounced resize event listener
+        window.addEventListener("resize", debounce(manageMenuItems, 100));
 
-        // Use a delay to ensure layout recalculation after DOM and styles are fully rendered
-        setTimeout(function () {
-            triggerResize();  // Ensure calculation on page load
-        }, 300);
+        // Initial calculation on page load
+        setTimeout(triggerResize, 300);
     }
 
     // Ensure full page load before initializing
