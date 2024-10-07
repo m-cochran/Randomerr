@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Custom breakpoints
-        const breakpoints = [250, 350, 450, 550, 650]; // Define breakpoints for responsiveness
+        const breakpoints = [250, 350, 450,  550, 650]; // Define breakpoints for responsiveness
 
         // Adjust logic based on custom breakpoints
         if (adjustedWindowWidth <= breakpoints[0]) {
@@ -86,9 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (mainNav.lastChild !== moreButton) {
             mainNav.appendChild(moreButton);
         }
-
-        // Ensure the navigation fits within the page layout without causing overflow
-        mainNav.style.maxWidth = `${document.body.clientWidth}px`;
     }
 
     function moveToMore(item) {
@@ -101,9 +98,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return Array.from(moreNav.children).some(child => child.innerHTML === item.innerHTML);
     }
 
+    // Trigger the menu management after the DOM is fully loaded
+    function triggerMenuManagement() {
+        requestAnimationFrame(manageMenuItems); // Wait for page to render
+    }
+
     // Throttled resize event listener for better performance
     window.addEventListener('resize', throttle(manageMenuItems, 10)); // Throttle with a 10ms limit
 
     // Initial adjustment on page load
-    manageMenuItems();
+    triggerMenuManagement();
 });
