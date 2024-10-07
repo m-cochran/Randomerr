@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function manageMenuItems() {
         const windowWidth = window.innerWidth;      // Get browser window width
-        const screenWidth = screen.width;           // Get total screen resolution
         const adjustedWindowWidth = getAdjustedWindowWidth(); // Adjust width based on pixel ratio
 
         console.log(`Window width: ${windowWidth}, Adjusted Width: ${adjustedWindowWidth}`);
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Custom breakpoints
-        const breakpoints = [250, 350, 450,  550, 650]; // Define breakpoints for responsiveness
+        const breakpoints = [250, 350, 450, 550, 650]; // Define breakpoints for responsiveness
 
         // Adjust logic based on custom breakpoints
         if (adjustedWindowWidth <= breakpoints[0]) {
@@ -87,6 +86,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (mainNav.lastChild !== moreButton) {
             mainNav.appendChild(moreButton);
         }
+
+        // Ensure the navigation fits within the page layout without causing overflow
+        mainNav.style.maxWidth = `${document.body.clientWidth}px`;
     }
 
     function moveToMore(item) {
@@ -100,9 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Throttled resize event listener for better performance
-    window.addEventListener('resize', throttle(manageMenuItems, 10)); // Throttle with a 200ms limit
+    window.addEventListener('resize', throttle(manageMenuItems, 10)); // Throttle with a 10ms limit
 
     // Initial adjustment on page load
     manageMenuItems();
 });
-
