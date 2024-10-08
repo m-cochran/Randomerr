@@ -109,5 +109,5 @@ function initAutoNav() {
   // Ensure calculation on page load with a slightly longer delay
   setTimeout(function () {
     triggerResize();
-  }, 250); // Increased delay for initial page load
+  }, 350); // Increased delay for initial page load
 }
