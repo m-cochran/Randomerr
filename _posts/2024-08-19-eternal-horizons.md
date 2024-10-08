@@ -69,58 +69,59 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 <div class="pagination-container">
     <h2 class="pagination-heading">Recommended Posts</h2> <!-- Add your heading here -->
-<div class="pagination">
-    <!-- Link to the previous two posts -->
-    {% if page.previous.previous %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.previous.previous.url }}" class="thumbnail-link">
-                <img src="{{ page.previous.previous.thumbnail }}" alt="{{ page.previous.previous.title }}" class="thumbnail">
-                <span class="overlay">{{ page.previous.previous.title }}</span>
-            </a>
-            <span>Previous 2</span>
-        </div>
-    {% endif %}
-    {% if page.previous %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.previous.url }}" class="thumbnail-link">
-                <img src="{{ page.previous.thumbnail }}" alt="{{ page.previous.title }}" class="thumbnail">
-                <span class="overlay">{{ page.previous.title }}</span>
-            </a>
-            <span>Previous</span>
-        </div>
-    {% endif %}
+    <div class="pagination">
+        <!-- Link to the previous two posts -->
+        {% if page.previous.previous %}
+            <div class="pagination-item">
+                <a href="{{ site.baseurl }}{{ page.previous.previous.url }}" class="thumbnail-link">
+                    <img src="{{ page.previous.previous.thumbnail }}" alt="{{ page.previous.previous.title }}" class="thumbnail">
+                    <span class="overlay">{{ page.previous.previous.title }}</span>
+                </a>
+                <span>Previous 2</span>
+            </div>
+        {% endif %}
+        {% if page.previous %}
+            <div class="pagination-item">
+                <a href="{{ site.baseurl }}{{ page.previous.url }}" class="thumbnail-link">
+                    <img src="{{ page.previous.thumbnail }}" alt="{{ page.previous.title }}" class="thumbnail">
+                    <span class="overlay">{{ page.previous.title }}</span>
+                </a>
+                <span>Previous</span>
+            </div>
+        {% endif %}
 
-    <!-- Link to a random post -->
-    {% assign random_post = site.posts | sample %}
-    <div class="pagination-item">
-        <a href="{{ site.baseurl }}{{ random_post.url }}" class="thumbnail-link">
-            <img src="{{ random_post.thumbnail }}" alt="{{ random_post.title }}" class="thumbnail">
-            <span class="overlay">{{ random_post.title }}</span>
-        </a>
-        <span>Random Post</span>
+        <!-- Link to a random post -->
+        {% assign random_post = site.posts | sample %}
+        <div class="pagination-item">
+            <a href="{{ site.baseurl }}{{ random_post.url }}" class="thumbnail-link">
+                <img src="{{ random_post.thumbnail }}" alt="{{ random_post.title }}" class="thumbnail">
+                <span class="overlay">{{ random_post.title }}</span>
+            </a>
+            <span>Random Post</span>
+        </div>
+
+        <!-- Link to the next two posts -->
+        {% if page.next %}
+            <div class="pagination-item">
+                <a href="{{ site.baseurl }}{{ page.next.url }}" class="thumbnail-link">
+                    <img src="{{ page.next.thumbnail }}" alt="{{ page.next.title }}" class="thumbnail">
+                    <span class="overlay">{{ page.next.title }}</span>
+                </a>
+                <span>Next</span>
+            </div>
+        {% endif %}
+        {% if page.next.next %}
+            <div class="pagination-item">
+                <a href="{{ site.baseurl }}{{ page.next.next.url }}" class="thumbnail-link">
+                    <img src="{{ page.next.next.thumbnail }}" alt="{{ page.next.next.title }}" class="thumbnail">
+                    <span class="overlay">{{ page.next.next.title }}</span>
+                </a>
+                <span>Next 2</span>
+            </div>
+        {% endif %}
     </div>
+</div>
 
-    <!-- Link to the next two posts -->
-    {% if page.next %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.next.url }}" class="thumbnail-link">
-                <img src="{{ page.next.thumbnail }}" alt="{{ page.next.title }}" class="thumbnail">
-                <span class="overlay">{{ page.next.title }}</span>
-            </a>
-            <span>Next</span>
-        </div>
-    {% endif %}
-    {% if page.next.next %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.next.next.url }}" class="thumbnail-link">
-                <img src="{{ page.next.next.thumbnail }}" alt="{{ page.next.next.title }}" class="thumbnail">
-                <span class="overlay">{{ page.next.next.title }}</span>
-            </a>
-            <span>Next 2</span>
-        </div>
-    {% endif %}
-</div>
-</div>
 
 
 
@@ -195,7 +196,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 }
 
 
-
     
 .pagination-heading {
     font-size: 24px; /* Size of the heading */
@@ -242,7 +242,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
     text-align: center; /* Center text */
     border-radius: 0 0 8px 8px; /* Round bottom corners */
-    opacity: 0; /* Initially hidden */
+    opacity: 100%; /* Initially hidden */
     transition: opacity 0.3s ease; /* Smooth transition */
 }
 
