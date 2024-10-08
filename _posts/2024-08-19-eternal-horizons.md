@@ -193,39 +193,39 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 50px; /* Space above pagination */
 }
 
 .pagination-item {
     position: relative;
-    width: 48%; /* Adjust as needed */
-    margin-bottom: 20px;
+    width: 48%; /* Adjust as needed for your layout */
+    margin-bottom: 20px; /* Space between items */
 }
 
 .thumbnail-link {
     display: block;
-    position: relative;
+    position: relative; /* Needed for overlay positioning */
 }
 
 .thumbnail {
     width: 100%; /* Full width of the container */
-    height: 96px; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 8px; /* Optional: round corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: add shadow */
 }
 
 .overlay {
     position: absolute;
-    
     bottom: 0;
     left: 0;
     right: 0;
     padding: 10px;
-    color: white;
+    color: white; /* Text color */
     background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    text-align: center;
+    text-align: center; /* Center text */
     border-radius: 0 0 8px 8px; /* Round bottom corners */
-    opacity: 100%; /* Initially hidden */
-    transition: opacity 0.3s ease; /* Transition effect */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Smooth transition */
 }
 
 .thumbnail-link:hover .overlay {
