@@ -75,8 +75,8 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
             <div class="pagination-item">
                 <a href="{{ site.baseurl }}{{ page.previous.previous.url }}" class="thumbnail-link">
                     <img src="{{ page.previous.previous.thumbnail }}" alt="{{ page.previous.previous.title }}" class="thumbnail">
+                    <span class="overlay">{{ page.previous.previous.title }}</span>
                 </a>
-                <span>Previous 2</span>
             </div>
         {% endif %}
         {% if page.previous %}
@@ -85,7 +85,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
                     <img src="{{ page.previous.thumbnail }}" alt="{{ page.previous.title }}" class="thumbnail">
                     <span class="overlay">{{ page.previous.title }}</span>
                 </a>
-                <span>Previous</span>
             </div>
         {% endif %}
 
@@ -96,7 +95,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
                 <img src="{{ random_post.thumbnail }}" alt="{{ random_post.title }}" class="thumbnail">
                 <span class="overlay">{{ random_post.title }}</span>
             </a>
-            <span>Random Post</span>
         </div>
 
         <!-- Link to the next two posts -->
@@ -106,7 +104,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
                     <img src="{{ page.next.thumbnail }}" alt="{{ page.next.title }}" class="thumbnail">
                     <span class="overlay">{{ page.next.title }}</span>
                 </a>
-                <span>Next</span>
             </div>
         {% endif %}
         {% if page.next.next %}
@@ -115,7 +112,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
                     <img src="{{ page.next.next.thumbnail }}" alt="{{ page.next.next.title }}" class="thumbnail">
                     <span class="overlay">{{ page.next.next.title }}</span>
                 </a>
-                <span>Next 2</span>
             </div>
         {% endif %}
     </div>
