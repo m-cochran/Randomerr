@@ -208,7 +208,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 }
 
 .thumbnail {
-    width: 100%; /* Full width of the container */
+    width: 20%; /* Full width of the container */
     height: auto; /* Maintain aspect ratio */
     border-radius: 8px; /* Optional: round corners */
 }
