@@ -71,24 +71,55 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 <div class="pagination">
     <!-- Link to the previous two posts -->
     {% if page.previous.previous %}
-        <a href="{{ site.baseurl }}{{ page.previous.previous.url }}">Previous 2: {{ page.previous.previous.title }}</a>
+        <div class="pagination-item">
+            <a href="{{ site.baseurl }}{{ page.previous.previous.url }}" class="thumbnail-link">
+                <img src="{{ page.previous.previous.thumbnail }}" alt="{{ page.previous.previous.title }}" class="thumbnail">
+                <span class="overlay">{{ page.previous.previous.title }}</span>
+            </a>
+            <span>Previous 2</span>
+        </div>
     {% endif %}
     {% if page.previous %}
-        <a href="{{ site.baseurl }}{{ page.previous.url }}">Previous: {{ page.previous.title }}</a>
+        <div class="pagination-item">
+            <a href="{{ site.baseurl }}{{ page.previous.url }}" class="thumbnail-link">
+                <img src="{{ page.previous.thumbnail }}" alt="{{ page.previous.title }}" class="thumbnail">
+                <span class="overlay">{{ page.previous.title }}</span>
+            </a>
+            <span>Previous</span>
+        </div>
     {% endif %}
 
     <!-- Link to a random post -->
     {% assign random_post = site.posts | sample %}
-    <a href="{{ site.baseurl }}{{ random_post.url }}">Random Post: {{ random_post.title }}</a>
+    <div class="pagination-item">
+        <a href="{{ site.baseurl }}{{ random_post.url }}" class="thumbnail-link">
+            <img src="{{ random_post.thumbnail }}" alt="{{ random_post.title }}" class="thumbnail">
+            <span class="overlay">{{ random_post.title }}</span>
+        </a>
+        <span>Random Post</span>
+    </div>
 
     <!-- Link to the next two posts -->
     {% if page.next %}
-        <a href="{{ site.baseurl }}{{ page.next.url }}">Next: {{ page.next.title }}</a>
+        <div class="pagination-item">
+            <a href="{{ site.baseurl }}{{ page.next.url }}" class="thumbnail-link">
+                <img src="{{ page.next.thumbnail }}" alt="{{ page.next.title }}" class="thumbnail">
+                <span class="overlay">{{ page.next.title }}</span>
+            </a>
+            <span>Next</span>
+        </div>
     {% endif %}
     {% if page.next.next %}
-        <a href="{{ site.baseurl }}{{ page.next.next.url }}">Next 2: {{ page.next.next.title }}</a>
+        <div class="pagination-item">
+            <a href="{{ site.baseurl }}{{ page.next.next.url }}" class="thumbnail-link">
+                <img src="{{ page.next.next.thumbnail }}" alt="{{ page.next.next.title }}" class="thumbnail">
+                <span class="overlay">{{ page.next.next.title }}</span>
+            </a>
+            <span>Next 2</span>
+        </div>
     {% endif %}
 </div>
+
 
 
 
@@ -158,24 +189,46 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     font-style: italic;
 }
 
-/* Pagination styles for essay pages */
 .pagination {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 50px;
 }
 
-.pagination a {
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
+.pagination-item {
+    position: relative;
+    width: 48%; /* Adjust as needed */
+    margin-bottom: 20px;
 }
 
-.pagination a:hover {
-    background-color: #0056b3;
+.thumbnail-link {
+    display: block;
+    position: relative;
+}
+
+.thumbnail {
+    width: 100%; /* Full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: round corners */
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    text-align: center;
+    border-radius: 0 0 8px 8px; /* Round bottom corners */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Transition effect */
+}
+
+.thumbnail-link:hover .overlay {
+    opacity: 1; /* Show overlay on hover */
 }
 
 </style>
