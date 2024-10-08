@@ -269,6 +269,9 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     justify-content: space-between;
     margin-top: 50px; /* Space above pagination */
     gap: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .pagination-item {
