@@ -78,9 +78,8 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     {% endif %}
 
     <!-- Link to a random post -->
-    {% assign posts_count = site.posts | size %}
-    {% assign random_index = site.posts | sample | index %}
-    <a href="{{ site.baseurl }}{{ site.posts[random_index].url }}">Random Post: {{ site.baseurl }}{{ site.posts[random_index].title }}</a>
+    {% assign random_post = site.posts | sample %}
+    <a href="{{ site.baseurl }}{{ random_post.url }}">Random Post: {{ random_post.title }}</a>
 
     <!-- Link to the next two posts -->
     {% if page.next %}
@@ -90,6 +89,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
         <a href="{{ site.baseurl }}{{ page.next.next.url }}">Next 2: {{ page.next.next.title }}</a>
     {% endif %}
 </div>
+
 
 
 
