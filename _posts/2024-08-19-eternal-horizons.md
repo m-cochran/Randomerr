@@ -203,6 +203,57 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 }
 
 
+
+
+
+
+
+.share-buttons {
+    margin: 20px 0;
+}
+
+.share-button {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: white; /* Text color */
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.facebook {
+    background-color: #3b5998; /* Facebook color */
+}
+
+.twitter {
+    background-color: #1DA1F2; /* Twitter color */
+}
+
+.instagram {
+    background-color: #C13584; /* Instagram color */
+}
+
+.linkedin {
+    background-color: #0077B5; /* LinkedIn color */
+}
+
+.pinterest {
+    background-color: #E60023; /* Pinterest color */
+}
+
+
+.share-button:hover {
+    opacity: 0.8; /* Simple hover effect */
+}
+
+
+
+
+
+
+    
+
     
 .pagination-heading {
     font-size: 24px; /* Size of the heading */
