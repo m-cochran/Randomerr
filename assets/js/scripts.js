@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Add a small delay to ensure styles are loaded
-  setTimeout(initAutoNav, 500); // Slightly increased delay
+  setTimeout(initAutoNav, 50); // Slightly increased delay
 });
 
 function initAutoNav() {
@@ -103,7 +103,7 @@ function initAutoNav() {
   }
 
   // Attach throttled resize event listener
-  window.addEventListener("resize", throttle(manageMenuItems, 500));
+  window.addEventListener("resize", throttle(manageMenuItems, 50));
   window.addEventListener("orientationchange", triggerResize);
 
   // Ensure calculation on page load with a slightly longer delay
