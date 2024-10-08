@@ -219,7 +219,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     position: relative; /* Needed for overlay positioning */
 }
 
-.thumbnail {
+.pagination .thumbnail {
     object-fit: cover;
     width: 100%; /* Full width of the container */
     height: 96px; /* Maintain aspect ratio */
