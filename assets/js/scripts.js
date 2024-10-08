@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Add a small delay to ensure styles are loaded
-  setTimeout(initAutoNav, 00); // Slightly increased delay
+  setTimeout(initAutoNav, 200); // Slightly increased delay
 });
 
 function initAutoNav() {
@@ -109,5 +109,5 @@ function initAutoNav() {
   // Ensure calculation on page load with a slightly longer delay
   setTimeout(function () {
     triggerResize();
-  }, 450); // Increased delay for initial page load
+  }, 600); // Increased delay for initial page load
 }
