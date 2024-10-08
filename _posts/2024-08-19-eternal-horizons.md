@@ -68,57 +68,32 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 
 
-<div class="pagination">
-    <!-- Link to the previous two posts -->
-    {% if page.previous.previous %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.previous.previous.url }}" class="thumbnail-link">
-                <img src="{{ page.previous.previous.thumbnail }}" alt="{{ page.previous.previous.title }}" class="thumbnail">
-                <span class="overlay">{{ page.previous.previous.title }}</span>
-            </a>
-            <span>Previous 2</span>
-        </div>
-    {% endif %}
-    {% if page.previous %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.previous.url }}" class="thumbnail-link">
-                <img src="{{ page.previous.thumbnail }}" alt="{{ page.previous.title }}" class="thumbnail">
-                <span class="overlay">{{ page.previous.title }}</span>
-            </a>
-            <span>Previous</span>
-        </div>
-    {% endif %}
+<div class="pagination-container">
+    <h2 class="pagination-heading">Latest Posts</h2> <!-- Add your heading here -->
+    <div class="pagination">
+        <!-- Link to the previous two posts -->
+        {% if page.previous.previous %}
+            <a href="{{ site.baseurl }}{{ page.previous.previous.url }}">Previous 2: {{ page.previous.previous.title }}</a>
+        {% endif %}
+        {% if page.previous %}
+            <a href="{{ site.baseurl }}{{ page.previous.url }}">Previous: {{ page.previous.title }}</a>
+        {% endif %}
 
-    <!-- Link to a random post -->
-    {% assign random_post = site.posts | sample %}
-    <div class="pagination-item">
-        <a href="{{ site.baseurl }}{{ random_post.url }}" class="thumbnail-link">
-            <img src="{{ random_post.thumbnail }}" alt="{{ random_post.title }}" class="thumbnail">
-            <span class="overlay">{{ random_post.title }}</span>
-        </a>
-        <span>Random Post</span>
+        <!-- Link to a random post -->
+        {% assign posts_count = site.posts | size %}
+        {% assign random_index = site.posts | sample | index %}
+        <a href="{{ site.baseurl }}{{ site.posts[random_index].url }}">Random Post: {{ site.posts[random_index].title }}</a>
+
+        <!-- Link to the next two posts -->
+        {% if page.next %}
+            <a href="{{ site.baseurl }}{{ page.next.url }}">Next: {{ page.next.title }}</a>
+        {% endif %}
+        {% if page.next.next %}
+            <a href="{{ site.baseurl }}{{ page.next.next.url }}">Next 2: {{ page.next.next.title }}</a>
+        {% endif %}
     </div>
-
-    <!-- Link to the next two posts -->
-    {% if page.next %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.next.url }}" class="thumbnail-link">
-                <img src="{{ page.next.thumbnail }}" alt="{{ page.next.title }}" class="thumbnail">
-                <span class="overlay">{{ page.next.title }}</span>
-            </a>
-            <span>Next</span>
-        </div>
-    {% endif %}
-    {% if page.next.next %}
-        <div class="pagination-item">
-            <a href="{{ site.baseurl }}{{ page.next.next.url }}" class="thumbnail-link">
-                <img src="{{ page.next.next.thumbnail }}" alt="{{ page.next.next.title }}" class="thumbnail">
-                <span class="overlay">{{ page.next.next.title }}</span>
-            </a>
-            <span>Next 2</span>
-        </div>
-    {% endif %}
 </div>
+
 
 
 
@@ -189,6 +164,17 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     font-style: italic;
 }
 
+
+
+    
+.pagination-heading {
+    font-size: 24px; /* Size of the heading */
+    font-weight: bold; /* Make it bold */
+    margin-bottom: 20px; /* Space between the heading and pagination */
+    text-align: center; /* Center align the heading */
+    color: #333; /* Color of the heading */
+}
+    
 .pagination {
     display: flex;
     flex-wrap: nowrap;
