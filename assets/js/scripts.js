@@ -117,21 +117,7 @@ function initAutoNav() {
     triggerResize();
   }, 500);
 
-  // MutationObserver to detect DOM changes after initial load
-  const observer = new MutationObserver(function (mutationsList, observer) {
-    mutationsList.forEach(() => {
-      triggerResize(); // Adjust if mutations are detected
-    });
-  });
-
-  // Observe changes to the entire document body
-  observer.observe(document.body, {
-    attributes: true,
-    childList: true,
-    subtree: true
-  });
-
-  // Trigger resize after fonts are loaded
+  // Trigger resize after fonts are loaded to ensure layout calculation is correct
   document.fonts.ready.then(function () {
     triggerResize(); // Ensure menu is correct once fonts are loaded
   });
