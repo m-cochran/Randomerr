@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Add a small delay to ensure styles are loaded
-  setTimeout(initAutoNav, 100); // Slightly increased delay
+  setTimeout(initAutoNav, 200); // Slightly increased delay
 });
 
 function initAutoNav() {
