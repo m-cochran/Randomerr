@@ -222,7 +222,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
     text-align: center;
     border-radius: 0 0 8px 8px; /* Round bottom corners */
-    opacity: 0; /* Initially hidden */
+    opacity: 100%; /* Initially hidden */
     transition: opacity 0.3s ease; /* Transition effect */
 }
 
