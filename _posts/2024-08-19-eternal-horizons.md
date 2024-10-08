@@ -194,6 +194,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     flex-wrap: nowrap;
     justify-content: space-between;
     margin-top: 50px; /* Space above pagination */
+    gap: 10px;
 }
 
 .pagination-item {
