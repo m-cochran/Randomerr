@@ -145,18 +145,4 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     background-color: #0056b3;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .essay-container {
-        padding: 10px;
-        font-size: 16px;
-    }
-    .essay-container h1 {
-        font-size: 28px;
-    }
-    .essay-container h2, .essay-container h3 {
-        font-size: 22px;
-    }
-}
-
 </style>
