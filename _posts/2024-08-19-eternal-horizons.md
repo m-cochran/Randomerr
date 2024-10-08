@@ -222,7 +222,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 .pagination .thumbnail {
     object-fit: cover;
     width: 100%; /* Full width of the container */
-    height: 96px; /* Maintain aspect ratio */
+    height: 196px; /* Maintain aspect ratio */
     border-radius: 8px; /* Optional: round corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: add shadow */
 }
