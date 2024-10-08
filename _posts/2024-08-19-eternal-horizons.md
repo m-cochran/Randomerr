@@ -58,6 +58,18 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     </section>
 
 
+    <div class="share-buttons">
+        <h3>Share this post:</h3>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.baseurl }}{{ page.url }}" target="_blank" class="share-button facebook">Share on Facebook</a>
+        <a href="https://twitter.com/intent/tweet?url={{ site.baseurl }}{{ page.url }}&text={{ page.title }}" target="_blank" class="share-button twitter">Share on Twitter</a>
+        <a href="https://www.instagram.com/sharer/sharer.php?u={{ site.baseurl }}{{ page.url }}" target="_blank" class="share-button instagram">Share on Instagram</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.baseurl }}{{ page.url }}" target="_blank" class="share-button linkedin">Share on LinkedIn</a>
+        <a href="https://pinterest.com/pin/create/button/?url={{ site.baseurl }}{{ page.url }}&media={{ page.thumbnail }}&description={{ page.title }}" target="_blank" class="share-button pinterest">Share on Pinterest</a>
+    </div>
+</div>
+
+
+
 
 
 
