@@ -75,7 +75,6 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
             <div class="pagination-item">
                 <a href="{{ site.baseurl }}{{ page.previous.previous.url }}" class="thumbnail-link">
                     <img src="{{ page.previous.previous.thumbnail }}" alt="{{ page.previous.previous.title }}" class="thumbnail">
-                    <span class="overlay">{{ page.previous.previous.title }}</span>
                 </a>
                 <span>Previous 2</span>
             </div>
