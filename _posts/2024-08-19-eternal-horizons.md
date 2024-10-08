@@ -68,7 +68,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 
 <div class="pagination-container">
-    <h2 class="pagination-heading">Latest Posts</h2> <!-- Add your heading here -->
+    <h2 class="pagination-heading">Recommended Posts</h2> <!-- Add your heading here -->
 <div class="pagination">
     <!-- Link to the previous two posts -->
     {% if page.previous.previous %}
