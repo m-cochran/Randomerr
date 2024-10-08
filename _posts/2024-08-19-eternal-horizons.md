@@ -68,6 +68,35 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 
 
+<div class="pagination">
+    <!-- Link to the previous two posts -->
+    {% if page.previous.previous %}
+        <a href="{{ page.previous.previous.url }}">Previous 2: {{ page.previous.previous.title }}</a>
+    {% endif %}
+    {% if page.previous %}
+        <a href="{{ page.previous.url }}">Previous: {{ page.previous.title }}</a>
+    {% endif %}
+
+    <!-- Link to a random post -->
+    {% assign posts_count = site.posts | size %}
+    {% assign random_index = site.posts | sample | index %}
+    <a href="{{ site.posts[random_index].url }}">Random Post: {{ site.posts[random_index].title }}</a>
+
+    <!-- Link to the next two posts -->
+    {% if page.next %}
+        <a href="{{ page.next.url }}">Next: {{ page.next.title }}</a>
+    {% endif %}
+    {% if page.next.next %}
+        <a href="{{ page.next.next.url }}">Next 2: {{ page.next.next.title }}</a>
+    {% endif %}
+</div>
+
+
+
+
+
+
+
 <style>
 /* General essay container styles */
 .essay-container {
