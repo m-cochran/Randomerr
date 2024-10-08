@@ -80,7 +80,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     <!-- Link to a random post -->
     {% assign posts_count = site.posts | size %}
     {% assign random_index = site.posts | sample | index %}
-    <a href="{{ site.baseurl }}{{ site.posts[random_index].url }}">Random Post: {{ site.posts[random_index].title }}</a>
+    <a href="{{ site.baseurl }}{{ site.posts[random_index].url }}">Random Post: {{ site.baseurl }}{{ site.posts[random_index].title }}</a>
 
     <!-- Link to the next two posts -->
     {% if page.next %}
