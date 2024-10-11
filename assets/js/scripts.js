@@ -35,7 +35,6 @@ function initAutoNav() {
   function manageMenuItems() {
     requestAnimationFrame(() => {
       const adjustedWindowWidth = getAdjustedWindowWidth();
-      console.log(`Adjusted Width: ${adjustedWindowWidth}`);
 
       // Clear More dropdown, keep Donate
       while (moreNav.children.length > 1) {
