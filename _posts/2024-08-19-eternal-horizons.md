@@ -224,7 +224,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for enlarge effect */
 }
 
-.thumbnail-link:hover .thumbnail {
+.thumbnail-link:hover {
     transform: scale(1.1); /* Enlarge the image */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Add a more pronounced shadow */
 }
