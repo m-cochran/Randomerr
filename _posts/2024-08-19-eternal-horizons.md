@@ -206,7 +206,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 
 .pagination-item {
     position: relative;
-    width: 48%; /* Adjust as needed for your layout */
+    width: 100%; /* Adjust as needed for your layout */
     margin-bottom: 20px; /* Space between items */
 }
 
