@@ -213,6 +213,7 @@ thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=
 .thumbnail-link {
     display: block;
     position: relative; /* Needed for overlay positioning */
+    border-radius: 8px;
 }
 
 .pagination .thumbnail {
