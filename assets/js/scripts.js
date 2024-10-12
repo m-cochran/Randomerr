@@ -208,6 +208,19 @@ function createStaticShapes() {
     }
 }
 
+
+// Function to draw a polygon
+function drawPolygon(ctx, x, y, size, sides) {
+    const angle = (Math.PI * 2) / sides;
+    ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+    for (let i = 1; i < sides; i++) {
+        ctx.lineTo(x + size * Math.cos(i * angle), y + size * Math.sin(i * angle));
+    }
+    ctx.closePath();
+}
+
+
+
 // Function to draw static shapes
 function drawStaticShapes() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
@@ -250,15 +263,7 @@ function drawStaticShapes() {
     }
 }
 
-// Function to draw a polygon
-function drawPolygon(ctx, x, y, size, sides) {
-    const angle = (Math.PI * 2) / sides;
-    ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
-    for (let i = 1; i < sides; i++) {
-        ctx.lineTo(x + size * Math.cos(i * angle), y + size * Math.sin(i * angle));
-    }
-    ctx.closePath();
-}
+
 
 // Function to animate a rotating shape
 function animateRotatingShape() {
