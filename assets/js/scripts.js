@@ -358,3 +358,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Update canvas size on window resize
 window.addEventListener('resize', updateCanvasSize);
+});
