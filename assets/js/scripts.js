@@ -161,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set initial canvas size
     updateCanvasSize();
 
-    // Variables for static shapes
-    let staticShapes = []; // Declare and initialize the staticShapes array here
+    // Declare the staticShapes array here
+    let staticShapes = [];
 
     // Variables for rotating shape
     let rotatingShape = {
@@ -286,7 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = containerWidth;
         canvas.height = containerHeight;
 
-        drawStaticShapes(); // Ensure staticShapes is drawn here
+        createStaticShapes(); // Ensure shapes are created each time size changes
+        drawStaticShapes(); // Now safe to draw static shapes
     }
 
     // Listen for window resize and adjust canvas size
@@ -301,3 +302,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Change the background image every 5 seconds
     setInterval(changeBackgroundImage, 5000);
 });
+
