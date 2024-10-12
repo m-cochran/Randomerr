@@ -143,6 +143,8 @@ const animalImages = [
     'https://plus.unsplash.com/premium_photo-1675432656807-216d786dd468?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'https://images.unsplash.com/photo-1495594059084-33752639b9c3?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://www.publicdomainpictures.net/pictures/70000/velka/animals-1385459909yaI.jpg',
+    'https://www.pixelstalk.net/wp-content/uploads/2016/03/Free-tiger-animal-wallpaper-HD.jpg',
 ];
 
 // Get the container elements
@@ -157,6 +159,9 @@ shapeOverlay.appendChild(canvas);
 // Set initial canvas size
 updateCanvasSize();
 
+// Initialize the current background index
+let currentBackgroundIndex = 0; // Start with the first background image
+
 // Variables for static shapes
 let staticShapes = [];
 
@@ -166,7 +171,7 @@ let rotatingShape = {
     angle: 0,
     startTime: 0,
     type: Math.floor(Math.random() * 7), // Randomly select initial shape type
-    rotationDirection: Math.random() < 0.5 ? 1 : -1, // Randomly choose rotation direction
+    rotationDirection: Math.random() < 0.5 ? 1 : -1, // Randomly choose rotation direction: 1 for clockwise, -1 for counterclockwise
     color: getRandomColor(), // Set a fixed color when the shape is created
     offset: Math.random() * 50 + 50 // Random offset for spinning
 };
@@ -317,33 +322,38 @@ function animateRotatingShape() {
     requestAnimationFrame(animateRotatingShape); // Continue animation
 }
 
-// Function to change the background image and shapes
-function changeBackgroundImageAndShapes() {
-    // Get the current day of the month
-    const currentDay = new Date().getDate();
-    const imageIndex = currentDay % animalImages.length;
-
-    // Set the background image
-    backgroundContainer.style.backgroundImage = `url(${animalImages[imageIndex]})`;
-
-    // Create static shapes for the new background
+// Function to change the background image and rotating shape
+function changeBackgroundAndShape() {
+    // Change background image
+    backgroundContainer.style.backgroundImage = `url(${animalImages[currentBackgroundIndex]})`;
+    
+    // Reset rotating shape properties
     createStaticShapes();
+    rotatingShape.x = Math.random() * (canvas.width - rotatingShape.size); // Random position
+    rotatingShape.y = Math.random() * (canvas.height - rotatingShape.size); // Random position
+    rotatingShape.size = Math.random() * 396 + 196; // Random size
+    rotatingShape.color = getRandomColor(); // Set a new fixed color
+    rotatingShape.startTime = performance.now(); // Reset the start time
+    rotatingShape.type = Math.floor(Math.random() * 7); // Randomly select shape type
+    rotatingShape.rotationDirection = Math.random() < 0.5 ? 1 : -1; // Randomly choose rotation direction
+
+    // Update the current background index
+    currentBackgroundIndex = (currentBackgroundIndex + 1) % animalImages.length; // Cycle through images
 }
 
 // Function to update the canvas size
 function updateCanvasSize() {
-    const containerRect = shapeOverlay.getBoundingClientRect();
-    canvas.width = containerRect.width;
-    canvas.height = containerRect.height;
+    canvas.width = shapeOverlay.clientWidth; // Set width based on overlay size
+    canvas.height = shapeOverlay.clientHeight; // Set height based on overlay size
 }
 
-// Initialize the canvas and shapes
-updateCanvasSize();
-changeBackgroundImageAndShapes();
-animateRotatingShape();
+// Initial setup
+createStaticShapes();
+animateRotatingShape(); // Start the animation
 
-// Resize listener
-window.addEventListener('resize', () => {
-    updateCanvasSize();
-    createStaticShapes(); // Create new static shapes on resize
-});
+// Change the background image and shapes every 5 seconds
+setInterval(changeBackgroundAndShape, 5000);
+
+// Update canvas size on window resize
+window.addEventListener('resize', updateCanvasSize);
+
