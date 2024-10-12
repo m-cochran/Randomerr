@@ -161,11 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set initial canvas size
     updateCanvasSize();
 
-    // Initialize the current background index
-    let currentBackgroundIndex = 0; // Start with the first background image
-
     // Variables for static shapes
-    let staticShapes = [];
+    let staticShapes = []; // Declare and initialize the staticShapes array here
 
     // Variables for rotating shape
     let rotatingShape = {
@@ -213,16 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to draw a polygon
-    function drawPolygon(ctx, x, y, size, sides) {
-        const angle = (Math.PI * 2) / sides;
-        ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
-        for (let i = 1; i < sides; i++) {
-            ctx.lineTo(x + size * Math.cos(i * angle), y + size * Math.sin(i * angle));
-        }
-        ctx.closePath();
-    }
-
     // Function to draw static shapes
     function drawStaticShapes() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
@@ -265,65 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to animate a rotating shape
-    function animateRotatingShape() {
-        const currentTime = performance.now();
-        const elapsedTime = currentTime - rotatingShape.startTime;
-
-        // Update the angle based on the elapsed time
-        rotatingShape.angle = (elapsedTime / 30000) * Math.PI * 2 * rotatingShape.rotationDirection; // Full rotation in 30 seconds
-
-        // Clear previous frame and redraw static shapes
-        drawStaticShapes();
-
-        // Draw the rotating shape based on its type
-        ctx.save();
-        ctx.translate(rotatingShape.x + rotatingShape.size / 2 + rotatingShape.offset * Math.cos(rotatingShape.angle),
-            rotatingShape.y + rotatingShape.size / 2 + rotatingShape.offset * Math.sin(rotatingShape.angle)); // Offset rotation
-        ctx.rotate(rotatingShape.angle); // Rotate according to the set direction
-        ctx.fillStyle = rotatingShape.color; // Use fixed color
-
-        // Draw the rotating shape based on its type
-        switch (rotatingShape.type) {
-            case 0: // Circle
-                ctx.beginPath();
-                ctx.arc(0, 0, rotatingShape.size / 2, 0, Math.PI * 2);
-                break;
-            case 1: // Rectangle
-                ctx.fillRect(-rotatingShape.size / 2, -rotatingShape.size / 2, rotatingShape.size, rotatingShape.size);
-                break;
-            case 2: // Triangle
-                ctx.beginPath();
-                ctx.moveTo(0, -rotatingShape.size / 2);
-                ctx.lineTo(rotatingShape.size / 2, rotatingShape.size / 2);
-                ctx.lineTo(-rotatingShape.size / 2, rotatingShape.size / 2);
-                ctx.closePath();
-                break;
-            case 3: // Pentagon
-                drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 5);
-                break;
-            case 4: // Hexagon
-                drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 6);
-                break;
-            case 5: // Ellipse
-                ctx.ellipse(0, 0, rotatingShape.size / 2, rotatingShape.size / 4, 0, 0, Math.PI * 2);
-                break;
-            case 6: // Rhombus
-                ctx.beginPath();
-                ctx.moveTo(0, -rotatingShape.size / 2);
-                ctx.lineTo(rotatingShape.size / 2, 0);
-                ctx.lineTo(0, rotatingShape.size / 2);
-                ctx.lineTo(-rotatingShape.size / 2, 0);
-                ctx.closePath();
-                break;
-        }
-
-        ctx.fill(); // Fill the rotating shape
-        ctx.restore();
-
-        requestAnimationFrame(animateRotatingShape);
-    }
-
     // Function to change the background image
     function changeBackgroundImage() {
         currentBackgroundIndex = (currentBackgroundIndex + 1) % animalImages.length; // Move to the next background image
@@ -334,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backgroundContainer.style.backgroundImage = `url('${newBackgroundImage}')`;
 
         // Create random shapes each time the background changes
-        createStaticShapes();
+        createStaticShapes(); // Populate staticShapes before drawing
 
         // Randomize rotating shape properties
         rotatingShape.type = Math.floor(Math.random() * 7); // Random shape type
@@ -358,11 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = containerWidth;
         canvas.height = containerHeight;
 
-        drawStaticShapes();
+        drawStaticShapes(); // Ensure staticShapes is drawn here
     }
 
     // Listen for window resize and adjust canvas size
     window.addEventListener('resize', updateCanvasSize);
+
+    // Call createStaticShapes before any drawing operations
+    createStaticShapes();
 
     // Start the rotating shape animation
     requestAnimationFrame(animateRotatingShape);
