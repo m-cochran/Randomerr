@@ -121,3 +121,229 @@ function initAutoNav() {
     triggerResize(); // Ensure menu is correct once fonts are loaded
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const animalImages = [
+    'https://plus.unsplash.com/premium_photo-1675432656807-216d786dd468?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1495594059084-33752639b9c3?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+];
+
+// Get the container elements
+const backgroundContainer = document.getElementById('backgroundContainer');
+const shapeOverlay = document.getElementById('shapeOverlay');
+
+// Create a canvas element
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+shapeOverlay.appendChild(canvas);
+
+// Set initial canvas size
+updateCanvasSize();
+
+// Variables for static shapes
+let staticShapes = [];
+
+// Variables for rotating shape
+let rotatingShape = {
+    size: Math.random() * 396 + 196, // Random initial size
+    angle: 0,
+    startTime: 0,
+    type: Math.floor(Math.random() * 7), // Randomly select initial shape type
+    rotationDirection: Math.random() < 0.5 ? 1 : -1, // Randomly choose rotation direction
+    color: getRandomColor(), // Set a fixed color when the shape is created
+    offset: Math.random() * 50 + 50 // Random offset for spinning
+};
+
+// Function to generate a random color
+function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgba(${r}, ${g}, ${b}, 0.5)`;
+}
+
+// Function to create random static shapes
+function createStaticShapes() {
+    staticShapes = []; // Clear previous shapes
+    const shapeCount = 7; // Number of random shapes
+
+    for (let i = 0; i < shapeCount; i++) {
+        const shapeType = Math.floor(Math.random() * 7); // Randomly choose a shape type (0-6)
+        
+        // Adjust size scaling based on canvas size
+        const size = Math.random() * (canvas.width * 0.3) + (canvas.width * 0.05); // Size as a percentage of canvas width
+        
+        // Randomly position the shapes across the entire canvas, considering shape size
+        const x = Math.random() * (canvas.width - size); 
+        const y = Math.random() * (canvas.height - size); 
+
+        const shape = {
+            type: shapeType,
+            x: x,
+            y: y,
+            size: size,
+            color: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.25)`,
+        };
+
+        staticShapes.push(shape);
+    }
+}
+
+// Function to draw static shapes
+function drawStaticShapes() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+    for (const shape of staticShapes) {
+        ctx.fillStyle = shape.color;
+        ctx.beginPath();
+
+        switch (shape.type) {
+            case 0: // Circle
+                ctx.arc(shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 0, Math.PI * 2);
+                break;
+            case 1: // Rectangle
+                ctx.rect(shape.x, shape.y, shape.size, shape.size);
+                break;
+            case 2: // Triangle
+                ctx.moveTo(shape.x + shape.size / 2, shape.y);
+                ctx.lineTo(shape.x + shape.size, shape.y + shape.size);
+                ctx.lineTo(shape.x, shape.y + shape.size);
+                ctx.closePath();
+                break;
+            case 3: // Pentagon
+                drawPolygon(ctx, shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 5);
+                break;
+            case 4: // Hexagon
+                drawPolygon(ctx, shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 6);
+                break;
+            case 5: // Ellipse
+                ctx.ellipse(shape.x + shape.size / 2, shape.y + shape.size / 4, shape.size / 2, shape.size / 4, 0, 0, Math.PI * 2);
+                break;
+            case 6: // Rhombus
+                ctx.moveTo(shape.x + shape.size / 2, shape.y);
+                ctx.lineTo(shape.x + shape.size, shape.y + shape.size / 2);
+                ctx.lineTo(shape.x, shape.y + shape.size);
+                ctx.lineTo(shape.x, shape.y + shape.size / 2);
+                ctx.closePath();
+                break;
+        }
+
+        ctx.fill(); // Fill the shape
+    }
+}
+
+// Function to draw a polygon
+function drawPolygon(ctx, x, y, size, sides) {
+    const angle = (Math.PI * 2) / sides;
+    ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+    for (let i = 1; i < sides; i++) {
+        ctx.lineTo(x + size * Math.cos(i * angle), y + size * Math.sin(i * angle));
+    }
+    ctx.closePath();
+}
+
+// Function to animate a rotating shape
+function animateRotatingShape() {
+    const currentTime = performance.now();
+    const elapsedTime = currentTime - rotatingShape.startTime;
+
+    // Update the angle based on the elapsed time
+    rotatingShape.angle = (elapsedTime / 30000) * Math.PI * 2 * rotatingShape.rotationDirection; // Full rotation in 30 seconds
+
+    // Clear previous frame and redraw static shapes
+    drawStaticShapes();
+
+    // Draw the rotating shape based on its type
+    ctx.save();
+    ctx.translate(rotatingShape.x + rotatingShape.size / 2 + rotatingShape.offset * Math.cos(rotatingShape.angle), 
+                 rotatingShape.y + rotatingShape.size / 2 + rotatingShape.offset * Math.sin(rotatingShape.angle)); // Offset rotation
+    ctx.rotate(rotatingShape.angle); // Rotate according to the set direction
+    ctx.fillStyle = rotatingShape.color; // Use fixed color
+
+    // Draw the rotating shape based on its type
+    switch (rotatingShape.type) {
+        case 0: // Circle
+            ctx.beginPath();
+            ctx.arc(0, 0, rotatingShape.size / 2, 0, Math.PI * 2);
+            break;
+        case 1: // Rectangle
+            ctx.fillRect(-rotatingShape.size / 2, -rotatingShape.size / 2, rotatingShape.size, rotatingShape.size);
+            break;
+        case 2: // Triangle
+            ctx.beginPath();
+            ctx.moveTo(0, -rotatingShape.size / 2);
+            ctx.lineTo(rotatingShape.size / 2, rotatingShape.size / 2);
+            ctx.lineTo(-rotatingShape.size / 2, rotatingShape.size / 2);
+            ctx.closePath();
+            break;
+        case 3: // Pentagon
+            drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 5);
+            break;
+        case 4: // Hexagon
+            drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 6);
+            break;
+        case 5: // Ellipse
+            ctx.ellipse(0, 0, rotatingShape.size / 2, rotatingShape.size / 4, 0, 0, Math.PI * 2);
+            break;
+        case 6: // Rhombus
+            ctx.beginPath();
+            ctx.moveTo(0, -rotatingShape.size / 2);
+            ctx.lineTo(rotatingShape.size / 2, 0);
+            ctx.lineTo(0, rotatingShape.size / 2);
+            ctx.lineTo(-rotatingShape.size / 2, 0);
+            ctx.closePath();
+            break;
+    }
+
+    ctx.fill(); // Fill the shape
+    ctx.restore();
+
+    requestAnimationFrame(animateRotatingShape); // Continue animation
+}
+
+// Function to change the background image and shapes
+function changeBackgroundImageAndShapes() {
+    // Get the current day of the month
+    const currentDay = new Date().getDate();
+    const imageIndex = currentDay % animalImages.length;
+
+    // Set the background image
+    backgroundContainer.style.backgroundImage = `url(${animalImages[imageIndex]})`;
+
+    // Create static shapes for the new background
+    createStaticShapes();
+}
+
+// Function to update the canvas size
+function updateCanvasSize() {
+    const containerRect = shapeOverlay.getBoundingClientRect();
+    canvas.width = containerRect.width;
+    canvas.height = containerRect.height;
+}
+
+// Initialize the canvas and shapes
+updateCanvasSize();
+changeBackgroundImageAndShapes();
+animateRotatingShape();
+
+// Resize listener
+window.addEventListener('resize', () => {
+    updateCanvasSize();
+    createStaticShapes(); // Create new static shapes on resize
+});
