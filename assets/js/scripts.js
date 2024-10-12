@@ -353,6 +353,3 @@ setInterval(changeBackgroundAndShape, 5000);
 
 // Update canvas size on window resize
 window.addEventListener('resize', updateCanvasSize);
-
-});
-
