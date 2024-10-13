@@ -186,6 +186,21 @@ nav ul li a:hover {
 
 
 
+.month-overlay {
+  position: absolute;
+  top: 100px;
+  right: 77px; /* Distance from the right */
+  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+  padding: 10px; /* Padding around the text */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 24px; /* Font size */
+  font-weight: bold; /* Bold text */
+  z-index: 10; /* Ensures it appears above other elements */
+}
+
+
+
+
 
 
 
