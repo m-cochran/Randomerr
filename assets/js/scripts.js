@@ -155,7 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     shapeOverlay.appendChild(canvas);
 
-    // Set initial canvas size
+    // Function to resize canvas based on the background container size
+    function updateCanvasSize() {
+        canvas.width = shapeOverlay.clientWidth; // Set canvas width to overlay width
+        canvas.height = shapeOverlay.clientHeight; // Set canvas height to overlay height
+    }
+
+    // Call updateCanvasSize immediately after defining it
     updateCanvasSize();
 
     // Initialize the current background index
@@ -339,12 +345,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentBackgroundIndex = (currentBackgroundIndex + 1) % animalImages.length; // Loop through images
     }
 
-    // Resize canvas based on the background container size
-    function updateCanvasSize() {
-        canvas.width = shapeOverlay.clientWidth; // Set canvas width to overlay width
-        canvas.height = shapeOverlay.clientHeight; // Set canvas height to overlay height
-    }
-
     // Change background and start animations
     changeBackgroundAndShape();
     animateRotatingShape();
@@ -355,7 +355,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Resize the canvas when the window is resized
     window.addEventListener('resize', updateCanvasSize);
 });
-
-
-// Update canvas size on window resize
-window.addEventListener('resize', updateCanvasSize);
