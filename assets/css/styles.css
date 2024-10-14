@@ -176,8 +176,6 @@ nav ul li a:hover {
     top: 50%;
     left: 50%;
     width: 100%;
-    max-width: 1100px;
-    min-width: 200px;
     height: 112px;
     opacity: 1; /* Ensure it's fully visible initially */
     transition: opacity 5s ease; /* Add a transition effect for opacity */
@@ -195,7 +193,7 @@ nav ul li a:hover {
   background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
   padding: 10px; /* Padding around the text */
   border-radius: 5px; /* Rounded corners */
-  font-size: 24px; /* Font size */
+  font-size: 20px; /* Font size */
   font-weight: bold; /* Bold text */
   z-index: 3; /* Ensures it appears above other elements */
 }
