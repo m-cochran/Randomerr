@@ -200,8 +200,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // October
     "37week.img",
-    "38week.img",
-    "39week.img",
+    "https://images.pexels.com/photos/619417/pexels-photo-619417.jpeg",
+    "https://images.pexels.com/photos/3095465/pexels-photo-3095465.png",
     "40week.img",
 
     // November
