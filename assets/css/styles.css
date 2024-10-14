@@ -188,10 +188,10 @@ nav ul li a:hover {
 
 .month-overlay {
   position: absolute;
-  top: 100px;
-  right: 70px; /* Distance from the right */
+  top: 131px;
+  right: 40px; /* Distance from the right */
   background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  padding: 10px; /* Padding around the text */
+  padding: 5px; /* Padding around the text */
   border-radius: 5px; /* Rounded corners */
   font-size: 20px; /* Font size */
   font-weight: bold; /* Bold text */
