@@ -141,7 +141,7 @@ function initAutoNav() {
 document.addEventListener("DOMContentLoaded", () => {
   const backgroundContainer = document.getElementById("backgroundContainer");
   const shapeOverlay = document.getElementById("shapeOverlay");
-  const monthdayOverlay = document.getElementById("monthOverlay"); // New line for the month overlay
+  const monthOverlay = document.getElementById("monthOverlay");
 
   const animalImages = [
     // January
@@ -217,31 +217,21 @@ document.addEventListener("DOMContentLoaded", () => {
     "48week.img"
   ];
 
-  // Function to get the current month and week
   function getCurrentMonthAndWeek() {
     const date = new Date();
-    const month = date.getMonth(); // 0-11
-    const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate(); // Get total days in the month
-    const currentDate = date.getDate(); // Get current date (1-31)
-
-    // Calculate week number considering variable days in the month
-    const week = Math.floor((currentDate - 1) / Math.ceil(daysInMonth / 4)); // 0-3
-
+    const month = date.getMonth();
+    const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
+    const currentDate = date.getDate();
+    const week = Math.floor((currentDate - 1) / Math.ceil(daysInMonth / 4));
     return { month, week };
   }
 
-  // Function to change the background image based on the current month and week
   function changeBackgroundImage() {
     const { month, week } = getCurrentMonthAndWeek();
-
-    // Calculate the index of the current image based on the month and week
-    const imageIndex = month * 4 + week; // Each month has 4 images
+    const imageIndex = month * 4 + week;
     const currentBackgroundImage = animalImages[imageIndex];
-
-    // Set the background image
     backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
 
-    // Update the month overlay with the current month name
     const monthNames = [
       "January",
       "February",
@@ -256,46 +246,37 @@ document.addEventListener("DOMContentLoaded", () => {
       "November",
       "December"
     ];
-    monthOverlay.textContent = monthNames[month]; // Set the overlay text to the current month
+    monthOverlay.textContent = monthNames[month];
   }
 
-  // Change the background image when the page loads
   changeBackgroundImage();
-
-  // Set an interval to change the background image weekly
   setInterval(() => {
     changeBackgroundImage();
-  }, 1000 * 60 * 60 * 24 * 7); // Change every week (every 7 days)
+  }, 1000 * 60 * 60 * 24 * 7);
 
-  // Create a canvas element
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   shapeOverlay.appendChild(canvas);
 
-  // Function to resize canvas based on the background container size
   function updateCanvasSize() {
-    canvas.width = shapeOverlay.clientWidth; // Set canvas width to overlay width
-    canvas.height = shapeOverlay.clientHeight; // Set canvas height to overlay height
+    canvas.width = shapeOverlay.clientWidth;
+    canvas.height = shapeOverlay.clientHeight;
   }
 
-  // Call updateCanvasSize immediately after defining it
-  updateCanvasSize();
-
-  // Variables for static shapes
   let staticShapes = [];
-
-  // Variables for rotating shape
   let rotatingShape = {
-    size: Math.random() * 396 + 196, // Random initial size
+    size: Math.random() * 212 + 62,
     angle: 0,
-    startTime: 0,
-    type: Math.floor(Math.random() * 7), // Randomly select initial shape type
-    rotationDirection: Math.random() < 0.5 ? 1 : -1, // Randomly choose rotation direction: 1 for clockwise, -1 for counterclockwise
-    color: getRandomColor(), // Set a fixed color when the shape is created
-    offset: Math.random() * 50 + 50 // Random offset for spinning
+    position: { x: 0, y: 0 },
+    wobbleOffset: {
+      x: Math.random() * 50 - 25.6165165,
+      y: Math.random() * 53.1357915 - 25
+    }, // Offset for wobble effect
+    rotationDirection: Math.random() < 0.5 ? 1 : -1, // Random initial direction
+    color: getRandomColor(),
+    type: Math.floor(Math.random() * 7) // Random shape type for initial shape
   };
 
-  // Function to generate a random color
   function getRandomColor() {
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);
@@ -303,18 +284,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return `rgba(${r}, ${g}, ${b}, 0.5)`;
   }
 
-  // Function to create random static shapes
   function createStaticShapes() {
-    staticShapes = []; // Clear previous shapes
-    const shapeCount = 7; // Number of random shapes
+    staticShapes = [];
+    const shapeCount = 10;
 
     for (let i = 0; i < shapeCount; i++) {
-      const shapeType = Math.floor(Math.random() * 7); // Randomly choose a shape type (0-6)
-
-      // Adjust size scaling based on canvas size
-      const size = Math.random() * (canvas.width * 0.5) + canvas.width * 0.05; // Size as a percentage of canvas width
-
-      // Randomly position the shapes across the entire canvas, considering shape size
+      const shapeType = Math.floor(Math.random() * 7);
+      const size = Math.random() * (canvas.width * 0.15) + 50;
       const x = Math.random() * (canvas.width - size);
       const y = Math.random() * (canvas.height - size);
 
@@ -330,11 +306,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       staticShapes.push(shape);
     }
+
+    // Position the rotating shape randomly
+    rotatingShape.position.x =
+      Math.random() * (canvas.width - rotatingShape.size);
+    rotatingShape.position.y =
+      Math.random() * (canvas.height - rotatingShape.size);
   }
 
-  // Function to draw static shapes
   function drawStaticShapes() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous frame
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const shape of staticShapes) {
       ctx.fillStyle = shape.color;
       ctx.beginPath();
@@ -396,56 +377,51 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
       }
 
-      ctx.fill(); // Fill the shape
+      ctx.fill();
     }
   }
 
-  // Function to draw a polygon
   function drawPolygon(ctx, x, y, size, sides) {
     const angle = (Math.PI * 2) / sides;
     ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
-    for (let i = 1; i < sides; i++) {
+    for (let i = 1; i <= sides; i++) {
       ctx.lineTo(
         x + size * Math.cos(i * angle),
         y + size * Math.sin(i * angle)
       );
     }
-    ctx.closePath();
   }
 
-  // Function to animate a rotating shape
   function animateRotatingShape() {
-    const currentTime = performance.now();
-    const elapsedTime = currentTime - rotatingShape.startTime;
-
-    // Update the angle based on the elapsed time
-    rotatingShape.angle =
-      (elapsedTime / 30000) * Math.PI * 2 * rotatingShape.rotationDirection; // Full rotation in 30 seconds
-
-    // Clear previous frame and redraw static shapes
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawStaticShapes();
 
-    // Draw the rotating shape based on its type
+    // Rotate and draw the rotating shape
+    rotatingShape.angle += 0.005 * rotatingShape.rotationDirection;
     ctx.save();
-    ctx.translate(
-      rotatingShape.x +
-        rotatingShape.size / 2 +
-        rotatingShape.offset * Math.cos(rotatingShape.angle),
-      rotatingShape.y +
-        rotatingShape.size / 2 +
-        rotatingShape.offset * Math.sin(rotatingShape.angle)
-    ); // Offset rotation
-    ctx.rotate(rotatingShape.angle); // Rotate according to the set direction
-    ctx.fillStyle = rotatingShape.color; // Use fixed color
 
-    // Draw the rotating shape based on its type
+    // Apply the wobble offset to the position
+    const wobbleX =
+      rotatingShape.wobbleOffset.x * Math.sin(rotatingShape.angle);
+    const wobbleY =
+      rotatingShape.wobbleOffset.y * Math.cos(rotatingShape.angle);
+
+    // Set the position of the shape
+    ctx.translate(
+      rotatingShape.position.x + rotatingShape.size / 2 + wobbleX,
+      rotatingShape.position.y + rotatingShape.size / 2 + wobbleY
+    );
+    ctx.rotate(rotatingShape.angle);
+
+    ctx.fillStyle = rotatingShape.color;
+    ctx.beginPath();
+
     switch (rotatingShape.type) {
       case 0: // Circle
-        ctx.beginPath();
         ctx.arc(0, 0, rotatingShape.size / 2, 0, Math.PI * 2);
         break;
-      case 1: // Rectangle
-        ctx.fillRect(
+      case 1: // Square
+        ctx.rect(
           -rotatingShape.size / 2,
           -rotatingShape.size / 2,
           rotatingShape.size,
@@ -453,7 +429,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         break;
       case 2: // Triangle
-        ctx.beginPath();
         ctx.moveTo(0, -rotatingShape.size / 2);
         ctx.lineTo(rotatingShape.size / 2, rotatingShape.size / 2);
         ctx.lineTo(-rotatingShape.size / 2, rotatingShape.size / 2);
@@ -477,7 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         break;
       case 6: // Rhombus
-        ctx.beginPath();
         ctx.moveTo(0, -rotatingShape.size / 2);
         ctx.lineTo(rotatingShape.size / 2, 0);
         ctx.lineTo(0, rotatingShape.size / 2);
@@ -486,30 +460,44 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
     }
 
-    ctx.fill(); // Fill the shape
+    ctx.fill();
     ctx.restore();
-
-    requestAnimationFrame(animateRotatingShape); // Continue animation
   }
 
-  // Function to change the background image and rotating shape
-  function changeShape() {
-    // Reset rotating shape properties
-    createStaticShapes();
-    rotatingShape.x = Math.random() * (canvas.width - rotatingShape.size); // Random position
-    rotatingShape.y = Math.random() * (canvas.height - rotatingShape.size); // Random position
-    rotatingShape.size = Math.random() * 396 + 196; // Random size
-    rotatingShape.color = getRandomColor(); // Set a new fixed color
-    rotatingShape.startTime = performance.now(); // Reset the start time
-    rotatingShape.type = Math.floor(Math.random() * 7); // Randomly select shape type
-    rotatingShape.rotationDirection = Math.random() < 0.5 ? 1 : -1; // Randomly choose rotation direction
+  function updateRotatingShape() {
+    // Fade out effect
+    shapeOverlay.style.opacity = 0;
+
+    setTimeout(() => {
+      rotatingShape.size = Math.random() * 512 + 62;
+      rotatingShape.color = getRandomColor();
+      rotatingShape.type = Math.floor(Math.random() * 7); // Random shape type
+      rotatingShape.wobbleOffset.x = Math.random() * 50 - 25; // Random wobble offsets
+      rotatingShape.wobbleOffset.y = Math.random() * 50 - 25;
+
+      // Randomly change spin direction
+      rotatingShape.rotationDirection = Math.random() < 0.5 ? 1 : -1; // Change spin direction
+
+      createStaticShapes();
+
+      // Fade in effect
+      shapeOverlay.style.opacity = 1;
+    }, 5000); // Match this duration with your CSS transition duration
   }
 
-  // Change background and start animations
-  changeShape();
-  animateRotatingShape();
+  function animate() {
+    requestAnimationFrame(animate);
+    animateRotatingShape();
+  }
 
-  // Resize the canvas when the window is resized
+  createStaticShapes();
+  animate();
+
+  // Update shapes every 30 seconds
+  setInterval(() => {
+    updateRotatingShape();
+  }, 1000 * 30);
+
   window.addEventListener("resize", updateCanvasSize);
+  updateCanvasSize();
 });
-
