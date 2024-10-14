@@ -200,7 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // October
     "37week.img",
-    "https://images.pexels.com/photos/619417/pexels-photo-619417.jpeg",
+    "<a href="{{ site.baseurl }}/">
+    <img src="{{ site.baseurl }}/assets/images/header-backgrounds/halloween-week38.webp" alt="{{ site.title }} halloween-week38">
+  </a>",
     "https://images.pexels.com/photos/3095465/pexels-photo-3095465.png",
     "40week.img",
 
