@@ -233,26 +233,14 @@ document.addEventListener("DOMContentLoaded", () => {
     backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
 
     const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      "January", "February", "March", "April", "May", "June", 
+      "July", "August", "September", "October", "November", "December"
     ];
     monthOverlay.textContent = monthNames[month];
   }
 
   changeBackgroundImage();
-  setInterval(() => {
-    changeBackgroundImage();
-  }, 1000 * 60 * 60 * 24 * 7);
+  setInterval(changeBackgroundImage, 1000 * 60 * 60 * 24 * 7); // Update weekly
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -261,6 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateCanvasSize() {
     canvas.width = shapeOverlay.clientWidth;
     canvas.height = shapeOverlay.clientHeight;
+    createStaticShapes(); // Redraw static shapes on resize
+    animateRotatingShape(); // Update rotating shape
   }
 
   let staticShapes = [];
@@ -268,20 +258,14 @@ document.addEventListener("DOMContentLoaded", () => {
     size: Math.random() * 212 + 62,
     angle: 0,
     position: { x: 0, y: 0 },
-    wobbleOffset: {
-      x: Math.random() * 50 - 25.6165165,
-      y: Math.random() * 53.1357915 - 25
-    }, // Offset for wobble effect
-    rotationDirection: Math.random() < 0.5 ? 1 : -1, // Random initial direction
+    wobbleOffset: { x: Math.random() * 50 - 25, y: Math.random() * 50 - 25 },
+    rotationDirection: Math.random() < 0.5 ? 1 : -1,
     color: getRandomColor(),
-    type: Math.floor(Math.random() * 7) // Random shape type for initial shape
+    type: Math.floor(Math.random() * 7)
   };
 
   function getRandomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r}, ${g}, ${b}, 0.5)`;
+    return `rgba(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256}, 0.5)`;
   }
 
   function createStaticShapes() {
@@ -294,81 +278,37 @@ document.addEventListener("DOMContentLoaded", () => {
       const x = Math.random() * (canvas.width - size);
       const y = Math.random() * (canvas.height - size);
 
-      const shape = {
+      staticShapes.push({
         type: shapeType,
         x: x,
         y: y,
         size: size,
-        color: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-          Math.random() * 255
-        }, 0.25)`
-      };
-
-      staticShapes.push(shape);
+        color: getRandomColor()
+      });
     }
 
-    // Position the rotating shape randomly
-    rotatingShape.position.x =
-      Math.random() * (canvas.width - rotatingShape.size);
-    rotatingShape.position.y =
-      Math.random() * (canvas.height - rotatingShape.size);
+    rotatingShape.position.x = Math.random() * (canvas.width - rotatingShape.size);
+    rotatingShape.position.y = Math.random() * (canvas.height - rotatingShape.size);
   }
 
   function drawStaticShapes() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const shape of staticShapes) {
+    staticShapes.forEach(shape => {
       ctx.fillStyle = shape.color;
       ctx.beginPath();
-
       switch (shape.type) {
-        case 0: // Circle
-          ctx.arc(
-            shape.x + shape.size / 2,
-            shape.y + shape.size / 2,
-            shape.size / 2,
-            0,
-            Math.PI * 2
-          );
-          break;
-        case 1: // Rectangle
-          ctx.rect(shape.x, shape.y, shape.size, shape.size);
-          break;
-        case 2: // Triangle
+        case 0: ctx.arc(shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 0, Math.PI * 2); break;
+        case 1: ctx.rect(shape.x, shape.y, shape.size, shape.size); break;
+        case 2: 
           ctx.moveTo(shape.x + shape.size / 2, shape.y);
           ctx.lineTo(shape.x + shape.size, shape.y + shape.size);
           ctx.lineTo(shape.x, shape.y + shape.size);
           ctx.closePath();
           break;
-        case 3: // Pentagon
-          drawPolygon(
-            ctx,
-            shape.x + shape.size / 2,
-            shape.y + shape.size / 2,
-            shape.size / 2,
-            5
-          );
-          break;
-        case 4: // Hexagon
-          drawPolygon(
-            ctx,
-            shape.x + shape.size / 2,
-            shape.y + shape.size / 2,
-            shape.size / 2,
-            6
-          );
-          break;
-        case 5: // Ellipse
-          ctx.ellipse(
-            shape.x + shape.size / 2,
-            shape.y + shape.size / 4,
-            shape.size / 2,
-            shape.size / 4,
-            0,
-            0,
-            Math.PI * 2
-          );
-          break;
-        case 6: // Rhombus
+        case 3: drawPolygon(ctx, shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 5); break;
+        case 4: drawPolygon(ctx, shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 6); break;
+        case 5: ctx.ellipse(shape.x + shape.size / 2, shape.y + shape.size / 4, shape.size / 2, shape.size / 4, 0, 0, Math.PI * 2); break;
+        case 6: 
           ctx.moveTo(shape.x + shape.size / 2, shape.y);
           ctx.lineTo(shape.x + shape.size, shape.y + shape.size / 2);
           ctx.lineTo(shape.x, shape.y + shape.size);
@@ -376,19 +316,15 @@ document.addEventListener("DOMContentLoaded", () => {
           ctx.closePath();
           break;
       }
-
       ctx.fill();
-    }
+    });
   }
 
   function drawPolygon(ctx, x, y, size, sides) {
     const angle = (Math.PI * 2) / sides;
     ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
     for (let i = 1; i <= sides; i++) {
-      ctx.lineTo(
-        x + size * Math.cos(i * angle),
-        y + size * Math.sin(i * angle)
-      );
+      ctx.lineTo(x + size * Math.cos(i * angle), y + size * Math.sin(i * angle));
     }
   }
 
@@ -396,17 +332,12 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawStaticShapes();
 
-    // Rotate and draw the rotating shape
     rotatingShape.angle += 0.005 * rotatingShape.rotationDirection;
     ctx.save();
 
-    // Apply the wobble offset to the position
-    const wobbleX =
-      rotatingShape.wobbleOffset.x * Math.sin(rotatingShape.angle);
-    const wobbleY =
-      rotatingShape.wobbleOffset.y * Math.cos(rotatingShape.angle);
+    const wobbleX = rotatingShape.wobbleOffset.x * Math.sin(rotatingShape.angle);
+    const wobbleY = rotatingShape.wobbleOffset.y * Math.cos(rotatingShape.angle);
 
-    // Set the position of the shape
     ctx.translate(
       rotatingShape.position.x + rotatingShape.size / 2 + wobbleX,
       rotatingShape.position.y + rotatingShape.size / 2 + wobbleY
@@ -415,43 +346,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.fillStyle = rotatingShape.color;
     ctx.beginPath();
-
     switch (rotatingShape.type) {
-      case 0: // Circle
-        ctx.arc(0, 0, rotatingShape.size / 2, 0, Math.PI * 2);
-        break;
-      case 1: // Square
-        ctx.rect(
-          -rotatingShape.size / 2,
-          -rotatingShape.size / 2,
-          rotatingShape.size,
-          rotatingShape.size
-        );
-        break;
-      case 2: // Triangle
+      case 0: ctx.arc(0, 0, rotatingShape.size / 2, 0, Math.PI * 2); break;
+      case 1: ctx.rect(-rotatingShape.size / 2, -rotatingShape.size / 2, rotatingShape.size, rotatingShape.size); break;
+      case 2: 
         ctx.moveTo(0, -rotatingShape.size / 2);
         ctx.lineTo(rotatingShape.size / 2, rotatingShape.size / 2);
         ctx.lineTo(-rotatingShape.size / 2, rotatingShape.size / 2);
         ctx.closePath();
         break;
-      case 3: // Pentagon
-        drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 5);
-        break;
-      case 4: // Hexagon
-        drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 6);
-        break;
-      case 5: // Ellipse
-        ctx.ellipse(
-          0,
-          0,
-          rotatingShape.size / 2,
-          rotatingShape.size / 4,
-          0,
-          0,
-          Math.PI * 2
-        );
-        break;
-      case 6: // Rhombus
+      case 3: drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 5); break;
+      case 4: drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 6); break;
+      case 5: ctx.ellipse(0, 0, rotatingShape.size / 2, rotatingShape.size / 4, 0, 0, Math.PI * 2); break;
+      case 6: 
         ctx.moveTo(0, -rotatingShape.size / 2);
         ctx.lineTo(rotatingShape.size / 2, 0);
         ctx.lineTo(0, rotatingShape.size / 2);
@@ -459,30 +366,22 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.closePath();
         break;
     }
-
     ctx.fill();
     ctx.restore();
   }
 
   function updateRotatingShape() {
-    // Fade out effect
     shapeOverlay.style.opacity = 0;
-
     setTimeout(() => {
       rotatingShape.size = Math.random() * 512 + 62;
       rotatingShape.color = getRandomColor();
-      rotatingShape.type = Math.floor(Math.random() * 7); // Random shape type
-      rotatingShape.wobbleOffset.x = Math.random() * 50 - 25; // Random wobble offsets
+      rotatingShape.type = Math.floor(Math.random() * 7);
+      rotatingShape.wobbleOffset.x = Math.random() * 50 - 25;
       rotatingShape.wobbleOffset.y = Math.random() * 50 - 25;
-
-      // Randomly change spin direction
-      rotatingShape.rotationDirection = Math.random() < 0.5 ? 1 : -1; // Change spin direction
-
+      rotatingShape.rotationDirection = Math.random() < 0.5 ? 1 : -1;
       createStaticShapes();
-
-      // Fade in effect
       shapeOverlay.style.opacity = 1;
-    }, 5000); // Match this duration with your CSS transition duration
+    }, 5000);
   }
 
   function animate() {
@@ -493,11 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
   createStaticShapes();
   animate();
 
-  // Update shapes every 30 seconds
-  setInterval(() => {
-    updateRotatingShape();
-  }, 1000 * 30);
-
+  setInterval(updateRotatingShape, 1000 * 30);
   window.addEventListener("resize", updateCanvasSize);
   updateCanvasSize();
 });
