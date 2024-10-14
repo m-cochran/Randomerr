@@ -179,8 +179,10 @@ nav ul li a:hover {
     max-width: 1100px;
     min-width: 200px;
     height: 112px;
+    opacity: 1; /* Ensure it's fully visible initially */
+    transition: opacity 5s ease; /* Add a transition effect for opacity */
     transform: translate(-50%, -50%); /* Centering the overlay */;
-    z-index: 1; /* Ensure shapes are on top */
+    z-index: 2; /* Ensure shapes are on top */
 }
 
 
@@ -189,13 +191,13 @@ nav ul li a:hover {
 .month-overlay {
   position: absolute;
   top: 100px;
-  right: 77px; /* Distance from the right */
+  right: 70px; /* Distance from the right */
   background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
   padding: 10px; /* Padding around the text */
   border-radius: 5px; /* Rounded corners */
   font-size: 24px; /* Font size */
   font-weight: bold; /* Bold text */
-  z-index: 10; /* Ensures it appears above other elements */
+  z-index: 3; /* Ensures it appears above other elements */
 }
 
 
