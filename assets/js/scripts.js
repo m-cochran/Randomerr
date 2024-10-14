@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // October
     "37week.img",
-    "<img src='https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/halloween-week38.webp' alt='halloween-week38'>",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/halloween-week38.webp",
     "https://images.pexels.com/photos/3095465/pexels-photo-3095465.png",
     "40week.img",
 
