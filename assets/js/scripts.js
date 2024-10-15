@@ -217,182 +217,346 @@ document.addEventListener("DOMContentLoaded", () => {
     "48week.img"
   ];
 
-  function getCurrentMonthAndWeek() {
-    const date = new Date();
-    const month = date.getMonth();
-    const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate();
-    const currentDate = date.getDate();
-    const week = Math.floor((currentDate - 1) / Math.ceil(daysInMonth / 4));
-    return { month, week };
+  let sampledColors = []
+
+  function loadImageAndSampleColors(imageSrc) {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.crossOrigin = "Anonymous" // Handle cross-origin if needed
+      img.src = imageSrc
+      img.onload = () => {
+        const canvas = document.createElement("canvas")
+        const ctx = canvas.getContext("2d")
+        canvas.width = img.width
+        canvas.height = img.height
+        ctx.drawImage(img, 0, 0)
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+        const data = imageData.data
+
+        sampledColors = []
+
+        const samplesCount = 50 // Number of colors to sample
+        for (let i = 0; i < samplesCount; i++) {
+          const randomIndex = Math.floor(Math.random() * (data.length / 4))
+          const r = data[randomIndex * 4]
+          const g = data[randomIndex * 4 + 1]
+          const b = data[randomIndex * 4 + 2]
+          const color = `rgba(${r}, ${g}, ${b}, 0.6)` // Create color string with alpha
+          sampledColors.push(color)
+        }
+
+        backgroundContainer.style.backgroundImage = `url(${imageSrc})`
+        resolve()
+      }
+    })
   }
 
-  function changeBackgroundImage() {
-    const { month, week } = getCurrentMonthAndWeek();
-    const imageIndex = month * 4 + week;
+  function getCurrentMonthAndWeek() {
+    const date = new Date()
+    const month = date.getMonth()
+    const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate()
+    const currentDate = date.getDate()
+    const week = Math.floor((currentDate - 1) / Math.ceil(daysInMonth / 4))
+    return { month, week }
+  }
+
+  async function changeBackgroundImage() {
+  // Get current month and week
+  const { month, week } = getCurrentMonthAndWeek();
+  
+  // Calculate image index
+  const imageIndex = month * 4 + week;
+
+  // Ensure the index is within bounds of the animalImages array
+  if (imageIndex >= 0 && imageIndex < animalImages.length) {
     const currentBackgroundImage = animalImages[imageIndex];
+    
+    // Set the background image
     backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
 
+    // Set month overlay
     const monthNames = [
       "January", "February", "March", "April", "May", "June", 
       "July", "August", "September", "October", "November", "December"
     ];
-    monthOverlay.textContent = monthNames[month];
+    if (month >= 0 && month < monthNames.length) {
+      monthOverlay.textContent = monthNames[month];
+    } else {
+      console.warn("Invalid month value:", month);
+    }
+
+    // Await image load and color sampling
+    try {
+      await loadImageAndSampleColors(currentBackgroundImage);
+      // After colors are sampled, create new shapes with updated colors
+      createShapes();
+    } catch (error) {
+      console.error("Error loading image or sampling colors:", error);
+    }
+  } else {
+    console.warn("Image index out of bounds:", imageIndex);
   }
+}
 
-  changeBackgroundImage();
-  setInterval(changeBackgroundImage, 1000 * 60 * 60 * 24 * 7); // Update weekly
 
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  shapeOverlay.appendChild(canvas);
+  changeBackgroundImage()
+  setInterval(changeBackgroundImage, 1000 * 60 * 60 * 24 * 7) // Change weekly
+
+  const canvas = document.createElement("canvas")
+  const ctx = canvas.getContext("2d")
+  shapeOverlay.appendChild(canvas)
 
   function updateCanvasSize() {
-    canvas.width = shapeOverlay.clientWidth;
-    canvas.height = shapeOverlay.clientHeight;
-    createStaticShapes(); // Redraw static shapes on resize
-    animateRotatingShape(); // Update rotating shape
+    canvas.width = shapeOverlay.clientWidth
+    canvas.height = shapeOverlay.clientHeight
   }
 
-  let staticShapes = [];
-  let rotatingShape = {
-    size: Math.random() * 212 + 62,
-    angle: 0,
-    position: { x: 0, y: 0 },
-    wobbleOffset: { x: Math.random() * 50 - 25, y: Math.random() * 50 - 25 },
-    rotationDirection: Math.random() < 0.5 ? 1 : -1,
-    color: getRandomColor(),
-    type: Math.floor(Math.random() * 7)
-  };
+  let shapes = []
 
-  function getRandomColor() {
-    return `rgba(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256}, 0.5)`;
-  }
-
-  function createStaticShapes() {
-    staticShapes = [];
-    const shapeCount = 10;
+  function createShapes() {
+    shapes = []
+    const shapeCount = 15 + Math.floor(Math.random() * 6)
 
     for (let i = 0; i < shapeCount; i++) {
-      const shapeType = Math.floor(Math.random() * 7);
-      const size = Math.random() * (canvas.width * 0.15) + 50;
-      const x = Math.random() * (canvas.width - size);
-      const y = Math.random() * (canvas.height - size);
+      const size = Math.random() * 112 + 30
+      const x = Math.random() * (canvas.width - size)
+      const y = Math.random() * (canvas.height - size)
+      const vx = (Math.random() - 0.5) * 0.7
+      const vy = (Math.random() - 0.5) * 0.7
+      const oscillationSpeed = Math.random() * 0.001 + 0.01
+      const phase = Math.random() * Math.PI * 2
+      const rotationSpeed = (Math.random() - 0.5) * 0.05
 
-      staticShapes.push({
-        type: shapeType,
-        x: x,
-        y: y,
-        size: size,
-        color: getRandomColor()
-      });
-    }
+      const shapeType = Math.floor(Math.random() * 7)
+      const color =
+        sampledColors[Math.floor(Math.random() * sampledColors.length)]
 
-    rotatingShape.position.x = Math.random() * (canvas.width - rotatingShape.size);
-    rotatingShape.position.y = Math.random() * (canvas.height - rotatingShape.size);
-  }
-
-  function drawStaticShapes() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    staticShapes.forEach(shape => {
-      ctx.fillStyle = shape.color;
-      ctx.beginPath();
-      switch (shape.type) {
-        case 0: ctx.arc(shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 0, Math.PI * 2); break;
-        case 1: ctx.rect(shape.x, shape.y, shape.size, shape.size); break;
-        case 2: 
-          ctx.moveTo(shape.x + shape.size / 2, shape.y);
-          ctx.lineTo(shape.x + shape.size, shape.y + shape.size);
-          ctx.lineTo(shape.x, shape.y + shape.size);
-          ctx.closePath();
-          break;
-        case 3: drawPolygon(ctx, shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 5); break;
-        case 4: drawPolygon(ctx, shape.x + shape.size / 2, shape.y + shape.size / 2, shape.size / 2, 6); break;
-        case 5: ctx.ellipse(shape.x + shape.size / 2, shape.y + shape.size / 4, shape.size / 2, shape.size / 4, 0, 0, Math.PI * 2); break;
-        case 6: 
-          ctx.moveTo(shape.x + shape.size / 2, shape.y);
-          ctx.lineTo(shape.x + shape.size, shape.y + shape.size / 2);
-          ctx.lineTo(shape.x, shape.y + shape.size);
-          ctx.lineTo(shape.x, shape.y + shape.size / 2);
-          ctx.closePath();
-          break;
+      const shape = {
+        x,
+        y,
+        vx,
+        vy,
+        size,
+        color,
+        time: 0,
+        oscillationSpeed,
+        phase,
+        shapeType,
+        rotation: 0,
+        rotationSpeed,
       }
-      ctx.fill();
-    });
-  }
-
-  function drawPolygon(ctx, x, y, size, sides) {
-    const angle = (Math.PI * 2) / sides;
-    ctx.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
-    for (let i = 1; i <= sides; i++) {
-      ctx.lineTo(x + size * Math.cos(i * angle), y + size * Math.sin(i * angle));
+      shapes.push(shape)
     }
   }
 
-  function animateRotatingShape() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawStaticShapes();
+  // Function to draw shapes
+  function drawShapes() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    rotatingShape.angle += 0.005 * rotatingShape.rotationDirection;
-    ctx.save();
+    for (let shape of shapes) {
+      ctx.save() // Save the current state of the canvas
+      ctx.translate(shape.x + shape.size / 2, shape.y + shape.size / 2) // Center the shapes
+      ctx.rotate(shape.rotation) // Rotate the canvas
 
-    const wobbleX = rotatingShape.wobbleOffset.x * Math.sin(rotatingShape.angle);
-    const wobbleY = rotatingShape.wobbleOffset.y * Math.cos(rotatingShape.angle);
+      ctx.beginPath()
+      ctx.fillStyle = shape.color
 
-    ctx.translate(
-      rotatingShape.position.x + rotatingShape.size / 2 + wobbleX,
-      rotatingShape.position.y + rotatingShape.size / 2 + wobbleY
-    );
-    ctx.rotate(rotatingShape.angle);
+      const sizeOscillation =
+        Math.sin(shape.time + shape.phase) * (shape.size * 0.4)
+      const currentSize = shape.size / 2 + sizeOscillation
 
-    ctx.fillStyle = rotatingShape.color;
-    ctx.beginPath();
-    switch (rotatingShape.type) {
-      case 0: ctx.arc(0, 0, rotatingShape.size / 2, 0, Math.PI * 2); break;
-      case 1: ctx.rect(-rotatingShape.size / 2, -rotatingShape.size / 2, rotatingShape.size, rotatingShape.size); break;
-      case 2: 
-        ctx.moveTo(0, -rotatingShape.size / 2);
-        ctx.lineTo(rotatingShape.size / 2, rotatingShape.size / 2);
-        ctx.lineTo(-rotatingShape.size / 2, rotatingShape.size / 2);
-        ctx.closePath();
-        break;
-      case 3: drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 5); break;
-      case 4: drawPolygon(ctx, 0, 0, rotatingShape.size / 2, 6); break;
-      case 5: ctx.ellipse(0, 0, rotatingShape.size / 2, rotatingShape.size / 4, 0, 0, Math.PI * 2); break;
-      case 6: 
-        ctx.moveTo(0, -rotatingShape.size / 2);
-        ctx.lineTo(rotatingShape.size / 2, 0);
-        ctx.lineTo(0, rotatingShape.size / 2);
-        ctx.lineTo(-rotatingShape.size / 2, 0);
-        ctx.closePath();
-        break;
+      // Draw the shapes with rounded edges
+      switch (shape.shapeType) {
+        case 0: // Circle
+          ctx.arc(0, 0, currentSize, 0, Math.PI * 2)
+          break
+        case 1: // Rounded Square
+          const radius = currentSize * 0.2 // Rounded corner radius
+          ctx.moveTo(-currentSize + radius, -currentSize) // Top-left corner
+          ctx.lineTo(currentSize - radius, -currentSize) // Top-right corner
+          ctx.quadraticCurveTo(
+            currentSize,
+            -currentSize,
+            currentSize,
+            -currentSize + radius,
+          ) // Top-right curve
+          ctx.lineTo(currentSize, currentSize - radius) // Bottom-right corner
+          ctx.quadraticCurveTo(
+            currentSize,
+            currentSize,
+            currentSize - radius,
+            currentSize,
+          ) // Bottom-right curve
+          ctx.lineTo(-currentSize + radius, currentSize) // Bottom-left corner
+          ctx.quadraticCurveTo(
+            -currentSize,
+            currentSize,
+            -currentSize,
+            currentSize - radius,
+          ) // Bottom-left curve
+          ctx.lineTo(-currentSize, -currentSize + radius) // Top-left corner
+          ctx.quadraticCurveTo(
+            -currentSize,
+            -currentSize,
+            -currentSize + radius,
+            -currentSize,
+          ) // Top-left curve
+          break
+        case 2: // Rounded Triangle
+          const triangleRadius = currentSize * 0.055 // Adjustable rounded corner radius
+
+          // Start drawing the rounded triangle
+          ctx.beginPath()
+
+          // Top vertex
+          ctx.moveTo(0, -currentSize + triangleRadius)
+          ctx.arcTo(
+            -currentSize * 0.5,
+            currentSize * 0.5,
+            currentSize * 0.5,
+            currentSize * 0.5,
+            triangleRadius,
+          ) // Left curve
+          ctx.arcTo(
+            currentSize * 0.5,
+            currentSize * 0.5,
+            0,
+            -currentSize,
+            triangleRadius,
+          ) // Right curve
+          ctx.arcTo(
+            0,
+            -currentSize,
+            -currentSize * 0.3,
+            currentSize * 0.3,
+            triangleRadius,
+          ) // Top curve
+
+          ctx.closePath()
+          ctx.fill()
+          break
+
+        case 3: // Oval
+          ctx.ellipse(0, 0, currentSize, currentSize * 0.6, 0, 0, Math.PI * 2)
+          break
+        case 4: // Rounded Star
+          const spikes = 5
+          const outerRadius = currentSize
+          const innerRadius = currentSize / 2
+          const step = Math.PI / spikes
+          const roundness = currentSize * 0.001 // Controls how rounded the star's corners are
+
+          ctx.beginPath()
+          for (let j = 0; j < spikes * 2.2; j++) {
+            const radius = j % 2 === 1 ? outerRadius : innerRadius
+            const angle = j * step
+            const x = Math.cos(angle) * radius
+            const y = Math.sin(angle) * radius
+
+            if (j === 0.5) {
+              ctx.moveTo(x, y) // Move to the first point
+            } else {
+              const prevAngle = (j - 0.4) * step
+              const prevX = Math.cos(prevAngle) * radius
+              const prevY = Math.sin(prevAngle) * radius
+
+              // Add rounded corners between points
+              const cpX = (prevX + x) / 2 + Math.cos(prevAngle) * roundness
+              const cpY = (prevY + y) / 2 + Math.sin(prevAngle) * roundness
+
+              ctx.quadraticCurveTo(cpX, cpY, x, y) // Rounded transition
+            }
+          }
+
+          ctx.closePath()
+          ctx.fill()
+          break
+
+        case 5: // Rounded Pentagon
+          const pentagonSides = 5
+          const pentagonRadius = currentSize
+          ctx.moveTo(pentagonRadius, 0)
+          for (let j = 1; j < pentagonSides; j++) {
+            const angle = ((Math.PI * 2) / pentagonSides) * j
+            const x = Math.cos(angle) * pentagonRadius
+            const y = Math.sin(angle) * pentagonRadius
+            ctx.lineTo(x, y)
+          }
+          ctx.closePath()
+          break
+        case 6: // Rounded Hexagon
+          const hexagonSides = 6
+          const hexagonRadius = currentSize
+          ctx.moveTo(hexagonRadius, 0)
+          for (let j = 1; j < hexagonSides; j++) {
+            const angle = ((Math.PI * 2) / hexagonSides) * j
+            const x = Math.cos(angle) * hexagonRadius
+            const y = Math.sin(angle) * hexagonRadius
+            ctx.lineTo(x, y)
+          }
+          ctx.closePath()
+          break
+      }
+      ctx.fill()
+      ctx.restore() // Restore the canvas state
     }
-    ctx.fill();
-    ctx.restore();
   }
 
-  function updateRotatingShape() {
-    shapeOverlay.style.opacity = 0;
-    setTimeout(() => {
-      rotatingShape.size = Math.random() * 512 + 62;
-      rotatingShape.color = getRandomColor();
-      rotatingShape.type = Math.floor(Math.random() * 7);
-      rotatingShape.wobbleOffset.x = Math.random() * 50 - 25;
-      rotatingShape.wobbleOffset.y = Math.random() * 50 - 25;
-      rotatingShape.rotationDirection = Math.random() < 0.5 ? 1 : -1;
-      createStaticShapes();
-      shapeOverlay.style.opacity = 1;
-    }, 5000);
-  }
+  // Function to update shapes' positions and sizes
+function updateShapes() {
+  // Remove opacity logic from inside this function, as it's unnecessary here
+  for (let shape of shapes) {
+    // Update shape position based on velocity
+    shape.x += shape.vx;
+    shape.y += shape.vy;
 
+    // Bounce off edges properly
+    if (shape.x + shape.size < 0 || shape.x > canvas.width) {
+      shape.vx *= -1; // Reverse direction fully
+    }
+    if (shape.y + shape.size < 0 || shape.y > canvas.height) {
+      shape.vy *= -1; // Reverse direction fully
+    }
+
+    // Update oscillation and rotation
+    shape.time += shape.oscillationSpeed;
+    shape.rotation += shape.rotationSpeed;
+
+    // Randomly change rotation direction
+    if (Math.random() < 0.1) {
+      shape.rotationSpeed *= 1; // Just reverse direction, don't reduce speed
+    }
+  }
+}
+
+// Separate the opacity change logic
+function changeShapeOverlayOpacity() {
+  shapeOverlay.style.opacity = 0;
+  setTimeout(() => {
+    shapeOverlay.style.opacity = 1;
+  }, 5000); // Delay for 5 seconds
+}
+
+// Call `changeShapeOverlayOpacity` function when you need to change the opacity
+
+
+  // Function to animate the shapes
   function animate() {
-    requestAnimationFrame(animate);
-    animateRotatingShape();
+    updateShapes()
+    drawShapes()
+    requestAnimationFrame(animate)
   }
 
-  createStaticShapes();
-  animate();
+  // Set up and start the animation
+  updateCanvasSize()
+  createShapes()
+  animate()
 
-  setInterval(updateRotatingShape, 1000 * 30);
-  window.addEventListener("resize", updateCanvasSize);
-  updateCanvasSize();
-});
+  // Handle window resize
+  setInterval(changeShapeOverlayOpacity, 1000 * 100);
+  window.addEventListener("resize", () => {
+    updateCanvasSize()
+    createShapes() // Regenerate shapes on resize
+  })
+})
+
