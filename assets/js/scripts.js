@@ -568,7 +568,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Randomly change rotation direction
       if (Math.random() < 0.1) {
-        shape.rotationSpeed *= 0.85; // Just reverse direction, don't reduce speed
+        shape.rotationSpeed *= 1; // Just reverse direction, don't reduce speed
       }
     }
   }
