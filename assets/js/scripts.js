@@ -217,119 +217,163 @@ document.addEventListener("DOMContentLoaded", () => {
     "48week.img"
   ];
 
-  let sampledColors = []
+ let sampledColors = [];
 
   function loadImageAndSampleColors(imageSrc) {
     return new Promise((resolve) => {
-      const img = new Image()
-      img.crossOrigin = "Anonymous" // Handle cross-origin if needed
-      img.src = imageSrc
+      const img = new Image();
+      img.crossOrigin = "Anonymous"; // Handle cross-origin if needed
+      img.src = imageSrc;
       img.onload = () => {
-        const canvas = document.createElement("canvas")
-        const ctx = canvas.getContext("2d")
-        canvas.width = img.width
-        canvas.height = img.height
-        ctx.drawImage(img, 0, 0)
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        const data = imageData.data
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
 
-        sampledColors = []
+        sampledColors = [];
 
-        const samplesCount = 50 // Number of colors to sample
+        const samplesCount = 50; // Number of colors to sample
         for (let i = 0; i < samplesCount; i++) {
-          const randomIndex = Math.floor(Math.random() * (data.length / 4))
-          const r = data[randomIndex * 4]
-          const g = data[randomIndex * 4 + 1]
-          const b = data[randomIndex * 4 + 2]
-          const color = `rgba(${r}, ${g}, ${b}, 0.6)` // Create color string with alpha
-          sampledColors.push(color)
+          const randomIndex = Math.floor(Math.random() * (data.length / 4));
+          const r = data[randomIndex * 4];
+          const g = data[randomIndex * 4 + 1];
+          const b = data[randomIndex * 4 + 2];
+          const color = `rgba(${r}, ${g}, ${b}, 0.6)`; // Create color string with alpha
+          sampledColors.push(color);
         }
 
-        backgroundContainer.style.backgroundImage = `url(${imageSrc})`
-        resolve()
-      }
-    })
+        backgroundContainer.style.backgroundImage = `url(${imageSrc})`;
+        resolve();
+      };
+    });
   }
 
-  function getCurrentMonthAndWeek() {
-    const date = new Date()
-    const month = date.getMonth()
-    const daysInMonth = new Date(date.getFullYear(), month + 1, 0).getDate()
-    const currentDate = date.getDate()
-    const week = Math.floor((currentDate - 1) / Math.ceil(daysInMonth / 4))
-    return { month, week }
+  function getCurrentLocalInfo() {
+    const now = new Date();
+
+    // Get local time components
+    const year = now.getFullYear(); // Local Year
+    const month = now.getMonth(); // Local Month (0-11)
+    const day = now.getDate(); // Local Day of the month (1-31)
+
+    // Calculate the first day of the month and the last day
+    const firstDayOfMonth = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(year, month + 1, 0); // Get the last day of the month
+
+    // Calculate total days in the month
+    const totalDaysInMonth = lastDayOfMonth.getDate();
+
+    // Calculate the week of the month (0-4) based on the first day of the month
+    const week = Math.floor((day - firstDayOfMonth.getDay() + 7) / 7); // Week of the month (0-4)
+
+    // Handle the case where the current time is in the last minute of Sunday
+    if (
+      now.getDay() === 0 &&
+      now.getHours() === 23 &&
+      now.getMinutes() === 59
+    ) {
+      // Set to the next week (1-5)
+      return {
+        year,
+        month,
+        day,
+        week: week + 1,
+        totalDaysInMonth,
+        time: now.toTimeString()
+      };
+    }
+
+    // Get the current local time in HH:MM:SS format
+    const hours = now.getHours().toString().padStart(2, "0"); // Local 24-hour format
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const seconds = now.getSeconds().toString().padStart(2, "0");
+    const time = `${hours}:${minutes}:${seconds}`;
+
+    // Log the date and time information to the console
+    console.log(`Current Local Date: ${now}`);
+    console.log(
+      `Year: ${year}, Month: ${month + 1}, Day: ${day}, Week: ${
+        week + 1
+      }, Time: ${time}`
+    );
+
+    return { year, month, day, week, totalDaysInMonth, time };
   }
 
   async function changeBackgroundImage() {
-  // Get current month and week
-  const { month, week } = getCurrentMonthAndWeek();
-  
-  // Calculate image index
-  const imageIndex = month * 4 + week;
+    const { month, week, day, totalDaysInMonth } = getCurrentLocalInfo(); // Get local info including day
+    const totalWeeks = Math.min(5, Math.ceil(totalDaysInMonth / 7)); // Calculate max weeks, limiting to 5
+    let imageIndex = month * 4 + week; // Base index calculation
 
-  // Ensure the index is within bounds of the animalImages array
-  if (imageIndex >= 0 && imageIndex < animalImages.length) {
+    // Ensure imageIndex does not exceed the available images
+    if (imageIndex >= animalImages.length) {
+      imageIndex = animalImages.length - 1; // Set to last image if out of bounds
+    }
+
+    // Adjust the imageIndex to ensure it does not exceed available images considering max weeks
+    imageIndex = Math.min(imageIndex, month * 4 + (totalWeeks - 1));
+
     const currentBackgroundImage = animalImages[imageIndex];
-    
-    // Set the background image
     backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
 
-    // Set month overlay
     const monthNames = [
-      "January", "February", "March", "April", "May", "June", 
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
     ];
-    if (month >= 0 && month < monthNames.length) {
-      monthOverlay.textContent = monthNames[month];
-    } else {
-      console.warn("Invalid month value:", month);
-    }
 
-    // Await image load and color sampling
-    try {
-      await loadImageAndSampleColors(currentBackgroundImage);
-      // After colors are sampled, create new shapes with updated colors
-      createShapes();
-    } catch (error) {
-      console.error("Error loading image or sampling colors:", error);
-    }
-  } else {
-    console.warn("Image index out of bounds:", imageIndex);
+    // Include both month name and day in the overlay
+    monthOverlay.textContent = `${monthNames[month]} ${day}`; // e.g., "October 15"
+
+    await loadImageAndSampleColors(currentBackgroundImage);
+    createShapes(); // Regenerate shapes with new colors
   }
-}
 
+  // Call the function on page load
+  window.onload = async function () {
+    await changeBackgroundImage();
+  };
 
-  changeBackgroundImage()
-  setInterval(changeBackgroundImage, 1000 * 60 * 60 * 24 * 7) // Change weekly
-
-  const canvas = document.createElement("canvas")
-  const ctx = canvas.getContext("2d")
-  shapeOverlay.appendChild(canvas)
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  shapeOverlay.appendChild(canvas);
 
   function updateCanvasSize() {
-    canvas.width = shapeOverlay.clientWidth
-    canvas.height = shapeOverlay.clientHeight
+    canvas.width = shapeOverlay.clientWidth;
+    canvas.height = shapeOverlay.clientHeight;
   }
 
-  let shapes = []
+  let shapes = [];
 
   function createShapes() {
-    shapes = []
-    const shapeCount = 15 + Math.floor(Math.random() * 6)
+    shapes = [];
+    const shapeCount = 15 + Math.floor(Math.random() * 6);
 
     for (let i = 0; i < shapeCount; i++) {
-      const size = Math.random() * 112 + 30
-      const x = Math.random() * (canvas.width - size)
-      const y = Math.random() * (canvas.height - size)
-      const vx = (Math.random() - 0.5) * 0.7
-      const vy = (Math.random() - 0.5) * 0.7
-      const oscillationSpeed = Math.random() * 0.001 + 0.01
-      const phase = Math.random() * Math.PI * 2
-      const rotationSpeed = (Math.random() - 0.5) * 0.05
+      const size = Math.random() * 112 + 30;
+      const x = Math.random() * (canvas.width - size);
+      const y = Math.random() * (canvas.height - size);
+      const vx = (Math.random() - 0.5) * 0.7;
+      const vy = (Math.random() - 0.5) * 0.7;
+      const oscillationSpeed = Math.random() * 0.001 + 0.01;
+      const phase = Math.random() * Math.PI * 2;
+      const rotationSpeed = (Math.random() - 0.5) * 0.05;
 
-      const shapeType = Math.floor(Math.random() * 7)
+      const shapeType = Math.floor(Math.random() * 7);
       const color =
-        sampledColors[Math.floor(Math.random() * sampledColors.length)]
+        sampledColors[Math.floor(Math.random() * sampledColors.length)];
 
       const shape = {
         x,
@@ -343,220 +387,219 @@ document.addEventListener("DOMContentLoaded", () => {
         phase,
         shapeType,
         rotation: 0,
-        rotationSpeed,
-      }
-      shapes.push(shape)
+        rotationSpeed
+      };
+      shapes.push(shape);
     }
   }
 
   // Function to draw shapes
   function drawShapes() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let shape of shapes) {
-      ctx.save() // Save the current state of the canvas
-      ctx.translate(shape.x + shape.size / 2, shape.y + shape.size / 2) // Center the shapes
-      ctx.rotate(shape.rotation) // Rotate the canvas
+      ctx.save(); // Save the current state of the canvas
+      ctx.translate(shape.x + shape.size / 2, shape.y + shape.size / 2); // Center the shapes
+      ctx.rotate(shape.rotation); // Rotate the canvas
 
-      ctx.beginPath()
-      ctx.fillStyle = shape.color
+      ctx.beginPath();
+      ctx.fillStyle = shape.color;
 
       const sizeOscillation =
-        Math.sin(shape.time + shape.phase) * (shape.size * 0.4)
-      const currentSize = shape.size / 2 + sizeOscillation
+        Math.sin(shape.time + shape.phase) * (shape.size * 0.4);
+      const currentSize = shape.size / 2 + sizeOscillation;
 
       // Draw the shapes with rounded edges
       switch (shape.shapeType) {
         case 0: // Circle
-          ctx.arc(0, 0, currentSize, 0, Math.PI * 2)
-          break
+          ctx.arc(0, 0, currentSize, 0, Math.PI * 2);
+          break;
         case 1: // Rounded Square
-          const radius = currentSize * 0.2 // Rounded corner radius
-          ctx.moveTo(-currentSize + radius, -currentSize) // Top-left corner
-          ctx.lineTo(currentSize - radius, -currentSize) // Top-right corner
+          const radius = currentSize * 0.2; // Rounded corner radius
+          ctx.moveTo(-currentSize + radius, -currentSize); // Top-left corner
+          ctx.lineTo(currentSize - radius, -currentSize); // Top-right corner
           ctx.quadraticCurveTo(
             currentSize,
             -currentSize,
             currentSize,
-            -currentSize + radius,
-          ) // Top-right curve
-          ctx.lineTo(currentSize, currentSize - radius) // Bottom-right corner
+            -currentSize + radius
+          ); // Top-right curve
+          ctx.lineTo(currentSize, currentSize - radius); // Bottom-right corner
           ctx.quadraticCurveTo(
             currentSize,
             currentSize,
             currentSize - radius,
-            currentSize,
-          ) // Bottom-right curve
-          ctx.lineTo(-currentSize + radius, currentSize) // Bottom-left corner
+            currentSize
+          ); // Bottom-right curve
+          ctx.lineTo(-currentSize + radius, currentSize); // Bottom-left corner
           ctx.quadraticCurveTo(
             -currentSize,
             currentSize,
             -currentSize,
-            currentSize - radius,
-          ) // Bottom-left curve
-          ctx.lineTo(-currentSize, -currentSize + radius) // Top-left corner
+            currentSize - radius
+          ); // Bottom-left curve
+          ctx.lineTo(-currentSize, -currentSize + radius); // Top-left corner
           ctx.quadraticCurveTo(
             -currentSize,
             -currentSize,
             -currentSize + radius,
-            -currentSize,
-          ) // Top-left curve
-          break
+            -currentSize
+          ); // Top-left curve
+          break;
         case 2: // Rounded Triangle
-          const triangleRadius = currentSize * 0.055 // Adjustable rounded corner radius
+          const triangleRadius = currentSize * 0.055; // Adjustable rounded corner radius
 
           // Start drawing the rounded triangle
-          ctx.beginPath()
+          ctx.beginPath();
 
           // Top vertex
-          ctx.moveTo(0, -currentSize + triangleRadius)
+          ctx.moveTo(0, -currentSize + triangleRadius);
           ctx.arcTo(
             -currentSize * 0.5,
             currentSize * 0.5,
             currentSize * 0.5,
             currentSize * 0.5,
-            triangleRadius,
-          ) // Left curve
+            triangleRadius
+          ); // Left curve
           ctx.arcTo(
             currentSize * 0.5,
             currentSize * 0.5,
             0,
             -currentSize,
-            triangleRadius,
-          ) // Right curve
+            triangleRadius
+          ); // Right curve
           ctx.arcTo(
             0,
             -currentSize,
             -currentSize * 0.3,
             currentSize * 0.3,
-            triangleRadius,
-          ) // Top curve
+            triangleRadius
+          ); // Top curve
 
-          ctx.closePath()
-          ctx.fill()
-          break
+          ctx.closePath();
+          ctx.fill();
+          break;
 
         case 3: // Oval
-          ctx.ellipse(0, 0, currentSize, currentSize * 0.6, 0, 0, Math.PI * 2)
-          break
+          ctx.ellipse(0, 0, currentSize, currentSize * 0.6, 0, 0, Math.PI * 2);
+          break;
         case 4: // Rounded Star
-          const spikes = 5
-          const outerRadius = currentSize
-          const innerRadius = currentSize / 2
-          const step = Math.PI / spikes
-          const roundness = currentSize * 0.001 // Controls how rounded the star's corners are
+          const spikes = 5;
+          const outerRadius = currentSize;
+          const innerRadius = currentSize / 2;
+          const step = Math.PI / spikes;
+          const roundness = currentSize * 0.001; // Controls how rounded the star's corners are
 
-          ctx.beginPath()
+          ctx.beginPath();
           for (let j = 0; j < spikes * 2.2; j++) {
-            const radius = j % 2 === 1 ? outerRadius : innerRadius
-            const angle = j * step
-            const x = Math.cos(angle) * radius
-            const y = Math.sin(angle) * radius
+            const radius = j % 2 === 1 ? outerRadius : innerRadius;
+            const angle = j * step;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
 
             if (j === 0.5) {
-              ctx.moveTo(x, y) // Move to the first point
+              ctx.moveTo(x, y); // Move to the first point
             } else {
-              const prevAngle = (j - 0.4) * step
-              const prevX = Math.cos(prevAngle) * radius
-              const prevY = Math.sin(prevAngle) * radius
+              const prevAngle = (j - 0.4) * step;
+              const prevX = Math.cos(prevAngle) * radius;
+              const prevY = Math.sin(prevAngle) * radius;
 
               // Add rounded corners between points
-              const cpX = (prevX + x) / 2 + Math.cos(prevAngle) * roundness
-              const cpY = (prevY + y) / 2 + Math.sin(prevAngle) * roundness
+              const cpX = (prevX + x) / 2 + Math.cos(prevAngle) * roundness;
+              const cpY = (prevY + y) / 2 + Math.sin(prevAngle) * roundness;
 
-              ctx.quadraticCurveTo(cpX, cpY, x, y) // Rounded transition
+              ctx.quadraticCurveTo(cpX, cpY, x, y); // Rounded transition
             }
           }
 
-          ctx.closePath()
-          ctx.fill()
-          break
+          ctx.closePath();
+          ctx.fill();
+          break;
 
         case 5: // Rounded Pentagon
-          const pentagonSides = 5
-          const pentagonRadius = currentSize
-          ctx.moveTo(pentagonRadius, 0)
+          const pentagonSides = 5;
+          const pentagonRadius = currentSize;
+          ctx.moveTo(pentagonRadius, 0);
           for (let j = 1; j < pentagonSides; j++) {
-            const angle = ((Math.PI * 2) / pentagonSides) * j
-            const x = Math.cos(angle) * pentagonRadius
-            const y = Math.sin(angle) * pentagonRadius
-            ctx.lineTo(x, y)
+            const angle = ((Math.PI * 2) / pentagonSides) * j;
+            const x = Math.cos(angle) * pentagonRadius;
+            const y = Math.sin(angle) * pentagonRadius;
+            ctx.lineTo(x, y);
           }
-          ctx.closePath()
-          break
+          ctx.closePath();
+          break;
         case 6: // Rounded Hexagon
-          const hexagonSides = 6
-          const hexagonRadius = currentSize
-          ctx.moveTo(hexagonRadius, 0)
+          const hexagonSides = 6;
+          const hexagonRadius = currentSize;
+          ctx.moveTo(hexagonRadius, 0);
           for (let j = 1; j < hexagonSides; j++) {
-            const angle = ((Math.PI * 2) / hexagonSides) * j
-            const x = Math.cos(angle) * hexagonRadius
-            const y = Math.sin(angle) * hexagonRadius
-            ctx.lineTo(x, y)
+            const angle = ((Math.PI * 2) / hexagonSides) * j;
+            const x = Math.cos(angle) * hexagonRadius;
+            const y = Math.sin(angle) * hexagonRadius;
+            ctx.lineTo(x, y);
           }
-          ctx.closePath()
-          break
+          ctx.closePath();
+          break;
       }
-      ctx.fill()
-      ctx.restore() // Restore the canvas state
+      ctx.fill();
+      ctx.restore(); // Restore the canvas state
     }
   }
 
   // Function to update shapes' positions and sizes
-function updateShapes() {
-  // Remove opacity logic from inside this function, as it's unnecessary here
-  for (let shape of shapes) {
-    // Update shape position based on velocity
-    shape.x += shape.vx;
-    shape.y += shape.vy;
+  function updateShapes() {
+    // Remove opacity logic from inside this function, as it's unnecessary here
+    for (let shape of shapes) {
+      // Update shape position based on velocity
+      shape.x += shape.vx;
+      shape.y += shape.vy;
 
-    // Bounce off edges properly
-    if (shape.x + shape.size < 0 || shape.x > canvas.width) {
-      shape.vx *= -1; // Reverse direction fully
-    }
-    if (shape.y + shape.size < 0 || shape.y > canvas.height) {
-      shape.vy *= -1; // Reverse direction fully
-    }
+      // Bounce off edges properly
+      if (shape.x + shape.size < 0 || shape.x > canvas.width) {
+        shape.vx *= -1; // Reverse direction fully
+      }
+      if (shape.y + shape.size < 0 || shape.y > canvas.height) {
+        shape.vy *= -1; // Reverse direction fully
+      }
 
-    // Update oscillation and rotation
-    shape.time += shape.oscillationSpeed;
-    shape.rotation += shape.rotationSpeed;
+      // Update oscillation and rotation
+      shape.time += shape.oscillationSpeed;
+      shape.rotation += shape.rotationSpeed;
 
-    // Randomly change rotation direction
-    if (Math.random() < 0.1) {
-      shape.rotationSpeed *= 1; // Just reverse direction, don't reduce speed
+      // Randomly change rotation direction
+      if (Math.random() < 0.1) {
+        shape.rotationSpeed *= 0.85; // Just reverse direction, don't reduce speed
+      }
     }
   }
-}
 
-// Separate the opacity change logic
-function changeShapeOverlayOpacity() {
-  shapeOverlay.style.opacity = 0;
-  setTimeout(() => {
-    shapeOverlay.style.opacity = 1;
-  }, 1000); // Delay for 10 seconds
-}
+  // Separate the opacity change logic
+  function changeShapeOverlayOpacity() {
+    shapeOverlay.style.opacity = 0;
+    setTimeout(() => {
+      shapeOverlay.style.opacity = 1;
+    }, 5000); // Delay for 5 seconds
+  }
 
-// Call `changeShapeOverlayOpacity` function when you need to change the opacity
-
+  // Call `changeShapeOverlayOpacity` function when you need to change the opacity
 
   // Function to animate the shapes
   function animate() {
-    updateShapes()
-    drawShapes()
-    requestAnimationFrame(animate)
+    updateShapes();
+    drawShapes();
+    requestAnimationFrame(animate);
   }
 
   // Set up and start the animation
-  updateCanvasSize()
-  createShapes()
-  animate()
+  updateCanvasSize();
+  createShapes();
+  animate();
 
   // Handle window resize
   setInterval(changeShapeOverlayOpacity, 1000 * 100);
   window.addEventListener("resize", () => {
-    updateCanvasSize()
-    createShapes() // Regenerate shapes on resize
-  })
-})
+    updateCanvasSize();
+    createShapes(); // Regenerate shapes on resize
+  });
+});
 
