@@ -534,7 +534,7 @@ function changeShapeOverlayOpacity() {
   shapeOverlay.style.opacity = 0;
   setTimeout(() => {
     shapeOverlay.style.opacity = 1;
-  }, 5000); // Delay for 5 seconds
+  }, 1000); // Delay for 10 seconds
 }
 
 // Call `changeShapeOverlayOpacity` function when you need to change the opacity
