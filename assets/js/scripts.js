@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         sampledColors = [];
 
-        const samplesCount = 50; // Number of colors to sample
+        const samplesCount = 25; // Number of colors to sample
         for (let i = 0; i < samplesCount; i++) {
           const randomIndex = Math.floor(Math.random() * (data.length / 4));
           const r = data[randomIndex * 4];
