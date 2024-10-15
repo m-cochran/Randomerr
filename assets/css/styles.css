@@ -178,7 +178,7 @@ nav ul li a:hover {
     width: 100%;
     height: 112px;
     opacity: 1; /* Ensure it's fully visible initially */
-    transition: opacity 5s ease; /* Add a transition effect for opacity */
+    transition: opacity 10s ease; /* Add a transition effect for opacity */
     transform: translate(-50%, -50%); /* Centering the overlay */;
     z-index: 2; /* Ensure shapes are on top */
 }
