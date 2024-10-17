@@ -26,25 +26,23 @@ title: Home
 {% endif %}
 
 <!-- List of Remaining Posts -->
-<!-- List of Remaining Posts -->
-<ul class="post-list">
-  {% for post in paginator.posts offset: 6 %}
-    {% if post.thumbnail %}
-      <li class="post-thumbnail">
-        <a href="{{ post.url | relative_url }}">
+<div class="grid-container">
+  {% for post in paginator.posts %}
+    <div class="post">
+      <a href="{{ post.url | relative_url }}">
+        {% if post.thumbnail %}
           <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
-        </a>
+        {% endif %}
         <div class="post-content">
-          <a href="{{ post.url | relative_url }}">
-            <h2 class="post-title">{{ post.title }}</h2>
-          </a>
+          <h3 class="post-title">{{ post.title }}</h3>
           <p class="post-description">{{ post.excerpt }}</p>
           <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
         </div>
-      </li>
-    {% endif %}
+      </a>
+    </div>
   {% endfor %}
-</ul>
+</div>
+
 
 
 <!-- Pagination Links -->
