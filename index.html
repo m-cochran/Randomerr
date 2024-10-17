@@ -35,7 +35,7 @@ title: Home
       <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
     </a>
     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <p class="post-excerpt">{{ post.excerpt }}</p> <!-- This line adds the excerpt -->
+    <p class="post-excerpt">{{ post.content | truncatewords: 30 }}</p> <!-- Show the first 30 words -->
     <small>{{ post.date | date: "%B %d, %Y" }}</small>
   </li>
   {% endif %}
