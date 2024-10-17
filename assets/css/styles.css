@@ -408,10 +408,16 @@ p {
   color: #999;
 }
 
-.post-date {
-  font-size: 0.9em;
+.post-date-overlay {
+  position: absolute;
+  top: 10px; /* Adjust for desired positioning */
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for contrast */
+  padding: 5px 10px;
   color: #fff;
-  margin-top: auto;
+  font-size: 0.9em;
+  border-radius: 5px;
+  z-index: 2; /* Ensure it's on top of the image */
 }
 
 
