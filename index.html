@@ -42,7 +42,7 @@ title: Home
           <!-- Extract and truncate the first sentence of the conclusion -->
           <p class="post-description">
             {% assign conclusion = post.content | split: '<section class="conclusion">' | last | split: '</section>' | first %}
-            {{ conclusion | strip_html | split: '. ' | first | truncate: 140, ' ....read more' }}
+            {{ conclusion | strip_html | split: '. ' | first | truncate: 140, ' ....' }}
           </p>
         </div>
       </a>
