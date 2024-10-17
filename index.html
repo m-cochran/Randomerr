@@ -41,7 +41,7 @@ title: Home
           <!-- Extract and truncate the first sentence of the conclusion -->
           <p class="post-description">
             {% assign conclusion = post.content | split: '<section class="conclusion">' | last | split: '</section>' | first %}
-            {{ conclusion | strip_html | split: '. ' | first | truncate: 40, ' ....READ MORE' }}
+            {{ conclusion | strip_html | split: '. ' | first | truncate: 40, ' ....read more' }}
           </p>
           
           <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
