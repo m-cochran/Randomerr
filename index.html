@@ -27,7 +27,7 @@ title: Home
 
 <!-- List of Remaining Posts -->
 <ul class="post-list">
-  {% for post in paginator.posts %}
+  {% for post in paginator.posts offset: 6 %}
     <li class="post">
       <a href="{{ post.url | relative_url }}">
         {% if post.thumbnail %}
