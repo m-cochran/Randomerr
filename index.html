@@ -25,7 +25,9 @@ title: Home
   </div>
 {% endif %}
 
-<!-- List of Remaining Posts -->
+
+
+
 <!-- List of Remaining Posts -->
 <ul class="post-list">
   {% for post in paginator.posts offset: 6 %}
@@ -35,12 +37,11 @@ title: Home
           <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}" class="post-thumbnail">
         {% endif %}
         <div class="post-content">
-          <h3 class="post-title">{{ post.title }}</h3>
-          
+          <h3 class="post-title">{{ post.title }}</h3>  
           <!-- Extract and truncate the first sentence of the conclusion -->
           <p class="post-description">
             {% assign conclusion = post.content | split: '<section class="conclusion">' | last | split: '</section>' | first %}
-            {{ conclusion | strip_html | split: '. ' | first | truncate: 31, ' ....' }}
+            {{ conclusion | strip_html | split: '. ' | first | truncate: 40, ' ....READ MORE' }}
           </p>
           
           <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
