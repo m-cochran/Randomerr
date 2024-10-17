@@ -26,6 +26,7 @@ title: Home
 {% endif %}
 
 <!-- List of Remaining Posts -->
+<!-- List of Remaining Posts -->
 <ul class="post-list">
   {% for post in paginator.posts offset: 6 %}
     <li class="post">
@@ -35,13 +36,20 @@ title: Home
         {% endif %}
         <div class="post-content">
           <h3 class="post-title">{{ post.title }}</h3>
-          <p class="post-description">{{ post.excerpt }}</p>
+          
+          <!-- Extract and truncate the first sentence of the conclusion -->
+          <p class="post-description">
+            {% assign conclusion = post.content | split: '<section class="conclusion">' | last | split: '</section>' | first %}
+            {{ conclusion | strip_html | split: '. ' | first | truncate: 31, ' ....' }}
+          </p>
+          
           <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
         </div>
       </a>
     </li>
   {% endfor %}
 </ul>
+
 
 
 
