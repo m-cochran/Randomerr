@@ -330,14 +330,17 @@ p {
 
 
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+.post-list {
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Create columns */
+  gap: 20px; /* Space between items */
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  margin: 30px 0; /* Margin for spacing */
 }
 
 .post {
-  position: relative; /* Establishes a positioning context for absolute children */
+  position: relative; /* Establish a positioning context for absolute children */
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
@@ -383,20 +386,21 @@ p {
 }
 
 .post-title {
-  font-size: 1.17em;
+  font-size: 1.5em;
   margin: 0 0 10px;
 }
 
 .post-description {
-  font-size: 0.85em;
+  font-size: 1em;
   margin: 0 0 10px;
   color: #fff;
 }
 
 .post-date {
-  font-size: 0.65em;
+  font-size: 0.9em;
   color: #fff;
 }
+
 
 
 
