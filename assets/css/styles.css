@@ -408,7 +408,7 @@ p {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   line-height: 1.5em;
-  max-height: 5em;
+  max-height: 4.5em;
 }
 
 .post-date-overlay {
