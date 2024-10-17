@@ -2,7 +2,7 @@
 layout: default
 title: "Eternal Horizons"
 date: 2024-08-19
-permalink: /2024/08/19/eternal-horizons/
+permalink: /2024/08/19/-1eternal-horizons/
 thumbnail: "https://images.unsplash.com/photo-1720986073399-f5c24e020ca1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ---
 
