@@ -26,18 +26,17 @@ title: Home
 {% endif %}
 
 <!-- List of Remaining Posts -->
-<!-- List of Remaining Posts -->
 <ul class="post-list">
-  {% for post in paginator.posts offset: 6 %}
-  <li class="post">
-  <a href="{{ post.url | relative_url }}">
+  {% for post in paginator.posts %}
+    <li class="post">
+      <a href="{{ post.url | relative_url }}">
         {% if post.thumbnail %}
           <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}" class="post-thumbnail">
         {% endif %}
         <div class="post-content">
           <h3 class="post-title">{{ post.title }}</h3>
-    <p class="post-description">{{ post.content | truncatewords: 30 }}</p> <!-- Show the first 30 words -->
-     <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
+          <p class="post-description">{{ post.excerpt }}</p>
+          <small class="post-date">{{ post.date | date: "%B %d, %Y" }}</small>
         </div>
       </a>
     </li>
