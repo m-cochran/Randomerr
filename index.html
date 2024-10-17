@@ -35,8 +35,8 @@ title: Home
       <img src="{{ post.thumbnail | relative_url }}" alt="{{ post.title }}">
     </a>
     <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%B %d, %Y" }}</small>
     <p class="post-excerpt">{{ post.excerpt }}</p> <!-- This line adds the excerpt -->
+    <small>{{ post.date | date: "%B %d, %Y" }}</small>
   </li>
   {% endif %}
   {% endfor %}
