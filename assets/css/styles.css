@@ -375,7 +375,7 @@ p {
   z-index: 1;
   display: flex;
   flex-direction: column; /* Stack title, description, date */
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .post-content::before {
@@ -399,13 +399,16 @@ p {
 }
 
 .post-description {
-  font-size: clamp(0.9em, 1.5vw, 1em); /* Scales between 0.9em and 1em */
-  margin: 0 0 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Truncate long descriptions */
-  line-height: 1.4;
   color: #999;
+  font-size: clamp(0.9em, 1.5vw, 1em);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.5em;
+  max-height: 5em;
 }
 
 .post-date-overlay {
