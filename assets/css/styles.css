@@ -331,12 +331,13 @@ p {
 
 
 .post-list {
-  display: grid; /* Use grid layout */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Create columns */
-  gap: 20px; /* Space between items */
-  list-style: none; /* Remove default list styling */
-  padding: 0; /* Remove default padding */
-  margin: 30px 0; /* Margin for spacing */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Use auto-fit for better centering */
+  gap: 20px;
+  padding: 30px;
+  justify-content: center; /* Centers the grid items horizontally */
+  max-width: 1200px; /* Set a maximum width */
+  margin: 0 auto; /* Center the grid container */
 }
 
 .post {
