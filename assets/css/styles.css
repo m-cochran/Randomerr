@@ -336,7 +336,7 @@ p {
   gap: 20px;
   padding: 30px;
   justify-content: center; /* Centers the grid items horizontally */
-  max-width: 1200px; /* Set a maximum width */
+  max-width: 1040px; /* Set a maximum width */
   margin: 0 auto; /* Center the grid container */
 }
 
