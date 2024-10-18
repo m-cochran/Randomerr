@@ -251,9 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function getCurrentLocalInfo() {
-    const now = new Date();
-
 // Function to calculate the week of the month
 function getWeekOfMonth(date) {
   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
