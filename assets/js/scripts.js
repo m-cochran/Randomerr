@@ -254,92 +254,96 @@ document.addEventListener("DOMContentLoaded", () => {
   function getCurrentLocalInfo() {
     const now = new Date();
 
-    // Get local time components
-    const year = now.getFullYear(); // Local Year
-    const month = now.getMonth(); // Local Month (0-11)
-    const day = now.getDate(); // Local Day of the month (1-31)
+// Function to calculate the week of the month
+function getWeekOfMonth(date) {
+  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const startDay = startOfMonth.getDay(); // Day of the week the month starts
+  const dayOfMonth = date.getDate();
 
-    // Calculate the first day of the month and the last day
-    const firstDayOfMonth = new Date(year, month, 1);
-    const lastDayOfMonth = new Date(year, month + 1, 0); // Get the last day of the month
+  // Adjust calculation based on the day of the week the month starts
+  return Math.ceil((dayOfMonth + startDay) / 7);
+}
 
-    // Calculate total days in the month
-    const totalDaysInMonth = lastDayOfMonth.getDate();
+// Function to get local time and components
+function getCurrentLocalInfo() {
+  const now = new Date(); // Get current date and time
+  const year = now.getFullYear(); // Local Year
+  const month = now.getMonth(); // Local Month (0-11)
+  const day = now.getDate(); // Local Day of the month (1-31)
 
-    // Calculate the week of the month (0-4) based on the first day of the month
-    const week = Math.floor((day - firstDayOfMonth.getDay() + 7) / 7); // Week of the month (0-4)
+  // Calculate the first day of the month and the last day
+  const firstDayOfMonth = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0); // Get the last day of the month
 
-    // Handle the case where the current time is in the last minute of Sunday
-    if (
-      now.getDay() === 0 &&
-      now.getHours() === 23 &&
-      now.getMinutes() === 59
-    ) {
-      // Set to the next week (1-5)
-      return {
-        year,
-        month,
-        day,
-        week: week + 1,
-        totalDaysInMonth,
-        time: now.toTimeString()
-      };
-    }
+  // Calculate total days in the month
+  const totalDaysInMonth = lastDayOfMonth.getDate();
 
-    // Get the current local time in HH:MM:SS format
-    const hours = now.getHours().toString().padStart(2, "0"); // Local 24-hour format
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const seconds = now.getSeconds().toString().padStart(2, "0");
-    const time = `${hours}:${minutes}:${seconds}`;
+  // Calculate the week of the month using the new function
+  const week = getWeekOfMonth(now); // Correct week calculation
 
-    // Log the date and time information to the console
-    console.log(`Current Local Date: ${now}`);
-    console.log(
-      `Year: ${year}, Month: ${month + 1}, Day: ${day}, Week: ${
-        week + 1
-      }, Time: ${time}`
-    );
-
-    return { year, month, day, week, totalDaysInMonth, time };
+  // Handle the case where the current time is in the last minute of Sunday
+  if (
+    now.getDay() === 0 &&
+    now.getHours() === 23 &&
+    now.getMinutes() === 59
+  ) {
+    // Set to the next week (1-5)
+    return {
+      year,
+      month,
+      day,
+      week: week + 1,
+      totalDaysInMonth,
+      time: now.toTimeString(),
+    };
   }
 
-  async function changeBackgroundImage() {
-    const { month, week, day, totalDaysInMonth } = getCurrentLocalInfo(); // Get local info including day
-    const totalWeeks = Math.min(5, Math.ceil(totalDaysInMonth / 7)); // Calculate max weeks, limiting to 5
-    let imageIndex = month * 4 + week; // Base index calculation
+  // Get the current local time in HH:MM:SS format
+  const hours = now.getHours().toString().padStart(2, "0"); // Local 24-hour format
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const seconds = now.getSeconds().toString().padStart(2, "0");
+  const time = `${hours}:${minutes}:${seconds}`;
 
-    // Ensure imageIndex does not exceed the available images
-    if (imageIndex >= animalImages.length) {
-      imageIndex = animalImages.length - 1; // Set to last image if out of bounds
-    }
+  // Log the date and time information to the console
+  console.log(`Current Local Date: ${now}`);
+  console.log(
+    `Year: ${year}, Month: ${month + 1}, Day: ${day}, Week: ${
+      week + 1
+    }, Time: ${time}`
+  );
 
-    // Adjust the imageIndex to ensure it does not exceed available images considering max weeks
-    imageIndex = Math.min(imageIndex, month * 4 + (totalWeeks - 1));
+  return { year, month, day, week, totalDaysInMonth, time };
+}
 
-    const currentBackgroundImage = animalImages[imageIndex];
-    backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
+// Function to change background image based on the week
+async function changeBackgroundImage() {
+  const { month, week, day, totalDaysInMonth } = getCurrentLocalInfo(); // Get local info including day
+  const totalWeeks = Math.min(5, Math.ceil(totalDaysInMonth / 7)); // Calculate max weeks, limiting to 5
+  let imageIndex = month * 4 + week; // Base index calculation
 
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-
-    // Include both month name and day in the overlay
-    monthOverlay.textContent = `${monthNames[month]} ${day}`; // e.g., "October 15"
-
-    await loadImageAndSampleColors(currentBackgroundImage);
-    createShapes(); // Regenerate shapes with new colors
+  // Ensure imageIndex does not exceed the available images
+  if (imageIndex >= animalImages.length) {
+    imageIndex = animalImages.length - 1; // Set to last image if out of bounds
   }
+
+  // Adjust the imageIndex to ensure it does not exceed available images considering max weeks
+  imageIndex = Math.min(imageIndex, month * 4 + (totalWeeks - 1));
+
+  const currentBackgroundImage = animalImages[imageIndex];
+  backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"
+  ];
+
+  // Include both month name and day in the overlay
+  monthOverlay.textContent = `${monthNames[month]} ${day}`; // e.g., "October 15"
+
+  await loadImageAndSampleColors(currentBackgroundImage);
+  createShapes(); // Regenerate shapes with new colors
+}
+
 
   // Call the function on page load
   window.onload = async function () {
