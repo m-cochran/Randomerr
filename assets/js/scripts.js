@@ -251,95 +251,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-// Function to calculate the week of the month
-function getWeekOfMonth(date) {
-  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-  const startDay = startOfMonth.getDay(); // Day of the week the month starts
-  const dayOfMonth = date.getDate();
-
-  // Adjust calculation based on the day of the week the month starts
-  return Math.ceil((dayOfMonth + startDay) / 7);
-}
-
-// Function to get local time and components
-function getCurrentLocalInfo() {
-  const now = new Date(); // Get current date and time
-  const year = now.getFullYear(); // Local Year
-  const month = now.getMonth(); // Local Month (0-11)
-  const day = now.getDate(); // Local Day of the month (1-31)
-
-  // Calculate the first day of the month and the last day
+// Function to get the current number of weeks in a month
+function getWeeksInMonth(year, month) {
   const firstDayOfMonth = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0); // Get the last day of the month
+  const lastDayOfMonth = new Date(year, month + 1, 0);
+  const firstWeekDay = firstDayOfMonth.getDay(); // Day of the week the month starts on (0=Sunday, 6=Saturday)
+  const lastDate = lastDayOfMonth.getDate(); // Last day of the month
+  const totalDaysInMonth = lastDate + firstWeekDay; // Total days counting from the first day of the week
 
-  // Calculate total days in the month
-  const totalDaysInMonth = lastDayOfMonth.getDate();
-
-  // Calculate the week of the month using the new function
-  const week = getWeekOfMonth(now); // Correct week calculation
-
-  // Handle the case where the current time is in the last minute of Sunday
-  if (
-    now.getDay() === 0 &&
-    now.getHours() === 23 &&
-    now.getMinutes() === 59
-  ) {
-    // Set to the next week (1-5)
-    return {
-      year,
-      month,
-      day,
-      week: week + 1,
-      totalDaysInMonth,
-      time: now.toTimeString(),
-    };
-  }
-
-  // Get the current local time in HH:MM:SS format
-  const hours = now.getHours().toString().padStart(2, "0"); // Local 24-hour format
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  const seconds = now.getSeconds().toString().padStart(2, "0");
-  const time = `${hours}:${minutes}:${seconds}`;
-
-  // Log the date and time information to the console
-  console.log(`Current Local Date: ${now}`);
-  console.log(
-    `Year: ${year}, Month: ${month + 1}, Day: ${day}, Week: ${
-      week + 1
-    }, Time: ${time}`
-  );
-
-  return { year, month, day, week, totalDaysInMonth, time };
+  return Math.ceil(totalDaysInMonth / 7); // Calculate total weeks in the month
 }
 
-// Function to change background image based on the week
-async function changeBackgroundImage() {
-  const { month, week, day, totalDaysInMonth } = getCurrentLocalInfo(); // Get local info including day
-  const totalWeeks = Math.min(5, Math.ceil(totalDaysInMonth / 7)); // Calculate max weeks, limiting to 5
-  let imageIndex = month * 4 + week; // Base index calculation
+// Function to get the current week number within the month
+function getCurrentWeekInMonth(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
 
-  // Ensure imageIndex does not exceed the available images
-  if (imageIndex >= animalImages.length) {
-    imageIndex = animalImages.length - 1; // Set to last image if out of bounds
+  const firstDayOfMonth = new Date(year, month, 1);
+  const firstDayOfWeek = firstDayOfMonth.getDay(); // Day the month starts on
+
+  // Calculate which week of the month it is
+  return Math.ceil((day + firstDayOfWeek) / 7);
+}
+
+// Function to get local time components and image index
+function getCurrentLocalInfo() {
+  const now = new Date(); // Current date and time
+  const year = now.getFullYear(); // Current year
+  const month = now.getMonth(); // Current month (0-11)
+  const day = now.getDate(); // Current day of the month
+
+  // Calculate the total number of weeks in the current month
+  const totalWeeksInMonth = getWeeksInMonth(year, month);
+
+  // Calculate the current week number within the month
+  const currentWeekInMonth = getCurrentWeekInMonth(now);
+
+  // Calculate the image index based on the current week
+  let imageIndex;
+  if (currentWeekInMonth === totalWeeksInMonth && totalWeeksInMonth > 4) {
+    // If it's the 5th week of the month, use the 4th image of the month
+    imageIndex = month * 4 + 3;
+  } else {
+    // Otherwise, map the current week to an image (0-based index)
+    imageIndex = month * 4 + (currentWeekInMonth - 1);
   }
 
-  // Adjust the imageIndex to ensure it does not exceed available images considering max weeks
-  imageIndex = Math.min(imageIndex, month * 4 + (totalWeeks - 1));
+  return { year, month, day, currentWeekInMonth, totalWeeksInMonth, imageIndex };
+}
 
-  const currentBackgroundImage = animalImages[imageIndex];
-  backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`;
+// Function to change the background image based on the week and month
+async function changeBackgroundImage() {
+  const { month, day, currentWeekInMonth, totalWeeksInMonth, imageIndex } = getCurrentLocalInfo();
+
+  const currentBackgroundImage = animalImages[imageIndex]; // Fetch the correct image based on the index
+  backgroundContainer.style.backgroundImage = `url(${currentBackgroundImage})`; // Set the background image
 
   const monthNames = [
-    "January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "October", "November", "December"
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
 
-  // Include both month name and day in the overlay
-  monthOverlay.textContent = `${monthNames[month]} ${day}`; // e.g., "October 15"
+  // Include both the month name and day in the overlay
+  monthOverlay.textContent = `${monthNames[month]} ${day}`; // e.g., "October 18"
 
-  await loadImageAndSampleColors(currentBackgroundImage);
+  await loadImageAndSampleColors(currentBackgroundImage); // Sample colors for shapes
   createShapes(); // Regenerate shapes with new colors
 }
+
 
 
   // Call the function on page load
