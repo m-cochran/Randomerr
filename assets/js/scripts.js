@@ -587,36 +587,3 @@ async function changeBackgroundImage() {
 
 
 
-
-
-
-
-
-
-
-document.querySelectorAll('.post').forEach(post => {
-  post.addEventListener('mousemove', (e) => {
-    const img = post.querySelector('img');
-    const { width, height } = post.getBoundingClientRect();
-    
-    // Calculate the mouse's position relative to the post
-    const x = e.clientX - post.getBoundingClientRect().left; // X position within the post
-    const y = e.clientY - post.getBoundingClientRect().top; // Y position within the post
-
-    // Normalize the x and y percentages
-    const xPercent = (x / width) * 100; // Percentage of X position
-    const yPercent = (y / height) * 100; // Percentage of Y position
-
-    // Move the image based on the mouse position with a slight adjustment
-    const moveX = (xPercent - 50) * 0.2; // Adjust this value for more or less movement
-    const moveY = (yPercent - 50) * 0.2; // Adjust this value for more or less movement
-
-    img.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
-  });
-
-  post.addEventListener('mouseleave', () => {
-    const img = post.querySelector('img');
-    img.style.transform = 'translate(0, 0) scale(1)'; // Reset position on mouse leave
-  });
-});
-
