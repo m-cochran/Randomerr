@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function getWeeksInMonth(year, month) {
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
-  const firstWeekDay = firstDayOfMonth.getDay(); // Day of the week the month starts on (0=Sunday, 6=Saturday)
+  const firstWeekDay = firstDayOfMonth.getDay(); // Day of the week the month starts on (0=Monday, 6=Sunday)
   const lastDate = lastDayOfMonth.getDate(); // Last day of the month
   const totalDaysInMonth = lastDate + firstWeekDay; // Total days counting from the first day of the week
 
