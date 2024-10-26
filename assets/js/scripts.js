@@ -200,9 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // October
     "37week.img",
-    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/halloween-week38.webp",
-    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/halloween-week39.webp",
-    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/halloween-week40.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week38.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week39.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week40.svg",
 
     // November
     "41week.img",
