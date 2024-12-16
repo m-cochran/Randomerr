@@ -199,22 +199,22 @@ document.addEventListener("DOMContentLoaded", () => {
     "36week.img",
 
     // October
-    "37week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week37.svg",
     "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week38.svg",
     "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week39.svg",
     "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week40.svg",
 
     // November
-    "41week.img",
-    "42week.img",
-    "43week.img",
-    "44week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/November-week41.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/November-week42.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/November-week43.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/November-week44.svg",
 
     // December
-    "45week.img",
-    "46week.img",
-    "47week.img",
-    "48week.img"
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/December-week45.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/December-week46.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/December-week47.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/December-week48.svg"
   ];
 
  let sampledColors = [];
