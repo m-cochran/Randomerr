@@ -145,16 +145,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const animalImages = [
     // January
-    "1week.img",
-    "2week.img",
-    "3week.img",
-    "4week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/January-week1.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/January-week2.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/January-week3.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/January-week4.svg",
 
     // February
-    "5week.img",
-    "6week.img",
-    "7week.img",
-    "8week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/February-week5.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/February-week6.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/February-week7.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/February-week8.svg",
 
     // March
     "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/March-week9.svg",
