@@ -157,46 +157,46 @@ document.addEventListener("DOMContentLoaded", () => {
     "8week.img",
 
     // March
-    "9week.img",
-    "10week.img",
-    "11week.img",
-    "12week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/March-week9.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/March-week10.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/March-week11.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/March-week12.svg",
 
     // April
-    "13week.img",
-    "14week.img",
-    "15week.img",
-    "16week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/April-week13.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/April-week14.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/April-week15.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/April-week16.svg",
 
     // May
-    "17week.img",
-    "18week.img",
-    "19week.img",
-    "20week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/May-week17.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/May-week18.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/May-week19.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/May-week20.svg",
 
     // June
-    "21week.img",
-    "22week.img",
-    "23week.img",
-    "24week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/June-week21.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/June-week22.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/June-week23.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/June-week24.svg",
 
     // July
-    "25week.img",
-    "26week.img",
-    "27week.img",
-    "28week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/July-week25.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/July-week26.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/July-week27.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/July-week28.svg",
 
     // August
-    "29week.img",
-    "30week.img",
-    "31week.img",
-    "32week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/August-week29.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/August-week30.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/August-week31.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/August-week32.svg",
 
     // September
-    "33week.img",
-    "34week.img",
-    "35week.img",
-    "36week.img",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/September-week33.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/September-week34.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/September-week35.svg",
+    "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/September-week36.svg",
 
     // October
     "https://m-cochran.github.io/Randomerr/assets/images/header-backgrounds/october-week37.svg",
