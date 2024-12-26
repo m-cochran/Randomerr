@@ -1,0 +1,286 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Plane Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #87ceeb, #ffffff);
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+    }
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .plane {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: url('https://cdn-icons-png.flaticon.com/512/3156/3156134.png') no-repeat center/contain;
+      left: 100px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .hoop {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 5px solid orange;
+      border-radius: 50%;
+      background: rgba(255, 165, 0, 0.1);
+    }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    #achievements {
+      position: absolute;
+      top: 50px;
+      left: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+    }
+    #game-over {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-weight: bold;
+      color: red;
+      text-shadow: 2px 2px 5px black;
+    }
+    #controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background: #555;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="score">Score: 0</div>
+    <div id="achievements"></div>
+    <div id="game-over">Game Over</div>
+    <div class="plane"></div>
+    <div id="controls">
+      <button id="start-btn" class="button">Start</button>
+      <button id="pause-btn" class="button hidden">Pause</button>
+      <button id="restart-btn" class="button hidden">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    const gameContainer = document.getElementById('game-container');
+    const plane = document.querySelector('.plane');
+    const scoreDisplay = document.getElementById('score');
+    const achievementsDisplay = document.getElementById('achievements');
+    const gameOverDisplay = document.getElementById('game-over');
+    const startButton = document.getElementById('start-btn');
+    const pauseButton = document.getElementById('pause-btn');
+    const restartButton = document.getElementById('restart-btn');
+
+    let score = 0;
+    let planeY = window.innerHeight / 2;
+    let hoops = [];
+    let gameSpeed = 2;
+    let gravity = 2;
+    let lift = -15;
+    let velocity = 0;
+    let gameStarted = false;
+    let gameOver = false;
+    let paused = false;
+    let animationFrame;
+    let currentPlane = 0;
+
+    const planes = [
+      'https://i.ibb.co/K9m9cnB/drawing.png', // Default plane
+      'https://i.ibb.co/vXnnNzV/drawing-3.png',    // New plane (10 points)
+      'https://i.ibb.co/8DDHHKh/drawing-2.png',  // New plane (25 points)
+      'https://i.ibb.co/mHrDMXV/drawing-1.png',  // New plane (50 points)
+    ];
+
+    // Tap to make the plane move up
+    gameContainer.addEventListener('click', () => {
+      if (gameStarted && !paused && !gameOver) {
+        velocity = lift;
+      }
+    });
+
+    // Create new hoops
+    function createHoop() {
+      const hoop = document.createElement('div');
+      hoop.classList.add('hoop');
+      hoop.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
+      hoop.style.left = `${window.innerWidth}px`;
+      gameContainer.appendChild(hoop);
+      hoops.push(hoop);
+    }
+
+    // End the game
+    function endGame() {
+      gameOver = true;
+      gameStarted = false;
+      gameOverDisplay.style.display = 'block';
+      pauseButton.classList.add('hidden');
+      cancelAnimationFrame(animationFrame);
+    }
+
+    // Reset the game
+    function resetGame() {
+      score = 0;
+      planeY = window.innerHeight / 2;
+      velocity = 0;
+      currentPlane = 0;
+      plane.style.backgroundImage = `url(${planes[currentPlane]})`;
+      hoops.forEach((hoop) => gameContainer.removeChild(hoop));
+      hoops = [];
+      scoreDisplay.textContent = `Score: ${score}`;
+      achievementsDisplay.textContent = '';
+      gameOverDisplay.style.display = 'none';
+      gameOver = false;
+    }
+
+    // Update achievements
+    function updateAchievements() {
+      if (score === 10) {
+        currentPlane = 1;
+        achievementsDisplay.textContent = 'Achievement Unlocked: New Plane!';
+        plane.style.backgroundImage = `url(${planes[currentPlane]})`;
+      } else if (score === 25) {
+        currentPlane = 2;
+        achievementsDisplay.textContent = 'Achievement Unlocked: Another New Plane!';
+        plane.style.backgroundImage = `url(${planes[currentPlane]})`;
+      } else if (score === 50) {
+        currentPlane = 3;
+        achievementsDisplay.textContent = 'Achievement Unlocked: Legendary Plane!';
+        plane.style.backgroundImage = `url(${planes[currentPlane]})`;
+      } else if (score === 100) {
+        achievementsDisplay.textContent = 'You Win! Congratulations!';
+        endGame();
+      }
+    }
+
+    // Update game objects
+    function updateGame() {
+      if (gameOver || paused) return;
+
+      // Gravity effect
+      velocity += gravity;
+      planeY += velocity;
+
+      // Prevent the plane from going out of bounds
+      if (planeY <= 0 || planeY >= window.innerHeight - 50) {
+        endGame();
+        return;
+      }
+
+      plane.style.top = `${planeY}px`;
+
+      // Move hoops
+      hoops.forEach((hoop, index) => {
+        const hoopX = parseInt(window.getComputedStyle(hoop).left);
+        const hoopY = parseInt(window.getComputedStyle(hoop).top);
+        const planeCenterY = planeY + 25; // Plane's center (50px height)
+
+        hoop.style.left = `${hoopX - gameSpeed}px`;
+
+        // Check if plane goes through the hoop
+        const isPlaneThroughHoop =
+          hoopX < 150 &&
+          hoopX + 100 > 100 && // Width of hoop covers the plane's x-range
+          planeCenterY > hoopY &&
+          planeCenterY < hoopY + 100; // Plane center is within hoop bounds
+
+        if (isPlaneThroughHoop) {
+          score++;
+          scoreDisplay.textContent = `Score: ${score}`;
+          gameContainer.removeChild(hoop);
+          hoops.splice(index, 1);
+          updateAchievements();
+        }
+
+        // Remove hoops that go off-screen
+        if (hoopX < -100) {
+          gameContainer.removeChild(hoop);
+          hoops.splice(index, 1);
+        }
+      });
+
+      // Add new hoops at intervals
+      if (Math.random() < 0.01) {
+        createHoop();
+      }
+
+      animationFrame = requestAnimationFrame(updateGame);
+    }
+
+    // Start the game
+    function startGame() {
+      if (gameOver) return;
+      gameStarted = true;
+      paused = false;
+      startButton.classList.add('hidden');
+      pauseButton.classList.remove('hidden');
+      restartButton.classList.remove('hidden');
+      updateGame();
+    }
+
+    // Pause the game
+    function pauseGame() {
+      paused = true;
+      pauseButton.textContent = 'Resume';
+    }
+
+    // Resume the game
+    function resumeGame() {
+      paused = false;
+      pauseButton.textContent = 'Pause';
+      updateGame();
+    }
+
+    // Button event listeners
+    startButton.addEventListener('click', startGame);
+    pauseButton.addEventListener('click', () => {
+      if (paused) {
+        resumeGame();
+      } else {
+        pauseGame();
+      }
+    });
+    restartButton.addEventListener('click', () => {
+      resetGame();
+      startGame();
+    });
+  </script>
+</body>
+</html>
