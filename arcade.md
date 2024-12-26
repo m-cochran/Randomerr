@@ -20,7 +20,7 @@ permalink: /arcade/
       <li><a href="#" data-game="solitaire">solitaire</a></li>
       <li><a href="#" data-game="tic_tac_toe">Tic Tac Toe</a></li>
       <li><a href="#" data-game="pong">Pong</a></li>
-      <li><a href="#" data-game="the_plane_game">The Plane Game</a></li>
+      <li><a href="#" data-game="the_paper_plane_game">The Paper Plane Game</a></li>
     </ul>
   </div>
 
