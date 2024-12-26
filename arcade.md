@@ -173,6 +173,9 @@ permalink: /arcade/
          case 'pong':
           gameIframe.src = 'pong.html';
           break;
+         case 'the_plane_game':
+          gameIframe.src = 'the_plane_game.html';
+          break;
         default:
           gameIframe.src = '';
           gameIframe.style.display = 'none';
