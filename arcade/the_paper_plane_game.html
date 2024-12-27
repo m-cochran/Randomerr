@@ -16,6 +16,7 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+      overflow: hidden;
     }
     .plane {
       position: absolute;
@@ -61,7 +62,6 @@
   </style>
 </head>
 <body>
-  <canvas id="thepaperplanegame" width="400" height="400"></canvas>
   <div id="game-container">
     <div id="score">Score: 0</div>
     <div id="achievements"></div>
@@ -93,16 +93,16 @@
     const createHoop = () => {
       const hoop = document.createElement('div');
       hoop.classList.add('hoop');
-      hoop.style.top = `${Math.random() * (window.innerHeight - 100)}px`;
-      hoop.style.left = `${window.innerWidth}px`;
+      hoop.style.top = `${Math.random() * (gameContainer.offsetHeight - 100)}px`;
+      hoop.style.left = `${gameContainer.offsetWidth}px`;
       gameContainer.appendChild(hoop);
       hoops.push(hoop);
     };
 
     const updateAchievements = () => {
-      if (score === 10) { currentPlane = 1; }
-      else if (score === 25) { currentPlane = 2; }
-      else if (score === 50) { currentPlane = 3; }
+      if (score === 10) currentPlane = 1;
+      else if (score === 25) currentPlane = 2;
+      else if (score === 50) currentPlane = 3;
       else if (score === 100) {
         achievementsDisplay.textContent = 'You Win! Congratulations!';
         endGame();
@@ -113,22 +113,25 @@
     const updateGame = () => {
       if (gameOver || paused) return;
       velocity += gravity;
-      planeY = Math.max(0, Math.min(planeY + velocity, window.innerHeight - 50));
+      planeY = Math.max(0, Math.min(planeY + velocity, gameContainer.offsetHeight - 50));
       plane.style.top = `${planeY}px`;
 
       hoops.forEach((hoop, i) => {
-        hoop.style.left = `${parseInt(hoop.style.left) - gameSpeed}px`;
-        if (parseInt(hoop.style.left) < -100) {
+        const hoopLeft = parseInt(hoop.style.left) - gameSpeed;
+        hoop.style.left = `${hoopLeft}px`;
+
+        if (hoopLeft < -100) {
           hoops.splice(i, 1);
-          gameContainer.removeChild(hoop);
+          hoop.remove();
         }
+
         if (
-          parseInt(hoop.style.left) < 150 &&
+          hoopLeft < 150 &&
           planeY + 25 > parseInt(hoop.style.top) &&
           planeY + 25 < parseInt(hoop.style.top) + 100
         ) {
           hoops.splice(i, 1);
-          gameContainer.removeChild(hoop);
+          hoop.remove();
           score++;
           scoreDisplay.textContent = `Score: ${score}`;
           updateAchievements();
@@ -136,7 +139,7 @@
       });
 
       if (Math.random() < 0.01) createHoop();
-      if (planeY === 0 || planeY >= window.innerHeight - 50) endGame();
+      if (planeY === 0 || planeY >= gameContainer.offsetHeight - 50) endGame();
       requestAnimationFrame(updateGame);
     };
 
@@ -159,17 +162,26 @@
       gameOverDisplay.style.display = 'block';
     };
 
-    startButton.onclick = startGame;
-    pauseButton.onclick = pauseGame;
-    restartButton.onclick = () => {
-      score = 0; planeY = window.innerHeight / 2; velocity = 0;
-      hoops.forEach(h => gameContainer.removeChild(h)); hoops = [];
+    const resetGame = () => {
+      score = 0; planeY = gameContainer.offsetHeight / 2; velocity = 0;
+      hoops.forEach(h => h.remove());
+      hoops = [];
       scoreDisplay.textContent = `Score: ${score}`;
       gameOverDisplay.style.display = 'none';
       startGame();
     };
 
-    gameContainer.onclick = () => { if (!paused) velocity = lift; };
+    startButton.addEventListener('click', startGame);
+    pauseButton.addEventListener('click', pauseGame);
+    restartButton.addEventListener('click', resetGame);
+
+    gameContainer.addEventListener('click', () => {
+      if (!paused && !gameOver) velocity = lift;
+    });
+
+    window.addEventListener('resize', () => {
+      if (gameStarted && !gameOver) resetGame();
+    });
   </script>
 </body>
 </html>
