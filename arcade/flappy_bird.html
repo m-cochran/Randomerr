@@ -27,17 +27,17 @@
         const gameOverElement = document.getElementById('gameOver');
         const restartBtn = document.getElementById('restartBtn');
 
-        const bird = { x: 50, y: 150, w: 20, h: 20, gravity: 0.6, lift: -15, velocity: 0 };
+        const bird = { x: 50, y: 150, w: 20, h: 20, gravity: 0.5, lift: -10, velocity: 0 };
         let pipes = [];
         let score = 0;
         let gameRunning = true;
         let pipeInterval;
         let gameLoop;
 
-        // Initialize pipes
+        // Create pipes with a larger gap
         function createPipe() {
             const pipeHeight = Math.floor(Math.random() * (canvas.height / 2)) + 50;
-            const gap = 100; // Gap between pipes
+            const gap = 130; // Increased gap for easier gameplay
             pipes.push({
                 x: canvas.width,
                 y: 0,
@@ -55,7 +55,7 @@
                 ctx.fillRect(pipe.x, pipe.y, pipe.w, pipe.h);
                 // Bottom pipe
                 ctx.fillRect(pipe.x, pipe.gapEnd, pipe.w, canvas.height - pipe.gapEnd);
-                pipe.x -= 2; // Move pipes left
+                pipe.x -= 2; // Adjusted pipe speed for balanced difficulty
 
                 // Remove pipes that go off screen
                 if (pipe.x + pipe.w < 0) {
@@ -71,7 +71,7 @@
         }
 
         function checkCollision(pipe) {
-            // Check collision with pipe
+            // Check if the bird hits the pipe
             if (bird.x < pipe.x + pipe.w && bird.x + bird.w > pipe.x &&
                 (bird.y < pipe.gapStart || bird.y + bird.h > pipe.gapEnd)) {
                 gameOver();
@@ -135,8 +135,9 @@
         restartBtn.addEventListener('click', restartGame);
 
         function startGame() {
+            createPipe(); // Start with an initial pipe
             gameLoop = setInterval(draw, 20);
-            pipeInterval = setInterval(createPipe, 3000);
+            pipeInterval = setInterval(createPipe, 2500); // Pipes appear every 2.5 seconds
         }
 
         // Start the game for the first time
