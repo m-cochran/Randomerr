@@ -11,6 +11,13 @@ permalink: /profile/
 <main>
   <div class="profile-container">
     <h2>Your Profile</h2>
+<div class="profile">
+  <img id="profilePicture" src="default-avatar.png" alt="Profile Picture" class="profile-picture" />
+  <h1 id="profileName">Name</h1>
+  <p id="profileEmail">Email</p>
+</div>
+
+    
     <p class="profile-description">Welcome to your profile page. Here you can manage your account, view recent purchases, listings, and messages.</p>
 
     <!-- Section: Recent Purchases -->
