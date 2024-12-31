@@ -140,6 +140,7 @@
   </style>
 
 <script>
+<script>
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
 
   // Check if user is logged in (from localStorage)
@@ -193,8 +194,11 @@
 
       // Mark Google API as initialized in localStorage
       localStorage.setItem('googleApiInitialized', 'true');
+    } catch (error) {
+      console.error("Initialization Error: ", error);
+      alert("Failed to initialize Google Sign-In. Please reload the page.");
       // Retry initialization after a short delay
-      setTimeout(initializeGoogle, 200); // Retry after 2 seconds
+      setTimeout(initializeGoogle, 2000); // Retry after 2 seconds
     }
   }
 
