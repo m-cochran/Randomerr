@@ -229,10 +229,11 @@
     document.querySelector('.access-bar').appendChild(profileBtn);
   }
 
-  // Show Profile
-  function showProfile() {
-    alert("Profile Page (Placeholder)"); // You can redirect to a profile page here
-  }
+ // Show Profile
+function showProfile() {
+  window.location.href = "{{ site.baseurl }}/profile/";
+}
+
 
   // Logout function
   function logout() {
