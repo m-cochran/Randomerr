@@ -46,7 +46,26 @@
 <div id="monthOverlay" class="month-overlay"></div>
 
 
+ <script src="https://accounts.google.com/gsi/client" async defer></script>
+ 
+ <div class="access-bar">
+    <button id="enrollBtn">Enroll</button>
+    <button id="accessBtn">Access</button>
+  </div>
 
+  <!-- Enroll Modal -->
+  <div id="enrollModal" class="modal">
+    <button class="close-btn" onclick="closeModal('enrollModal')">&times;</button>
+    <h2>Sign Up with Google</h2>
+    <div id="googleEnroll" class="google-button"></div>
+  </div>
+
+  <!-- Access Modal -->
+  <div id="accessModal" class="modal">
+    <button class="close-btn" onclick="closeModal('accessModal')">&times;</button>
+    <h2>Log In with Google</h2>
+    <div id="googleAccess" class="google-button"></div>
+  </div>
 
 
 
