@@ -44,3 +44,170 @@
         <div class="shape-overlay" id="shapeOverlay"></div>
     </div>
 <div id="monthOverlay" class="month-overlay"></div>
+
+
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: block;
+      justify-content: center;
+      align-items: center;
+      height: 10vh;
+      background-color: #f4f4f9;
+    }
+    .access-bar {
+      display: flex;
+      gap: 10px;
+    }
+    .access-bar button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .access-bar button:hover {
+      background-color: #ddd;
+    }
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 15%;
+      transform: translate(-50%, -50%);
+      width: 190px;
+      padding: 20px;
+      border-radius: 5px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: none;
+    }
+    .modal.active {
+      display: block;
+    }
+    .modal h2 {
+      margin-top: 0;
+      display: inline-block;
+    }
+    .close-btn {
+      font-size: 20px;
+      color: #666;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .google-btn:hover {
+      background-color: #f4f4f9;
+    }
+    .google-btn img {
+      width: 24px;  /* Adjust the width */
+      height: 24px; /* Adjust the height */
+    }
+  </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="access-bar">
+    <button id="enrollBtn">Enroll</button>
+    <button id="accessBtn">Access</button>
+  </div>
+
+  <!-- Enroll Modal -->
+  <div id="enrollModal" class="modal">
+    <span class="close-btn" onclick="closeModal('enrollModal')">&times;</span>
+    <h2>Sign Up</h2>
+    <div id="googleEnroll" class="google-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Google_logo_2023.png" alt="Google Logo">
+      <span>Continue with Google</span>
+    </div>
+  </div>
+
+  <!-- Access Modal -->
+  <div id="accessModal" class="modal">
+    <span class="close-btn" onclick="closeModal('accessModal')">&times;</span>
+    <h2>Log In</h2>
+    <div id="googleAccess" class="google-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Google_logo_2023.png" alt="Google Logo">
+      <span>Continue with Google</span>
+    </div>
+  </div>
+
+  <script>
+    // Open modal function
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+
+    // Close modal function
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    // Event listeners for buttons
+    document.getElementById('enrollBtn').addEventListener('click', () => openModal('enrollModal'));
+    document.getElementById('accessBtn').addEventListener('click', () => openModal('accessModal'));
+
+    // Google Sign-In
+    const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your Google client ID
+    let userLoggedIn = false; // Variable to track if the user is logged in
+
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleGoogleResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("googleEnroll"),
+      { theme: "outline", size: "large", text: "signup_with" }
+    );
+
+    google.accounts.id.renderButton(
+      document.getElementById("googleAccess"),
+      { theme: "outline", size: "large", text: "signin_with" }
+    );
+
+    function handleGoogleResponse(response) {
+      console.log("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c:" + response.credential);
+      // Handle user authentication here (e.g., send token to server)
+      userLoggedIn = true; // Simulate login status for now
+      updateUIAfterLogin();
+    }
+
+    function updateUIAfterLogin() {
+      if (userLoggedIn) {
+        // Hide Enroll and Access buttons and show Profile button
+        document.getElementById('enrollBtn').style.display = 'none';
+        document.getElementById('accessBtn').style.display = 'none';
+
+        const profileBtn = document.createElement('button');
+        profileBtn.textContent = 'Profile';
+        profileBtn.addEventListener('click', showProfile);
+        document.querySelector('.access-bar').appendChild(profileBtn);
+      }
+    }
+
+    function showProfile() {
+      alert("Profile Page (Placeholder)"); // You can redirect to a profile page here
+    }
+  </script>
+</body>
+</html>
+
