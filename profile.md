@@ -5,7 +5,7 @@ permalink: /profile/
 
 # Profile
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/contact-page.css">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/profile.css">
 
 <main>
   <div class="profile-container">
@@ -38,62 +38,6 @@ permalink: /profile/
 
   </div>
 
-  <style>
-    .profile-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-container h2 {
-      font-family: 'Arial', sans-serif;
-      font-size: 2rem;
-      color: #333;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .profile-description {
-      font-size: 1.2rem;
-      color: #666;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .section {
-      margin-top: 20px;
-    }
-
-    .section h3 {
-      font-size: 1.5rem;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .section ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .section li {
-      background-color: #f1f1f1;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    .section li a {
-      text-decoration: none;
-      color: #06f;
-    }
-
-    .section li a:hover {
-      text-decoration: underline;
-    }
-  </style>
 
   <script>
     // Placeholder logic for fetching recent purchases, listings, and messages
