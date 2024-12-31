@@ -46,8 +46,15 @@
 <div id="monthOverlay" class="month-overlay"></div>
 
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 
+
+
+
+
+
+
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
  
  <div class="access-bar">
@@ -70,71 +77,6 @@
   </div>
 
 
-  <style>
-    
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
-      display: block;
-      justify-content: center;
-      align-items: center;
-      height: 10vh;
-    }
-
-    .access-bar {
-      display: flex;
-      gap: 10px;
-    }
-
-    .access-bar button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .access-bar button:hover {
-      background-color: #ddd;
-    }
-
-    .modal {
-      position: fixed;
-      width: 300px;
-      padding: 20px;
-      border-radius: 5px;
-      background: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      display: none;
-    }
-
-    .modal.active {
-      display: block;
-    }
-
-    .modal h2 {
-      margin-top: 0;
-    }
-
-    .modal .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 20px;
-      color: #666;
-      cursor: pointer;
-    }
-
-    .google-button {
-      margin-top: 20px;
-      text-align: center;
-    }
-  </style>
 
 <script>
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
@@ -142,28 +84,26 @@
   // Check if user is logged in (from localStorage)
   const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
-  // Check if Google API has been initialized
-  const googleApiInitialized = localStorage.getItem('googleApiInitialized') === 'true';
-
-  // Function to initialize Google API after the script has loaded
+  // Function to initialize Google API
   function initializeGoogle() {
-    try {
-      // Check if the Google API is loaded
-      if (!google || !google.accounts) {
-        console.error("Google API is not loaded yet.");
-        return;
-      }
+    if (!window.google || !google.accounts) {
+      console.warn("Google API not available yet. Retrying initialization...");
+      setTimeout(initializeGoogle, 1000); // Retry after 1 second
+      return;
+    }
 
-      google.accounts.id.initialize({
-        client_id: clientId,
-        callback: handleGoogleResponse,
-        error_callback: (error) => {
-          console.error("Google Sign-In Error: ", error);
-          alert("Google Sign-In failed. Please try again later.");
-        },
-      });
+    // Initialize Google API
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleGoogleResponse,
+      error_callback: (error) => {
+        console.error("Google Sign-In Error: ", error);
+        alert("Google Sign-In failed. Please try again later.");
+      },
+    });
 
-      // Render Google Sign-In buttons
+    // Render buttons only if not logged in
+    if (!userLoggedIn) {
       const googleEnrollButton = document.getElementById("googleEnroll");
       const googleAccessButton = document.getElementById("googleAccess");
 
@@ -182,44 +122,32 @@
           text: "signin_with",
         });
       }
-
-      // If user is logged in, show the profile button
-      if (userLoggedIn) {
-        updateUIAfterLogin();
-      }
-
-      // Mark Google API as initialized in localStorage
-      localStorage.setItem('googleApiInitialized', 'true');
-    } catch (error) {
-      console.error("Initialization Error: ", error);
-      alert("Failed to initialize Google Sign-In. Please reload the page.");
-      // Retry initialization after a short delay
-      setTimeout(initializeGoogle, 2000); // Retry after 2 seconds
+    } else {
+      // Update UI for logged-in state
+      updateUIAfterLogin();
     }
   }
 
   // Google response handler after login
   function handleGoogleResponse(response) {
-    try {
-      console.log("Google Response: ", response);
-      alert("Logged in successfully!");
+    console.log("Google Response: ", response);
+    alert("Logged in successfully!");
 
-      // Store login state in localStorage
-      localStorage.setItem('userLoggedIn', 'true');
+    // Store login state in localStorage
+    localStorage.setItem('userLoggedIn', 'true');
 
-      // Update UI after login
-      updateUIAfterLogin();
-    } catch (error) {
-      console.error("Response Handling Error: ", error);
-      alert("An error occurred while processing your login. Please try again.");
-    }
+    // Update UI after login
+    updateUIAfterLogin();
   }
 
   // Update UI after successful login
   function updateUIAfterLogin() {
     // Hide Enroll and Access buttons and show Profile button
-    document.getElementById('enrollBtn').style.display = 'none';
-    document.getElementById('accessBtn').style.display = 'none';
+    const enrollBtn = document.getElementById('enrollBtn');
+    const accessBtn = document.getElementById('accessBtn');
+
+    if (enrollBtn) enrollBtn.style.display = 'none';
+    if (accessBtn) accessBtn.style.display = 'none';
 
     const profileBtn = document.createElement('button');
     profileBtn.textContent = 'Profile';
@@ -227,63 +155,28 @@
     document.querySelector('.access-bar').appendChild(profileBtn);
   }
 
- // Show Profile
-function showProfile() {
-  window.location.href = "{{ site.baseurl }}/profile/";
-}
-
+  // Show Profile
+  function showProfile() {
+    window.location.href = "https://m-cochran.github.io/Randomerr/profile/";
+  }
 
   // Logout function
   function logout() {
     alert("You have been logged out.");
-
-    // Remove login state from localStorage
     localStorage.setItem('userLoggedIn', 'false');
-
-    // Reload the page
     window.location.reload();
   }
 
-  // Function to close all modals
-  function closeAllModals() {
-    const modals = document.querySelectorAll(".modal");
-    modals.forEach((modal) => modal.classList.remove("active"));
-  }
-
-  // Open modal function
-  function openModal(modalId) {
-    closeAllModals(); // Close any currently open modals
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.add("active");
-    } else {
-      console.error(Modal with ID "${modalId}" not found.);
-    }
-  }
-
-  // Close modal function
-  function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.remove("active");
-    } else {
-      console.error(Modal with ID "${modalId}" not found.);
-    }
-  }
-
-  // Load Google API if not already initialized
-  if (!googleApiInitialized) {
-    // Dynamically load Google API script on first load
+  // Load Google API dynamically and initialize when ready
+  if (!userLoggedIn) {
     const googleScript = document.createElement('script');
     googleScript.src = "https://accounts.google.com/gsi/client";
     googleScript.async = true;
     googleScript.defer = true;
 
-    // Once the script is loaded, initialize Google Sign-In
     googleScript.onload = initializeGoogle;
     document.body.appendChild(googleScript);
   } else {
-    // If Google API has already been initialized, directly initialize Google
     initializeGoogle();
   }
 
@@ -294,14 +187,26 @@ function showProfile() {
 
     if (enrollBtn) {
       enrollBtn.addEventListener("click", () => openModal("enrollModal"));
-    } else {
-      console.error("Enroll button not found.");
     }
 
     if (accessBtn) {
       accessBtn.addEventListener("click", () => openModal("accessModal"));
-    } else {
-      console.error("Access button not found.");
     }
   });
+
+  // Modal controls
+  function openModal(modalId) {
+    closeAllModals();
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.add("active");
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove("active");
+  }
+
+  function closeAllModals() {
+    document.querySelectorAll(".modal").forEach((modal) => modal.classList.remove("active"));
+  }
 </script>
