@@ -144,37 +144,57 @@
 </style>
 
 <script>
-  const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your Google Client ID
+
+  const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
+
+  const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
   function initializeGoogle() {
-    google.accounts.id.initialize({
-      client_id: clientId,
-      callback: handleGoogleResponse,
-    });
+    if (window.google && google.accounts) {
+      google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleGoogleResponse,
+        error_callback: (error) => {
+          console.error("Google Sign-In Error: ", error);
+          displayMessage("Google Sign-In failed. Please try again later.", "error");
+        },
+      });
 
-    const googleButton = document.getElementById("googleSignInButton");
-    if (googleButton) {
-      google.accounts.id.renderButton(googleButton, {
+      renderGoogleButtons();
+    } else {
+      console.error("Google API not loaded.");
+    }
+  }
+
+  function renderGoogleButtons() {
+    const googleEnrollButton = document.getElementById("googleEnroll");
+    const googleAccessButton = document.getElementById("googleAccess");
+
+    if (googleEnrollButton) {
+      googleEnrollButton.innerHTML = ""; // Clear previous content
+      google.accounts.id.renderButton(googleEnrollButton, {
         theme: "outline",
         size: "large",
+        text: "signup_with",
+      });
+    }
+
+    if (googleAccessButton) {
+      googleAccessButton.innerHTML = ""; // Clear previous content
+      google.accounts.id.renderButton(googleAccessButton, {
+        theme: "outline",
+        size: "large",
+        text: "signin_with",
       });
     }
   }
 
   function handleGoogleResponse(response) {
-    const credential = response.credential;
-    const user = jwt_decode(credential); // Decode the JWT token
-    console.log("Decoded User: ", user);
-
-    // Save user data in localStorage
-    localStorage.setItem("user", JSON.stringify({
-      name: user.name,
-      email: user.email,
-      picture: user.picture,
-    }));
-
-    localStorage.setItem("userLoggedIn", "true");
+    console.log("Google Response: ", response);
+    localStorage.setItem('userLoggedIn', 'true');
     updateUIAfterLogin();
+
+    // Close any open modal after login
     closeAllModals();
   }
 
@@ -198,8 +218,7 @@
   }
 
   function handleLogout() {
-    localStorage.removeItem("user"); // Clear user data
-    localStorage.removeItem("userLoggedIn");
+    localStorage.removeItem('userLoggedIn'); // Clear login state
 
     // Reset the UI to show original Enroll and Access buttons
     const accessBar = document.querySelector(".access-bar");
@@ -229,25 +248,52 @@
     window.location.href = "{{ site.baseurl }}/profile/";
   }
 
-  function populateProfilePage() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      document.getElementById("profileName").textContent = user.name || "Name not available";
-      document.getElementById("profileEmail").textContent = user.email || "Email not available";
-      document.getElementById("profilePicture").src = user.picture || "default-avatar.png"; // Fallback to default avatar
-    }
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
-    if (window.location.pathname.includes("profile")) {
-      populateProfilePage(); // Populate profile page on load
+    if (userLoggedIn) {
+      updateUIAfterLogin();
+    } else {
+      const enrollBtn = document.getElementById("enrollBtn");
+      const accessBtn = document.getElementById("accessBtn");
+
+      if (enrollBtn) {
+        enrollBtn.addEventListener("click", () => openModal("enrollModal"));
+      }
+
+      if (accessBtn) {
+        accessBtn.addEventListener("click", () => openModal("accessModal"));
+      }
     }
 
     const googleScript = document.createElement('script');
     googleScript.src = "https://accounts.google.com/gsi/client";
     googleScript.async = true;
     googleScript.defer = true;
-    googleScript.onload = initializeGoogle; // Initialize Google buttons on script load
+    googleScript.onload = initializeGoogle;
     document.body.appendChild(googleScript);
   });
+
+  function openModal(modalId) {
+    closeAllModals();
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add("active");
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove("active");
+    }
+  }
+
+  function closeAllModals() {
+    const modals = document.querySelectorAll(".modal");
+    modals.forEach((modal) => modal.classList.remove("active"));
+  }
+
+  function displayMessage(message, type) {
+    // Optionally add a visual notification if needed
+    console.log(`${type}: ${message}`);
+  }
 </script>
