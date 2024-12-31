@@ -158,9 +158,7 @@
         },
       });
 
-      if (!userLoggedIn) {
-        renderGoogleButtons();
-      }
+      renderGoogleButtons();
     } else {
       console.error("Google API not loaded.");
     }
@@ -171,6 +169,7 @@
     const googleAccessButton = document.getElementById("googleAccess");
 
     if (googleEnrollButton) {
+      googleEnrollButton.innerHTML = ""; // Clear previous content
       google.accounts.id.renderButton(googleEnrollButton, {
         theme: "outline",
         size: "large",
@@ -179,6 +178,7 @@
     }
 
     if (googleAccessButton) {
+      googleAccessButton.innerHTML = ""; // Clear previous content
       google.accounts.id.renderButton(googleAccessButton, {
         theme: "outline",
         size: "large",
@@ -225,7 +225,7 @@
         <div id="googleAccess"></div>
       `;
     }
-    renderGoogleButtons();
+    initializeGoogle(); // Reinitialize Google buttons
   }
 
   function showProfile() {
@@ -276,3 +276,4 @@
     modals.forEach((modal) => modal.classList.remove("active"));
   }
 </script>
+
