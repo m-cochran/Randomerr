@@ -4,7 +4,7 @@ title: Profile
 permalink: /profile/
 ---
 
-# Contact Us
+# Profile
 
 
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/contact-page.css">
