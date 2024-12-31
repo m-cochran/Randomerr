@@ -192,6 +192,9 @@
     alert("Logged in successfully!");
     localStorage.setItem('userLoggedIn', 'true');
     updateUIAfterLogin();
+
+    // Close any open modal after login
+    closeAllModals();
   }
 
   function updateUIAfterLogin() {
