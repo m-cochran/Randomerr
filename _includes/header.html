@@ -145,10 +145,8 @@
 <script>
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
 
-  // Check if user is logged in (from localStorage)
   const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
-  // Function to initialize Google API
   function initializeGoogle() {
     if (window.google && google.accounts) {
       google.accounts.id.initialize({
@@ -160,33 +158,35 @@
         },
       });
 
-      // Render Google buttons if not logged in
       if (!userLoggedIn) {
-        const googleEnrollButton = document.getElementById("googleEnroll");
-        const googleAccessButton = document.getElementById("googleAccess");
-
-        if (googleEnrollButton) {
-          google.accounts.id.renderButton(googleEnrollButton, {
-            theme: "outline",
-            size: "large",
-            text: "signup_with",
-          });
-        }
-
-        if (googleAccessButton) {
-          google.accounts.id.renderButton(googleAccessButton, {
-            theme: "outline",
-            size: "large",
-            text: "signin_with",
-          });
-        }
+        renderGoogleButtons();
       }
     } else {
       console.error("Google API not loaded.");
     }
   }
 
-  // Handle Google login response
+  function renderGoogleButtons() {
+    const googleEnrollButton = document.getElementById("googleEnroll");
+    const googleAccessButton = document.getElementById("googleAccess");
+
+    if (googleEnrollButton) {
+      google.accounts.id.renderButton(googleEnrollButton, {
+        theme: "outline",
+        size: "large",
+        text: "signup_with",
+      });
+    }
+
+    if (googleAccessButton) {
+      google.accounts.id.renderButton(googleAccessButton, {
+        theme: "outline",
+        size: "large",
+        text: "signin_with",
+      });
+    }
+  }
+
   function handleGoogleResponse(response) {
     console.log("Google Response: ", response);
     alert("Logged in successfully!");
@@ -194,34 +194,48 @@
     updateUIAfterLogin();
   }
 
-  // Update the UI after successful login
   function updateUIAfterLogin() {
     const accessBar = document.querySelector(".access-bar");
-
     if (accessBar) {
-      // Clear existing buttons
-      accessBar.innerHTML = '';
+      accessBar.innerHTML = ''; // Clear existing buttons
 
       // Add Profile button
       const profileBtn = document.createElement('button');
       profileBtn.textContent = 'Profile';
       profileBtn.addEventListener('click', showProfile);
       accessBar.appendChild(profileBtn);
+
+      // Add Logout button
+      const logoutBtn = document.createElement('button');
+      logoutBtn.textContent = 'Logout';
+      logoutBtn.addEventListener('click', handleLogout);
+      accessBar.appendChild(logoutBtn);
     }
   }
 
-  // Show Profile
+  function handleLogout() {
+    localStorage.removeItem('userLoggedIn'); // Clear login state
+    alert("Logged out successfully!");
+
+    // Reset the UI to show enroll and access buttons
+    const accessBar = document.querySelector(".access-bar");
+    if (accessBar) {
+      accessBar.innerHTML = `
+        <div id="googleEnroll"></div>
+        <div id="googleAccess"></div>
+      `;
+    }
+    renderGoogleButtons();
+  }
+
   function showProfile() {
     window.location.href = "{{ site.baseurl }}/profile/";
   }
 
-  // Handle page load
   document.addEventListener("DOMContentLoaded", () => {
-    // Update UI immediately based on login state
     if (userLoggedIn) {
       updateUIAfterLogin();
     } else {
-      // Add event listeners for enroll and access buttons
       const enrollBtn = document.getElementById("enrollBtn");
       const accessBtn = document.getElementById("accessBtn");
 
@@ -234,7 +248,6 @@
       }
     }
 
-    // Load Google API if available
     const googleScript = document.createElement('script');
     googleScript.src = "https://accounts.google.com/gsi/client";
     googleScript.async = true;
@@ -243,7 +256,6 @@
     document.body.appendChild(googleScript);
   });
 
-  // Open and close modals
   function openModal(modalId) {
     closeAllModals();
     const modal = document.getElementById(modalId);
@@ -264,4 +276,3 @@
     modals.forEach((modal) => modal.classList.remove("active"));
   }
 </script>
-
