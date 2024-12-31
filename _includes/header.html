@@ -144,7 +144,22 @@
 </style>
 
 <script>
-  const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
+  const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your Google Client ID
+
+  function initializeGoogle() {
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleGoogleResponse,
+    });
+
+    const googleButton = document.getElementById("googleSignInButton");
+    if (googleButton) {
+      google.accounts.id.renderButton(googleButton, {
+        theme: "outline",
+        size: "large",
+      });
+    }
+  }
 
   function handleGoogleResponse(response) {
     const credential = response.credential;
@@ -232,7 +247,7 @@
     googleScript.src = "https://accounts.google.com/gsi/client";
     googleScript.async = true;
     googleScript.defer = true;
-    googleScript.onload = initializeGoogle;
+    googleScript.onload = initializeGoogle; // Initialize Google buttons on script load
     document.body.appendChild(googleScript);
   });
 </script>
