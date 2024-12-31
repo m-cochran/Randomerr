@@ -76,7 +76,71 @@
     <div id="googleAccess" class="google-button"></div>
   </div>
 
+<style>
+  
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: block;
+      justify-content: center;
+      align-items: center;
+      height: 10vh;
+    }
 
+    .access-bar {
+      display: flex;
+      gap: 10px;
+    }
+
+    .access-bar button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .access-bar button:hover {
+      background-color: #ddd;
+    }
+
+    .modal {
+      position: fixed;
+      width: 300px;
+      padding: 20px;
+      border-radius: 5px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: none;
+    }
+
+    .modal.active {
+      display: block;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .google-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+</style>
 
 <script>
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
