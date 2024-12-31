@@ -140,11 +140,13 @@
   </style>
 
 <script>
-
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
 
   // Check if user is logged in (from localStorage)
   const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+
+  // Check if Google API has been initialized
+  const googleApiInitialized = localStorage.getItem('googleApiInitialized') === 'true';
 
   // Function to initialize Google API after the script has loaded
   function initializeGoogle() {
@@ -188,6 +190,9 @@
       if (userLoggedIn) {
         updateUIAfterLogin();
       }
+
+      // Mark Google API as initialized in localStorage
+      localStorage.setItem('googleApiInitialized', 'true');
     } catch (error) {
       console.error("Initialization Error: ", error);
       alert("Failed to initialize Google Sign-In. Please reload the page.");
@@ -207,7 +212,6 @@
 
       // Update UI after login
       updateUIAfterLogin();
-
     } catch (error) {
       console.error("Response Handling Error: ", error);
       alert("An error occurred while processing your login. Please try again.");
@@ -269,8 +273,9 @@
     }
   }
 
-  // Wait for DOM and Google API script to be loaded before initializing
-  window.addEventListener("load", () => {
+  // Load Google API if not already initialized
+  if (!googleApiInitialized) {
+    // Dynamically load Google API script on first load
     const googleScript = document.createElement('script');
     googleScript.src = "https://accounts.google.com/gsi/client";
     googleScript.async = true;
@@ -279,7 +284,10 @@
     // Once the script is loaded, initialize Google Sign-In
     googleScript.onload = initializeGoogle;
     document.body.appendChild(googleScript);
-  });
+  } else {
+    // If Google API has already been initialized, directly initialize Google
+    initializeGoogle();
+  }
 
   // Attach event listeners after DOM is fully loaded
   document.addEventListener("DOMContentLoaded", () => {
@@ -299,5 +307,6 @@
     }
   });
 </script>
+
 
 
