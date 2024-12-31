@@ -141,19 +141,18 @@
 
 <script>
 
-
-
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
 
   // Check if user is logged in (from localStorage)
   const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
-  // Initialize Google API
+  // Function to initialize Google API after the script has loaded
   function initializeGoogle() {
     try {
-      // Ensure the Google API is loaded before initializing
+      // Check if the Google API is loaded
       if (!google || !google.accounts) {
-        throw new Error("Google API is not loaded yet.");
+        console.error("Google API is not loaded yet.");
+        return;
       }
 
       google.accounts.id.initialize({
@@ -185,20 +184,19 @@
         });
       }
 
-      // If already logged in, show the profile button
+      // If user is logged in, show the profile button
       if (userLoggedIn) {
         updateUIAfterLogin();
       }
-
     } catch (error) {
       console.error("Initialization Error: ", error);
       alert("Failed to initialize Google Sign-In. Please reload the page.");
       // Retry initialization after a short delay
-      setTimeout(initializeGoogle, 2000); // Retry initialization after 2 seconds
+      setTimeout(initializeGoogle, 2000); // Retry after 2 seconds
     }
   }
 
-  // Handle Google response (successful login)
+  // Google response handler after login
   function handleGoogleResponse(response) {
     try {
       console.log("Google Response: ", response);
@@ -207,7 +205,7 @@
       // Store login state in localStorage
       localStorage.setItem('userLoggedIn', 'true');
 
-      // Replace the access bar with user profile info
+      // Update UI after login
       updateUIAfterLogin();
 
     } catch (error) {
@@ -271,6 +269,18 @@
     }
   }
 
+  // Wait for DOM and Google API script to be loaded before initializing
+  window.addEventListener("load", () => {
+    const googleScript = document.createElement('script');
+    googleScript.src = "https://accounts.google.com/gsi/client";
+    googleScript.async = true;
+    googleScript.defer = true;
+
+    // Once the script is loaded, initialize Google Sign-In
+    googleScript.onload = initializeGoogle;
+    document.body.appendChild(googleScript);
+  });
+
   // Attach event listeners after DOM is fully loaded
   document.addEventListener("DOMContentLoaded", () => {
     const enrollBtn = document.getElementById("enrollBtn");
@@ -287,11 +297,7 @@
     } else {
       console.error("Access button not found.");
     }
-
-    // Initialize Google buttons
-    initializeGoogle();
   });
-
-
 </script>
+
 
