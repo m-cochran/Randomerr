@@ -217,14 +217,27 @@
     localStorage.removeItem('userLoggedIn'); // Clear login state
     alert("Logged out successfully!");
 
-    // Reset the UI to show enroll and access buttons
+    // Reset the UI to show original Enroll and Access buttons
     const accessBar = document.querySelector(".access-bar");
     if (accessBar) {
       accessBar.innerHTML = `
-        <div id="googleEnroll"></div>
-        <div id="googleAccess"></div>
+        <button id="enrollBtn">Enroll</button>
+        <button id="accessBtn">Access</button>
       `;
+
+      // Add event listeners for original buttons
+      const enrollBtn = document.getElementById("enrollBtn");
+      const accessBtn = document.getElementById("accessBtn");
+
+      if (enrollBtn) {
+        enrollBtn.addEventListener("click", () => openModal("enrollModal"));
+      }
+
+      if (accessBtn) {
+        accessBtn.addEventListener("click", () => openModal("accessModal"));
+      }
     }
+
     initializeGoogle(); // Reinitialize Google buttons
   }
 
@@ -276,4 +289,5 @@
     modals.forEach((modal) => modal.classList.remove("active"));
   }
 </script>
+
 
