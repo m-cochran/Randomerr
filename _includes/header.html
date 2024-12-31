@@ -140,7 +140,12 @@
   </style>
 
 <script>
+
+
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
+
+  // Check if user is logged in (from localStorage)
+  const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
   // Initialize Google API
   function initializeGoogle() {
@@ -178,62 +183,89 @@
           text: "signin_with",
         });
       }
+
+      // If already logged in, show the profile button
+      if (userLoggedIn) {
+        updateUIAfterLogin();
+      }
+
     } catch (error) {
       console.error("Initialization Error: ", error);
       alert("Failed to initialize Google Sign-In. Please reload the page.");
     }
   }
 
-  // Handle Google response
+  // Handle Google response (successful login)
   function handleGoogleResponse(response) {
     try {
       console.log("Google Response: ", response);
       alert("Logged in successfully!");
-      
-      // Store login status in localStorage
-      localStorage.setItem("userLoggedIn", "true");
 
-      // Update UI after login
+      // Store login state in localStorage
+      localStorage.setItem('userLoggedIn', 'true');
+
+      // Replace the access bar with user profile info
       updateUIAfterLogin();
+
     } catch (error) {
       console.error("Response Handling Error: ", error);
       alert("An error occurred while processing your login. Please try again.");
     }
   }
 
-  // Update UI after login
+  // Update UI after successful login
   function updateUIAfterLogin() {
-    const accessBar = document.querySelector(".access-bar");
-    if (accessBar) {
-      // Hide Enroll and Access buttons and show Profile button
-      document.getElementById('enrollBtn').style.display = 'none';
-      document.getElementById('accessBtn').style.display = 'none';
+    // Hide Enroll and Access buttons and show Profile button
+    document.getElementById('enrollBtn').style.display = 'none';
+    document.getElementById('accessBtn').style.display = 'none';
 
-      const profileBtn = document.createElement('button');
-      profileBtn.textContent = 'Profile';
-      profileBtn.addEventListener('click', showProfile);
-      accessBar.appendChild(profileBtn);
-    }
+    const profileBtn = document.createElement('button');
+    profileBtn.textContent = 'Profile';
+    profileBtn.addEventListener('click', showProfile);
+    document.querySelector('.access-bar').appendChild(profileBtn);
   }
 
-  // Show Profile function
+  // Show Profile
   function showProfile() {
     alert("Profile Page (Placeholder)"); // You can redirect to a profile page here
-  }
-
-  // Check if user is logged in on page load
-  function checkLoginStatus() {
-    const userLoggedIn = localStorage.getItem("userLoggedIn");
-    if (userLoggedIn === "true") {
-      updateUIAfterLogin(); // Show profile button if logged in
-    }
   }
 
   // Logout function
   function logout() {
     alert("You have been logged out.");
-    localStorage.removeItem("userLoggedIn"); // Remove login status from localStorage
-    window.location.reload(); // Reload the page to update UI
+
+    // Remove login state from localStorage
+    localStorage.setItem('userLoggedIn', 'false');
+
+    // Reload the page
+    window.location.reload();
+  }
+
+  // Function to close all modals
+  function closeAllModals() {
+    const modals = document.querySelectorAll(".modal");
+    modals.forEach((modal) => modal.classList.remove("active"));
+  }
+
+  // Open modal function
+  function openModal(modalId) {
+    closeAllModals(); // Close any currently open modals
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add("active");
+    } else {
+      console.error(`Modal with ID "${modalId}" not found.`);
+    }
+  }
+
+  // Close modal function
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove("active");
+    } else {
+      console.error(`Modal with ID "${modalId}" not found.`);
+    }
   }
 
   // Attach event listeners after DOM is fully loaded
@@ -255,9 +287,8 @@
 
     // Initialize Google buttons
     initializeGoogle();
-
-    // Check login status on page load
-    checkLoginStatus();
   });
+
+
 </script>
 
