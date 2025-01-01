@@ -188,22 +188,51 @@
     }
   }
 
-  function handleGoogleResponse(response) {
-    console.log("Google Response: ", response);
+function handleGoogleResponse(response) {
+  console.log("Google Response: ", response);
+  
+  // Assuming you are using Google ID token to get user data
+  const userInfo = jwt_decode(response.credential);  // Decode Google ID token for user info
 
-    // Decode JWT to extract user profile information
-    const userProfile = parseJwt(response.credential);
-    console.log("User Profile: ", userProfile);
+  // Store user information in localStorage
+  localStorage.setItem('userLoggedIn', 'true');
+  localStorage.setItem('userName', userInfo.name);
+  localStorage.setItem('userEmail', userInfo.email);
+  localStorage.setItem('userProfilePic', userInfo.picture);
 
-    // Save user profile in localStorage
-    localStorage.setItem("userLoggedIn", "true");
-    localStorage.setItem("userProfile", JSON.stringify(userProfile));
+  updateUIAfterLogin();
+  updateProfilePage(userInfo);  // Update profile page with the user's info
 
-    updateUIAfterLogin();
+  // Close any open modal after login
+  closeAllModals();
+}
 
-    // Close any open modal after login
-    closeAllModals();
+function updateProfilePage(userInfo) {
+  // Update profile page with Google account info
+  document.getElementById("profileName").textContent = userInfo.name || 'Name';
+  document.getElementById("profileEmail").textContent = userInfo.email || 'Email';
+  document.getElementById("profilePicture").src = userInfo.picture || 'default-avatar.png';
+}
+
+function initializeProfilePage() {
+  // Check if user is logged in and update the profile page accordingly
+  if (localStorage.getItem('userLoggedIn') === 'true') {
+    const userName = localStorage.getItem('userName');
+    const userEmail = localStorage.getItem('userEmail');
+    const userProfilePic = localStorage.getItem('userProfilePic');
+
+    if (userName && userEmail && userProfilePic) {
+      document.getElementById("profileName").textContent = userName;
+      document.getElementById("profileEmail").textContent = userEmail;
+      document.getElementById("profilePicture").src = userProfilePic;
+    }
   }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeProfilePage();  // Update profile page when the page loads
+});
+
 
   function parseJwt(token) {
     const base64Url = token.split(".")[1];
