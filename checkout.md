@@ -327,13 +327,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-               await fetch('/api/update-google-sheet', {
+      
+        
+      await fetch('/api/update-google-sheet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId,
           cartItems,
           customerDetails,
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems
         }),
       });
 
