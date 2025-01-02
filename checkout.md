@@ -234,6 +234,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
+  let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotalElement = document.getElementById("cart-total");
+  let total = 0;
+
   const generateOrderId = () => {
     return `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   };
@@ -246,7 +251,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   sameAddressCheckbox.addEventListener("change", () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
+
     if (isChecked) {
+      // Automatically copy address details
       document.getElementById("shipping-address").value = document.getElementById("address").value;
       document.getElementById("shipping-city").value = document.getElementById("city").value;
       document.getElementById("shipping-state").value = document.getElementById("state").value;
@@ -278,8 +285,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const totalInCents = (total * 1);
+    const totalInCents = Math.round(total * 100);
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
@@ -304,7 +310,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const result = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {
           card: card,
-          billing_details: { name: name, email: email, phone: phone, address: address }
+          billing_details: { name, email, phone, address }
         },
       });
 
@@ -312,35 +318,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        const orderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-        const userEmail = localStorage.getItem("userEmail"); // Fetch logged-in Gmail
-        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
-        paymentStatus.classList.add('success');
-
-
-
-            // Prepare purchase details
-    const purchaseDetails = {
-        orderId: orderId,
-        email: userEmail,
-        items: cartItems,
-        total: cartTotal,
-        date: new Date().toISOString()
-    };
-
-    // Store purchase details in the database via an API
-    fetch("/api/store-purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(purchaseDetails)
-    }).then(response => response.json())
-      .then(data => console.log("Purchase stored:", data));
-
-
-
+        const orderId = generateOrderId();
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
+
+        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
+        paymentStatus.classList.add('success');
+
+        // Redirect to thank you page
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
@@ -351,21 +337,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const cartItemsContainer = document.getElementById("cart-items");
-  const cartTotal = document.getElementById("cart-total");
-
-  if (cartItems.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-    cartTotal.textContent = "Total: $0.00";
-    return;
-  }
-
-  let total = 0;
-
   function renderCart() {
     cartItemsContainer.innerHTML = "";
     total = 0;
+
+    if (cartItems.length === 0) {
+      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+      cartTotalElement.textContent = "Total: $0.00";
+      return;
+    }
+
     cartItems.forEach((item, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cart-item";
@@ -377,7 +358,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="cart-item-actions">
           <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
+          <input type="text" value="${item.quantity}" readonly>
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
@@ -385,7 +366,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       cartItemsContainer.appendChild(itemDiv);
       total += item.price * item.quantity;
     });
-    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+
+    cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
 
     document.querySelectorAll(".btn-decrease").forEach(button => {
       button.addEventListener("click", (event) => {
@@ -420,3 +402,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
 });
 </script>
+
