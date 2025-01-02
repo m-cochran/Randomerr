@@ -98,6 +98,12 @@ permalink: /thank-you/
       padding: 15px;
     }
 
+    #order-id {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
     .purchased-item {
       flex-direction: column;
       align-items: flex-start;
