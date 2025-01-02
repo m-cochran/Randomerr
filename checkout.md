@@ -227,20 +227,18 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
-  let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const cartItemsContainer = document.getElementById("cart-items");
-  const cartTotalElement = document.getElementById("cart-total");
-  let total = 0;
+  const generateOrderId = () => {
+    return `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  };
 
-  const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
+  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
@@ -248,20 +246,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   sameAddressCheckbox.addEventListener("change", () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
-
     if (isChecked) {
-      ["address", "city", "state", "postal-code", "country"].forEach((field) => {
-        document.getElementById(`shipping-${field}`).value = document.getElementById(field).value;
-      });
+      document.getElementById("shipping-address").value = document.getElementById("address").value;
+      document.getElementById("shipping-city").value = document.getElementById("city").value;
+      document.getElementById("shipping-state").value = document.getElementById("state").value;
+      document.getElementById("shipping-postal-code").value = document.getElementById("postal-code").value;
+      document.getElementById("shipping-country").value = document.getElementById("country").value;
     }
   });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
-    submitButton.textContent = "Processing...";
     paymentStatus.textContent = "";
-    paymentStatus.className = ""; // Reset classes
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -271,19 +268,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       city: document.getElementById("city").value,
       state: document.getElementById("state").value,
       postal_code: document.getElementById("postal-code").value,
-      country: document.getElementById("country").value,
+      country: document.getElementById("country").value
     };
-    const shippingAddress = sameAddressCheckbox.checked
-      ? address
-      : {
-          line1: document.getElementById("shipping-address").value,
-          city: document.getElementById("shipping-city").value,
-          state: document.getElementById("shipping-state").value,
-          postal_code: document.getElementById("shipping-postal-code").value,
-          country: document.getElementById("shipping-country").value,
-        };
+    const shippingAddress = sameAddressCheckbox.checked ? address : {
+      line1: document.getElementById("shipping-address").value,
+      city: document.getElementById("shipping-city").value,
+      state: document.getElementById("shipping-state").value,
+      postal_code: document.getElementById("shipping-postal-code").value,
+      country: document.getElementById("shipping-country").value
+    };
 
-    const totalInCents = Math.round(total * 100);
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const totalInCents = (total * 1);
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
@@ -291,62 +287,89 @@ document.addEventListener("DOMContentLoaded", async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           amount: totalInCents,
-          email,
-          phone,
-          name,
-          address,
-          shippingAddress,
-          cartItems,
-        }),
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems
+        })
       });
 
-      if (!response.ok) throw new Error(`Failed to create payment intent: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
 
-      const { clientSecret } = await response.json();
-
-      const result = await stripe.confirmCardPayment(clientSecret, {
+      const data = await response.json();
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {
-          card,
-          billing_details: { name, email, phone, address },
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
         },
       });
 
       if (result.error) {
         paymentStatus.textContent = `Error: ${result.error.message}`;
-        paymentStatus.classList.add("error");
-      } else if (result.paymentIntent.status === "succeeded") {
-        const orderId = generateOrderId();
+        paymentStatus.classList.add('error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        const orderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+        const userEmail = localStorage.getItem("userEmail"); // Fetch logged-in Gmail
+        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
+        paymentStatus.classList.add('success');
+
+
+
+            // Prepare purchase details
+    const purchaseDetails = {
+        orderId: orderId,
+        email: userEmail,
+        items: cartItems,
+        total: cartTotal,
+        date: new Date().toISOString()
+    };
+
+    // Store purchase details in the database via an API
+    fetch("/api/store-purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(purchaseDetails)
+    }).then(response => response.json())
+      .then(data => console.log("Purchase stored:", data));
+
+
+
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
-
-        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
-        paymentStatus.classList.add("success");
-
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
-      console.error("Payment processing error:", error);
       paymentStatus.textContent = `Error: ${error.message}`;
-      paymentStatus.classList.add("error");
+      paymentStatus.classList.add('error');
     } finally {
       submitButton.disabled = false;
-      submitButton.textContent = "Submit Payment";
     }
   });
+
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  if (cartItems.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "Total: $0.00";
+    return;
+  }
+
+  let total = 0;
 
   function renderCart() {
     cartItemsContainer.innerHTML = "";
     total = 0;
-
-    if (cartItems.length === 0) {
-      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-      cartTotalElement.textContent = "Total: $0.00";
-      return;
-    }
-
-    const cartHTML = cartItems.map((item, index) => `
-      <div class="cart-item">
+    cartItems.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
         <img src="${item.image}" alt="${item.name}">
         <div class="cart-item-details">
           <div>${item.name}</div>
@@ -354,44 +377,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="cart-item-actions">
           <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" readonly>
+          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
-      </div>`).join("");
-
-    cartItemsContainer.innerHTML = cartHTML;
-    cartItems.forEach(item => (total += item.price * item.quantity));
-    cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
+      `;
+      cartItemsContainer.appendChild(itemDiv);
+      total += item.price * item.quantity;
+    });
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
 
     document.querySelectorAll(".btn-decrease").forEach(button => {
-      button.addEventListener("click", () => updateCartItem(button.dataset.index, -1));
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        if (cartItems[index].quantity > 1) {
+          cartItems[index].quantity--;
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          renderCart();
+        }
+      });
     });
 
     document.querySelectorAll(".btn-increase").forEach(button => {
-      button.addEventListener("click", () => updateCartItem(button.dataset.index, 1));
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems[index].quantity++;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
     });
 
     document.querySelectorAll(".btn-remove").forEach(button => {
-      button.addEventListener("click", () => removeCartItem(button.dataset.index));
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems.splice(index, 1);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
     });
-  }
-
-  function updateCartItem(index, delta) {
-    cartItems[index].quantity += delta;
-    if (cartItems[index].quantity < 1) cartItems[index].quantity = 1;
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    renderCart();
-  }
-
-  function removeCartItem(index) {
-    cartItems.splice(index, 1);
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    renderCart();
   }
 
   renderCart();
 });
-
 </script>
-
