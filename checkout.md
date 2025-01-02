@@ -313,8 +313,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
         const orderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+        const userEmail = localStorage.getItem("userEmail"); // Fetch logged-in Gmail
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
+
+
+
+            // Prepare purchase details
+    const purchaseDetails = {
+        orderId: orderId,
+        email: userEmail,
+        items: cartItems,
+        total: cartTotal,
+        date: new Date().toISOString()
+    };
+
+    // Store purchase details in the database via an API
+    fetch("/api/store-purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(purchaseDetails)
+    }).then(response => response.json())
+      .then(data => console.log("Purchase stored:", data));
 
 
 
