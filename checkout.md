@@ -227,8 +227,7 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your publishable key
-
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -240,33 +239,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   const card = elements.create("card");
   card.mount("#card-element");
 
-  // Handle "Same as Billing" checkbox logic
+  // Handle shipping address same as billing
   sameAddressCheckbox.addEventListener("change", () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
-
     if (isChecked) {
-      ["address", "city", "state", "postal-code", "country"].forEach(field => {
-        document.getElementById(`shipping-${field}`).value = document.getElementById(field).value;
-      });
+      document.getElementById("shipping-address").value = document.getElementById("address").value;
+      document.getElementById("shipping-city").value = document.getElementById("city").value;
+      document.getElementById("shipping-state").value = document.getElementById("state").value;
+      document.getElementById("shipping-postal-code").value = document.getElementById("postal-code").value;
+      document.getElementById("shipping-country").value = document.getElementById("country").value;
     }
   });
 
-  // Generate a unique order ID
-  const generateOrderId = () => `ORDER-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-
-  // Handle payment form submission
+  // Handle payment submission
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
-    const orderId = generateOrderId();
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
-
-    // Billing and shipping address
     const address = {
       line1: document.getElementById("address").value,
       city: document.getElementById("city").value,
@@ -274,7 +268,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       postal_code: document.getElementById("postal-code").value,
       country: document.getElementById("country").value
     };
-
     const shippingAddress = sameAddressCheckbox.checked ? address : {
       line1: document.getElementById("shipping-address").value,
       city: document.getElementById("shipping-city").value,
@@ -283,47 +276,41 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    // Cart items and total
+    // Retrieve cart items
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const totalInCents = Math.round(total * 100);
+    const totalInCents = (total * 1);
 
     try {
-      // Create payment intent
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: totalInCents, email, phone, name, address, shippingAddress, cartItems })
+        body: JSON.stringify({
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems // Include cart items in the payload
+        })
       });
 
-      if (!response.ok) throw new Error('Failed to create payment intent.');
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
 
       const data = await response.json();
       const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: { card, billing_details: { name, email, phone, address } }
+        payment_method: {
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
+        },
       });
 
       if (result.error) {
-        throw new Error(result.error.message);
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        // Save order to JSON database
-        await fetch('https://backend-github-io.vercel.app/api/save-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            orderId,
-            email,
-            phone,
-            name,
-            billingAddress: address,
-            shippingAddress,
-            cartItems,
-            total,
-            paymentStatus: "Succeeded"
-          })
-        });
-
-        // Clear cart and redirect to thank you page
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
         window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
@@ -336,39 +323,44 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Render cart items
-  const renderCart = () => {
-    const cartItemsContainer = document.getElementById("cart-items");
-    const cartTotal = document.getElementById("cart-total");
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  // Cart functionality
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
 
-    if (cartItems.length === 0) {
-      cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-      cartTotal.textContent = "Total: $0.00";
-      return;
-    }
+  if (cartItems.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "Total: $0.00";
+    return;
+  }
 
-    cartItemsContainer.innerHTML = cartItems.map((item, index) => `
-      <div class="cart-item">
+  let total = 0;
+
+  function renderCart() {
+    cartItemsContainer.innerHTML = "";
+    total = 0;
+    cartItems.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
         <img src="${item.image}" alt="${item.name}">
         <div class="cart-item-details">
           <div>${item.name}</div>
-          <div>Price: $${item.price.toFixed(2)}</div>
+          <div>Price: $${item.price}</div>
         </div>
         <div class="cart-item-actions">
           <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" readonly>
+          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
-      </div>
-    `).join("");
-
-    // Update total
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      `;
+      cartItemsContainer.appendChild(itemDiv);
+      total += item.price * item.quantity;
+    });
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
 
-    // Add event listeners for cart actions
+    // Add event listeners for quantity buttons
     document.querySelectorAll(".btn-decrease").forEach(button => {
       button.addEventListener("click", (event) => {
         const index = event.target.dataset.index;
@@ -397,7 +389,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderCart();
       });
     });
-  };
+  }
 
   renderCart();
 });
