@@ -188,18 +188,26 @@
     }
   }
 
-function handleGoogleResponse(response) {
-  console.log("Google Response: ", response);
-  
-  // Assuming you are using Google ID token to get user data
-  const userInfo = jwt_decode(response.credential);  // Decode Google ID token for user info
+function handleGoogleSignIn(response) {
+    const userCredential = jwt_decode(response.credential); // Decode JWT token to get user info
+    console.log(userCredential);
+    const userEmail = userCredential.email; // Fetch user's Gmail
 
 
   // Store user information in localStorage
+  localStorage.setItem("userEmail", userEmail);
   localStorage.setItem('userLoggedIn', 'true');
   localStorage.setItem('userName', userInfo.name);
   localStorage.setItem('userEmail', userInfo.email);
   localStorage.setItem('userProfilePic', userInfo.picture);
+
+   // Optionally, send this data to your server for user tracking
+    fetch("/api/store-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: userEmail })
+    });
+}
 
   updateUIAfterLogin();
   updateProfilePage(userInfo);  // Update profile page with the user's info
