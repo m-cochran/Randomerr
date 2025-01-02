@@ -312,21 +312,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        const orderId = generateOrderId();
+        const orderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Optionally send the order ID to the backend for storage
-        await fetch('https://backend-github-io.vercel.app/api/store-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            orderId: orderId,
-            email: email,
-            cartItems: cartItems
-          })
-        });
 
+
+        localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
