@@ -208,13 +208,6 @@ function handleGoogleResponse(response) {
   closeAllModals();
 }
 
-// Optionally, send this data to your server for user tracking
-    fetch("/api/store-user", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userEmail })
-    });
-}
 
 function updateProfilePage(userInfo) {
   // Update profile page with Google account info
