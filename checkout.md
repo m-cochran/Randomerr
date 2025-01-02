@@ -227,7 +227,7 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Replace with your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -252,12 +252,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // Generate a unique order ID
+  function generateOrderId() {
+    return 'ORDER-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+  }
+
   // Handle payment submission
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
+    const orderId = generateOrderId();
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
@@ -278,9 +284,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Retrieve cart items
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const totalInCents = (total * 1);
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalInCents = total * 100;
 
     try {
+      // Create payment intent
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -291,7 +299,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          cartItems: cartItems // Include cart items in the payload
+          cartItems: cartItems
         })
       });
 
@@ -311,6 +319,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
+        // Save order to JSON database
+        await fetch('https://backend-github-io.vercel.app/api/save-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId: orderId,
+            email: email,
+            phone: phone,
+            name: name,
+            billingAddress: address,
+            shippingAddress: shippingAddress,
+            cartItems: cartItems,
+            total: total,
+            paymentStatus: "Succeeded"
+          })
+        });
+
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
         window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
@@ -323,10 +348,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Cart functionality
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+  // Render cart items
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
   if (cartItems.length === 0) {
     cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
@@ -360,7 +385,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
 
-    // Add event listeners for quantity buttons
     document.querySelectorAll(".btn-decrease").forEach(button => {
       button.addEventListener("click", (event) => {
         const index = event.target.dataset.index;
@@ -394,3 +418,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
 });
 </script>
+
