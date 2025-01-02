@@ -8,6 +8,7 @@ permalink: /thank-you/
   <h1>Thank You for Your Purchase!</h1>
 
   <h2>Your Purchased Items:</h2>
+  <p id="order-id"></p> <!-- Order ID will be displayed here -->
   <div id="purchased-items">
     <!-- Items will be dynamically populated here -->
   </div>
