@@ -323,8 +323,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
         const orderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+        const userEmail = localStorage.getItem("userEmail"); // Fetch logged-in Gmail
+        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
+        paymentStatus.classList.add('success');
 
-         await fetch('/api/update-google-sheet', {
+               await fetch('/api/update-google-sheet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -333,12 +336,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           customerDetails,
         }),
       });
-        
-        const userEmail = localStorage.getItem("userEmail"); // Fetch logged-in Gmail
-        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
-        paymentStatus.classList.add('success');
-
-
 
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
