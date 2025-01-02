@@ -227,7 +227,7 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -239,11 +239,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cartTotalElement = document.getElementById("cart-total");
   let total = 0;
 
-  const generateOrderId = () => {
-    return `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  };
+  const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
@@ -253,19 +250,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
 
     if (isChecked) {
-      // Automatically copy address details
-      document.getElementById("shipping-address").value = document.getElementById("address").value;
-      document.getElementById("shipping-city").value = document.getElementById("city").value;
-      document.getElementById("shipping-state").value = document.getElementById("state").value;
-      document.getElementById("shipping-postal-code").value = document.getElementById("postal-code").value;
-      document.getElementById("shipping-country").value = document.getElementById("country").value;
+      ["address", "city", "state", "postal-code", "country"].forEach((field) => {
+        document.getElementById(`shipping-${field}`).value = document.getElementById(field).value;
+      });
     }
   });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
+    submitButton.textContent = "Processing...";
     paymentStatus.textContent = "";
+    paymentStatus.className = ""; // Reset classes
 
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -275,15 +271,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       city: document.getElementById("city").value,
       state: document.getElementById("state").value,
       postal_code: document.getElementById("postal-code").value,
-      country: document.getElementById("country").value
+      country: document.getElementById("country").value,
     };
-    const shippingAddress = sameAddressCheckbox.checked ? address : {
-      line1: document.getElementById("shipping-address").value,
-      city: document.getElementById("shipping-city").value,
-      state: document.getElementById("shipping-state").value,
-      postal_code: document.getElementById("shipping-postal-code").value,
-      country: document.getElementById("shipping-country").value
-    };
+    const shippingAddress = sameAddressCheckbox.checked
+      ? address
+      : {
+          line1: document.getElementById("shipping-address").value,
+          city: document.getElementById("shipping-city").value,
+          state: document.getElementById("shipping-state").value,
+          postal_code: document.getElementById("shipping-postal-code").value,
+          country: document.getElementById("shipping-country").value,
+        };
 
     const totalInCents = Math.round(total * 100);
 
@@ -293,47 +291,47 @@ document.addEventListener("DOMContentLoaded", async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           amount: totalInCents,
-          email: email,
-          phone: phone,
-          name: name,
-          address: address,
-          shippingAddress: shippingAddress,
-          cartItems: cartItems
-        })
+          email,
+          phone,
+          name,
+          address,
+          shippingAddress,
+          cartItems,
+        }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
+      if (!response.ok) throw new Error(`Failed to create payment intent: ${response.statusText}`);
 
-      const data = await response.json();
-      const result = await stripe.confirmCardPayment(data.clientSecret, {
+      const { clientSecret } = await response.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: card,
-          billing_details: { name, email, phone, address }
+          card,
+          billing_details: { name, email, phone, address },
         },
       });
 
       if (result.error) {
         paymentStatus.textContent = `Error: ${result.error.message}`;
-        paymentStatus.classList.add('error');
-      } else if (result.paymentIntent.status === 'succeeded') {
+        paymentStatus.classList.add("error");
+      } else if (result.paymentIntent.status === "succeeded") {
         const orderId = generateOrderId();
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
 
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
-        paymentStatus.classList.add('success');
+        paymentStatus.classList.add("success");
 
-        // Redirect to thank you page
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
+      console.error("Payment processing error:", error);
       paymentStatus.textContent = `Error: ${error.message}`;
-      paymentStatus.classList.add('error');
+      paymentStatus.classList.add("error");
     } finally {
       submitButton.disabled = false;
+      submitButton.textContent = "Submit Payment";
     }
   });
 
@@ -347,10 +345,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    cartItems.forEach((item, index) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "cart-item";
-      itemDiv.innerHTML = `
+    const cartHTML = cartItems.map((item, index) => `
+      <div class="cart-item">
         <img src="${item.image}" alt="${item.name}">
         <div class="cart-item-details">
           <div>${item.name}</div>
@@ -362,44 +358,40 @@ document.addEventListener("DOMContentLoaded", async () => {
           <button class="btn-increase" data-index="${index}">+</button>
           <button class="btn-remove" data-index="${index}">Remove</button>
         </div>
-      `;
-      cartItemsContainer.appendChild(itemDiv);
-      total += item.price * item.quantity;
-    });
+      </div>`).join("");
 
+    cartItemsContainer.innerHTML = cartHTML;
+    cartItems.forEach(item => (total += item.price * item.quantity));
     cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
 
     document.querySelectorAll(".btn-decrease").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.dataset.index;
-        if (cartItems[index].quantity > 1) {
-          cartItems[index].quantity--;
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-          renderCart();
-        }
-      });
+      button.addEventListener("click", () => updateCartItem(button.dataset.index, -1));
     });
 
     document.querySelectorAll(".btn-increase").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.dataset.index;
-        cartItems[index].quantity++;
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        renderCart();
-      });
+      button.addEventListener("click", () => updateCartItem(button.dataset.index, 1));
     });
 
     document.querySelectorAll(".btn-remove").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.dataset.index;
-        cartItems.splice(index, 1);
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        renderCart();
-      });
+      button.addEventListener("click", () => removeCartItem(button.dataset.index));
     });
+  }
+
+  function updateCartItem(index, delta) {
+    cartItems[index].quantity += delta;
+    if (cartItems[index].quantity < 1) cartItems[index].quantity = 1;
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    renderCart();
+  }
+
+  function removeCartItem(index) {
+    cartItems.splice(index, 1);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    renderCart();
   }
 
   renderCart();
 });
+
 </script>
 
