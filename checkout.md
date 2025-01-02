@@ -234,12 +234,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
+  const generateOrderId = () => {
+    return `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  };
+
   // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
 
-  // Handle shipping address same as billing
   sameAddressCheckbox.addEventListener("change", () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
@@ -252,7 +255,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Handle payment submission
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     submitButton.disabled = true;
@@ -276,7 +278,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    // Retrieve cart items
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalInCents = (total * 1);
 
@@ -291,7 +292,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           name: name,
           address: address,
           shippingAddress: shippingAddress,
-          cartItems: cartItems // Include cart items in the payload
+          cartItems: cartItems
         })
       });
 
@@ -311,9 +312,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
+        const orderId = generateOrderId();
+        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
+        paymentStatus.classList.add('success');
+
+        // Optionally send the order ID to the backend for storage
+        await fetch('https://backend-github-io.vercel.app/api/store-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId: orderId,
+            email: email,
+            cartItems: cartItems
+          })
+        });
+
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
-        window.location.href = "https://m-cochran.github.io/Randomerr/thank-you/";
+        window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
       paymentStatus.textContent = `Error: ${error.message}`;
@@ -323,7 +339,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Cart functionality
   const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
@@ -360,7 +375,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
 
-    // Add event listeners for quantity buttons
     document.querySelectorAll(".btn-decrease").forEach(button => {
       button.addEventListener("click", (event) => {
         const index = event.target.dataset.index;
