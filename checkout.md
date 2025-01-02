@@ -278,6 +278,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
+
+      // Define the customer details object here
+  const customerDetails = {
+    name,
+    email,
+    phone,
+    address,
+    shippingAddress
+  };
+
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalInCents = (total * 1);
 
