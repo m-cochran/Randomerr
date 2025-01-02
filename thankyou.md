@@ -111,8 +111,15 @@ permalink: /thank-you/
 </style>
 
 <script>
-  // Retrieve purchased items and receipt URL from localStorage
+  // Retrieve the order ID and purchased items from localStorage
+  var orderId = localStorage.getItem("orderId");
   var purchasedItems = JSON.parse(localStorage.getItem('purchasedItems'));
+
+
+   // Display the order ID
+    if (orderId) {
+        document.getElementById("order-id").textContent = `Your Order ID: ${orderId}`;
+    }
 
   // Reference to the HTML containers
   var purchasedItemsContainer = document.getElementById('purchased-items');
