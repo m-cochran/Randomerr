@@ -279,14 +279,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
 
-      // Define the customer details object here
-  const customerDetails = {
-    name,
-    email,
-    phone,
-    address,
-    shippingAddress
-  };
 
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const totalInCents = (total * 1);
