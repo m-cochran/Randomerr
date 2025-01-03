@@ -329,22 +329,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       
         
-      await fetch('/api/update-google-sheet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId,
-          cartItems,
-          customerDetails,
-          amount: totalInCents,
-          email: email,
-          phone: phone,
-          name: name,
-          address: address,
-          shippingAddress: shippingAddress,
-          cartItems: cartItems
-        }),
-      });
+
 
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
