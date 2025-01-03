@@ -234,9 +234,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
 
-  const generateOrderId = () => {
-    return `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  };
+  const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
   // Mount the Stripe Elements card UI
   const elements = stripe.elements();
@@ -278,10 +276,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-
-
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const totalInCents = (total * 1);
+    let total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalInCents = total * 100;
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
@@ -314,15 +311,33 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Error: ${result.error.message}`;
         paymentStatus.classList.add('error');
       } else if (result.paymentIntent.status === 'succeeded') {
-        const orderId = `ORDER-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-        const userEmail = localStorage.getItem("userEmail"); // Fetch logged-in Gmail
+        const orderId = generateOrderId();
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-      
-        
+        // Save order details to Google Sheets
+        const formData = new FormData();
+        formData.append("orderid", orderId);
+        formData.append("fullName", name);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("billingStreet", address.line1);
+        formData.append("billingCity", address.city);
+        formData.append("billingState", address.state);
+        formData.append("billingPostal", address.postal_code);
+        formData.append("billingCountry", address.country);
+        formData.append("shippingStreet", shippingAddress.line1);
+        formData.append("shippingCity", shippingAddress.city);
+        formData.append("shippingState", shippingAddress.state);
+        formData.append("shippingPostal", shippingAddress.postal_code);
+        formData.append("shippingCountry", shippingAddress.country);
 
+        await fetch("https://script.google.com/macros/s/AKfycbzaEsvh2oT4sUJG2IBDiYUn7EmsGT41N-e-Sr3HysBjt9CUzluMZuGJfau6AdV6uzaU/exec", {
+          method: "POST",
+          body: formData
+        });
 
+        // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
@@ -336,7 +351,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
 
@@ -345,8 +359,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     cartTotal.textContent = "Total: $0.00";
     return;
   }
-
-  let total = 0;
 
   function renderCart() {
     cartItemsContainer.innerHTML = "";
@@ -405,3 +417,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
 });
 </script>
+
