@@ -196,7 +196,7 @@ function handleGoogleResponse(response) {
 
 
   function addUserToGoogleSheet(email, name) {
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxSCJdUtbmpp1Ri_KSJSfPgeC1DGU9fDTBLt2cx1f83RvNbcePChzZTimrrhPI5tVqv/exec'; // Replace with your Web App URL
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwCoDUGAIx4GcE1UjgWlBQN1F8QctxZHXXuoeraXuV8QhdBbIy9gvisYZxr32Cu2ixi/exec'; // Replace with your Web App URL
 
   fetch(scriptURL, {
     method: 'POST',
@@ -204,7 +204,7 @@ function handleGoogleResponse(response) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: email, name: name })
+    body: JSON.stringify({ name: name, email: email })
   })
   .then(response => console.log('Success:', response))
   .catch(error => console.error('Error:', error));
