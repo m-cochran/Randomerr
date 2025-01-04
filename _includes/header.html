@@ -146,16 +146,30 @@
 <script>
   const clientId = "725662594004-dn93rj2929o73vf21cq95srvvuvap5t2.apps.googleusercontent.com"; // Replace with your actual Google Client ID
 
-  const userLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+  document.addEventListener("DOMContentLoaded", () => {
+    initializeGoogleSignIn();
+    initializeProfilePage();
 
-  function initializeGoogle() {
+    if (localStorage.getItem("userLoggedIn") === "true") {
+      updateUIAfterLogin();
+    }
+
+    const googleScript = document.createElement("script");
+    googleScript.src = "https://accounts.google.com/gsi/client";
+    googleScript.async = true;
+    googleScript.defer = true;
+    googleScript.onload = initializeGoogleSignIn;
+    document.body.appendChild(googleScript);
+  });
+
+  function initializeGoogleSignIn() {
     if (window.google && google.accounts) {
       google.accounts.id.initialize({
         client_id: clientId,
         callback: handleGoogleResponse,
         error_callback: (error) => {
-          console.error("Google Sign-In Error: ", error);
-          displayMessage("Google Sign-In failed. Please try again later.", "error");
+          console.error("Google Sign-In Error:", error);
+          displayMessage("Google Sign-In failed. Please try again.", "error");
         },
       });
 
@@ -188,180 +202,93 @@
     }
   }
 
-function handleGoogleResponse(response) {
-  console.log("Google Response: ", response);
-  
-  // Assuming you are using Google ID token to get user data
-  const userInfo = jwt_decode(response.credential);  // Decode Google ID token for user info
+  function handleGoogleResponse(response) {
+    console.log("Google Response:", response);
 
+    try {
+      const userInfo = parseJwt(response.credential); // Parse JWT token for user info
+      if (!userInfo.email || !userInfo.name) {
+        throw new Error("Invalid user information.");
+      }
 
-  function addUserToGoogleSheet(name, email) {
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbyd8fj31qpsRZ00L2sImb1lo9ZQm-8V9im3hLaYyEZTBSJwsgHYTVFnNMXj2V3_y8yb/exec'; // Replace with your Web App URL
+      // Store user data in localStorage
+      localStorage.setItem("userLoggedIn", "true");
+      localStorage.setItem("userName", userInfo.name);
+      localStorage.setItem("userEmail", userInfo.email);
+      localStorage.setItem("userProfilePic", userInfo.picture || "default-avatar.png");
 
-  fetch(scriptURL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ name: name, email: email })
-  })
-  .then(response => console.log('Success:', response))
-  .catch(error => console.error('Error:', error));
-}
+      // Update UI and profile
+      updateUIAfterLogin();
+      updateProfilePage(userInfo);
 
+      // Add user to Google Sheets
+      addUserToGoogleSheet(userInfo.name, userInfo.email);
 
-
-  // Store user information in localStorage
-  localStorage.setItem('userLoggedIn', 'true');
-  localStorage.setItem('userName', userInfo.name);
-  localStorage.setItem('userEmail', userInfo.email);
-  localStorage.setItem('userProfilePic', userInfo.picture);
-
-  updateUIAfterLogin();
-  updateProfilePage(userInfo);  // Update profile page with the user's info
-
-  // Close any open modal after login
-  closeAllModals();
-}
-
-
-function updateProfilePage(userInfo) {
-  // Update profile page with Google account info
-  document.getElementById("profileName").textContent = userInfo.name || 'Name';
-  document.getElementById("profileEmail").textContent = userInfo.email || 'Email';
-  document.getElementById("profilePicture").src = userInfo.picture || 'default-avatar.png';
-}
-
-function initializeProfilePage() {
-  // Check if user is logged in and update the profile page accordingly
-  if (localStorage.getItem('userLoggedIn') === 'true') {
-    const userName = localStorage.getItem('userName');
-    const userEmail = localStorage.getItem('userEmail');
-    const userProfilePic = localStorage.getItem('userProfilePic');
-
-    if (userName && userEmail && userProfilePic) {
-      document.getElementById("profileName").textContent = userName;
-      document.getElementById("profileEmail").textContent = userEmail;
-      document.getElementById("profilePicture").src = userProfilePic;
+      closeAllModals();
+    } catch (error) {
+      console.error("Error handling Google response:", error);
+      displayMessage("Failed to process Google Sign-In response.", "error");
     }
   }
-}
 
-document.addEventListener("DOMContentLoaded", () => {
-  initializeProfilePage();  // Update profile page when the page loads
-});
+  function addUserToGoogleSheet(name, email) {
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyd8fj31qpsRZ00L2sImb1lo9ZQm-8V9im3hLaYyEZTBSJwsgHYTVFnNMXj2V3_y8yb/exec"; // Replace with your Web App URL
 
+    fetch(scriptURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to update Google Sheets.");
+        console.log("User added to Google Sheets:", response);
+      })
+      .catch((error) => {
+        console.error("Error adding user to Google Sheets:", error);
+      });
+  }
 
   function parseJwt(token) {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
-    return JSON.parse(jsonPayload);
+    return JSON.parse(atob(base64));
   }
 
   function updateUIAfterLogin() {
     const accessBar = document.querySelector(".access-bar");
     if (accessBar) {
-      accessBar.innerHTML = ""; // Clear existing buttons
-
-      // Add Profile button
-      const profileBtn = document.createElement("button");
-      profileBtn.textContent = "Profile";
-      profileBtn.addEventListener("click", showProfile);
-      accessBar.appendChild(profileBtn);
-
-      // Add Logout button
-      const logoutBtn = document.createElement("button");
-      logoutBtn.textContent = "Logout";
-      logoutBtn.addEventListener("click", handleLogout);
-      accessBar.appendChild(logoutBtn);
+      accessBar.innerHTML = `
+        <button onclick="showProfile()">Profile</button>
+        <button onclick="handleLogout()">Logout</button>
+      `;
     }
   }
 
   function handleLogout() {
-    localStorage.removeItem("userLoggedIn");
-    localStorage.removeItem("userProfile"); // Clear profile info
-
-    const accessBar = document.querySelector(".access-bar");
-    if (accessBar) {
-      accessBar.innerHTML = `
-        <button id="enrollBtn">Enroll</button>
-        <button id="accessBtn">Access</button>
-      `;
-      document.getElementById("enrollBtn").addEventListener("click", () => openModal("enrollModal"));
-      document.getElementById("accessBtn").addEventListener("click", () => openModal("accessModal"));
-    }
-
-    initializeGoogle();
+    localStorage.clear();
+    location.reload();
   }
 
-  function showProfile() {
-    const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-    if (userProfile) {
-      const profilePage = `
-        <div class="profile-container">
-          <img src="${userProfile.picture}" alt="Profile Picture" class="profile-picture">
-          <h1>${userProfile.name}</h1>
-          <p>Email: ${userProfile.email}</p>
-        </div>
-      `;
-      document.body.innerHTML = profilePage; // Replace with profile page content
-    } else {
-      window.location.href = "{{ site.baseurl }}/profile/";
-    }
+  function updateProfilePage(userInfo) {
+    document.getElementById("profileName").textContent = userInfo.name || "Name";
+    document.getElementById("profileEmail").textContent = userInfo.email || "Email";
+    document.getElementById("profilePicture").src = userInfo.picture || "default-avatar.png";
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    if (userLoggedIn) {
-      updateUIAfterLogin();
-    } else {
-      const enrollBtn = document.getElementById("enrollBtn");
-      const accessBtn = document.getElementById("accessBtn");
-
-      if (enrollBtn) {
-        enrollBtn.addEventListener("click", () => openModal("enrollModal"));
-      }
-
-      if (accessBtn) {
-        accessBtn.addEventListener("click", () => openModal("accessModal"));
-      }
+  function initializeProfilePage() {
+    if (localStorage.getItem("userLoggedIn") === "true") {
+      document.getElementById("profileName").textContent = localStorage.getItem("userName");
+      document.getElementById("profileEmail").textContent = localStorage.getItem("userEmail");
+      document.getElementById("profilePicture").src = localStorage.getItem("userProfilePic") || "default-avatar.png";
     }
-
-    const googleScript = document.createElement("script");
-    googleScript.src = "https://accounts.google.com/gsi/client";
-    googleScript.async = true;
-    googleScript.defer = true;
-    googleScript.onload = initializeGoogle;
-    document.body.appendChild(googleScript);
-  });
-
-  function openModal(modalId) {
-    closeAllModals();
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.add("active");
-    }
-  }
-
-  function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.remove("active");
-    }
-  }
-
-  function closeAllModals() {
-    const modals = document.querySelectorAll(".modal");
-    modals.forEach((modal) => modal.classList.remove("active"));
   }
 
   function displayMessage(message, type) {
-    console.log(`${type}: ${message}`);
+    alert(`${type.toUpperCase()}: ${message}`);
+  }
+
+  function closeAllModals() {
+    document.querySelectorAll(".modal.active").forEach((modal) => modal.classList.remove("active"));
   }
 </script>
+
