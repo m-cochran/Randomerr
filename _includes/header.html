@@ -195,6 +195,23 @@ function handleGoogleResponse(response) {
   const userInfo = jwt_decode(response.credential);  // Decode Google ID token for user info
 
 
+  function addUserToGoogleSheet(email, name) {
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzZLxzvrH-YCOW0_lUWkYfsXQnRv6Wa1K6Ja6bswl0un82s3UyK2WNI0F_Bt_oW4Jv3/exec'; // Replace with your Web App URL
+
+  fetch(scriptURL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: email, name: name })
+  })
+  .then(response => console.log('Success:', response))
+  .catch(error => console.error('Error:', error));
+}
+
+
+
   // Store user information in localStorage
   localStorage.setItem('userLoggedIn', 'true');
   localStorage.setItem('userName', userInfo.name);
