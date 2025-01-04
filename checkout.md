@@ -315,27 +315,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Save order details to Google Sheets
-        const formData = new FormData();
-        formData.append("orderid", orderId);
-        formData.append("fullName", name);
-        formData.append("email", email);
-        formData.append("phone", phone);
-        formData.append("billingStreet", address.line1);
-        formData.append("billingCity", address.city);
-        formData.append("billingState", address.state);
-        formData.append("billingPostal", address.postal_code);
-        formData.append("billingCountry", address.country);
-        formData.append("shippingStreet", shippingAddress.line1);
-        formData.append("shippingCity", shippingAddress.city);
-        formData.append("shippingState", shippingAddress.state);
-        formData.append("shippingPostal", shippingAddress.postal_code);
-        formData.append("shippingCountry", shippingAddress.country);
+        // Gather order details
+const formData = new FormData();
+formData.append("orderid", orderId);
+formData.append("fullName", name);
+formData.append("email", email); // Logged-in Gmail
+formData.append("phone", phone);
+formData.append("billingStreet", address.line1);
+formData.append("billingCity", address.city);
+formData.append("billingState", address.state);
+formData.append("billingPostal", address.postal_code);
+formData.append("billingCountry", address.country);
+formData.append("shippingStreet", shippingAddress.line1);
+formData.append("shippingCity", shippingAddress.city);
+formData.append("shippingState", shippingAddress.state);
+formData.append("shippingPostal", shippingAddress.postal_code);
+formData.append("shippingCountry", shippingAddress.country);
 
-        await fetch("https://script.google.com/macros/s/AKfycbzaEsvh2oT4sUJG2IBDiYUn7EmsGT41N-e-Sr3HysBjt9CUzluMZuGJfau6AdV6uzaU/exec", {
-          method: "POST",
-          body: formData
-        });
+// Add purchased items
+const items = cartItems.map(item => ({
+  name: item.name,
+  quantity: item.quantity,
+  price: item.price,
+}));
+formData.append("purchasedItems", JSON.stringify(items));
+
+// Add total amount
+const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
+formData.append("totalAmount", totalAmount);
+
+// Send order details to Google Sheets
+await fetch("https://script.google.com/macros/s/AKfycbzaEsvh2oT4sUJG2IBDiYUn7EmsGT41N-e-Sr3HysBjt9CUzluMZuGJfau6AdV6uzaU/exec", {
+  method: "POST",
+  body: formData
+});
+
 
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
