@@ -345,7 +345,7 @@ const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.p
 formData.append("totalAmount", totalAmount);
 
 // Send order details to Google Sheets
-await fetch("https://script.google.com/macros/s/AKfycbwaGLjtP6unR9rZ7tGtWdsir3pjzt1SfZhuchXeV7UuGmv1IvlYI1yHHKSAyN8Bw1BB/exec", {
+await fetch("https://script.google.com/macros/s/AKfycbwKW2G2HTfBv54BoOoEh-LZzJH94e8ooa7ZHXTO0gIPVzuKuub3VzpGYHSRNqTcfRtW/exec", {
   method: "POST",
   body: formData
 });
