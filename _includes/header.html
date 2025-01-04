@@ -212,18 +212,18 @@ function handleGoogleResponse(response) {
 }
 
 function addUserToGoogleSheet(name, email) {
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbwt18iB9uzB9Ro-UGEuHQPir011x9qh6AQWbiyat4NK_mi7c23SHHA-pZJLAvOPE5xJ/exec'; // Replace with your Web App URL
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxLeWitiFXL20_xv0CggDrk59un6LDDgOIgglRPbJKkfjmJqk_ZOUB8em4LwLjtXvjz/exec'; // Replace with your Web App URL
 
   fetch(scriptURL, {
     method: 'POST',
-    mode: 'no-cors',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name: name, email: email })
+    body: JSON.stringify({ name: name, email: email }),
   })
-  .then(response => console.log('Success:', response))
-  .catch(error => console.error('Error:', error));
+    .then((response) => response.json())  // Parse JSON response
+    .then((data) => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
 }
 
 
