@@ -91,3 +91,60 @@ permalink: /profile/
   window.onload = loadRecentItems;  // Call the function to load recent items
 </script>
 
+
+<script>
+  async function getRecentPurchases(accountNumber) {
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec" + accountNumber);
+    const data = await response.json();
+
+    if (data && data.length > 0) {
+      displayRecentPurchases(data);
+    } else {
+      console.log("No recent purchases found.");
+      displayMessage("No recent purchases found.", "info");
+    }
+  } catch (error) {
+    console.error("Error fetching recent purchases:", error);
+    displayMessage("Error fetching recent purchases. Please try again later.", "error");
+  }
+}
+
+function displayRecentPurchases(purchases) {
+  const purchaseContainer = document.getElementById("purchaseDetails");
+  
+  if (!purchaseContainer) return;
+
+  // Clear existing content
+  purchaseContainer.innerHTML = '';
+
+  purchases.forEach(purchase => {
+    const purchaseDiv = document.createElement("div");
+    purchaseDiv.classList.add("purchase-item");
+
+    purchaseDiv.innerHTML = `
+      <h3>Order ID: ${purchase.OrderID}</h3>
+      <p><strong>Account Number:</strong> ${purchase['Account Number']}</p>
+      <p><strong>Billing Address:</strong> ${purchase['Billing Street']}, ${purchase['Billing City']}, ${purchase['Billing State']} ${purchase['Billing Postal']}, ${purchase['Billing Country']}</p>
+      <p><strong>Shipping Address:</strong> ${purchase['Shipping Street']}, ${purchase['Shipping City']}, ${purchase['Shipping State']} ${purchase['Shipping Postal']}, ${purchase['Shipping Country']}</p>
+      <p><strong>Item:</strong> ${purchase['Item Name']}</p>
+      <p><strong>Quantity:</strong> ${purchase['Item Quantity']}</p>
+      <p><strong>Price:</strong> ${purchase['Item Price']}</p>
+      <p><strong>Total Amount:</strong> ${purchase['Total Amount']}</p>
+    `;
+
+    purchaseContainer.appendChild(purchaseDiv);
+  });
+}
+
+function updateProfilePage(userInfo) {
+  // Update profile page with Google account info
+  document.getElementById("profileName").textContent = userInfo.name || 'Name';
+  document.getElementById("profileEmail").textContent = userInfo.email || 'Email';
+  document.getElementById("profilePicture").src = userInfo.picture || 'default-avatar.png';
+  
+  // Get recent purchases based on account number from the user's Google Sheets data
+  const accountNumber = userInfo.email;  // Or any other identifier you are using
+  getRecentPurchases(accountNumber);
+}
+</script>
