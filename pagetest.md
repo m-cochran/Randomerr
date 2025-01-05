@@ -67,7 +67,7 @@ permalink: /ptdd/
   <script>
     async function fetchAccountDetails(email) {
       try {
-        const response = await fetch(`https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_ID/exec?email=${email}`);
+        const response = await fetch(`https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec?email=${email}`);
         if (response.ok) {
           const data = await response.json();
           updateProfileDetails(data);
