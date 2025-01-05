@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Profile
-permalink: /profile/
+permalink: /pt/
 ---
 
 # Profile
