@@ -81,7 +81,7 @@ async function getAccountData() {
 
   try {
     // Send the GET request with the email as a query parameter
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbzzE4N831E_mz2JNzqlwdUicBKeBJfccW8gL2h2mz4_PVAWzJ07sPBIo_byR6szPnC3/exec?email=${email}`);
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbyY9UyIOjwuLlJ0YK_KleuXXiEfkr1rnivBtbW-x1Ptn9YB4fS9ypBeCZPUECMsdpxt/exec?email=${email}`);
     
     // Parse the JSON response
     const data = await response.json();
