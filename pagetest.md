@@ -82,7 +82,8 @@ async function getAccountData() {
   console.log('Fetching data for email: ' + email); // Log the email being searched for
 
   try {
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec?email=${email}`);
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbzzE4N831E_mz2JNzqlwdUicBKeBJfccW8gL2h2mz4_PVAWzJ07sPBIo_byR6szPnC3/exec?email=${email}`);
+
     console.log(response); // Log the response object
     
     const data = await response.json();
