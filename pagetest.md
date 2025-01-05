@@ -79,7 +79,7 @@ permalink: /ptdd/
         return;
       }
 
-      const response = await fetch(`https://script.google.com/macros/s/your-script-id/exec?email=${email}`);
+      const response = await fetch(`https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec?email=${email}`);
       const data = await response.json();
 
       if (data.message) {
