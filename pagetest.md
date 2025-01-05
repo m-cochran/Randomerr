@@ -69,54 +69,54 @@ permalink: /ptdd/
   </div>
 
   <script>
-async function getAccountData(email) {
+async function getAccountData() {
+  const email = document.getElementById('email').value; // Get the email from input field
+  const resultContainer = document.getElementById('result');
+  resultContainer.style.display = 'none'; // Hide result container initially
+
+  if (!email) {
+    alert("Please enter an email!");
+    return;
+  }
+
   try {
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbzzE4N831E_mz2JNzqlwdUicBKeBJfccW8gL2h2mz4_PVAWzJ07sPBIo_byR6szPnC3/exec?email=${email}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    // Check if the request was successful
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-
+    // Send the GET request with the email as a query parameter
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbzzE4N831E_mz2JNzqlwdUicBKeBJfccW8gL2h2mz4_PVAWzJ07sPBIo_byR6szPnC3/exec?email=${email}`);
+    
+    // Parse the JSON response
     const data = await response.json();
-
-    // Handle the returned data
-    if (data.error) {
-      console.error('Error:', data.error);
+    
+    if (data.message) {
+      alert(data.message);
     } else {
-      console.log('Data received:', data);
       // Update the HTML with the retrieved data
-      document.getElementById('accountNumber').textContent = data[0]; // Account Number
-      document.getElementById('name').textContent = data[1]; // Name
-      document.getElementById('emailDisplay').textContent = data[2]; // Email
-      document.getElementById('orderId').textContent = data[3]; // Order ID
-      document.getElementById('phone').textContent = data[4]; // Phone
-      document.getElementById('billingStreet').textContent = data[5]; // Billing Street
-      document.getElementById('billingCity').textContent = data[6]; // Billing City
-      document.getElementById('billingState').textContent = data[7]; // Billing State
-      document.getElementById('billingPostal').textContent = data[8]; // Billing Postal
-      document.getElementById('billingCountry').textContent = data[9]; // Billing Country
-      document.getElementById('shippingStreet').textContent = data[10]; // Shipping Street
-      document.getElementById('shippingCity').textContent = data[11]; // Shipping City
-      document.getElementById('shippingState').textContent = data[12]; // Shipping State
-      document.getElementById('shippingPostal').textContent = data[13]; // Shipping Postal
-      document.getElementById('shippingCountry').textContent = data[14]; // Shipping Country
-      document.getElementById('itemName').textContent = data[15]; // Item Name
-      document.getElementById('itemQuantity').textContent = data[16]; // Item Quantity
-      document.getElementById('itemPrice').textContent = data[17]; // Item Price
-      document.getElementById('totalAmount').textContent = data[18]; // Total Amount
+      document.getElementById('accountNumber').textContent = data.accountNumber;
+      document.getElementById('name').textContent = data.name;
+      document.getElementById('emailDisplay').textContent = data.email;
+      document.getElementById('orderId').textContent = data.orderId;
+      document.getElementById('phone').textContent = data.phone;
+      document.getElementById('billingStreet').textContent = data.billingStreet;
+      document.getElementById('billingCity').textContent = data.billingCity;
+      document.getElementById('billingState').textContent = data.billingState;
+      document.getElementById('billingPostal').textContent = data.billingPostal;
+      document.getElementById('billingCountry').textContent = data.billingCountry;
+      document.getElementById('shippingStreet').textContent = data.shippingStreet;
+      document.getElementById('shippingCity').textContent = data.shippingCity;
+      document.getElementById('shippingState').textContent = data.shippingState;
+      document.getElementById('shippingPostal').textContent = data.shippingPostal;
+      document.getElementById('shippingCountry').textContent = data.shippingCountry;
+      document.getElementById('itemName').textContent = data.itemName;
+      document.getElementById('itemQuantity').textContent = data.itemQuantity;
+      document.getElementById('itemPrice').textContent = data.itemPrice;
+      document.getElementById('totalAmount').textContent = data.totalAmount;
 
       resultContainer.style.display = 'block'; // Show the result container
     }
   } catch (error) {
-    console.error('Error fetching data:', error); // Log any errors
+    console.error('Error fetching data:', error);
     alert('Failed to fetch data. Please check the console for more information.');
   }
 }
+
 
   </script>
