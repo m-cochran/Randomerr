@@ -19,6 +19,8 @@ permalink: /ptdd/
     try {
       const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
       const data = await response.json();
+      console.log("Fetched Data:", data);
+
 
       if (data.error) {
         document.getElementById("profileData").innerHTML = `<p class="error">${data.error}</p>`;
