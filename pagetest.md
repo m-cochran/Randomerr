@@ -44,40 +44,23 @@ permalink: /ptdd/
   </div>
 
   <script>
-    const profileEmail = localStorage.getItem("userEmail");
+async function getAccountData(email) {
+  const response = await fetch(`https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec?email=${email}`);
+  const data = await response.json();
+  
+  if (data.message) {
+    // No data found, handle appropriately
+    alert(data.message);
+  } else {
+    // Use the account data (e.g., Account Number, Name, etc.)
+    console.log(data);
+    // Update your profile page with the retrieved data
+    document.getElementById("accountNumber").textContent = data[0]; // Adjust based on data structure
+    document.getElementById("userName").textContent = data[1];
+    document.getElementById("userEmail").textContent = data[2];
+    // ...populate other fields similarly
+  }
+}
 
-    async function fetchAccountData() {
-      try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec'); // Your Google Apps Script URL
-        const data = await response.json();
-        const account = data.find(account => account.email === profileEmail);
-        
-        if (account) {
-          // Update profile page with data from Google Sheets
-          document.getElementById('profileName').textContent = account.name;
-          document.getElementById('profileEmail').textContent = account.email;
-          document.getElementById('profilePicture').src = account.picture || 'default-avatar.png';
-
-          const accountInfo = `
-            <p><strong>Account Number:</strong> ${account.accountNumber}</p>
-            <p><strong>Phone:</strong> ${account.phone}</p>
-            <p><strong>Billing Address:</strong> ${account.billingStreet}, ${account.billingCity}, ${account.billingState}, ${account.billingPostal}, ${account.billingCountry}</p>
-            <p><strong>Shipping Address:</strong> ${account.shippingStreet}, ${account.shippingCity}, ${account.shippingState}, ${account.shippingPostal}, ${account.shippingCountry}</p>
-            <p><strong>Order ID:</strong> ${account.orderId}</p>
-            <p><strong>Item:</strong> ${account.itemName} x ${account.itemQuantity}</p>
-            <p><strong>Total Amount:</strong> $${account.totalAmount}</p>
-          `;
-          document.getElementById('accountInfo').innerHTML = accountInfo;
-        } else {
-          document.getElementById('accountInfo').innerHTML = '<p>No account data found for this email.</p>';
-        }
-      } catch (error) {
-        console.error('Error fetching account data:', error);
-        document.getElementById('accountInfo').innerHTML = '<p>Failed to retrieve account data.</p>';
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", fetchAccountData);
   </script>
-</body>
-</html>
+
