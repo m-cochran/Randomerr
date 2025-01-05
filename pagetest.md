@@ -15,7 +15,7 @@ permalink: /ptdd/
 
 <script>
   async function fetchProfileData(email) {
-    const apiUrl = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // Replace with your Web App URL
+    const apiUrl = "https://script.google.com/macros/s/AKfycbyY9UyIOjwuLlJ0YK_KleuXXiEfkr1rnivBtbW-x1Ptn9YB4fS9ypBeCZPUECMsdpxt/exec"; // Replace with your Web App URL
     try {
       const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
       const data = await response.json();
