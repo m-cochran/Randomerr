@@ -1,3 +1,13 @@
+---
+layout: default
+title: Profile
+permalink: /profile/
+---
+
+# Profile
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
