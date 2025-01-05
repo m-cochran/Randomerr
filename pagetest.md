@@ -69,28 +69,27 @@ permalink: /ptdd/
   </div>
 
   <script>
-async function getAccountData() {
-  const email = document.getElementById('email').value;
-  const resultContainer = document.getElementById('result');
-  resultContainer.style.display = 'none'; // Hide result container initially
-
-  if (!email) {
-    alert("Please enter an email!");
-    return;
-  }
-
-  console.log('Fetching data for email: ' + email); // Log the email being searched for
-
+async function getAccountData(email) {
   try {
-    const response = await fetch(`https://script.google.com/macros/s/AKfycbzzE4N831E_mz2JNzqlwdUicBKeBJfccW8gL2h2mz4_PVAWzJ07sPBIo_byR6szPnC3/exec?email=${email}`);
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbzzE4N831E_mz2JNzqlwdUicBKeBJfccW8gL2h2mz4_PVAWzJ07sPBIo_byR6szPnC3/exec?email=${email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-    console.log(response); // Log the response object
-    
+    // Check if the request was successful
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
     const data = await response.json();
-    
-    if (data.message) {
-      alert(data.message);
+
+    // Handle the returned data
+    if (data.error) {
+      console.error('Error:', data.error);
     } else {
+      console.log('Data received:', data);
       // Update the HTML with the retrieved data
       document.getElementById('accountNumber').textContent = data[0]; // Account Number
       document.getElementById('name').textContent = data[1]; // Name
