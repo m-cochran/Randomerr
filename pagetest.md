@@ -7,26 +7,6 @@ permalink: /ptdd/
 # Profile
 
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Page</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", initializeProfilePage);
-  </script>
-</head>
-<body>
-  <header>
-    <nav class="access-bar">
-      <!-- Login or Profile buttons will be updated dynamically -->
-    </nav>
-  </header>
-
   <main>
     <section class="profile-section">
       <div class="profile-header">
@@ -125,5 +105,3 @@ permalink: /ptdd/
       }
     }
   </script>
-</body>
-</html>
