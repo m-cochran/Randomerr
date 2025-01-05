@@ -69,44 +69,54 @@ permalink: /ptdd/
   </div>
 
   <script>
-    async function getAccountData() {
-      const email = document.getElementById('email').value;
-      const resultContainer = document.getElementById('result');
-      resultContainer.style.display = 'none'; // Hide result container initially
+async function getAccountData() {
+  const email = document.getElementById('email').value;
+  const resultContainer = document.getElementById('result');
+  resultContainer.style.display = 'none'; // Hide result container initially
 
-      if (!email) {
-        alert("Please enter an email!");
-        return;
-      }
+  if (!email) {
+    alert("Please enter an email!");
+    return;
+  }
 
-      const response = await fetch(`https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec?email=${email}`);
-      const data = await response.json();
+  console.log('Fetching data for email: ' + email); // Log the email being searched for
 
-      if (data.message) {
-        alert(data.message);
-      } else {
-        // Update the HTML with the retrieved data
-        document.getElementById('accountNumber').textContent = data[0]; // Account Number
-        document.getElementById('name').textContent = data[1]; // Name
-        document.getElementById('emailDisplay').textContent = data[2]; // Email
-        document.getElementById('orderId').textContent = data[3]; // Order ID
-        document.getElementById('phone').textContent = data[4]; // Phone
-        document.getElementById('billingStreet').textContent = data[5]; // Billing Street
-        document.getElementById('billingCity').textContent = data[6]; // Billing City
-        document.getElementById('billingState').textContent = data[7]; // Billing State
-        document.getElementById('billingPostal').textContent = data[8]; // Billing Postal
-        document.getElementById('billingCountry').textContent = data[9]; // Billing Country
-        document.getElementById('shippingStreet').textContent = data[10]; // Shipping Street
-        document.getElementById('shippingCity').textContent = data[11]; // Shipping City
-        document.getElementById('shippingState').textContent = data[12]; // Shipping State
-        document.getElementById('shippingPostal').textContent = data[13]; // Shipping Postal
-        document.getElementById('shippingCountry').textContent = data[14]; // Shipping Country
-        document.getElementById('itemName').textContent = data[15]; // Item Name
-        document.getElementById('itemQuantity').textContent = data[16]; // Item Quantity
-        document.getElementById('itemPrice').textContent = data[17]; // Item Price
-        document.getElementById('totalAmount').textContent = data[18]; // Total Amount
+  try {
+    const response = await fetch(`https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec?email=${email}`);
+    console.log(response); // Log the response object
+    
+    const data = await response.json();
+    
+    if (data.message) {
+      alert(data.message);
+    } else {
+      // Update the HTML with the retrieved data
+      document.getElementById('accountNumber').textContent = data[0]; // Account Number
+      document.getElementById('name').textContent = data[1]; // Name
+      document.getElementById('emailDisplay').textContent = data[2]; // Email
+      document.getElementById('orderId').textContent = data[3]; // Order ID
+      document.getElementById('phone').textContent = data[4]; // Phone
+      document.getElementById('billingStreet').textContent = data[5]; // Billing Street
+      document.getElementById('billingCity').textContent = data[6]; // Billing City
+      document.getElementById('billingState').textContent = data[7]; // Billing State
+      document.getElementById('billingPostal').textContent = data[8]; // Billing Postal
+      document.getElementById('billingCountry').textContent = data[9]; // Billing Country
+      document.getElementById('shippingStreet').textContent = data[10]; // Shipping Street
+      document.getElementById('shippingCity').textContent = data[11]; // Shipping City
+      document.getElementById('shippingState').textContent = data[12]; // Shipping State
+      document.getElementById('shippingPostal').textContent = data[13]; // Shipping Postal
+      document.getElementById('shippingCountry').textContent = data[14]; // Shipping Country
+      document.getElementById('itemName').textContent = data[15]; // Item Name
+      document.getElementById('itemQuantity').textContent = data[16]; // Item Quantity
+      document.getElementById('itemPrice').textContent = data[17]; // Item Price
+      document.getElementById('totalAmount').textContent = data[18]; // Total Amount
 
-        resultContainer.style.display = 'block'; // Show the result container
-      }
+      resultContainer.style.display = 'block'; // Show the result container
     }
+  } catch (error) {
+    console.error('Error fetching data:', error); // Log any errors
+    alert('Failed to fetch data. Please check the console for more information.');
+  }
+}
+
   </script>
