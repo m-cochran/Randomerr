@@ -86,8 +86,21 @@ permalink: /ptdd/
         return;
       }
 
-      const response = await fetch(`https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec?email=${email}`);
-      const data = await response.json();
+      const response = fetch('https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec', {
+    method: 'GET',  // or POST if you are sending data
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    mode: 'cors' // Important for cross-origin requests
+})
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+
 
       if (data.message) {
         alert(data.message);
