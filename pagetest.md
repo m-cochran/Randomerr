@@ -7,101 +7,77 @@ permalink: /ptdd/
 # Profile
 
 
-  <main>
-    <section class="profile-section">
-      <div class="profile-header">
-        <img id="profilePicture" src="default-avatar.png" alt="Profile Picture" class="profile-picture">
-        <h1 id="profileName">Name</h1>
-        <p id="profileEmail">Email</p>
-      </div>
-
-      <table class="profile-table">
-        <thead>
-          <tr>
-            <th>Field</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody id="profileDetails">
-          <tr>
-            <td>Account Number</td>
-            <td id="accountNumber">Loading...</td>
-          </tr>
-          <tr>
-            <td>Phone</td>
-            <td id="phone">Loading...</td>
-          </tr>
-          <tr>
-            <td>Billing Address</td>
-            <td id="billingAddress">Loading...</td>
-          </tr>
-          <tr>
-            <td>Shipping Address</td>
-            <td id="shippingAddress">Loading...</td>
-          </tr>
-          <tr>
-            <td>Order ID</td>
-            <td id="orderId">Loading...</td>
-          </tr>
-          <tr>
-            <td>Item Name</td>
-            <td id="itemName">Loading...</td>
-          </tr>
-          <tr>
-            <td>Item Quantity</td>
-            <td id="itemQuantity">Loading...</td>
-          </tr>
-          <tr>
-            <td>Item Price</td>
-            <td id="itemPrice">Loading...</td>
-          </tr>
-          <tr>
-            <td>Total Amount</td>
-            <td id="totalAmount">Loading...</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <style>
+    /* Add some basic styles */
+    .profile-container {
+      text-align: center;
+    }
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+    .account-info {
+      margin-top: 20px;
+    }
+    .account-info p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="profilePage">
+    <div class="profile-container">
+      <img id="profilePicture" src="default-avatar.png" alt="Profile Picture">
+      <h1 id="profileName">Loading...</h1>
+      <p id="profileEmail">Loading...</p>
+    </div>
+    <div id="accountInfo" class="account-info">
+      <!-- Account details will be displayed here -->
+    </div>
+  </div>
 
   <script>
-    async function fetchAccountDetails(email) {
+    const profileEmail = localStorage.getItem("userEmail");
+
+    async function fetchAccountData() {
       try {
-        const response = await fetch(`https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec?email=${email}`);
-        if (response.ok) {
-          const data = await response.json();
-          updateProfileDetails(data);
+        const response = await fetch('https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec'); // Your Google Apps Script URL
+        const data = await response.json();
+        const account = data.find(account => account.email === profileEmail);
+        
+        if (account) {
+          // Update profile page with data from Google Sheets
+          document.getElementById('profileName').textContent = account.name;
+          document.getElementById('profileEmail').textContent = account.email;
+          document.getElementById('profilePicture').src = account.picture || 'default-avatar.png';
+
+          const accountInfo = `
+            <p><strong>Account Number:</strong> ${account.accountNumber}</p>
+            <p><strong>Phone:</strong> ${account.phone}</p>
+            <p><strong>Billing Address:</strong> ${account.billingStreet}, ${account.billingCity}, ${account.billingState}, ${account.billingPostal}, ${account.billingCountry}</p>
+            <p><strong>Shipping Address:</strong> ${account.shippingStreet}, ${account.shippingCity}, ${account.shippingState}, ${account.shippingPostal}, ${account.shippingCountry}</p>
+            <p><strong>Order ID:</strong> ${account.orderId}</p>
+            <p><strong>Item:</strong> ${account.itemName} x ${account.itemQuantity}</p>
+            <p><strong>Total Amount:</strong> $${account.totalAmount}</p>
+          `;
+          document.getElementById('accountInfo').innerHTML = accountInfo;
         } else {
-          console.error("Failed to fetch account details");
+          document.getElementById('accountInfo').innerHTML = '<p>No account data found for this email.</p>';
         }
       } catch (error) {
-        console.error("Error fetching account details:", error);
+        console.error('Error fetching account data:', error);
+        document.getElementById('accountInfo').innerHTML = '<p>Failed to retrieve account data.</p>';
       }
     }
 
-    function updateProfileDetails(details) {
-      document.getElementById("accountNumber").textContent = details.accountNumber || "N/A";
-      document.getElementById("phone").textContent = details.phone || "N/A";
-      document.getElementById("billingAddress").textContent = `${details.billingStreet}, ${details.billingCity}, ${details.billingState}, ${details.billingPostal}, ${details.billingCountry}`;
-      document.getElementById("shippingAddress").textContent = `${details.shippingStreet}, ${details.shippingCity}, ${details.shippingState}, ${details.shippingPostal}, ${details.shippingCountry}`;
-      document.getElementById("orderId").textContent = details.orderId || "N/A";
-      document.getElementById("itemName").textContent = details.itemName || "N/A";
-      document.getElementById("itemQuantity").textContent = details.itemQuantity || "N/A";
-      document.getElementById("itemPrice").textContent = details.itemPrice || "N/A";
-      document.getElementById("totalAmount").textContent = details.totalAmount || "N/A";
-    }
-
-    function initializeProfilePage() {
-      const userLoggedIn = localStorage.getItem("userLoggedIn") === "true";
-      if (userLoggedIn) {
-        const userEmail = localStorage.getItem("userEmail");
-        if (userEmail) {
-          fetchAccountDetails(userEmail);
-        }
-      } else {
-        // Redirect to login page or display a login message
-        alert("Please log in to view your profile.");
-        window.location.href = "login.html";
-      }
-    }
+    document.addEventListener("DOMContentLoaded", fetchAccountData);
   </script>
+</body>
+</html>
