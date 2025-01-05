@@ -12,130 +12,112 @@ permalink: /ptdd/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Page</title>
+  <title>Retrieve Account Data</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
+      margin: 20px;
     }
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
+    .form-container {
+      max-width: 600px;
+      margin: auto;
       padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+      border-radius: 10px;
     }
-    .profile-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-    .profile-header img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin-right: 20px;
-    }
-    .profile-header h1 {
-      margin: 0;
-      font-size: 24px;
-      color: #333;
-    }
-    .profile-info {
-      font-size: 18px;
-      color: #666;
-    }
-    .profile-info p {
-      margin: 5px 0;
-    }
-    .btn-logout {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #f44336;
-      color: white;
-      border: none;
+    .form-container input, .form-container button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
       border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
     }
-    .btn-logout:hover {
-      background-color: #d32f2f;
+    .result-container {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #f9f9f9;
     }
   </style>
 </head>
 <body>
+  <div class="form-container">
+    <h2>Retrieve Account Data</h2>
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <button onclick="getAccountData()">Get Data</button>
+  </div>
 
-  <div class="container">
-    <div class="profile-header">
-      <img id="profilePicture" src="default-avatar.png" alt="Profile Picture">
-      <div>
-        <h1 id="userName">Loading...</h1>
-        <p id="userEmail">Loading...</p>
-      </div>
-    </div>
-
-    <div class="profile-info">
-      <p><strong>Account Number:</strong> <span id="accountNumber">Loading...</span></p>
-      <p><strong>Phone:</strong> <span id="userPhone">Loading...</span></p>
-      <p><strong>Billing Address:</strong></p>
-      <p><strong>Street:</strong> <span id="billingStreet">Loading...</span></p>
-      <p><strong>City:</strong> <span id="billingCity">Loading...</span></p>
-      <p><strong>State:</strong> <span id="billingState">Loading...</span></p>
-      <p><strong>Postal:</strong> <span id="billingPostal">Loading...</span></p>
-      <p><strong>Country:</strong> <span id="billingCountry">Loading...</span></p>
-      
-      <p><strong>Shipping Address:</strong></p>
-      <p><strong>Street:</strong> <span id="shippingStreet">Loading...</span></p>
-      <p><strong>City:</strong> <span id="shippingCity">Loading...</span></p>
-      <p><strong>State:</strong> <span id="shippingState">Loading...</span></p>
-      <p><strong>Postal:</strong> <span id="shippingPostal">Loading...</span></p>
-      <p><strong>Country:</strong> <span id="shippingCountry">Loading...</span></p>
-
-      <p><strong>Items:</strong></p>
-      <div id="itemsList">Loading...</div>
-    </div>
-
-    <button class="btn-logout" id="logoutBtn">Logout</button>
+  <div class="result-container" id="result" style="display: none;">
+    <h3>Account Details</h3>
+    <p><strong>Account Number:</strong> <span id="accountNumber"></span></p>
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+    <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+    <p><strong>Phone:</strong> <span id="phone"></span></p>
+    <p><strong>Billing Address:</strong> 
+      <span id="billingStreet"></span>, 
+      <span id="billingCity"></span>, 
+      <span id="billingState"></span>, 
+      <span id="billingPostal"></span>, 
+      <span id="billingCountry"></span>
+    </p>
+    <p><strong>Shipping Address:</strong> 
+      <span id="shippingStreet"></span>, 
+      <span id="shippingCity"></span>, 
+      <span id="shippingState"></span>, 
+      <span id="shippingPostal"></span>, 
+      <span id="shippingCountry"></span>
+    </p>
+    <p><strong>Item Name:</strong> <span id="itemName"></span></p>
+    <p><strong>Item Quantity:</strong> <span id="itemQuantity"></span></p>
+    <p><strong>Item Price:</strong> <span id="itemPrice"></span></p>
+    <p><strong>Total Amount:</strong> <span id="totalAmount"></span></p>
   </div>
 
   <script>
-    // Simulating the data fetch and update of the profile page
-    async function fetchAndUpdateProfile(email) {
-      const response = await fetch(`https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec?email=${email}`);
+    async function getAccountData() {
+      const email = document.getElementById('email').value;
+      const resultContainer = document.getElementById('result');
+      resultContainer.style.display = 'none'; // Hide result container initially
+
+      if (!email) {
+        alert("Please enter an email!");
+        return;
+      }
+
+      const response = await fetch(`https://script.google.com/macros/s/your-script-id/exec?email=${email}`);
       const data = await response.json();
-      
+
       if (data.message) {
         alert(data.message);
       } else {
-        // Assuming data array has this structure
-        document.getElementById("accountNumber").textContent = data[0];
-        document.getElementById("userName").textContent = data[1];
-        document.getElementById("userEmail").textContent = data[2];
-        document.getElementById("userPhone").textContent = data[3];
-        document.getElementById("billingStreet").textContent = data[4];
-        document.getElementById("billingCity").textContent = data[5];
-        document.getElementById("billingState").textContent = data[6];
-        document.getElementById("billingPostal").textContent = data[7];
-        document.getElementById("billingCountry").textContent = data[8];
-        document.getElementById("shippingStreet").textContent = data[9];
-        document.getElementById("shippingCity").textContent = data[10];
-        document.getElementById("shippingState").textContent = data[11];
-        document.getElementById("shippingPostal").textContent = data[12];
-        document.getElementById("shippingCountry").textContent = data[13];
-        
-        // Items list (example)
-        const itemsList = document.getElementById("itemsList");
-        itemsList.innerHTML = '';
-        for (let i = 14; i < data.length; i += 3) {
-          const item = document.createElement("div");
-          item.textContent = `Item: ${data[i]}, Quantity: ${data[i+1]}, Price: ${data[i+2]}`;
-          itemsList.appendChild(item);
-        }
+        // Update the HTML with the retrieved data
+        document.getElementById('accountNumber').textContent = data[0]; // Account Number
+        document.getElementById('name').textContent = data[1]; // Name
+        document.getElementById('emailDisplay').textContent = data[2]; // Email
+        document.getElementById('orderId').textContent = data[3]; // Order ID
+        document.getElementById('phone').textContent = data[4]; // Phone
+        document.getElementById('billingStreet').textContent = data[5]; // Billing Street
+        document.getElementById('billingCity').textContent = data[6]; // Billing City
+        document.getElementById('billingState').textContent = data[7]; // Billing State
+        document.getElementById('billingPostal').textContent = data[8]; // Billing Postal
+        document.getElementById('billingCountry').textContent = data[9]; // Billing Country
+        document.getElementById('shippingStreet').textContent = data[10]; // Shipping Street
+        document.getElementById('shippingCity').textContent = data[11]; // Shipping City
+        document.getElementById('shippingState').textContent = data[12]; // Shipping State
+        document.getElementById('shippingPostal').textContent = data[13]; // Shipping Postal
+        document.getElementById('shippingCountry').textContent = data[14]; // Shipping Country
+        document.getElementById('itemName').textContent = data[15]; // Item Name
+        document.getElementById('itemQuantity').textContent = data[16]; // Item Quantity
+        document.getElementById('itemPrice').textContent = data[17]; // Item Price
+        document.getElementById('totalAmount').textContent = data[18]; // Total Amount
+
+        resultContainer.style.display = 'block'; // Show the result container
       }
     }
-
   </script>
+</body>
+</html>
+
 
