@@ -6,12 +6,6 @@ permalink: /ptdd/
 
 # Profile
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Retrieve Account Data</title>
   <style>
     body {
@@ -40,8 +34,7 @@ permalink: /ptdd/
       background-color: #f9f9f9;
     }
   </style>
-</head>
-<body>
+
   <div class="form-container">
     <h2>Retrieve Account Data</h2>
     <input type="email" id="email" placeholder="Enter your email" required>
@@ -86,21 +79,8 @@ permalink: /ptdd/
         return;
       }
 
-      const response = fetch('https://script.google.com/macros/s/AKfycbwQSmWf9K-Jei00NBj_g4_TToubBsi53Jh7HcEJrlHh4duHh3Odtuz1tWsbCFysWjtx/exec', {
-    method: 'GET',  // or POST if you are sending data
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    mode: 'cors' // Important for cross-origin requests
-})
-.then(response => response.json())
-.then(data => {
-    console.log(data);
-})
-.catch(error => {
-    console.error('Error:', error);
-});
-
+      const response = await fetch(`https://script.google.com/macros/s/your-script-id/exec?email=${email}`);
+      const data = await response.json();
 
       if (data.message) {
         alert(data.message);
@@ -130,7 +110,3 @@ permalink: /ptdd/
       }
     }
   </script>
-</body>
-</html>
-
-
