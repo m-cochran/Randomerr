@@ -86,7 +86,7 @@ permalink: /ptdd/
         return;
       }
 
-      const response = await fetch(`https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec?email=${email}`);
+      const response = await fetch(`https://script.google.com/macros/s/AKfycbxxO6b9qFa-zGAJj3LcqFxifCfJJnXbx-ebCzaVWaGC7jAzuZwqD083tDuGLhSRuBPN/exec?email=${email}`);
       const data = await response.json();
 
       if (data.message) {
