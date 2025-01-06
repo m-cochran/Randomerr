@@ -151,8 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (userEmail) {
     console.log("User is logged in, fetching data...");
     fetchDataByEmail(userEmail);
-  } // <-- Close the if block here
-}); // <-- Close the event listener here
+  }
+}); 
 </script>
 
 
