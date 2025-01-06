@@ -172,10 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (userEmail) {
     console.log("User is logged in, fetching data...");
     fetchDataByEmail(userEmail);
-  } else {
-    console.log("No user is logged in. Redirecting to login page...");
-    window.location.href = "/login.html"; // Redirect to login page
-  }
 });
 
 
