@@ -147,7 +147,7 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
 
 // Example usage: Call the function with a test email (replace with actual user input)
 document.addEventListener("DOMContentLoaded", () => {
-  const testEmail = "test@example.com"; // Replace with user-provided email
+  const testEmail = "mycupofearth@gmail.com"; // Replace with user-provided email
   fetchDataByEmail(testEmail);
 });
 </script>
