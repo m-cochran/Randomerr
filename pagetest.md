@@ -157,9 +157,8 @@ function displayResults(results) {
   });
 }
 
-
-
-  function getLoggedInUserEmail() {
+// Function to get the logged-in user's email from localStorage
+function getLoggedInUserEmail() {
   const email = localStorage.getItem('userEmail');
   return email ? email : null;
 }
@@ -172,9 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (userEmail) {
     console.log("User is logged in, fetching data...");
     fetchDataByEmail(userEmail);
-}
-
-
+  } // <-- Close the if block here
+}); // <-- Close the event listener here
 </script>
+
 
 
