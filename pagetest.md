@@ -80,32 +80,12 @@ function fetchDataByEmail(email) {
         console.error("Error from API:", data.error);
         displayResult("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "$0.00", "$0.00");
       } else {
-        // Populate fields with the fetched data or default to "N/A" if data is missing
-        displayResult(
-          data["Account Number"] || "N/A",
-          data["Name"] || "N/A",
-          data["Email"] || "N/A",
-          data["OrderID"] || "N/A",
-          data["Phone"] || "N/A",
-          formatAddress(
-            data["Billing Street"], 
-            data["Billing City"], 
-            data["Billing State"], 
-            data["Billing Postal"], 
-            data["Billing Country"]
-          ),
-          formatAddress(
-            data["Shipping Street"], 
-            data["Shipping City"], 
-            data["Shipping State"], 
-            data["Shipping Postal"], 
-            data["Shipping Country"]
-          ),
-          data["Item Name"] || "N/A",
-          data["Item Quantity"] || "N/A",
-          `$${parseFloat(data["Item Price"] || 0).toFixed(2)}`,
-          `$${parseFloat(data["Total Amount"] || 0).toFixed(2)}`
-        );
+        // Display account information from the first entry (index 0)
+        const accountData = data[0] || {};
+        displayAccountInfo(accountData);
+
+        // Display all purchase data (subsequent entries)
+        displayPurchaseData(data);
       }
     })
     .catch(error => {
@@ -114,36 +94,75 @@ function fetchDataByEmail(email) {
     });
 }
 
+// Function to display account info
+function displayAccountInfo(data) {
+  updateField("account-number", data["Account Number"] || "N/A");
+  updateField("name", data["Name"] || "N/A");
+  updateField("email", data["Email"] || "N/A");
+  updateField("phone", data["Phone"] || "N/A");
+}
+
+// Function to display purchase data
+function displayPurchaseData(data) {
+  const purchaseContainer = document.getElementById("purchase-data-container");
+  purchaseContainer.innerHTML = ''; // Clear existing purchase data
+
+  data.forEach((entry, index) => {
+    if (index !== 0) {  // Skip the first entry (account info)
+      const orderID = entry["OrderID"] || "N/A";
+      const itemName = entry["Item Name"] || "N/A";
+      const itemQuantity = entry["Item Quantity"] || "N/A";
+      const itemPrice = `$${parseFloat(entry["Item Price"] || 0).toFixed(2)}`;
+      const totalAmount = `$${parseFloat(entry["Total Amount"] || 0).toFixed(2)}`;
+
+      const billingAddress = formatAddress(
+        entry["Billing Street"], 
+        entry["Billing City"], 
+        entry["Billing State"], 
+        entry["Billing Postal"], 
+        entry["Billing Country"]
+      );
+      const shippingAddress = formatAddress(
+        entry["Shipping Street"], 
+        entry["Shipping City"], 
+        entry["Shipping State"], 
+        entry["Shipping Postal"], 
+        entry["Shipping Country"]
+      );
+
+      // Create and append a new div for each purchase entry
+      const purchaseEntry = document.createElement("div");
+      purchaseEntry.classList.add("purchase-entry");
+      purchaseEntry.innerHTML = `
+        <h3>Order ID: ${orderID}</h3>
+        <p>Item: ${itemName}</p>
+        <p>Quantity: ${itemQuantity}</p>
+        <p>Price: ${itemPrice}</p>
+        <p>Total Amount: ${totalAmount}</p>
+        <h4>Billing Address:</h4>
+        <p>${billingAddress}</p>
+        <h4>Shipping Address:</h4>
+        <p>${shippingAddress}</p>
+      `;
+      purchaseContainer.appendChild(purchaseEntry);
+    }
+  });
+}
+
 // Utility function to format addresses
 function formatAddress(street, city, state, postal, country) {
-  console.log("Formatting address with:", { street, city, state, postal, country }); // Debug address formatting
   return `${street || "N/A"}, ${city || "N/A"}, ${state || "N/A"}, ${postal || "N/A"}, ${country || "N/A"}`;
 }
 
-// Function to display the fetched result on the page
-function displayResult(account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount) {
-  const updateField = (id, value) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.textContent = value;
-    } else {
-      console.warn(`Element with ID '${id}' not found.`);
-    }
-  };
-
-  updateField("account-number", account);
-  updateField("name", name);
-  updateField("email", email);
-  updateField("order-id", orderID);
-  updateField("phone", phone);
-  updateField("billing-address", billingAddress);
-  updateField("shipping-address", shippingAddress);
-  updateField("item-name", itemName);
-  updateField("item-quantity", itemQty);
-  updateField("item-price", itemPrice);
-  updateField("total-amount", totalAmount);
+// Function to update fields on the page
+function updateField(id, value) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.textContent = value;
+  } else {
+    console.warn(`Element with ID '${id}' not found.`);
+  }
 }
-
 
 // Example usage: Call the function with a test email (replace with actual user input)
 document.addEventListener("DOMContentLoaded", () => {
@@ -152,3 +171,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<!-- HTML Structure Example -->
+<div id="account-info">
+  <h2>Account Information</h2>
+  <p><strong>Account Number:</strong> <span id="account-number">Loading...</span></p>
+  <p><strong>Name:</strong> <span id="name">Loading...</span></p>
+  <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+  <p><strong>Phone:</strong> <span id="phone">Loading...</span></p>
+</div>
+
+<div id="purchase-data-container"></div> <!-- Container for displaying purchase data -->
