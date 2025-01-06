@@ -189,8 +189,9 @@ permalink: /pro/
             itemName: result.itemName,
             itemQuantity: result.itemQuantity,
             itemPrice: result.itemPrice
+            itemTotal: itemTotal
           });
-          acc[orderId].totalAmount += parseFloat(result.totalAmount);
+          acc[orderId].totalAmount += itemTotal;
           return acc;
         }, {});
         // Loop through grouped results and create the HTML structure
