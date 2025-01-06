@@ -114,11 +114,6 @@ function fetchDataByEmail(email) {
     });
 }
 
-// Utility function to format addresses
-function formatAddress(street, city, state, postal, country) {
-  console.log("Formatting address with:", { street, city, state, postal, country }); // Debug address formatting
-  return `${street || "N/A"}, ${city || "N/A"}, ${state || "N/A"}, ${postal || "N/A"}, ${country || "N/A"}`;
-}
 
 // Function to display the fetched result on the page
 function displayResult(account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount) {
