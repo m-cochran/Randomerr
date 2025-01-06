@@ -114,6 +114,11 @@ function fetchDataByEmail(email) {
     });
 }
 
+// Utility function to format addresses
+function formatAddress(street, city, state, postal, country) {
+  console.log("Formatting address with:", { street, city, state, postal, country }); // Debug address formatting
+  return `${street || "N/A"}, ${city || "N/A"}, ${state || "N/A"}, ${postal || "N/A"}, ${country || "N/A"}`;
+}
 
 // Function to display the fetched result on the page
 function displayResult(account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount) {
@@ -142,7 +147,8 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
 
 // Example usage: Call the function with a test email (replace with actual user input)
 document.addEventListener("DOMContentLoaded", () => {
-  const testEmail = "mycupofearth@gmail.com"; // Replace with user-provided email
+  const testEmail = "test@example.com"; // Replace with user-provided email
   fetchDataByEmail(testEmail);
 });
 </script>
+
