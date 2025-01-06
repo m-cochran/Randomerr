@@ -297,6 +297,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function handleLogout() {
     localStorage.removeItem("userLoggedIn");
     localStorage.removeItem("userProfile"); // Clear profile info
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userProfilePic");
 
     const accessBar = document.querySelector(".access-bar");
     if (accessBar) {
