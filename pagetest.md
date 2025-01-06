@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (userEmail) {
     console.log("User is logged in, fetching data...");
     fetchDataByEmail(userEmail);
-});
+}
 
 
 </script>
