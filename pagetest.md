@@ -156,11 +156,5 @@ function displayResults(results) {
     resultsContainer.appendChild(resultCard);
   });
 }
-
-// Example usage: Call the function with a test email (replace with actual user input)
-document.addEventListener("DOMContentLoaded", () => {
-  const testEmail = "mycupofearth@gmail.com"; // Replace with user-provided email
-  fetchDataByEmail(testEmail);
-});
 </script>
 
