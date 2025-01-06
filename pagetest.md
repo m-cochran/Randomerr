@@ -39,14 +39,7 @@ permalink: /pro/
       <p id="profileEmail">Loading...</p>
     </div>
     <div id="account-number"></div>
-    <div id="accountInfo" class="account-info">
-      <!-- Account details will be displayed here -->
-    </div>
-  </div>
-
-
-
-<div id="data-display">
+    <div id="data-display">
   <p>Account Number: <span id="account-number"></span></p>
   <p>Name: <span id="name"></span></p>
   <p>Email: <span id="email"></span></p>
@@ -59,6 +52,8 @@ permalink: /pro/
   <p>Item Price: <span id="item-price"></span></p>
   <p>Total Amount: <span id="total-amount"></span></p>
 </div>
+
+  </div>
 
 
 
