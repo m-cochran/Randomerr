@@ -102,40 +102,88 @@ function displayResults(results) {
     return;
   }
 
-  results.forEach(result => {
+  // Group items by orderId
+  const groupedResults = results.reduce((acc, result) => {
+    const { orderId } = result;
+
+    // If orderId already exists, add the item to the existing order group
+    if (!acc[orderId]) {
+      acc[orderId] = {
+        accountNumber: result.accountNumber,
+        name: result.name,
+        email: result.email,
+        phone: result.phone,
+        billingStreet: result.billingStreet,
+        billingCity: result.billingCity,
+        billingState: result.billingState,
+        billingPostal: result.billingPostal,
+        billingCountry: result.billingCountry,
+        shippingStreet: result.shippingStreet,
+        shippingCity: result.shippingCity,
+        shippingState: result.shippingState,
+        shippingPostal: result.shippingPostal,
+        shippingCountry: result.shippingCountry,
+        orderId: result.orderId,
+        items: [],
+        totalAmount: 0
+      };
+    }
+
+    // Add item to the group and accumulate the total amount
+    acc[orderId].items.push({
+      itemName: result.itemName,
+      itemQuantity: result.itemQuantity,
+      itemPrice: result.itemPrice
+    });
+    acc[orderId].totalAmount += parseFloat(result.totalAmount);
+
+    return acc;
+  }, {});
+
+  // Loop through grouped results and create the HTML structure
+  Object.values(groupedResults).forEach(order => {
     const resultCard = document.createElement("div");
     resultCard.className = "result-card";
 
-    resultCard.innerHTML = 
-      <p>Account Number: ${result.accountNumber || "N/A"}</p>
-      <p>Name: ${result.name || "N/A"}</p>
-      <p>Email: ${result.email || "N/A"}</p>
-      <p>Order ID: ${result.orderId || "N/A"}</p>
-      <p>Phone: ${result.phone || "N/A"}</p>
+    // Build the order display
+    let itemsHTML = "";
+    order.items.forEach(item => {
+      itemsHTML += `
+        <p>Item Name: ${item.itemName || "N/A"}</p>
+        <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
+        <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
+      `;
+    });
+
+    resultCard.innerHTML = `
+      <p>Account Number: ${order.accountNumber || "N/A"}</p>
+      <p>Name: ${order.name || "N/A"}</p>
+      <p>Email: ${order.email || "N/A"}</p>
+      <p>Order ID: ${order.orderId || "N/A"}</p>
+      <p>Phone: ${order.phone || "N/A"}</p>
       <p>Billing Address: ${formatAddress(
-        result.billingStreet,
-        result.billingCity,
-        result.billingState,
-        result.billingPostal,
-        result.billingCountry
+        order.billingStreet,
+        order.billingCity,
+        order.billingState,
+        order.billingPostal,
+        order.billingCountry
       )}</p>
       <p>Shipping Address: ${formatAddress(
-        result.shippingStreet,
-        result.shippingCity,
-        result.shippingState,
-        result.shippingPostal,
-        result.shippingCountry
+        order.shippingStreet,
+        order.shippingCity,
+        order.shippingState,
+        order.shippingPostal,
+        order.shippingCountry
       )}</p>
-      <p>Item Name: ${result.itemName || "N/A"}</p>
-      <p>Item Quantity: ${result.itemQuantity || "N/A"}</p>
-      <p>Item Price: $${parseFloat(result.itemPrice || 0).toFixed(2)}</p>
-      <p>Total Amount: $${parseFloat(result.totalAmount || 0).toFixed(2)}</p>
+      ${itemsHTML} <!-- Display all items -->
+      <p>Total Amount: $${parseFloat(order.totalAmount).toFixed(2)}</p>
       <hr>
-    ;
+    `;
 
     resultsContainer.appendChild(resultCard);
   });
 }
+
 
 // Function to get the logged-in user's email from localStorage
 function getLoggedInUserEmail() {
