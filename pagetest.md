@@ -93,7 +93,6 @@ function formatAddress(street, city, state, postal, country) {
 }
 
 // Function to display all results
-// Function to display all results, combining items by orderId
 function displayResults(results) {
   const resultsContainer = document.getElementById("results-container");
   resultsContainer.innerHTML = ""; // Clear previous results
@@ -103,83 +102,36 @@ function displayResults(results) {
     return;
   }
 
-  // Group items by orderId
-  const groupedResults = results.reduce((acc, result) => {
-    const { orderId } = result;
-
-    // If orderId already exists, add the item to the existing order group
-    if (!acc[orderId]) {
-      acc[orderId] = {
-        accountNumber: result.accountNumber,
-        name: result.name,
-        email: result.email,
-        phone: result.phone,
-        billingStreet: result.billingStreet,
-        billingCity: result.billingCity,
-        billingState: result.billingState,
-        billingPostal: result.billingPostal,
-        billingCountry: result.billingCountry,
-        shippingStreet: result.shippingStreet,
-        shippingCity: result.shippingCity,
-        shippingState: result.shippingState,
-        shippingPostal: result.shippingPostal,
-        shippingCountry: result.shippingCountry,
-        orderId: result.orderId,
-        items: [],
-        totalAmount: 0
-      };
-    }
-
-    // Add item to the group and accumulate the total amount
-    acc[orderId].items.push({
-      itemName: result.itemName,
-      itemQuantity: result.itemQuantity,
-      itemPrice: result.itemPrice
-    });
-    acc[orderId].totalAmount += parseFloat(result.totalAmount);
-
-    return acc;
-  }, {});
-
-  // Loop through grouped results and create the HTML structure
-  Object.values(groupedResults).forEach(order => {
+  results.forEach(result => {
     const resultCard = document.createElement("div");
     resultCard.className = "result-card";
 
-    // Build the order display
-    let itemsHTML = "";
-    order.items.forEach(item => {
-      itemsHTML += `
-        <p>Item Name: ${item.itemName || "N/A"}</p>
-        <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
-        <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
-      `;
-    });
-
-    resultCard.innerHTML = `
-      <p>Account Number: ${order.accountNumber || "N/A"}</p>
-      <p>Name: ${order.name || "N/A"}</p>
-      <p>Email: ${order.email || "N/A"}</p>
-      <p>Order ID: ${order.orderId || "N/A"}</p>
-      <p>Phone: ${order.phone || "N/A"}</p>
+    resultCard.innerHTML = 
+      <p>Account Number: ${result.accountNumber || "N/A"}</p>
+      <p>Name: ${result.name || "N/A"}</p>
+      <p>Email: ${result.email || "N/A"}</p>
+      <p>Order ID: ${result.orderId || "N/A"}</p>
+      <p>Phone: ${result.phone || "N/A"}</p>
       <p>Billing Address: ${formatAddress(
-        order.billingStreet,
-        order.billingCity,
-        order.billingState,
-        order.billingPostal,
-        order.billingCountry
+        result.billingStreet,
+        result.billingCity,
+        result.billingState,
+        result.billingPostal,
+        result.billingCountry
       )}</p>
       <p>Shipping Address: ${formatAddress(
-        order.shippingStreet,
-        order.shippingCity,
-        order.shippingState,
-        order.shippingPostal,
-        order.shippingCountry
+        result.shippingStreet,
+        result.shippingCity,
+        result.shippingState,
+        result.shippingPostal,
+        result.shippingCountry
       )}</p>
-      ${itemsHTML} <!-- Display all items -->
-      <p>Total Amount: $${parseFloat(order.totalAmount).toFixed(2)}</p>
+      <p>Item Name: ${result.itemName || "N/A"}</p>
+      <p>Item Quantity: ${result.itemQuantity || "N/A"}</p>
+      <p>Item Price: $${parseFloat(result.itemPrice || 0).toFixed(2)}</p>
+      <p>Total Amount: $${parseFloat(result.totalAmount || 0).toFixed(2)}</p>
       <hr>
-    `;
+    ;
 
     resultsContainer.appendChild(resultCard);
   });
@@ -191,31 +143,16 @@ function getLoggedInUserEmail() {
   return email ? email : null;
 }
 
-// Function to fetch data based on the user's email
-function fetchDataByEmail(userEmail) {
-  // Example: Replace with your actual data-fetching logic (e.g., API call)
-  fetch(`/orders?email=${userEmail}`)
-    .then(response => response.json())
-    .then(data => {
-      displayResults(data); // Display the data once it's fetched
-    })
-    .catch(error => {
-      console.error("Error fetching data:", error);
-    });
-}
-
 // DOMContentLoaded listener to fetch data based on the logged-in user's email
 document.addEventListener("DOMContentLoaded", () => {
+  // Example: Replace with your authentication method
   const userEmail = getLoggedInUserEmail(); // Custom function to retrieve email
 
   if (userEmail) {
     console.log("User is logged in, fetching data...");
     fetchDataByEmail(userEmail);
-  } else {
-    console.log("No user is logged in.");
-  }
-});
-
+  } // <-- Close the if block here
+}); // <-- Close the event listener here
 </script>
 
 
