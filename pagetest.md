@@ -29,6 +29,14 @@ permalink: /pro/
     .account-info p {
       margin: 5px 0;
     }
+    .result-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
   </style>
 </head>
 <body>
@@ -56,6 +64,15 @@ permalink: /pro/
   </div>
 
 
+  <div id="results-container">
+  <!-- Results will be dynamically added here -->
+</div>
+
+
+
+
+
+
 
 <script>
 const apiUrl = "https://script.google.com/macros/s/AKfycbyY9UyIOjwuLlJ0YK_KleuXXiEfkr1rnivBtbW-x1Ptn9YB4fS9ypBeCZPUECMsdpxt/exec"; // Replace with your Web App URL
@@ -78,40 +95,15 @@ function fetchDataByEmail(email) {
 
       if (data.error || data.length === 0) {
         console.error("Error or no data from API:", data.error || "No records found");
-        displayResult("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "$0.00", "$0.00");
+        displayResults([]);
       } else {
-        // Loop through all results if needed
-        const result = data[0]; // Display the first record as an example
-        displayResult(
-          result.accountNumber || "N/A",
-          result.name || "N/A",
-          result.email || "N/A",
-          result.orderId || "N/A",
-          result.phone || "N/A",
-          formatAddress(
-            result.billingStreet,
-            result.billingCity,
-            result.billingState,
-            result.billingPostal,
-            result.billingCountry
-          ),
-          formatAddress(
-            result.shippingStreet,
-            result.shippingCity,
-            result.shippingState,
-            result.shippingPostal,
-            result.shippingCountry
-          ),
-          result.itemName || "N/A",
-          result.itemQuantity || "N/A",
-          `$${parseFloat(result.itemPrice || 0).toFixed(2)}`,
-          `$${parseFloat(result.totalAmount || 0).toFixed(2)}`
-        );
+        // Display all results
+        displayResults(data);
       }
     })
     .catch(error => {
       console.error("Fetch Error:", error);
-      displayResult("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "$0.00", "$0.00");
+      displayResults([]);
     });
 }
 
@@ -120,28 +112,49 @@ function formatAddress(street, city, state, postal, country) {
   return `${street || "N/A"}, ${city || "N/A"}, ${state || "N/A"}, ${postal || "N/A"}, ${country || "N/A"}`;
 }
 
-// Function to display the fetched result on the page
-function displayResult(account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount) {
-  const updateField = (id, value) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.textContent = value;
-    } else {
-      console.warn(`Element with ID '${id}' not found.`);
-    }
-  };
+// Function to display all results
+function displayResults(results) {
+  const resultsContainer = document.getElementById("results-container");
+  resultsContainer.innerHTML = ""; // Clear previous results
 
-  updateField("account-number", account);
-  updateField("name", name);
-  updateField("email", email);
-  updateField("order-id", orderID);
-  updateField("phone", phone);
-  updateField("billing-address", billingAddress);
-  updateField("shipping-address", shippingAddress);
-  updateField("item-name", itemName);
-  updateField("item-quantity", itemQty);
-  updateField("item-price", itemPrice);
-  updateField("total-amount", totalAmount);
+  if (results.length === 0) {
+    resultsContainer.innerHTML = "<p>No results found.</p>";
+    return;
+  }
+
+  results.forEach(result => {
+    const resultCard = document.createElement("div");
+    resultCard.className = "result-card";
+
+    resultCard.innerHTML = `
+      <p>Account Number: ${result.accountNumber || "N/A"}</p>
+      <p>Name: ${result.name || "N/A"}</p>
+      <p>Email: ${result.email || "N/A"}</p>
+      <p>Order ID: ${result.orderId || "N/A"}</p>
+      <p>Phone: ${result.phone || "N/A"}</p>
+      <p>Billing Address: ${formatAddress(
+        result.billingStreet,
+        result.billingCity,
+        result.billingState,
+        result.billingPostal,
+        result.billingCountry
+      )}</p>
+      <p>Shipping Address: ${formatAddress(
+        result.shippingStreet,
+        result.shippingCity,
+        result.shippingState,
+        result.shippingPostal,
+        result.shippingCountry
+      )}</p>
+      <p>Item Name: ${result.itemName || "N/A"}</p>
+      <p>Item Quantity: ${result.itemQuantity || "N/A"}</p>
+      <p>Item Price: $${parseFloat(result.itemPrice || 0).toFixed(2)}</p>
+      <p>Total Amount: $${parseFloat(result.totalAmount || 0).toFixed(2)}</p>
+      <hr>
+    `;
+
+    resultsContainer.appendChild(resultCard);
+  });
 }
 
 // Example usage: Call the function with a test email (replace with actual user input)
@@ -150,3 +163,4 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchDataByEmail(testEmail);
 });
 </script>
+
