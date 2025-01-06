@@ -157,6 +157,13 @@ function displayResults(results) {
   });
 }
 
+
+
+  function getLoggedInUserEmail() {
+  const email = localStorage.getItem('userEmail');
+  return email ? email : null;
+}
+
 // DOMContentLoaded listener to fetch data based on the logged-in user's email
 document.addEventListener("DOMContentLoaded", () => {
   // Example: Replace with your authentication method
