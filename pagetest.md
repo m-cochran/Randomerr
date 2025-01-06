@@ -46,20 +46,19 @@ permalink: /pro/
 
 
 
-<span id="account-number"></span>
-
-
-<div id="accountnumber">Loading...</div>
-<div id="name">Loading...</div>
-<div id="email">Loading...</div>
-<div id="order-id">N/A</div>
-<div id="phone">Loading...</div>
-<div id="item-name">N/A</div>
-<div id="item-quantity">N/A</div>
-<div id="item-price">$0.00</div>
-<div id="total-amount">$0.00</div>
-<div id="billing-address">N/A, N/A, N/A, N/A, N/A</div>
-<div id="shipping-address">N/A, N/A, N/A, N/A, N/A</div>
+<div id="data-display">
+  <p>Account Number: <span id="account-number"></span></p>
+  <p>Name: <span id="name"></span></p>
+  <p>Email: <span id="email"></span></p>
+  <p>Order ID: <span id="order-id"></span></p>
+  <p>Phone: <span id="phone"></span></p>
+  <p>Billing Address: <span id="billing-address"></span></p>
+  <p>Shipping Address: <span id="shipping-address"></span></p>
+  <p>Item Name: <span id="item-name"></span></p>
+  <p>Item Quantity: <span id="item-quantity"></span></p>
+  <p>Item Price: <span id="item-price"></span></p>
+  <p>Total Amount: <span id="total-amount"></span></p>
+</div>
 
 
 
@@ -82,35 +81,36 @@ function fetchDataByEmail(email) {
     .then(data => {
       console.log("Fetched Data:", data); // Debug API response data
 
-      if (data.error) {
-        console.error("Error from API:", data.error);
+      if (data.error || data.length === 0) {
+        console.error("Error or no data from API:", data.error || "No records found");
         displayResult("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "$0.00", "$0.00");
       } else {
-        // Update UI with fetched data
+        // Loop through all results if needed
+        const result = data[0]; // Display the first record as an example
         displayResult(
-          data["Account Number"] || "N/A",
-          data["Name"] || "N/A",
-          data["Email"] || "N/A",
-          data["OrderID"] || "N/A",
-          data["Phone"] || "N/A",
+          result.accountNumber || "N/A",
+          result.name || "N/A",
+          result.email || "N/A",
+          result.orderId || "N/A",
+          result.phone || "N/A",
           formatAddress(
-            data["Billing Street"], 
-            data["Billing City"], 
-            data["Billing State"], 
-            data["Billing Postal"], 
-            data["Billing Country"]
+            result.billingStreet,
+            result.billingCity,
+            result.billingState,
+            result.billingPostal,
+            result.billingCountry
           ),
           formatAddress(
-            data["Shipping Street"], 
-            data["Shipping City"], 
-            data["Shipping State"], 
-            data["Shipping Postal"], 
-            data["Shipping Country"]
+            result.shippingStreet,
+            result.shippingCity,
+            result.shippingState,
+            result.shippingPostal,
+            result.shippingCountry
           ),
-          data["Item Name"] || "N/A",
-          data["Item Quantity"] || "N/A",
-          `$${parseFloat(data["Item Price"] || 0).toFixed(2)}`,
-          `$${parseFloat(data["Total Amount"] || 0).toFixed(2)}`
+          result.itemName || "N/A",
+          result.itemQuantity || "N/A",
+          `$${parseFloat(result.itemPrice || 0).toFixed(2)}`,
+          `$${parseFloat(result.totalAmount || 0).toFixed(2)}`
         );
       }
     })
@@ -136,7 +136,7 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
     }
   };
 
-  updateField("account number", account);
+  updateField("account-number", account);
   updateField("name", name);
   updateField("email", email);
   updateField("order-id", orderID);
@@ -148,7 +148,6 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
   updateField("item-price", itemPrice);
   updateField("total-amount", totalAmount);
 }
-
 
 // Example usage: Call the function with a test email (replace with actual user input)
 document.addEventListener("DOMContentLoaded", () => {
