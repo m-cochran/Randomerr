@@ -45,6 +45,10 @@ permalink: /pro/
   </div>
 
 
+
+<span id="account-number"></span>
+
+
 <div id="account-number">Loading...</div>
 <div id="name">Loading...</div>
 <div id="email">Loading...</div>
@@ -132,10 +136,9 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
     }
   };
 
-  // Update fields
   updateField("account-number", account);
-  updateField("name", name);
-  updateField("email", email);
+  updateField("profile-name", name);
+  updateField("profile-email", email);
   updateField("order-id", orderID);
   updateField("phone", phone);
   updateField("billing-address", billingAddress);
@@ -145,6 +148,7 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
   updateField("item-price", itemPrice);
   updateField("total-amount", totalAmount);
 }
+
 
 // Example usage: Call the function with a test email (replace with actual user input)
 document.addEventListener("DOMContentLoaded", () => {
