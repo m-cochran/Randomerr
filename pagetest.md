@@ -49,7 +49,7 @@ permalink: /pro/
 <span id="account-number"></span>
 
 
-<div id="account-number">Loading...</div>
+<div id="accountnumber">Loading...</div>
 <div id="name">Loading...</div>
 <div id="email">Loading...</div>
 <div id="order-id">N/A</div>
