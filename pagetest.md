@@ -34,7 +34,6 @@ permalink: /pro/
 }
 
   </style>
-</head>
 <body>
   <div id="profilePage">
     <div class="profile-container">
