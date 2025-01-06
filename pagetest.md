@@ -46,22 +46,7 @@ permalink: /pro/
       <h1 id="profileName">Loading...</h1>
       <p id="profileEmail">Loading...</p>
     </div>
-    <div id="account-number"></div>
-    <div id="data-display">
-  <p>Account Number: <span id="account-number"></span></p>
-  <p>Name: <span id="name"></span></p>
-  <p>Email: <span id="email"></span></p>
-  <p>Order ID: <span id="order-id"></span></p>
-  <p>Phone: <span id="phone"></span></p>
-  <p>Billing Address: <span id="billing-address"></span></p>
-  <p>Shipping Address: <span id="shipping-address"></span></p>
-  <p>Item Name: <span id="item-name"></span></p>
-  <p>Item Quantity: <span id="item-quantity"></span></p>
-  <p>Item Price: <span id="item-price"></span></p>
-  <p>Total Amount: <span id="total-amount"></span></p>
-</div>
 
-  </div>
 
 
   <div id="results-container">
