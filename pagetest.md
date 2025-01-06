@@ -1,38 +1,27 @@
----
-layout: default
-title: Profile
-permalink: /ptdd/
----
-
-# Profile
-
-<div class="profile-container">
-  <img id="profilePicture" src="default-avatar.png" alt="Profile Picture" class="profile-picture">
-  <h1 id="profileName">Name</h1>
-  <p id="profileEmail">Email</p>
-  <div id="profileData"></div>
-</div>
-
 <script>
 const apiUrl = "https://script.google.com/macros/s/AKfycbyY9UyIOjwuLlJ0YK_KleuXXiEfkr1rnivBtbW-x1Ptn9YB4fS9ypBeCZPUECMsdpxt/exec"; // Replace with your Web App URL
 
 // Function to fetch data based on email
 function fetchDataByEmail(email) {
+  console.log("Fetching data for email:", email); // Log email input for debugging
+
   fetch(`${apiUrl}?email=${encodeURIComponent(email)}`)
     .then(response => {
+      console.log("Response received:", response); // Log the raw response object
       if (!response.ok) {
+        console.error(`HTTP Error: ${response.status}`);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      console.log("Fetched Data:", data); // Log the data here
+      console.log("Fetched Data:", data); // Log the fetched data for inspection
 
       if (data.error) {
         console.error("Error from API:", data.error);
         displayResult("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "$0.00", "$0.00");
       } else {
-        // Populate your fields with the fetched data
+        // Populate fields with the fetched data or default to "N/A" if data is missing
         displayResult(
           data["Account Number"] || "N/A",
           data["Name"] || "N/A",
@@ -61,18 +50,20 @@ function fetchDataByEmail(email) {
       }
     })
     .catch(error => {
-      console.error("Fetch Error:", error);
+      console.error("Fetch Error:", error); // Log any errors that occur
       displayResult("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "$0.00", "$0.00");
     });
 }
 
 // Utility function to format addresses
 function formatAddress(street, city, state, postal, country) {
+  console.log("Formatting address with:", { street, city, state, postal, country }); // Debug address formatting
   return `${street || "N/A"}, ${city || "N/A"}, ${state || "N/A"}, ${postal || "N/A"}, ${country || "N/A"}`;
 }
 
 // Function to display the fetched result on the page
 function displayResult(account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount) {
+  console.log("Displaying results:", { account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount }); // Debug display values
   document.getElementById("account-number").textContent = account;
   document.getElementById("name").textContent = name;
   document.getElementById("email").textContent = email;
@@ -86,4 +77,9 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
   document.getElementById("total-amount").textContent = totalAmount;
 }
 
+// Example usage: Call the function with a test email (replace with actual user input)
+document.addEventListener("DOMContentLoaded", () => {
+  const testEmail = "mycupofearth@gmail.com"; // Replace with user-provided email
+  fetchDataByEmail(testEmail);
+});
 </script>
