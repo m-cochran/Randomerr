@@ -38,6 +38,18 @@ permalink: /pro/
       <h1 id="profileName">Loading...</h1>
       <p id="profileEmail">Loading...</p>
     </div>
+    <div id="account-number"></div>
+<div id="name"></div>
+<div id="email"></div>
+<div id="order-id"></div>
+<div id="phone"></div>
+<div id="billing-address"></div>
+<div id="shipping-address"></div>
+<div id="item-name"></div>
+<div id="item-quantity"></div>
+<div id="item-price"></div>
+<div id="total-amount"></div>
+
     <div id="accountInfo" class="account-info">
       <!-- Account details will be displayed here -->
     </div>
@@ -110,19 +122,28 @@ function formatAddress(street, city, state, postal, country) {
 
 // Function to display the fetched result on the page
 function displayResult(account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount) {
-  console.log("Displaying results:", { account, name, email, orderID, phone, billingAddress, shippingAddress, itemName, itemQty, itemPrice, totalAmount }); // Debug display values
-  document.getElementById("account-number").textContent = account;
-  document.getElementById("name").textContent = name;
-  document.getElementById("email").textContent = email;
-  document.getElementById("order-id").textContent = orderID;
-  document.getElementById("phone").textContent = phone;
-  document.getElementById("billing-address").textContent = billingAddress;
-  document.getElementById("shipping-address").textContent = shippingAddress;
-  document.getElementById("item-name").textContent = itemName;
-  document.getElementById("item-quantity").textContent = itemQty;
-  document.getElementById("item-price").textContent = itemPrice;
-  document.getElementById("total-amount").textContent = totalAmount;
+  const updateField = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = value;
+    } else {
+      console.warn(`Element with ID '${id}' not found.`);
+    }
+  };
+
+  updateField("account-number", account);
+  updateField("name", name);
+  updateField("email", email);
+  updateField("order-id", orderID);
+  updateField("phone", phone);
+  updateField("billing-address", billingAddress);
+  updateField("shipping-address", shippingAddress);
+  updateField("item-name", itemName);
+  updateField("item-quantity", itemQty);
+  updateField("item-price", itemPrice);
+  updateField("total-amount", totalAmount);
 }
+
 
 // Example usage: Call the function with a test email (replace with actual user input)
 document.addEventListener("DOMContentLoaded", () => {
