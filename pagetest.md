@@ -136,9 +136,9 @@ function displayResult(account, name, email, orderID, phone, billingAddress, shi
     }
   };
 
-  updateField("account-number", account);
-  updateField("profile-name", name);
-  updateField("profile-email", email);
+  updateField("account number", account);
+  updateField("name", name);
+  updateField("email", email);
   updateField("order-id", orderID);
   updateField("phone", phone);
   updateField("billing-address", billingAddress);
