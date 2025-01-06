@@ -1,3 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <style>
+    /* Add some basic styles */
+    .profile-container {
+      text-align: center;
+    }
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+    .account-info {
+      margin-top: 20px;
+    }
+    .account-info p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="profilePage">
+    <div class="profile-container">
+      <img id="profilePicture" src="default-avatar.png" alt="Profile Picture">
+      <h1 id="profileName">Loading...</h1>
+      <p id="profileEmail">Loading...</p>
+    </div>
+    <div id="accountInfo" class="account-info">
+      <!-- Account details will be displayed here -->
+    </div>
+  </div>
+
+
+
 <script>
 const apiUrl = "https://script.google.com/macros/s/AKfycbyY9UyIOjwuLlJ0YK_KleuXXiEfkr1rnivBtbW-x1Ptn9YB4fS9ypBeCZPUECMsdpxt/exec"; // Replace with your Web App URL
 
