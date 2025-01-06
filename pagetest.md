@@ -156,5 +156,22 @@ function displayResults(results) {
     resultsContainer.appendChild(resultCard);
   });
 }
+
+// DOMContentLoaded listener to fetch data based on the logged-in user's email
+document.addEventListener("DOMContentLoaded", () => {
+  // Example: Replace with your authentication method
+  const userEmail = getLoggedInUserEmail(); // Custom function to retrieve email
+
+  if (userEmail) {
+    console.log("User is logged in, fetching data...");
+    fetchDataByEmail(userEmail);
+  } else {
+    console.log("No user is logged in. Redirecting to login page...");
+    window.location.href = "/login.html"; // Redirect to login page
+  }
+});
+
+
 </script>
+
 
