@@ -24,6 +24,7 @@ permalink: /pro/
     <p><strong>Loading...:</strong> Loading...</p>
     <p><strong>Loading...:</strong> Loading...</p>
     <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
     <div>
       <p>Item Name: Widget A</p>
       <p>Item Quantity: 2</p>
