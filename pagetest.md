@@ -121,29 +121,37 @@ permalink: /pro/
 
   // Fetch data by email
   async function fetchDataByEmail(email) {
-    try {
-      console.log("Fetching data for email:", email);
-      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+  try {
+    console.log("Fetching data for email:", email);
 
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
-      }
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+    console.log("Response received:", response);
 
-      const data = await response.json();
-
-      if (data.error || !data.length) {
-        console.warn("No data found or API error:", data.error || "No records found");
-        displayResults([]);
-        return;
-      }
-
-      console.log("Data fetched successfully:", data);
-      displayResults(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      displayResults([]);
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const data = await response.json();
+    console.log("Raw API Response:", data);
+
+    // Validate and filter data for the given email
+    const filteredData = data.filter(record => record.email === email);
+    console.log("Filtered Data:", filteredData);
+
+    if (filteredData.length === 0) {
+      console.warn("No data found for the provided email.");
+      displayResults([]);
+      return;
+    }
+
+    displayResults(filteredData);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    displayResults([]);
   }
+}
+
 
   // Format address
   function formatAddress(street, city, state, postal, country) {
