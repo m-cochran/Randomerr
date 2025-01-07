@@ -17,13 +17,13 @@ permalink: /pro/
 
  <div id="results-container">
   <div class="result-card">
-    <p><strong>Account Number:</strong> 123456</p>
-    <p><strong>Name:</strong> John Doe</p>
-    <p><strong>Email:</strong> john.doe@example.com</p>
-    <p><strong>Order ID:</strong> ORD001</p>
-    <p><strong>Phone:</strong> (123) 456-7890</p>
-    <p><strong>Billing Address:</strong> 123 Elm St, Springfield, IL, 62704, USA</p>
-    <p><strong>Shipping Address:</strong> 456 Oak St, Springfield, IL, 62704, USA</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
     <div>
       <p>Item Name: Widget A</p>
       <p>Item Quantity: 2</p>
