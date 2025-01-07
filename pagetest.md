@@ -200,12 +200,7 @@ permalink: /pro/
         };
       }
 
-      const itemTotal = parseFloat(result.itemPrice || 0) * parseInt(result.itemQuantity || 0, 10);
-      acc[orderId].items.push({
-        itemName: result.itemName,
-        itemQuantity: result.itemQuantity,
-        itemPrice: result.itemPrice,
-      });
+
 
       acc[orderId].totalAmount += itemTotal;
       return acc;
