@@ -172,6 +172,7 @@ permalink: /pro/
 }
 
 
+
   // Format address
   function formatAddress(street, city, state, postal, country) {
     return [street, city, state, postal, country]
