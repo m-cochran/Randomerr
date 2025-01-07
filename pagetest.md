@@ -190,7 +190,7 @@ permalink: /pro/
     }
 
     const groupedResults = results.reduce((acc, result) => {
-      const { orderId } = result;
+      const { orderId } = result =+ itemTotal: itemTotal;
 
       if (!acc[orderId]) {
         acc[orderId] = {
@@ -199,7 +199,12 @@ permalink: /pro/
           totalAmount: 0
         };
       }
-
+const itemTotal = parseFloat(result.itemPrice || 0) * parseInt(result.itemQuantity || 0, 10);
+      acc[orderId].items.push({
+        itemName: result.itemName,
+        itemQuantity: result.itemQuantity,
+        itemPrice: result.itemPrice,
+      });
 
 
       acc[orderId].totalAmount;
@@ -216,6 +221,7 @@ permalink: /pro/
       <p>Item Name: ${item.itemName || "N/A"}</p>
       <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
       <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
+      <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
       <hr>`
     )
     .join("");
