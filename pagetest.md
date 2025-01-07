@@ -41,76 +41,80 @@ permalink: /pro/
     margin: 5px 0;
   }
 
-  /* Style for the results container */
+/* Results Container */
+#results-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #f4f4f4;
+}
+
+/* Individual Result Card */
+.result-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Result Card Content */
+.result-card p {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.result-card strong {
+  color: #555;
+}
+
+/* Items Section */
+.result-card div {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.result-card div p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.result-card div p:nth-child(odd) {
+  background-color: #f8f8f8;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Total Amount */
+.result-card p:last-of-type {
+  font-size: 16px;
+  font-weight: bold;
+  color: #444;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   #results-container {
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-    /* Limit the width of the container */
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* Style for each result card */
   .result-card {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
   }
-
-  /* Style for headings (order info) */
-  .result-card p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #333;
-  }
-
-  /* Style for item details */
-  .result-card p:first-of-type {
-    font-weight: bold;
-    color: #007BFF;
-    /* Highlight item names */
-  }
-
-  /* Style for the total amount */
-  .result-card p:last-of-type {
-    font-weight: bold;
-    color: #e74c3c;
-    font-size: 16px;
-  }
-
-  /* Style for the order details */
-  .result-card p {
-    line-height: 1.5;
-  }
-
-  /* Style for a more readable total amount */
-  .result-card p:last-of-type {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #28a745;
-    /* Green for total amount */
-  }
-
-  /* Style for the header of the results */
-  h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  /* Style for the "No results found" message */
-  #results-container p {
-    font-size: 18px;
-    text-align: center;
-    color: #888;
-    padding: 40px;
-  }
+}
 </style>
 
 
