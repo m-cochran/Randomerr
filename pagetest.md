@@ -202,7 +202,7 @@ permalink: /pro/
 
 
 
-      acc[orderId].totalAmount += itemTotal;
+      acc[orderId].totalAmount;
       return acc;
     }, {});
 
