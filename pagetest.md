@@ -190,7 +190,7 @@ permalink: /pro/
     }
 
     const groupedResults = results.reduce((acc, result) => {
-      const { orderId } = result =+ itemTotal: itemTotal;
+      const { orderId } = result;
 
       if (!acc[orderId]) {
         acc[orderId] = {
@@ -200,52 +200,59 @@ permalink: /pro/
         };
       }
 
-      acc[orderId].totalAmount;
+      const itemTotal = parseFloat(result.itemPrice || 0) * parseInt(result.itemQuantity || 0, 10);
+      acc[orderId].items.push({
+        itemName: result.itemName,
+        itemQuantity: result.itemQuantity,
+        itemPrice: result.itemPrice,
+        itemTotal: itemTotal
+      });
+
+      acc[orderId].totalAmount += itemTotal;
       return acc;
     }, {});
 
     Object.values(groupedResults).forEach(order => {
-  const resultCard = document.createElement("div");
-  resultCard.className = "result-card";
+      const resultCard = document.createElement("div");
+      resultCard.className = "result-card";
 
-  let itemsHTML = order.items
-    .map(
-      item => `
-      <p>Item Name: ${item.itemName || "N/A"}</p>
-      <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
-      <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
-      <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
-      <hr>`
-    )
-    .join("");
+      let itemsHTML = order.items
+        .map(
+          item => `
+          <p>Item Name: ${item.itemName || "N/A"}</p>
+          <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
+          <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
+          <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
+          <hr>`
+        )
+        .join("");
 
-  resultCard.innerHTML = `
-    <p><strong>Account Number:</strong> ${order.accountNumber || "N/A"}</p>
-    <p><strong>Name:</strong> ${order.name || "N/A"}</p>
-    <p><strong>Email:</strong> ${order.email || "N/A"}</p>
-    <p><strong>Order ID:</strong> ${order.orderId || "N/A"}</p>
-    <p><strong>Phone:</strong> ${order.phone || "N/A"}</p>
-    <p><strong>Billing Address:</strong> ${formatAddress(
-      order.billingStreet,
-      order.billingCity,
-      order.billingState,
-      order.billingPostal,
-      order.billingCountry
-    )}</p>
-    <p><strong>Shipping Address:</strong> ${formatAddress(
-      order.shippingStreet,
-      order.shippingCity,
-      order.shippingState,
-      order.shippingPostal,
-      order.shippingCountry
-    )}</p>
-    <div>${itemsHTML}</div>
-    <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
-  `;
+      resultCard.innerHTML = `
+        <p><strong>Account Number:</strong> ${order.accountNumber || "N/A"}</p>
+        <p><strong>Name:</strong> ${order.name || "N/A"}</p>
+        <p><strong>Email:</strong> ${order.email || "N/A"}</p>
+        <p><strong>Order ID:</strong> ${order.orderId || "N/A"}</p>
+        <p><strong>Phone:</strong> ${order.phone || "N/A"}</p>
+        <p><strong>Billing Address:</strong> ${formatAddress(
+          order.billingStreet,
+          order.billingCity,
+          order.billingState,
+          order.billingPostal,
+          order.billingCountry
+        )}</p>
+        <p><strong>Shipping Address:</strong> ${formatAddress(
+          order.shippingStreet,
+          order.shippingCity,
+          order.shippingState,
+          order.shippingPostal,
+          order.shippingCountry
+        )}</p>
+        <div>${itemsHTML}</div>
+        <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
+      `;
 
-  resultsContainer.appendChild(resultCard);
-});
-
+      resultsContainer.appendChild(resultCard);
+    });
   }
 
   // Get logged-in user's email
