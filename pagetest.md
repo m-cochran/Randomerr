@@ -119,41 +119,40 @@ permalink: /pro/
 <script>
   const apiUrl = "https://script.google.com/macros/s/AKfycbyY9UyIOjwuLlJ0YK_KleuXXiEfkr1rnivBtbW-x1Ptn9YB4fS9ypBeCZPUECMsdpxt/exec"; // Replace with your Web App URL
 
-  // Function to fetch data based on email
+  // Fetch data by email
   async function fetchDataByEmail(email) {
     try {
       console.log("Fetching data for email:", email);
-
       const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-      console.log("Response received:", response);
 
       if (!response.ok) {
-        console.error(`HTTP Error: ${response.status}`);
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP Error: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Fetched Data:", data);
 
-      if (data.error || data.length === 0) {
-        console.warn("No data found or error in API response:", data.error || "No records found");
+      if (data.error || !data.length) {
+        console.warn("No data found or API error:", data.error || "No records found");
         displayResults([]);
         return;
       }
 
+      console.log("Data fetched successfully:", data);
       displayResults(data);
     } catch (error) {
-      console.error("Fetch Error:", error);
+      console.error("Error fetching data:", error);
       displayResults([]);
     }
   }
 
-  // Utility function to format addresses
+  // Format address
   function formatAddress(street, city, state, postal, country) {
-    return `${street || "N/A"}, ${city || "N/A"}, ${state || "N/A"}, ${postal || "N/A"}, ${country || "N/A"}`;
+    return [street, city, state, postal, country]
+      .map(part => part || "N/A")
+      .join(", ");
   }
 
-  // Function to display all results
+  // Display results
   function displayResults(results) {
     const resultsContainer = document.getElementById("results-container");
     resultsContainer.innerHTML = ""; // Clear previous results
@@ -163,29 +162,14 @@ permalink: /pro/
       return;
     }
 
-    // Group items by orderId
     const groupedResults = results.reduce((acc, result) => {
       const { orderId } = result;
 
       if (!acc[orderId]) {
         acc[orderId] = {
-          accountNumber: result.accountNumber,
-          name: result.name,
-          email: result.email,
-          phone: result.phone,
-          billingStreet: result.billingStreet,
-          billingCity: result.billingCity,
-          billingState: result.billingState,
-          billingPostal: result.billingPostal,
-          billingCountry: result.billingCountry,
-          shippingStreet: result.shippingStreet,
-          shippingCity: result.shippingCity,
-          shippingState: result.shippingState,
-          shippingPostal: result.shippingPostal,
-          shippingCountry: result.shippingCountry,
-          orderId: result.orderId,
+          ...result,
           items: [],
-          totalAmount: 0 // Initialize totalAmount to 0
+          totalAmount: 0
         };
       }
 
@@ -198,25 +182,23 @@ permalink: /pro/
       });
 
       acc[orderId].totalAmount += itemTotal;
-
       return acc;
     }, {});
 
-    // Render grouped results
     Object.values(groupedResults).forEach(order => {
       const resultCard = document.createElement("div");
       resultCard.className = "result-card";
 
-      let itemsHTML = "";
-      order.items.forEach(item => {
-        itemsHTML += `
+      let itemsHTML = order.items
+        .map(
+          item => `
           <p>Item Name: ${item.itemName || "N/A"}</p>
           <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
           <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
           <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
-          <hr>
-        `;
-      });
+          <hr>`
+        )
+        .join("");
 
       resultCard.innerHTML = `
         <p><strong>Account Number:</strong> ${order.accountNumber || "N/A"}</p>
@@ -246,17 +228,16 @@ permalink: /pro/
     });
   }
 
-  // Function to get the logged-in user's email from localStorage
+  // Get logged-in user's email
   function getLoggedInUserEmail() {
-    const email = localStorage.getItem("userEmail");
-    return email ? email : null;
+    return localStorage.getItem("userEmail") || null;
   }
 
-  // DOMContentLoaded listener to fetch data based on the logged-in user's email
+  // Fetch data on DOMContentLoaded
   document.addEventListener("DOMContentLoaded", () => {
     const userEmail = getLoggedInUserEmail();
     if (userEmail) {
-      console.log("User is logged in, fetching data...");
+      console.log("User email found:", userEmail);
       fetchDataByEmail(userEmail);
     } else {
       console.warn("No user email found in localStorage.");
