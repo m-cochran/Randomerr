@@ -229,6 +229,7 @@ permalink: /pro/
         .join("");
 
       resultCard.innerHTML = `
+        <p><strong>Time Stamp:</strong> ${order.timestamp || "N/A"}</p>
         <p><strong>Account Number:</strong> ${order.accountNumber || "N/A"}</p>
         <p><strong>Name:</strong> ${order.name || "N/A"}</p>
         <p><strong>Email:</strong> ${order.email || "N/A"}</p>
