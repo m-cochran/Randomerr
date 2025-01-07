@@ -28,7 +28,6 @@ permalink: /pro/
       <p>Item Name: Widget A</p>
       <p>Item Quantity: 2</p>
       <p>Item Price: $25.00</p>
-      <p>Item Total: $50.00</p>
     </div>
     <p><strong>Total Amount:</strong> $50.00</p>
   </div>
@@ -223,7 +222,7 @@ permalink: /pro/
           <p>Item Name: ${item.itemName || "N/A"}</p>
           <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
           <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
-          <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
+          
           <hr>`
         )
         .join("");
