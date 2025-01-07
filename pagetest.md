@@ -205,7 +205,6 @@ permalink: /pro/
         itemName: result.itemName,
         itemQuantity: result.itemQuantity,
         itemPrice: result.itemPrice,
-        itemTotal: itemTotal
       });
 
       acc[orderId].totalAmount += itemTotal;
