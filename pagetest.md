@@ -252,6 +252,7 @@ permalink: /pro/
         )}</p>
         <div>${itemsHTML}</div>
         <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
+        <p><strong>Time Stamp:</strong> ${order.timestamp || "N/A"}</p>
       `;
 
       resultsContainer.appendChild(resultCard);
