@@ -31,6 +31,7 @@ permalink: /pro/
       <p>Item Price: $25.00</p>
     </div>
     <p><strong>Total Amount:</strong> $50.00</p>
+    <p><strong>Tracking:</strong> $50.00</p>
   </div>
 </div>
 
@@ -252,7 +253,7 @@ permalink: /pro/
         )}</p>
         <div>${itemsHTML}</div>
         <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
-        <p><strong>Time Stamp:</strong> ${order.timestamp || "N/A"}</p>
+        <p><strong>Tracking:</strong> ${order.timestamp || "N/A"}</p>
       `;
 
       resultsContainer.appendChild(resultCard);
