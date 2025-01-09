@@ -138,7 +138,7 @@ permalink: /pro/
 
 
 <script>
-  const apiUrl = "https://script.google.com/macros/s/AKfycbys_4jGDFRKhJuaiEEPyEDsZOCfmvieXErD6WlKFvrpc6ELzh2zfn6ru5SXHXViGTqfLA/exec"; // Replace with your Web App URL
+  const apiUrl = "https://script.google.com/macros/s/AKfycbxa2IKcPl55lGbJH0FhhUfDU5biKnCkAzjQKE7YqzJ2MsIPdUwQo2mLz1O9meGpsIqk7w/exec"; // Replace with your Web App URL
 
   // Fetch data by email
   async function fetchDataByEmail(email) {
