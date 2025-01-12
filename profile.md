@@ -95,7 +95,7 @@ permalink: /profile/
 <script>
   async function getRecentPurchases(accountNumber) {
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycby8zDlkecaCKxheG6IxDygWhMdx_KFYjIhY2sQoyQPbIGKDdY-OiLpdNnMIj9MiQRsn/exec" + accountNumber);
+    const response = await fetch("    k;k;k" + accountNumber);
     const data = await response.json();
 
     if (data && data.length > 0) {
