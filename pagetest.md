@@ -150,7 +150,7 @@ permalink: /pro/
   async function fetchDataByEmail(email) {
     try {
       displayLoadingState(); // Show loading before fetching data
-      console.log("Fetching data for Email:", Email);
+      console.log("Fetching data for email:", email);
 
       const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
       console.log("Response received:", response);
@@ -164,7 +164,7 @@ permalink: /pro/
       console.log("Raw API Response:", data);
 
       // Filter data for the given email
-      const filteredData = data.filter(record => record.Email === Email);
+      const filteredData = data.filter(record => record.email === email);
       console.log("Filtered Data:", filteredData);
 
       if (filteredData.length === 0) {
