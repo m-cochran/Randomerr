@@ -140,49 +140,61 @@ permalink: /pro/
 <script>
   const apiUrl = "https://script.google.com/macros/s/AKfycbwSSLvDyRIzcjVn32AMzNdDixOVQLlzZwHgQVIcNc8l5POuE84PujtIDsTy83Ab6jDI/exec"; // Replace with your Web App URL
 
+  // Display loading state before fetching data
+  function displayLoadingState() {
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = "<p>Loading...</p>";
+  }
+
   // Fetch data by email
   async function fetchDataByEmail(email) {
-  try {
-    console.log("Fetching data for email:", email);
+    try {
+      displayLoadingState(); // Show loading before fetching data
+      console.log("Fetching data for email:", email);
 
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    console.log("Response received:", response);
+      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+      console.log("Response received:", response);
 
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+      if (!response.ok) {
+        console.error(`HTTP Error: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-    const data = await response.json();
-    console.log("Raw API Response:", data);
+      const data = await response.json();
+      console.log("Raw API Response:", data);
 
-    // Validate and filter data for the given email
-    const filteredData = data.filter(record => record.email === email);
-    console.log("Filtered Data:", filteredData);
+      // Filter data for the given email
+      const filteredData = data.filter(record => record.email === email);
+      console.log("Filtered Data:", filteredData);
 
-    if (filteredData.length === 0) {
-      console.warn("No data found for the provided email.");
+      if (filteredData.length === 0) {
+        console.warn("No data found for the provided email.");
+        displayResults([]);
+        return;
+      }
+
+      displayResults(filteredData);
+    } catch (error) {
+      console.error("Fetch Error:", error);
       displayResults([]);
-      return;
     }
-
-    displayResults(filteredData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayResults([]);
   }
-}
 
-
-
-  // Format address
+  // Format address with fallback values
   function formatAddress(street, city, state, postal, country) {
     return [street, city, state, postal, country]
-      .map(part => part || "N/A")
+      .map(part => escapeHTML(part || "N/A"))
       .join(", ");
   }
 
-  // Display results
+  // Escape HTML to prevent injection
+  function escapeHTML(str) {
+    const element = document.createElement('div');
+    if (str) element.innerText = str;
+    return element.innerHTML;
+  }
+
+  // Display results in the container
   function displayResults(results) {
     const resultsContainer = document.getElementById("results-container");
     resultsContainer.innerHTML = ""; // Clear previous results
@@ -192,6 +204,7 @@ permalink: /pro/
       return;
     }
 
+    // Group results by orderId and display them
     const groupedResults = results.reduce((acc, result) => {
       const { orderId } = result;
 
@@ -215,6 +228,7 @@ permalink: /pro/
       return acc;
     }, {});
 
+    // Create and append result cards
     Object.values(groupedResults).forEach(order => {
       const resultCard = document.createElement("div");
       resultCard.className = "result-card";
@@ -231,12 +245,9 @@ permalink: /pro/
         .join("");
 
       resultCard.innerHTML = `
-        <p><strong>Time Stamp:</strong> ${order.timestamp || "N/A"}</p>
-        <p><strong>Account Number:</strong> ${order.accountNumber || "N/A"}</p>
-        <p><strong>Name:</strong> ${order.name || "N/A"}</p>
-        <p><strong>Email:</strong> ${order.email || "N/A"}</p>
         <p><strong>Order ID:</strong> ${order.orderId || "N/A"}</p>
-        <p><strong>Phone:</strong> ${order.phone || "N/A"}</p>
+        <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
+        <div>${itemsHTML}</div>
         <p><strong>Billing Address:</strong> ${formatAddress(
           order.billingStreet,
           order.billingCity,
@@ -251,16 +262,15 @@ permalink: /pro/
           order.shippingPostal,
           order.shippingCountry
         )}</p>
-        <div>${itemsHTML}</div>
-        <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
-        <p><strong>Tracking:</strong> ${order.timestamp || "N/A"}</p>
+        <p><strong>Phone:</strong> ${order.phone || "N/A"}</p>
+        <p><strong>Email:</strong> ${order.email || "N/A"}</p>
       `;
 
       resultsContainer.appendChild(resultCard);
     });
   }
 
-  // Get logged-in user's email
+  // Get logged-in user's email from localStorage
   function getLoggedInUserEmail() {
     return localStorage.getItem("userEmail") || null;
   }
