@@ -217,7 +217,7 @@ async function addUserToGoogleSheet(name, email) {
   formData.append("email", email); // Logged-in Gmail
   
   try {
-    const response = await fetch("kjkffgfg", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbyvvASmOzKASi1BlMs8EW3iL6gSSuAx-hmdS6GmGSwqem3RwsTko4GGWmLgB0ATK53TXA/exec", {
       method: 'POST',
       body: formData
     });
