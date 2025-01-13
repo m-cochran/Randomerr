@@ -138,7 +138,7 @@ permalink: /pro/
 
 
 <script>
-  const apiUrl = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec + accountNumber"; // Replace with your Web App URL
+  const apiUrl = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec"; // Replace with your Web App URL
 
   // Display loading state before fetching data
   function displayLoadingState() {
