@@ -15,125 +15,103 @@ permalink: /pro/
   </div>
 
 <div id="results-container">
-  <!-- Placeholder content while data is being fetched -->
-  <div class="result-card loading">
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <div>
-      <p>Item Name: Widget A</p>
-      <p>Item Quantity: 2</p>
-      <p>Item Price: $25.00</p>
-    </div>
-    <p><strong>Total Amount:</strong> $50.00</p>
-    <p><strong>Tracking:</strong> $50.00</p>
-  </div>
-</div>
-
-
-<div id="raw-response-container">
-  <h3>Raw API Response:</h3>
-  <pre>[{ "Account Number": "ACC123", "Name": "John Doe" }]</pre>
-</div>
-
-<div id="results-container">
   <div class="result-card">
     <p><strong>Order ID:</strong> ORD-12345</p>
     <p><strong>Total Amount:</strong> $99.99</p>
-    <hr>
-    <p><strong>Billing Address:</strong> 123 Main St, City, State, ZIP, Country</p>
-    <p><strong>Shipping Address:</strong> 456 Elm St, City, State, ZIP, Country</p>
-    <p><strong>Phone:</strong> 123-456-7890</p>
-    <p><strong>Email:</strong> email@example.com</p>
-    <a href="#">View Details</a>
+    <div>
+      <p><strong>Item 1:</strong> Product A</p>
+      <p><strong>Item 2:</strong> Product B</p>
+    </div>
+    <p><strong>Billing Address:</strong> 123 Main St, City, State, ZIP</p>
+    <p><strong>Shipping Address:</strong> 456 Elm St, City, State, ZIP</p>
+    <p class="total"><strong>Total:</strong> $99.99</p>
   </div>
+  <!-- Repeat .result-card for more results -->
 </div>
+
+
+<div id="results-container"></div>
+
+
 
 
 
 
 <style>
-  /* Results Container */
-  #results-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    justify-content: center;
-    background-color: #f4f4f4;
-  }
-
-  /* Individual Result Card */
-  .result-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
-    width: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .result-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Result Card Content */
-  .result-card p {
-    margin: 10px 0;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #333;
-  }
-
-  .result-card strong {
-    color: #555;
-  }
-
-  /* Items Section */
-  .result-card div {
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-  }
-
-  .result-card div p {
-    margin: 5px 0;
-    font-size: 13px;
-    color: #666;
-  }
-
-  .result-card div p:nth-child(odd) {
-    background-color: #f8f8f8;
-    padding: 5px;
-    border-radius: 5px;
-  }
-
-  /* Total Amount */
-  .result-card p:last-of-type {
-    font-size: 16px;
-    font-weight: bold;
-    color: #444;
-    margin-top: 20px;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
+    /* Results Container */
     #results-container {
-      flex-direction: column;
-      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+      background-color: #f4f4f4;
     }
 
+    /* Individual Result Card */
     .result-card {
-      max-width: 90%;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 400px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-  }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Result Card Content */
+    .result-card p {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .result-card strong {
+      color: #555;
+    }
+
+    /* Items Section */
+    .result-card .items-section {
+      margin-top: 20px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+
+    .result-card .items-section p {
+      margin: 5px 0;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .result-card .items-section p:nth-child(odd) {
+      background-color: #f8f8f8;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    /* Total Amount */
+    .result-card p:last-of-type {
+      font-size: 16px;
+      font-weight: bold;
+      color: #444;
+      margin-top: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #results-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .result-card {
+        max-width: 90%;
+      }
+    }
 </style>
 
 
@@ -312,71 +290,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Fetch data by email
-async function fetchDataByEmail(email) {
-  try {
-    displayLoadingState();
-    console.log("Fetching data for email:", email);
+// Function to create result cards dynamically
+  function renderResults(response) {
+    const container = document.getElementById('results-container');
+    const orders = response.orders;
 
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    orders.forEach(order => {
+      // Create a card for each order
+      const card = document.createElement('div');
+      card.className = 'result-card';
 
-    const data = await response.json();
-    console.log("Raw API Response:", data);
+      // Add Order ID and Total
+      card.innerHTML = `
+        <p><strong>Order ID:</strong> ${order.order_id}</p>
+        <p><strong>Total Amount:</strong> $${order.total}</p>
+        <div class="items-section">
+          ${order.items.map(item => `
+            <p><strong>${item.item_name}:</strong> ${item.quantity} pcs</p>
+          `).join('')}
+        </div>
+        <p>Total: $${order.total}</p>
+      `;
 
-    // Display raw API response
-    displayRawResponse(data);
-
-    // Log each record to check the structure and verify the Email field
-    data.forEach((record, index) => {
-      console.log(`Record ${index}:`, record);
+      // Append card to the container
+      container.appendChild(card);
     });
-
-    // Filter data for the given email (case-insensitive, clean the field names)
-    const filteredData = data.filter((record) => {
-      const emailFromData = (record["Email"]?.trim() || "").toLowerCase();
-      const emailToCompare = email.trim().toLowerCase();
-      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`);
-      return emailFromData === emailToCompare;
-    });
-
-    console.log("Filtered Data:", filteredData);
-
-    if (filteredData.length === 0) {
-      console.warn("No data found for the provided email.");
-      displayResults([]);
-      return;
-    }
-
-    displayResults(filteredData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayResults([]);
   }
-}
 
-// Function to display raw API response
-function displayRawResponse(data) {
-  const rawResponseContainer = document.getElementById("raw-response-container");
-  rawResponseContainer.innerHTML = `
-    <h3>Raw API Response:</h3>
-    <pre>${escapeHTML(JSON.stringify(data, null, 2))}</pre>
-  `;
-}
-
-// Escape HTML to prevent injection
-function escapeHTML(str) {
-  const element = document.createElement("div");
-  if (str) element.innerText = str;
-  return element.innerHTML;
-}
-
-
-
-
+  // Render the results
+  renderResults(rawResponse);
+</script>
 
 
 
