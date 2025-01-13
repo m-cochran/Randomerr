@@ -36,6 +36,10 @@ permalink: /pro/
 </div>
 
 
+<div id="raw-response-container"></div>
+
+
+
 <style>
   /* Add some basic styles */
   .profile-container {
@@ -298,4 +302,88 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+
+
+
+
+
+
+// Fetch data by email
+async function fetchDataByEmail(email) {
+  try {
+    displayLoadingState();
+    console.log("Fetching data for email:", email);
+
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Raw API Response:", data);
+
+    // Display raw API response
+    displayRawResponse(data);
+
+    // Log each record to check the structure and verify the Email field
+    data.forEach((record, index) => {
+      console.log(`Record ${index}:`, record);
+    });
+
+    // Filter data for the given email (case-insensitive, clean the field names)
+    const filteredData = data.filter((record) => {
+      const emailFromData = (record["Email"]?.trim() || "").toLowerCase();
+      const emailToCompare = email.trim().toLowerCase();
+      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`);
+      return emailFromData === emailToCompare;
+    });
+
+    console.log("Filtered Data:", filteredData);
+
+    if (filteredData.length === 0) {
+      console.warn("No data found for the provided email.");
+      displayResults([]);
+      return;
+    }
+
+    displayResults(filteredData);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    displayResults([]);
+  }
+}
+
+// Function to display raw API response
+function displayRawResponse(data) {
+  const rawResponseContainer = document.getElementById("raw-response-container");
+  rawResponseContainer.innerHTML = `
+    <h3>Raw API Response:</h3>
+    <pre>${escapeHTML(JSON.stringify(data, null, 2))}</pre>
+  `;
+}
+
+// Escape HTML to prevent injection
+function escapeHTML(str) {
+  const element = document.createElement("div");
+  if (str) element.innerText = str;
+  return element.innerHTML;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </script>
