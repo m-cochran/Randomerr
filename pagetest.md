@@ -83,40 +83,49 @@ permalink: /pro/
   }
 
   async function fetchDataByEmail(email) {
-    try {
-      displayLoadingState();
-      console.log("Fetching data for email:", email);
+  try {
+    displayLoadingState();
+    console.log("Fetching data for email:", email);
 
-      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-      if (!response.ok) {
-        console.error(`HTTP Error: ${response.status}`);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Raw API Response:", data);
-
-      // Display raw response in the designated container
-      document.getElementById("raw-response").textContent = JSON.stringify(data, null, 2);
-
-      const filteredData = data.filter((record) => {
-        const emailFromData = (record["Email"]?.trim() || "").toLowerCase();
-        const emailToCompare = email.trim().toLowerCase();
-        return emailFromData === emailToCompare;
-      });
-
-      if (filteredData.length === 0) {
-        displayResults([]);
-        return;
-      }
-
-      displayResults(filteredData);
-    } catch (error) {
-      console.error("Fetch Error:", error);
-      document.getElementById("raw-response").textContent = "Error fetching data.";
-      displayResults([]);
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const data = await response.json();
+    console.log("Raw API Response:", data);
+
+    // Log each record to check the structure and verify the Email field
+    data.forEach((record, index) => {
+      // Inspecting the raw email field
+      console.log(`Record ${index}:`, record);
+      console.log(`Email field raw value:`, `'${record["Email"]}'`); // Show email with quotes to check for spaces
+    });
+
+    // Filter data for the given email (case-insensitive, clean the field names)
+    const filteredData = data.filter((record) => {
+      const emailFromData = (record["Email"]?.trim() || "").toLowerCase(); // Clean and trim
+      const emailToCompare = email.trim().toLowerCase(); // Trim and make case-insensitive
+      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`); // Log comparison
+      return emailFromData === emailToCompare; // Compare after trimming and converting to lowercase
+    });
+
+    console.log("Filtered Data:", filteredData);
+
+    if (filteredData.length === 0) {
+      console.warn("No data found for the provided email.");
+      displayResults([]);
+      return;
+    }
+
+    displayResults(filteredData);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    displayResults([]);
   }
+}
+
 
   function displayResults(results) {
     const resultsContainer = document.getElementById("results-container");
