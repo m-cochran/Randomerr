@@ -14,13 +14,10 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
-<div id="results-container" class="loading-state">
-  Enter your email to fetch order details.
+<div id="raw-response-container" style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; background: #f9f9f9;">
+  <h3>Raw API Response</h3>
+  <pre id="raw-response" style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; background: #fff; padding: 10px; border-radius: 5px;"></pre>
 </div>
-
-
-
-<div id="results-container"></div>
 
 
 
@@ -77,187 +74,77 @@ permalink: /pro/
 
 <script>
   const apiUrl =
-  "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+    "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
 
-// Display loading state
-function displayLoadingState() {
-  const resultsContainer = document.getElementById("results-container");
-  resultsContainer.innerHTML = "<p>Loading...</p>";
-}
+  function displayLoadingState() {
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = "<p>Loading...</p>";
+    document.getElementById("raw-response").textContent = "Fetching data...";
+  }
 
-// Fetch data by email
-async function fetchDataByEmail(email) {
-  try {
-    displayLoadingState();
-    console.log("Fetching data for email:", email);
+  async function fetchDataByEmail(email) {
+    try {
+      displayLoadingState();
+      console.log("Fetching data for email:", email);
 
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+      if (!response.ok) {
+        console.error(`HTTP Error: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-    const data = await response.json();
-    console.log("Raw API Response:", data);
+      const data = await response.json();
+      console.log("Raw API Response:", data);
 
-    // Log each record to check the structure and verify the Email field
-    data.forEach((record, index) => {
-      // Inspecting the raw email field
-      console.log(`Record ${index}:`, record);
-      console.log(`Email field raw value:`, `'${record["Email"]}'`); // Show email with quotes to check for spaces
-    });
+      // Display raw response in the designated container
+      document.getElementById("raw-response").textContent = JSON.stringify(data, null, 2);
 
-    // Filter data for the given email (case-insensitive, clean the field names)
-    const filteredData = data.filter((record) => {
-      const emailFromData = (record["Email"]?.trim() || "").toLowerCase(); // Clean and trim
-      const emailToCompare = email.trim().toLowerCase(); // Trim and make case-insensitive
-      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`); // Log comparison
-      return emailFromData === emailToCompare; // Compare after trimming and converting to lowercase
-    });
+      const filteredData = data.filter((record) => {
+        const emailFromData = (record["Email"]?.trim() || "").toLowerCase();
+        const emailToCompare = email.trim().toLowerCase();
+        return emailFromData === emailToCompare;
+      });
 
-    console.log("Filtered Data:", filteredData);
+      if (filteredData.length === 0) {
+        displayResults([]);
+        return;
+      }
 
-    if (filteredData.length === 0) {
-      console.warn("No data found for the provided email.");
+      displayResults(filteredData);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      document.getElementById("raw-response").textContent = "Error fetching data.";
       displayResults([]);
+    }
+  }
+
+  function displayResults(results) {
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = "";
+
+    if (results.length === 0) {
+      resultsContainer.innerHTML = "<p>No results found.</p>";
       return;
     }
 
-    displayResults(filteredData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayResults([]);
-  }
-}
-
-
-
-
-// Format address with fallback values
-function formatAddress(street, city, state, postal, country) {
-  return [street, city, state, postal, country]
-    .map((part) => escapeHTML(part || "N/A"))
-    .join(", ");
-}
-
-// Escape HTML to prevent injection
-function escapeHTML(str) {
-  const element = document.createElement("div");
-  if (str) element.innerText = str;
-  return element.innerHTML;
-}
-
-// Display results in the container
-function displayResults(results) {
-  const resultsContainer = document.getElementById("results-container");
-  resultsContainer.innerHTML = ""; // Clear previous results
-
-  if (results.length === 0) {
-    resultsContainer.innerHTML = "<p>No results found.</p>";
-    return;
-  }
-
-  // Group results by orderId
-  const groupedResults = results.reduce((acc, result) => {
-    const { OrderID: orderId } = result;
-
-    if (!acc[orderId]) {
-      acc[orderId] = {
-        ...result,
-        items: [],
-        totalAmount: 0,
-      };
-    }
-
-    const itemTotal =
-      parseFloat(result.ItemPrice || 0) *
-      parseInt(result.ItemQuantity || 0, 10);
-    acc[orderId].items.push({
-      itemName: result.ItemName,
-      itemQuantity: result.ItemQuantity,
-      itemPrice: result.ItemPrice,
-      itemTotal: itemTotal,
+    results.forEach((result) => {
+      const resultCard = document.createElement("div");
+      resultCard.className = "result-card";
+      resultCard.innerHTML = `
+        <p><strong>Order ID:</strong> ${result.OrderID || "N/A"}</p>
+        <p><strong>Name:</strong> ${result.Name || "N/A"}</p>
+        <p><strong>Email:</strong> ${result.Email || "N/A"}</p>
+      `;
+      resultsContainer.appendChild(resultCard);
     });
-
-    acc[orderId].totalAmount += itemTotal;
-    return acc;
-  }, {});
-
-  // Create and append result cards
-  Object.values(groupedResults).forEach((order) => {
-    const resultCard = document.createElement("div");
-    resultCard.className = "result-card";
-
-    let itemsHTML = order.items
-      .map(
-        (item) => `
-        <p>Item Name: ${item.itemName || "N/A"}</p>
-        <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
-        <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
-        <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
-        <hr>`
-      )
-      .join("");
-
-    resultCard.innerHTML = `
-      <p><strong>Order ID:</strong> ${order.OrderID || "N/A"}</p>
-      <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
-      <div>${itemsHTML}</div>
-      <p><strong>Billing Address:</strong> ${formatAddress(
-        order.BillingStreet,
-        order.BillingCity,
-        order.BillingState,
-        order.BillingPostal,
-        order.BillingCountry
-      )}</p>
-      <p><strong>Shipping Address:</strong> ${formatAddress(
-        order.ShippingStreet,
-        order.ShippingCity,
-        order.ShippingState,
-        order.ShippingPostal,
-        order.ShippingCountry
-      )}</p>
-      <p><strong>Phone:</strong> ${order.Phone || "N/A"}</p>
-      <p><strong>Email:</strong> ${order.Email || "N/A"}</p>
-    `;
-
-    resultsContainer.appendChild(resultCard);
-  });
-}
-
-// Get logged-in user's email from localStorage
-function getLoggedInUserEmail() {
-  return localStorage.getItem("userEmail") || null;
-}
-
-// Fetch data on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-  const userEmail = getLoggedInUserEmail();
-  if (userEmail) {
-    console.log("User email found:", userEmail);
-    fetchDataByEmail(userEmail);
-  } else {
-    console.warn("No user email found in localStorage.");
   }
-});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+  document.addEventListener("DOMContentLoaded", () => {
+    const userEmail = localStorage.getItem("userEmail") || null;
+    if (userEmail) {
+      fetchDataByEmail(userEmail);
+    } else {
+      document.getElementById("raw-response").textContent = "No user email found in localStorage.";
+    }
+  });
 </script>
