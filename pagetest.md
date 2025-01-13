@@ -15,25 +15,25 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
- <div id="results-container">
-  <div class="result-card">
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <div>
-      <p>Item Name: Widget A</p>
-      <p>Item Quantity: 2</p>
-      <p>Item Price: $25.00</p>
+<div id="results-container">
+      <!-- Placeholder while data loads -->
+      <div class="result-card">
+        <p><strong>Order ID:</strong> Loading...</p>
+        <p><strong>Total Amount:</strong> Loading...</p>
+        <p><strong>Billing Address:</strong> Loading...</p>
+        <p><strong>Shipping Address:</strong> Loading...</p>
+        <p><strong>Phone:</strong> Loading...</p>
+        <p><strong>Email:</strong> Loading...</p>
+        <div>
+          <p>Item Name: Widget A</p>
+          <p>Item Quantity: 2</p>
+          <p>Item Price: $25.00</p>
+        </div>
+        <p><strong>Total Amount:</strong> $50.00</p>
+        <p><strong>Tracking:</strong> Pending...</p>
+      </div>
     </div>
-    <p><strong>Total Amount:</strong> $50.00</p>
-    <p><strong>Tracking:</strong> $50.00</p>
   </div>
-</div>
 
 
 
