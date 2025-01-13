@@ -159,14 +159,16 @@ async function fetchDataByEmail(email) {
 
     // Log each record to check the structure and verify the Email field
     data.forEach((record, index) => {
-      console.log(`Record ${index}:`, record);  // Log the entire record to inspect its structure
+      // Inspecting the raw email field
+      console.log(`Record ${index}:`, record);
+      console.log(`Email field raw value:`, `'${record["Email"]}'`); // Show email with quotes to check for spaces
     });
 
     // Filter data for the given email (case-insensitive, clean the field names)
     const filteredData = data.filter((record) => {
-      const emailFromData = (record["Email"]?.trim() || "").toLowerCase(); // Trim any spaces or unexpected characters
+      const emailFromData = (record["Email"]?.trim() || "").toLowerCase(); // Clean and trim
       const emailToCompare = email.trim().toLowerCase(); // Trim and make case-insensitive
-      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`);  // Log comparison
+      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`); // Log comparison
       return emailFromData === emailToCompare; // Compare after trimming and converting to lowercase
     });
 
