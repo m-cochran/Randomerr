@@ -73,7 +73,7 @@ permalink: /pro/
 
 
 <script>
-  const apiUrl =
+const apiUrl =
   "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
 
 // Display loading state
@@ -88,10 +88,10 @@ async function fetchDataByEmail(email) {
     displayLoadingState();
     console.log("Fetching data for email:", email);
 
-    const response = await fetch(${apiUrl}?email=${encodeURIComponent(email)});
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
     if (!response.ok) {
-      console.error(HTTP Error: ${response.status});
-      throw new Error(HTTP error! Status: ${response.status});
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
@@ -173,16 +173,16 @@ function displayResults(results) {
 
     let itemsHTML = order.items
       .map(
-        (item) => 
+        (item) => `
         <p>Item Name: ${item.itemName || "N/A"}</p>
         <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
         <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
         <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
-        <hr>
+        <hr>`
       )
       .join("");
 
-    resultCard.innerHTML = 
+    resultCard.innerHTML = `
       <p><strong>Order ID:</strong> ${order.OrderID || "N/A"}</p>
       <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
       <div>${itemsHTML}</div>
@@ -202,7 +202,7 @@ function displayResults(results) {
       )}</p>
       <p><strong>Phone:</strong> ${order.Phone || "N/A"}</p>
       <p><strong>Email:</strong> ${order.Email || "N/A"}</p>
-    ;
+    `;
 
     resultsContainer.appendChild(resultCard);
   });
@@ -223,5 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("No user email found in localStorage.");
   }
 });
+
 
 </script>
