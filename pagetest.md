@@ -58,25 +58,6 @@ permalink: /pro/
 
 
 <style>
-  /* Add some basic styles */
-  .profile-container {
-    text-align: center;
-  }
-
-  .profile-container img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-  }
-
-  .account-info {
-    margin-top: 20px;
-  }
-
-  .account-info p {
-    margin: 5px 0;
-  }
-
   /* Results Container */
   #results-container {
     display: flex;
@@ -107,6 +88,8 @@ permalink: /pro/
   .result-card p {
     margin: 10px 0;
     font-size: 14px;
+    line-height: 1.5;
+    color: #333;
   }
 
   .result-card strong {
@@ -153,81 +136,6 @@ permalink: /pro/
   }
 </style>
 
-
-
-<style>
-  /* Container Styles */
-  #results-container, #raw-response-container {
-    margin: 20px auto;
-    padding: 10px;
-    max-width: 800px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  #results-container h3, #raw-response-container h3 {
-    margin-top: 0;
-    font-size: 1.5em;
-    color: #333;
-  }
-
-  /* Raw API Response Styling */
-  #raw-response-container pre {
-    background-color: #272822; /* Dark background for raw JSON */
-    color: #f8f8f2;           /* Light text for contrast */
-    padding: 15px;
-    border-radius: 6px;
-    overflow-x: auto;
-    font-family: monospace;
-    font-size: 0.95em;
-  }
-
-  /* Result Card Styling */
-  .result-card {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .result-card p {
-    margin: 5px 0;
-    line-height: 1.5;
-    color: #444;
-  }
-
-  .result-card p strong {
-    color: #222;
-    font-weight: 600;
-  }
-
-  .result-card hr {
-    margin: 15px 0;
-    border: none;
-    border-top: 1px solid #eee;
-  }
-
-  /* Button and Link Styles */
-  .result-card a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: #007BFF;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-  }
-
-  .result-card a:hover {
-    background-color: #0056b3;
-  }
-</style>
 
 
 
