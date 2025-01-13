@@ -14,20 +14,10 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
-<div id="results-container">
-  <div class="result-card">
-    <p><strong>Order ID:</strong> ORD-12345</p>
-    <p><strong>Total Amount:</strong> $99.99</p>
-    <div>
-      <p><strong>Item 1:</strong> Product A</p>
-      <p><strong>Item 2:</strong> Product B</p>
-    </div>
-    <p><strong>Billing Address:</strong> 123 Main St, City, State, ZIP</p>
-    <p><strong>Shipping Address:</strong> 456 Elm St, City, State, ZIP</p>
-    <p class="total"><strong>Total:</strong> $99.99</p>
-  </div>
-  <!-- Repeat .result-card for more results -->
+<div id="results-container" class="loading-state">
+  Enter your email to fetch order details.
 </div>
+
 
 
 <div id="results-container"></div>
@@ -38,81 +28,48 @@ permalink: /pro/
 
 
 <style>
-    /* Results Container */
-    #results-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 20px;
-      justify-content: center;
-      background-color: #f4f4f4;
-    }
+  #results-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
 
-    /* Individual Result Card */
-    .result-card {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      max-width: 400px;
-      width: 100%;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+  .result-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-    .result-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
+  .result-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+  }
 
-    /* Result Card Content */
-    .result-card p {
-      margin: 10px 0;
-      font-size: 14px;
-    }
+  .result-card hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+  }
 
-    .result-card strong {
-      color: #555;
-    }
+  .result-card strong {
+    color: #000;
+  }
 
-    /* Items Section */
-    .result-card .items-section {
-      margin-top: 20px;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
-    }
-
-    .result-card .items-section p {
-      margin: 5px 0;
-      font-size: 13px;
-      color: #666;
-    }
-
-    .result-card .items-section p:nth-child(odd) {
-      background-color: #f8f8f8;
-      padding: 5px;
-      border-radius: 5px;
-    }
-
-    /* Total Amount */
-    .result-card p:last-of-type {
-      font-size: 16px;
-      font-weight: bold;
-      color: #444;
-      margin-top: 20px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      #results-container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .result-card {
-        max-width: 90%;
-      }
-    }
+  .loading-state {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+  }
 </style>
+
 
 
 
@@ -290,36 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Function to create result cards dynamically
-  function renderResults(response) {
-    const container = document.getElementById('results-container');
-    const orders = response.orders;
-
-    orders.forEach(order => {
-      // Create a card for each order
-      const card = document.createElement('div');
-      card.className = 'result-card';
-
-      // Add Order ID and Total
-      card.innerHTML = `
-        <p><strong>Order ID:</strong> ${order.order_id}</p>
-        <p><strong>Total Amount:</strong> $${order.total}</p>
-        <div class="items-section">
-          ${order.items.map(item => `
-            <p><strong>${item.item_name}:</strong> ${item.quantity} pcs</p>
-          `).join('')}
-        </div>
-        <p>Total: $${order.total}</p>
-      `;
-
-      // Append card to the container
-      container.appendChild(card);
-    });
-  }
-
-  // Render the results
-  renderResults(rawResponse);
-</script>
 
 
 
