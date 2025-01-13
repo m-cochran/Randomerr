@@ -158,9 +158,13 @@ async function fetchDataByEmail(email) {
     console.log("Raw API Response:", data);
 
     // Filter data for the given email (case-insensitive)
-    const filteredData = data.filter(
-      (record) => record.Email?.toLowerCase() === email.toLowerCase()
-    );
+    const filteredData = data.filter((record) => {
+      const emailFromData = record.Email?.trim().toLowerCase();  // Trim and make case-insensitive
+      const emailToCompare = email.trim().toLowerCase();  // Trim and make case-insensitive
+      console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`);  // Log comparison
+      return emailFromData === emailToCompare; // Compare after trimming and converting to lowercase
+    });
+
     console.log("Filtered Data:", filteredData);
 
     if (filteredData.length === 0) {
@@ -175,6 +179,7 @@ async function fetchDataByEmail(email) {
     displayResults([]);
   }
 }
+
 
 // Format address with fallback values
 function formatAddress(street, city, state, postal, country) {
