@@ -162,10 +162,10 @@ async function fetchDataByEmail(email) {
       console.log(`Record ${index}:`, record);  // Log the entire record to inspect its structure
     });
 
-    // Filter data for the given email (case-insensitive)
+    // Filter data for the given email (case-insensitive, clean the field names)
     const filteredData = data.filter((record) => {
-      const emailFromData = record["Email"]?.trim().toLowerCase();  // Use bracket notation to access the field
-      const emailToCompare = email.trim().toLowerCase();  // Trim and make case-insensitive
+      const emailFromData = (record["Email"]?.trim() || "").toLowerCase(); // Trim any spaces or unexpected characters
+      const emailToCompare = email.trim().toLowerCase(); // Trim and make case-insensitive
       console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`);  // Log comparison
       return emailFromData === emailToCompare; // Compare after trimming and converting to lowercase
     });
@@ -184,6 +184,7 @@ async function fetchDataByEmail(email) {
     displayResults([]);
   }
 }
+
 
 
 
