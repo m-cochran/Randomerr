@@ -36,7 +36,24 @@ permalink: /pro/
 </div>
 
 
-<div id="raw-response-container"></div>
+<div id="raw-response-container">
+  <h3>Raw API Response:</h3>
+  <pre>[{ "Account Number": "ACC123", "Name": "John Doe" }]</pre>
+</div>
+
+<div id="results-container">
+  <div class="result-card">
+    <p><strong>Order ID:</strong> ORD-12345</p>
+    <p><strong>Total Amount:</strong> $99.99</p>
+    <hr>
+    <p><strong>Billing Address:</strong> 123 Main St, City, State, ZIP, Country</p>
+    <p><strong>Shipping Address:</strong> 456 Elm St, City, State, ZIP, Country</p>
+    <p><strong>Phone:</strong> 123-456-7890</p>
+    <p><strong>Email:</strong> email@example.com</p>
+    <a href="#">View Details</a>
+  </div>
+</div>
+
 
 
 
