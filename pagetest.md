@@ -157,9 +157,14 @@ async function fetchDataByEmail(email) {
     const data = await response.json();
     console.log("Raw API Response:", data);
 
+    // Log each record to check the structure and verify the Email field
+    data.forEach((record, index) => {
+      console.log(`Record ${index}:`, record);  // Log the entire record to inspect its structure
+    });
+
     // Filter data for the given email (case-insensitive)
     const filteredData = data.filter((record) => {
-      const emailFromData = record.Email?.trim().toLowerCase();  // Trim and make case-insensitive
+      const emailFromData = record["Email"]?.trim().toLowerCase();  // Use bracket notation to access the field
       const emailToCompare = email.trim().toLowerCase();  // Trim and make case-insensitive
       console.log(`Comparing: Data Email = "${emailFromData}", Provided Email = "${emailToCompare}"`);  // Log comparison
       return emailFromData === emailToCompare; // Compare after trimming and converting to lowercase
@@ -179,6 +184,7 @@ async function fetchDataByEmail(email) {
     displayResults([]);
   }
 }
+
 
 
 // Format address with fallback values
