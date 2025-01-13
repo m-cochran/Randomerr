@@ -90,7 +90,7 @@ async function fetchDataByEmail(email) {
 
     const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
     if (!response.ok) {
-      console.error(HTTP Error: ${response.status});
+      console.error(`HTTP Error: ${response.status}`);
       throw new Error(HTTP error! Status: ${response.status});
     }
 
