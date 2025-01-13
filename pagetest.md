@@ -163,22 +163,7 @@ permalink: /pro/
       const data = await response.json();
       console.log("Raw API Response:", data);
 
-      // Filter data for the given email
-      const filteredData = data.filter(record => record.email === email);
-      console.log("Filtered Data:", filteredData);
-
-      if (filteredData.length === 0) {
-        console.warn("No data found for the provided email.");
-        displayResults([]);
-        return;
-      }
-
-      displayResults(filteredData);
-    } catch (error) {
-      console.error("Fetch Error:", error);
-      displayResults([]);
-    }
-  }
+     -
 
   // Format address with fallback values
   function formatAddress(street, city, state, postal, country) {
