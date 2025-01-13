@@ -163,7 +163,7 @@ permalink: /pro/
       const data = await response.json();
       console.log("Raw API Response:", data);
 
-     -
+     
 
   // Format address with fallback values
   function formatAddress(street, city, state, postal, country) {
