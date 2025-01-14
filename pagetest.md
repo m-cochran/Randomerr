@@ -17,6 +17,10 @@ permalink: /pro/
 <div id="results-container"></div>
 
 
+ <div id="results-container" class="results-container">
+      <!-- Results will be dynamically loaded here -->
+    </div>
+
 
 
 
@@ -25,46 +29,39 @@ permalink: /pro/
 
 
 <style>
-  #results-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-  }
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
-  .result-card {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+/* Result Card Styles */
+.result-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .result-card p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #333;
-  }
+.result-card p {
+  margin-bottom: 0.5rem;
+}
 
-  .result-card hr {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 10px 0;
-  }
+.result-card p strong {
+  font-weight: bold;
+  color: #555;
+}
 
-  .result-card strong {
-    color: #000;
-  }
+.result-card hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1rem 0;
+}
 
-  .loading-state {
-    text-align: center;
-    font-size: 16px;
-    color: #666;
-  }
+.result-card div {
+  margin-bottom: 1rem;
+}
 </style>
 
 
