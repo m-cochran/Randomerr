@@ -16,6 +16,7 @@ permalink: /pro/
 
 <div id="results" class="results-container"></div>
 
+<div id="results-container"></div>
 
 
 
@@ -62,6 +63,24 @@ permalink: /pro/
   color: #666;
   text-align: center;
   margin-top: 2rem;
+}
+
+
+.result-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px 0;
+  background: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-card p {
+  margin: 5px 0;
+}
+
+.result-card strong {
+  font-weight: bold;
 }
 
 </style>
