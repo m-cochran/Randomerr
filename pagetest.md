@@ -93,170 +93,171 @@ permalink: /pro/
 
 
 <script>
-const apiUrl =
-  "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+  const apiUrl =
+    "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
 
-// Display loading state
-function displayLoadingState() {
-  const resultsContainer = document.getElementById("results-container");
-  if (resultsContainer) {
-    resultsContainer.innerHTML = "<p>Loading...</p>";
-  } else {
-    console.error("results-container not found.");
-  }
-}
-
-// Display error state
-function displayErrorState() {
-  const resultsContainer = document.getElementById("results-container");
-  if (resultsContainer) {
-    resultsContainer.innerHTML = "<p>An error occurred while fetching data.</p>";
-  } else {
-    console.error("results-container not found.");
-  }
-}
-
-// Fetch data by email
-async function fetchDataByEmail(email) {
-  try {
-    displayLoadingState();
-    console.log("Fetching data for email:", email);
-
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
+  // Display loading state
+  function displayLoadingState() {
+    const resultsContainer = document.getElementById("results-container");
+    if (resultsContainer) {
+      resultsContainer.innerHTML = "<p>Loading...</p>";
+    } else {
+      console.error("results-container not found.");
     }
+  }
 
-    const rawData = await response.json();
-    console.log("Raw API Response:", rawData);
+  // Display error state
+  function displayErrorState() {
+    const resultsContainer = document.getElementById("results-container");
+    if (resultsContainer) {
+      resultsContainer.innerHTML = "<p>An error occurred. Please try again later.</p>";
+    } else {
+      console.error("results-container not found.");
+    }
+  }
 
-    if (!rawData || rawData.length === 0) {
-      console.warn("No data returned for the provided email.");
-      displayResults([]);
+  // Fetch data by email
+  async function fetchDataByEmail(email) {
+    try {
+      displayLoadingState();
+      console.log("Fetching data for email:", email);
+
+      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+      if (!response.ok) {
+        console.error(`HTTP Error: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const rawData = await response.json();
+      console.log("Raw API Response:", rawData);
+
+      if (!rawData || rawData.length === 0) {
+        console.warn("No data returned for the provided email.");
+        displayResults([]);
+        return;
+      }
+
+      // Process the raw data
+      displayResults(rawData);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      displayErrorState();
+    }
+  }
+
+  // Escape HTML to prevent injection
+  function escapeHTML(str) {
+    const element = document.createElement("div");
+    if (str) element.innerText = str;
+    return element.innerHTML;
+  }
+
+  // Format address with fallback values
+  function formatAddress(street, city, state, postal, country) {
+    return [street, city, state, postal, country]
+      .map((part) => escapeHTML(part || "N/A"))
+      .join(", ");
+  }
+
+  // Display results in the container
+  function displayResults(results) {
+    const resultsContainer = document.getElementById("results-container");
+    if (!resultsContainer) {
+      console.error("results-container not found. Cannot display results.");
       return;
     }
 
-    // Process and display the data
-    displayResults(rawData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayErrorState();
-  }
-}
+    resultsContainer.innerHTML = ""; // Clear previous results
 
-// Escape HTML to prevent injection
-function escapeHTML(str) {
-  const element = document.createElement("div");
-  if (str) element.innerText = str;
-  return element.innerHTML;
-}
-
-// Format address with fallback values
-function formatAddress(street, city, state, postal, country) {
-  return [street, city, state, postal, country]
-    .map((part) => escapeHTML(part || "N/A"))
-    .join(", ");
-}
-
-// Display results in the container
-function displayResults(results) {
-  const resultsContainer = document.getElementById("results-container");
-  if (!resultsContainer) {
-    console.error("results-container not found. Cannot display results.");
-    return;
-  }
-
-  resultsContainer.innerHTML = ""; // Clear previous results
-
-  if (!results || results.length === 0) {
-    resultsContainer.innerHTML = "<p>No results found.</p>";
-    return;
-  }
-
-  // Group results by orderId
-  const groupedResults = results.reduce((acc, result) => {
-    const orderId = result.OrderID || "N/A";
-
-    if (!acc[orderId]) {
-      acc[orderId] = {
-        ...result,
-        items: [],
-        totalAmount: 0,
-      };
+    if (!results || results.length === 0) {
+      resultsContainer.innerHTML = "<p>No results found.</p>";
+      return;
     }
 
-    const itemTotal =
-      parseFloat(result.ItemPrice || 0) *
-      parseInt(result.ItemQuantity || 0, 10);
-    acc[orderId].items.push({
-      itemName: result.ItemName || "N/A",
-      itemQuantity: result.ItemQuantity || "N/A",
-      itemPrice: parseFloat(result.ItemPrice || 0).toFixed(2),
-      itemTotal: itemTotal.toFixed(2),
+    // Group results by orderId
+    const groupedResults = results.reduce((acc, result) => {
+      const orderId = result.OrderID || "N/A";
+
+      if (!acc[orderId]) {
+        acc[orderId] = {
+          ...result,
+          items: [],
+          totalAmount: 0,
+        };
+      }
+
+      const itemTotal =
+        parseFloat(result.ItemPrice || 0) *
+        parseInt(result.ItemQuantity || 0, 10);
+      acc[orderId].items.push({
+        itemName: result.ItemName || "N/A",
+        itemQuantity: result.ItemQuantity || "N/A",
+        itemPrice: parseFloat(result.ItemPrice || 0).toFixed(2),
+        itemTotal: itemTotal.toFixed(2),
+      });
+
+      acc[orderId].totalAmount += itemTotal;
+      return acc;
+    }, {});
+
+    // Create and append result cards
+    Object.values(groupedResults).forEach((order) => {
+      const resultCard = document.createElement("div");
+      resultCard.className = "result-card";
+
+      const itemsHTML = order.items
+        .map(
+          (item) => `
+            <p><strong>Item Name:</strong> ${escapeHTML(item.itemName)}</p>
+            <p><strong>Item Quantity:</strong> ${escapeHTML(item.itemQuantity)}</p>
+            <p><strong>Item Price:</strong> $${escapeHTML(item.itemPrice)}</p>
+            <p><strong>Item Total:</strong> $${escapeHTML(item.itemTotal)}</p>
+            <hr>`
+        )
+        .join("");
+
+      resultCard.innerHTML = `
+        <p><strong>Order ID:</strong> ${escapeHTML(order.OrderID || "N/A")}</p>
+        <p><strong>Total Amount:</strong> $${parseFloat(
+          order.totalAmount || 0
+        ).toFixed(2)}</p>
+        <div>${itemsHTML}</div>
+        <p><strong>Billing Address:</strong> ${formatAddress(
+          order.BillingStreet,
+          order.BillingCity,
+          order.BillingState,
+          order.BillingPostal,
+          order.BillingCountry
+        )}</p>
+        <p><strong>Shipping Address:</strong> ${formatAddress(
+          order.ShippingStreet,
+          order.ShippingCity,
+          order.ShippingState,
+          order.ShippingPostal,
+          order.ShippingCountry
+        )}</p>
+        <p><strong>Phone:</strong> ${escapeHTML(order.Phone || "N/A")}</p>
+        <p><strong>Email:</strong> ${escapeHTML(order.Email || "N/A")}</p>
+      `;
+
+      resultsContainer.appendChild(resultCard);
     });
-
-    acc[orderId].totalAmount += itemTotal;
-    return acc;
-  }, {});
-
-  // Create and append result cards
-  Object.values(groupedResults).forEach((order) => {
-    const resultCard = document.createElement("div");
-    resultCard.className = "result-card";
-
-    const itemsHTML = order.items
-      .map(
-        (item) => `
-          <p><strong>Item Name:</strong> ${escapeHTML(item.itemName)}</p>
-          <p><strong>Item Quantity:</strong> ${escapeHTML(item.itemQuantity)}</p>
-          <p><strong>Item Price:</strong> $${escapeHTML(item.itemPrice)}</p>
-          <p><strong>Item Total:</strong> $${escapeHTML(item.itemTotal)}</p>
-          <hr>`
-      )
-      .join("");
-
-    resultCard.innerHTML = `
-      <p><strong>Order ID:</strong> ${escapeHTML(order.OrderID || "N/A")}</p>
-      <p><strong>Total Amount:</strong> $${parseFloat(
-        order.totalAmount || 0
-      ).toFixed(2)}</p>
-      <div>${itemsHTML}</div>
-      <p><strong>Billing Address:</strong> ${formatAddress(
-        order.BillingStreet,
-        order.BillingCity,
-        order.BillingState,
-        order.BillingPostal,
-        order.BillingCountry
-      )}</p>
-      <p><strong>Shipping Address:</strong> ${formatAddress(
-        order.ShippingStreet,
-        order.ShippingCity,
-        order.ShippingState,
-        order.ShippingPostal,
-        order.ShippingCountry
-      )}</p>
-      <p><strong>Phone:</strong> ${escapeHTML(order.Phone || "N/A")}</p>
-      <p><strong>Email:</strong> ${escapeHTML(order.Email || "N/A")}</p>
-    `;
-
-    resultsContainer.appendChild(resultCard);
-  });
-}
-
-// Get logged-in user's email from localStorage
-function getLoggedInUserEmail() {
-  return localStorage.getItem("userEmail") || null;
-}
-
-// Fetch data on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-  const userEmail = getLoggedInUserEmail();
-  if (userEmail) {
-    console.log("User email found:", userEmail);
-    fetchDataByEmail(userEmail);
-  } else {
-    console.warn("No user email found in localStorage.");
   }
-});
+
+  // Get logged-in user's email from localStorage
+  function getLoggedInUserEmail() {
+    return localStorage.getItem("userEmail") || null;
+  }
+
+  // Fetch data on DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", () => {
+    const userEmail = getLoggedInUserEmail();
+    if (userEmail) {
+      console.log("User email found:", userEmail);
+      fetchDataByEmail(userEmail);
+    } else {
+      console.warn("No user email found in localStorage.");
+    }
+  });
 </script>
+
