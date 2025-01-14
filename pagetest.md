@@ -91,7 +91,7 @@ permalink: /pro/
 
 
 <script>
- const apiUrl =
+const apiUrl =
   "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
 
 // Display loading state
@@ -127,15 +127,11 @@ async function fetchDataByEmail(email) {
   }
 }
 
-// Display error state
-function displayErrorState() {
-  const resultsContainer = document.getElementById("results-container");
-  if (resultsContainer) {
-    resultsContainer.innerHTML =
-      "<p>An error occurred while fetching data. Please try again later.</p>";
-  } else {
-    console.error("results-container not found to display error state.");
-  }
+// Escape HTML to prevent injection
+function escapeHTML(str) {
+  const element = document.createElement("div");
+  if (str) element.innerText = str;
+  return element.innerHTML;
 }
 
 // Format address with fallback values
@@ -143,13 +139,6 @@ function formatAddress(street, city, state, postal, country) {
   return [street, city, state, postal, country]
     .map((part) => escapeHTML(part || "N/A"))
     .join(", ");
-}
-
-// Escape HTML to prevent injection
-function escapeHTML(str) {
-  const element = document.createElement("div");
-  if (str) element.innerText = str;
-  return element.innerHTML;
 }
 
 // Display results in the container
@@ -201,16 +190,16 @@ function displayResults(results) {
     const itemsHTML = order.items
       .map(
         (item) => `
-          <p>Item Name: ${item.itemName}</p>
-          <p>Item Quantity: ${item.itemQuantity}</p>
-          <p>Item Price: $${item.itemPrice}</p>
-          <p>Item Total: $${item.itemTotal}</p>
+          <p><strong>Item Name:</strong> ${escapeHTML(item.itemName)}</p>
+          <p><strong>Item Quantity:</strong> ${escapeHTML(item.itemQuantity)}</p>
+          <p><strong>Item Price:</strong> $${escapeHTML(item.itemPrice)}</p>
+          <p><strong>Item Total:</strong> $${escapeHTML(item.itemTotal)}</p>
           <hr>`
       )
       .join("");
 
     resultCard.innerHTML = `
-      <p><strong>Order ID:</strong> ${order.OrderID || "N/A"}</p>
+      <p><strong>Order ID:</strong> ${escapeHTML(order.OrderID || "N/A")}</p>
       <p><strong>Total Amount:</strong> $${parseFloat(
         order.totalAmount || 0
       ).toFixed(2)}</p>
@@ -229,14 +218,13 @@ function displayResults(results) {
         order.ShippingPostal,
         order.ShippingCountry
       )}</p>
-      <p><strong>Phone:</strong> ${order.Phone || "N/A"}</p>
-      <p><strong>Email:</strong> ${order.Email || "N/A"}</p>
+      <p><strong>Phone:</strong> ${escapeHTML(order.Phone || "N/A")}</p>
+      <p><strong>Email:</strong> ${escapeHTML(order.Email || "N/A")}</p>
     `;
 
     resultsContainer.appendChild(resultCard);
   });
 }
-
 
 // Get logged-in user's email from localStorage
 function getLoggedInUserEmail() {
@@ -253,6 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("No user email found in localStorage.");
   }
 });
+
 
 </script>
 
