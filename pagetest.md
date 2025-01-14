@@ -24,6 +24,8 @@ permalink: /pro/
 
 
 
+
+
 <style>
 .results-container {
   display: flex;
@@ -104,28 +106,18 @@ function displayLoadingState() {
   }
 }
 
+// Display error state
+function displayErrorState() {
+  const resultsContainer = document.getElementById("results-container");
+  if (resultsContainer) {
+    resultsContainer.innerHTML = "<p>An error occurred while fetching data.</p>";
+  } else {
+    console.error("results-container not found.");
+  }
+}
+
 // Fetch data by email
 async function fetchDataByEmail(email) {
-  try {
-    displayLoadingState();
-    console.log("Fetching data for email:", email);
-
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const rawData = await response.json();
-    console.log("Raw API Response:", rawData);
-
-    // Directly process the raw data to display results
-    displayResults(rawData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayResults([]);
-  }
-}async function fetchDataByEmail(email) {
   try {
     displayLoadingState();
     console.log("Fetching data for email:", email);
@@ -145,14 +137,13 @@ async function fetchDataByEmail(email) {
       return;
     }
 
-    // Process the raw data
+    // Process and display the data
     displayResults(rawData);
   } catch (error) {
     console.error("Fetch Error:", error);
     displayErrorState();
   }
 }
-
 
 // Escape HTML to prevent injection
 function escapeHTML(str) {
@@ -268,8 +259,4 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("No user email found in localStorage.");
   }
 });
-
-
 </script>
-
-
