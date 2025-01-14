@@ -89,7 +89,10 @@ permalink: /pro/
 
 
 
-
+<h1>Order Details</h1>
+  <div id="results-container">
+    <!-- This is where the order details will be displayed -->
+  </div>
 
 
 <script>
