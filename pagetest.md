@@ -83,33 +83,51 @@ permalink: /pro/
     }
   }
 
-  // Fetch data by email
-  async function fetchDataByEmail(email) {
-    try {
-      displayLoadingState();
-      console.log("Fetching data for email:", email);
+// Sanitize keys by trimming extra whitespace
+function sanitizeKeys(obj) {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key.trim(), value])
+  );
+}
 
-      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-      if (!response.ok) {
-        console.error(`HTTP Error: ${response.status}`);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+// Fetch data by email
+async function fetchDataByEmail(email) {
+  try {
+    displayLoadingState();
+    console.log("Fetching data for email:", email);
 
-      const data = await response.json();
-      console.log("Raw API Response:", data);
-
-      // Filter data for the given email (case-insensitive)
-      const filteredData = data.filter(
-        (record) => record.Email?.toLowerCase() === email.toLowerCase()
-      );
-      console.log("Filtered Data:", filteredData);
-
-      displayResults(filteredData);
-    } catch (error) {
-      console.error("Fetch Error:", error);
-      displayErrorState();
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const rawData = await response.json();
+    console.log("Raw API Response:", rawData);
+
+    // Sanitize all keys in the API response
+    const sanitizedData = rawData.map(sanitizeKeys);
+    console.log("Sanitized API Response:", sanitizedData);
+
+    // Filter data for the given email (case-insensitive)
+    const filteredData = sanitizedData.filter(
+      (record) => record.Email?.toLowerCase() === email.toLowerCase()
+    );
+    console.log("Filtered Data:", filteredData);
+
+    if (filteredData.length === 0) {
+      console.warn("No data found for the provided email.");
+      displayResults([]);
+      return;
+    }
+
+    displayResults(filteredData);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    displayResults([]);
   }
+}
+
 
   // Display error state
   function displayErrorState() {
