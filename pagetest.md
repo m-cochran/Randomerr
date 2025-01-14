@@ -14,34 +14,10 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
-<title>Profile Page</title>
 
-<div id="profilePage">
-  <div class="profile-container">
-    <img id="profilePicture" src="default-avatar.png" alt="Profile Picture">
-    <h1 id="profileName">Loading...</h1>
-    <p id="profileEmail">Loading...</p>
-  </div>
 
- <div id="results-container">
-  <div class="result-card">
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <p><strong>Loading...:</strong> Loading...</p>
-    <div>
-      <p>Item Name: Widget A</p>
-      <p>Item Quantity: 2</p>
-      <p>Item Price: $25.00</p>
-    </div>
-    <p><strong>Total Amount:</strong> $50.00</p>
-    <p><strong>Tracking:</strong> $50.00</p>
-  </div>
-</div>
+
+
 
 
 
@@ -96,7 +72,7 @@ permalink: /pro/
 
 
 <script>
-const apiUrl =
+  const apiUrl =
   "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
 
 // Display loading state
@@ -246,6 +222,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("No user email found in localStorage.");
   }
 });
-
 
 </script>
