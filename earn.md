@@ -177,8 +177,8 @@ permalink: /earn/
 /* Close button styling */
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 5px;
     font-size: 30px;
     cursor: pointer;
 }
