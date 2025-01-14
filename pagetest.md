@@ -120,33 +120,89 @@ permalink: /pro/
   }
 
   // Fetch data by email
-  async function fetchDataByEmail(email) {
-    try {
-      displayLoadingState();
-      console.log("Fetching data for email:", email);
+async function fetchDataByEmail(email) {
+  try {
+    displayLoadingState();
+    console.log("Fetching data for email:", email);
 
-      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-      if (!response.ok) {
-        console.error(`HTTP Error: ${response.status}`);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const rawData = await response.json();
-      console.log("Raw API Response:", rawData);
-
-      if (!rawData || rawData.length === 0) {
-        console.warn("No data returned for the provided email.");
-        displayResults([]);
-        return;
-      }
-
-      // Process the raw data
-      displayResults(rawData);
-    } catch (error) {
-      console.error("Fetch Error:", error);
-      displayErrorState();
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    const rawData = await response.json();
+    console.log("Raw API Response:", rawData);
+
+    const results = Array.isArray(rawData) ? rawData : rawData.data || [];
+    console.log("Processed Results:", results);
+
+    if (!results || results.length === 0) {
+      displayResults([]);
+      return;
+    }
+
+    displayResults(results);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    displayErrorState();
   }
+}
+
+function displayResults(results) {
+  const resultsContainer = document.getElementById("results-container");
+  if (!resultsContainer) {
+    console.error("results-container not found. Cannot display results.");
+    return;
+  }
+
+  resultsContainer.innerHTML = ""; // Clear previous results
+
+  if (!results || results.length === 0) {
+    resultsContainer.innerHTML = "<p>No results found.</p>";
+    return;
+  }
+
+  results.forEach((result) => {
+    console.log("Displaying Result:", result);
+
+    const resultCard = document.createElement("div");
+    resultCard.className = "result-card";
+
+    const itemsHTML = `
+      <p><strong>Item Name:</strong> ${escapeHTML(result.ItemName || "N/A")}</p>
+      <p><strong>Item Quantity:</strong> ${escapeHTML(result.ItemQuantity || "N/A")}</p>
+      <p><strong>Item Price:</strong> $${parseFloat(result.ItemPrice || 0).toFixed(2)}</p>
+      <hr>`;
+
+    resultCard.innerHTML = `
+      <p><strong>Order ID:</strong> ${escapeHTML(result.OrderID || "N/A")}</p>
+      <p><strong>Total Amount:</strong> $${parseFloat(
+        result.totalAmount || 0
+      ).toFixed(2)}</p>
+      <div>${itemsHTML}</div>
+      <p><strong>Billing Address:</strong> ${formatAddress(
+        result.BillingStreet,
+        result.BillingCity,
+        result.BillingState,
+        result.BillingPostal,
+        result.BillingCountry
+      )}</p>
+      <p><strong>Shipping Address:</strong> ${formatAddress(
+        result.ShippingStreet,
+        result.ShippingCity,
+        result.ShippingState,
+        result.ShippingPostal,
+        result.ShippingCountry
+      )}</p>
+      <p><strong>Phone:</strong> ${escapeHTML(result.Phone || "N/A")}</p>
+      <p><strong>Email:</strong> ${escapeHTML(result.Email || "N/A")}</p>
+    `;
+
+    resultsContainer.appendChild(resultCard);
+  });
+}
+
 
   // Escape HTML to prevent injection
   function escapeHTML(str) {
