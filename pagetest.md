@@ -162,14 +162,14 @@ function displayResults(results) {
 
   resultsContainer.innerHTML = ""; // Clear previous results
 
-  if (results.length === 0) {
+  if (!results || results.length === 0) {
     resultsContainer.innerHTML = "<p>No results found.</p>";
     return;
   }
 
   // Group results by orderId
   const groupedResults = results.reduce((acc, result) => {
-    const { OrderID: orderId } = result;
+    const orderId = result.OrderID || "N/A";
 
     if (!acc[orderId]) {
       acc[orderId] = {
@@ -180,12 +180,13 @@ function displayResults(results) {
     }
 
     const itemTotal =
-      parseFloat(result.ItemPrice || 0) * parseInt(result.ItemQuantity || 0, 10);
+      parseFloat(result.ItemPrice || 0) *
+      parseInt(result.ItemQuantity || 0, 10);
     acc[orderId].items.push({
-      itemName: result.ItemName,
-      itemQuantity: result.ItemQuantity,
-      itemPrice: result.ItemPrice,
-      itemTotal: itemTotal,
+      itemName: result.ItemName || "N/A",
+      itemQuantity: result.ItemQuantity || "N/A",
+      itemPrice: parseFloat(result.ItemPrice || 0).toFixed(2),
+      itemTotal: itemTotal.toFixed(2),
     });
 
     acc[orderId].totalAmount += itemTotal;
@@ -200,17 +201,19 @@ function displayResults(results) {
     const itemsHTML = order.items
       .map(
         (item) => `
-          <p>Item Name: ${item.itemName || "N/A"}</p>
-          <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
-          <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
-          <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
+          <p>Item Name: ${item.itemName}</p>
+          <p>Item Quantity: ${item.itemQuantity}</p>
+          <p>Item Price: $${item.itemPrice}</p>
+          <p>Item Total: $${item.itemTotal}</p>
           <hr>`
       )
       .join("");
 
     resultCard.innerHTML = `
       <p><strong>Order ID:</strong> ${order.OrderID || "N/A"}</p>
-      <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
+      <p><strong>Total Amount:</strong> $${parseFloat(
+        order.totalAmount || 0
+      ).toFixed(2)}</p>
       <div>${itemsHTML}</div>
       <p><strong>Billing Address:</strong> ${formatAddress(
         order.BillingStreet,
@@ -233,6 +236,7 @@ function displayResults(results) {
     resultsContainer.appendChild(resultCard);
   });
 }
+
 
 // Get logged-in user's email from localStorage
 function getLoggedInUserEmail() {
