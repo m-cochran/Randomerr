@@ -14,12 +14,7 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
-<div id="results-container"></div>
-
-
- <div id="results-container" class="results-container">
-      <!-- Results will be dynamically loaded here -->
-    </div>
+<div id="results" class="results-container"></div>
 
 
 
@@ -31,37 +26,44 @@ permalink: /pro/
 <style>
 .results-container {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
 }
 
-/* Result Card Styles */
-.result-card {
-  background: #fff;
+.card {
   border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 1.5rem;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 300px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
-.result-card p {
-  margin-bottom: 0.5rem;
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: #333;
 }
 
-.result-card p strong {
-  font-weight: bold;
+.card p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
   color: #555;
 }
 
-.result-card hr {
-  border: none;
-  border-top: 1px solid #eee;
-  margin: 1rem 0;
+.card p strong {
+  color: #333;
 }
 
-.result-card div {
-  margin-bottom: 1rem;
+.no-data {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-top: 2rem;
 }
+
 </style>
 
 
