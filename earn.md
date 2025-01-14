@@ -28,14 +28,20 @@ permalink: /earn/
       <li>Easy-to-use affiliate dashboard to track your earnings.</li>
     </ul>
 
-    <a href="https://example.com/signup" class="affiliate-signup-btn">Join Now</a>
-    <form id="affiliate-signup">
-    <input type="text" id="name" name="name" placeholder="Name" required>
-    <input type="email" id="email" name="email" placeholder="Email" required>
-    <button type="submit">Sign Up</button>
-</form>
+    <a href="javascript:void(0)" class="affiliate-signup-btn" id="signupBtn">Join Now</a>
 
-  </div>
+<!-- The Popup -->
+<div id="signupPopup" class="popup-overlay">
+    <div class="popup-content">
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <form id="affiliate-signup">
+            <input type="text" id="name" name="name" placeholder="Name" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</div>
+
 
   <div class="faq-section">
     <h3>Frequently Asked Questions</h3>
@@ -117,6 +123,85 @@ permalink: /earn/
       margin-top: 5px;
       font-size: 0.9rem;
     }
+
+    /* Basic styling for the popup overlay and content */
+.popup-overlay {
+    display: none;  /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);  /* Semi-transparent background */
+    z-index: 1000;  /* Ensures the popup appears on top */
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+.popup-content input,
+.popup-content button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup-content button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background-color: #45a049;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
   </style>
 
 </main>
+<script>
+  // Get the elements
+const signupBtn = document.getElementById('signupBtn');
+const signupPopup = document.getElementById('signupPopup');
+const closeBtn = document.getElementById('closeBtn');
+
+// Show the popup when the "Join Now" link is clicked
+signupBtn.onclick = function() {
+    signupPopup.style.display = 'block';
+}
+
+// Close the popup when the "X" button is clicked
+closeBtn.onclick = function() {
+    signupPopup.style.display = 'none';
+}
+
+// Close the popup if the user clicks outside of the popup content
+window.onclick = function(event) {
+    if (event.target === signupPopup) {
+        signupPopup.style.display = 'none';
+    }
+}
+
+</script>
