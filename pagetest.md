@@ -72,155 +72,156 @@ permalink: /pro/
 
 
 <script>
-  const apiUrl =
-  "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+  const apiUrl = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec"; // Replace with your Web App URL
 
-// Display loading state
-function displayLoadingState() {
-  const resultsContainer = document.getElementById("results-container");
-  resultsContainer.innerHTML = "<p>Loading...</p>";
-}
+  // Display loading state before fetching data
+  function displayLoadingState() {
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = "<p>Loading...</p>";
+  }
 
-// Fetch data by email
-async function fetchDataByEmail(email) {
-  try {
-    displayLoadingState();
-    console.log("Fetching data for email:", email);
+  // Fetch data by email
+  async function fetchDataByEmail(email) {
+    try {
+      displayLoadingState(); // Show loading before fetching data
+      console.log("Fetching data for email:", email);
 
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+      const response = await fetch(${apiUrl}?email=${encodeURIComponent(email)});
+      console.log("Response received:", response);
 
-    const data = await response.json();
-    console.log("Raw API Response:", data);
+      if (!response.ok) {
+        console.error(HTTP Error: ${response.status});
+        throw new Error(HTTP error! Status: ${response.status});
+      }
 
-    // Filter data for the given email (case-insensitive)
-    const filteredData = data.filter(
-      (record) => record.Email?.toLowerCase() === email.toLowerCase()
-    );
-    console.log("Filtered Data:", filteredData);
+      const data = await response.json();
+      console.log("Raw API Response:", data);
 
-    if (filteredData.length === 0) {
-      console.warn("No data found for the provided email.");
+
+
+      
+       // Filter data for the given email
+      const filteredData = data.filter(record => record.email === email);
+      console.log("Filtered Data:", filteredData);
+
+      if (filteredData.length === 0) {
+        console.warn("No data found for the provided email.");
+        displayResults([]);
+        return;
+      }
+
+      displayResults(filteredData);
+    } catch (error) {
+      console.error("Fetch Error:", error);
       displayResults([]);
+    }
+  }
+
+     
+
+  // Format address with fallback values
+  function formatAddress(street, city, state, postal, country) {
+    return [street, city, state, postal, country]
+      .map(part => escapeHTML(part || "N/A"))
+      .join(", ");
+  }
+
+  // Escape HTML to prevent injection
+  function escapeHTML(str) {
+    const element = document.createElement('div');
+    if (str) element.innerText = str;
+    return element.innerHTML;
+  }
+
+  // Display results in the container
+  function displayResults(results) {
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = ""; // Clear previous results
+
+    if (results.length === 0) {
+      resultsContainer.innerHTML = "<p>No results found.</p>";
       return;
     }
 
-    displayResults(filteredData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayResults([]);
-  }
-}
+    // Group results by orderId and display them
+    const groupedResults = results.reduce((acc, result) => {
+      const { orderId } = result;
 
-// Format address with fallback values
-function formatAddress(street, city, state, postal, country) {
-  return [street, city, state, postal, country]
-    .map((part) => escapeHTML(part || "N/A"))
-    .join(", ");
-}
+      if (!acc[orderId]) {
+        acc[orderId] = {
+          ...result,
+          items: [],
+          totalAmount: 0
+        };
+      }
 
-// Escape HTML to prevent injection
-function escapeHTML(str) {
-  const element = document.createElement("div");
-  if (str) element.innerText = str;
-  return element.innerHTML;
-}
+      const itemTotal = parseFloat(result.itemPrice || 0) * parseInt(result.itemQuantity || 0, 10);
+      acc[orderId].items.push({
+        itemName: result.itemName,
+        itemQuantity: result.itemQuantity,
+        itemPrice: result.itemPrice,
+        itemTotal: itemTotal
+      });
 
-// Display results in the container
-function displayResults(results) {
-  const resultsContainer = document.getElementById("results-container");
-  resultsContainer.innerHTML = ""; // Clear previous results
+      acc[orderId].totalAmount += itemTotal;
+      return acc;
+    }, {});
 
-  if (results.length === 0) {
-    resultsContainer.innerHTML = "<p>No results found.</p>";
-    return;
-  }
+    // Create and append result cards
+    Object.values(groupedResults).forEach(order => {
+      const resultCard = document.createElement("div");
+      resultCard.className = "result-card";
 
-  // Group results by orderId
-  const groupedResults = results.reduce((acc, result) => {
-    const { OrderID: orderId } = result;
+      let itemsHTML = order.items
+        .map(
+          item => 
+          <p>Item Name: ${item.itemName || "N/A"}</p>
+          <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
+          <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
+          <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
+          <hr>
+        )
+        .join("");
 
-    if (!acc[orderId]) {
-      acc[orderId] = {
-        ...result,
-        items: [],
-        totalAmount: 0,
-      };
-    }
+      resultCard.innerHTML = 
+        <p><strong>Order ID:</strong> ${order.orderId || "N/A"}</p>
+        <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
+        <div>${itemsHTML}</div>
+        <p><strong>Billing Address:</strong> ${formatAddress(
+          order.billingStreet,
+          order.billingCity,
+          order.billingState,
+          order.billingPostal,
+          order.billingCountry
+        )}</p>
+        <p><strong>Shipping Address:</strong> ${formatAddress(
+          order.shippingStreet,
+          order.shippingCity,
+          order.shippingState,
+          order.shippingPostal,
+          order.shippingCountry
+        )}</p>
+        <p><strong>Phone:</strong> ${order.phone || "N/A"}</p>
+        <p><strong>Email:</strong> ${order.email || "N/A"}</p>
+      ;
 
-    const itemTotal =
-      parseFloat(result.ItemPrice || 0) *
-      parseInt(result.ItemQuantity || 0, 10);
-    acc[orderId].items.push({
-      itemName: result.ItemName,
-      itemQuantity: result.ItemQuantity,
-      itemPrice: result.ItemPrice,
-      itemTotal: itemTotal,
+      resultsContainer.appendChild(resultCard);
     });
-
-    acc[orderId].totalAmount += itemTotal;
-    return acc;
-  }, {});
-
-  // Create and append result cards
-  Object.values(groupedResults).forEach((order) => {
-    const resultCard = document.createElement("div");
-    resultCard.className = "result-card";
-
-    let itemsHTML = order.items
-      .map(
-        (item) => `
-        <p>Item Name: ${item.itemName || "N/A"}</p>
-        <p>Item Quantity: ${item.itemQuantity || "N/A"}</p>
-        <p>Item Price: $${parseFloat(item.itemPrice || 0).toFixed(2)}</p>
-        <p>Item Total: $${item.itemTotal.toFixed(2)}</p>
-        <hr>`
-      )
-      .join("");
-
-    resultCard.innerHTML = `
-      <p><strong>Order ID:</strong> ${order.OrderID || "N/A"}</p>
-      <p><strong>Total Amount:</strong> $${parseFloat(order.totalAmount).toFixed(2)}</p>
-      <div>${itemsHTML}</div>
-      <p><strong>Billing Address:</strong> ${formatAddress(
-        order.BillingStreet,
-        order.BillingCity,
-        order.BillingState,
-        order.BillingPostal,
-        order.BillingCountry
-      )}</p>
-      <p><strong>Shipping Address:</strong> ${formatAddress(
-        order.ShippingStreet,
-        order.ShippingCity,
-        order.ShippingState,
-        order.ShippingPostal,
-        order.ShippingCountry
-      )}</p>
-      <p><strong>Phone:</strong> ${order.Phone || "N/A"}</p>
-      <p><strong>Email:</strong> ${order.Email || "N/A"}</p>
-    `;
-
-    resultsContainer.appendChild(resultCard);
-  });
-}
-
-// Get logged-in user's email from localStorage
-function getLoggedInUserEmail() {
-  return localStorage.getItem("userEmail") || null;
-}
-
-// Fetch data on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-  const userEmail = getLoggedInUserEmail();
-  if (userEmail) {
-    console.log("User email found:", userEmail);
-    fetchDataByEmail(userEmail);
-  } else {
-    console.warn("No user email found in localStorage.");
   }
-});
 
+  // Get logged-in user's email from localStorage
+  function getLoggedInUserEmail() {
+    return localStorage.getItem("userEmail") || null;
+  }
+
+  // Fetch data on DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", () => {
+    const userEmail = getLoggedInUserEmail();
+    if (userEmail) {
+      console.log("User email found:", userEmail);
+      fetchDataByEmail(userEmail);
+    } else {
+      console.warn("No user email found in localStorage.");
+    }
+  });
 </script>
