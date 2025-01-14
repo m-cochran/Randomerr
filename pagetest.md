@@ -14,11 +14,34 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
-<div id="raw-response-container" style="border: 1px solid #ddd; padding: 10px; margin: 10px 0; background: #f9f9f9;">
-  <h3>Raw API Response</h3>
-  <pre id="raw-response" style="overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; background: #fff; padding: 10px; border-radius: 5px;"></pre>
-</div>
+<title>Profile Page</title>
 
+<div id="profilePage">
+  <div class="profile-container">
+    <img id="profilePicture" src="default-avatar.png" alt="Profile Picture">
+    <h1 id="profileName">Loading...</h1>
+    <p id="profileEmail">Loading...</p>
+  </div>
+
+ <div id="results-container">
+  <div class="result-card">
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <p><strong>Loading...:</strong> Loading...</p>
+    <div>
+      <p>Item Name: Widget A</p>
+      <p>Item Quantity: 2</p>
+      <p>Item Price: $25.00</p>
+    </div>
+    <p><strong>Total Amount:</strong> $50.00</p>
+    <p><strong>Tracking:</strong> $50.00</p>
+  </div>
+</div>
 
 
 
