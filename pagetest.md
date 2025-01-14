@@ -125,7 +125,34 @@ async function fetchDataByEmail(email) {
     console.error("Fetch Error:", error);
     displayResults([]);
   }
+}async function fetchDataByEmail(email) {
+  try {
+    displayLoadingState();
+    console.log("Fetching data for email:", email);
+
+    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const rawData = await response.json();
+    console.log("Raw API Response:", rawData);
+
+    if (!rawData || rawData.length === 0) {
+      console.warn("No data returned for the provided email.");
+      displayResults([]);
+      return;
+    }
+
+    // Process the raw data
+    displayResults(rawData);
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    displayErrorState();
+  }
 }
+
 
 // Escape HTML to prevent injection
 function escapeHTML(str) {
