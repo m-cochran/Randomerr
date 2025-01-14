@@ -34,11 +34,12 @@ permalink: /earn/
 <div id="signupPopup" class="popup-overlay">
     <div class="popup-content">
         <span class="close-btn" id="closeBtn">&times;</span>
-        <form id="affiliate-signup">
-            <input type="text" id="name" name="name" placeholder="Name" required>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <button type="submit">Sign Up</button>
-        </form>
+        <form id="affiliate-signup" method="POST" action="https://script.google.com/macros/s/AKfycby4wREqWnMuUHkmjy1Qw4bOoscRhoxA3b04EVFHybRlEIvPWPZmEIFHCtotFGSg90AZCg/exec">
+    <input type="text" id="name" name="name" placeholder="Name" required>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <button type="submit">Sign Up</button>
+</form>
+
     </div>
 </div>
 
