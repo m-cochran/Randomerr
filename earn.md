@@ -29,6 +29,12 @@ permalink: /earn/
     </ul>
 
     <a href="https://example.com/signup" class="affiliate-signup-btn">Join Now</a>
+    <form id="affiliate-signup">
+    <input type="text" id="name" name="name" placeholder="Name" required>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <button type="submit">Sign Up</button>
+</form>
+
   </div>
 
   <div class="faq-section">
