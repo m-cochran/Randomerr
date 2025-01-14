@@ -125,6 +125,7 @@ permalink: /earn/
     }
 
     /* Basic styling for the popup overlay and content */
+/* Basic styling for the popup overlay and content */
 .popup-overlay {
     display: none;  /* Hidden by default */
     position: fixed;
@@ -144,8 +145,11 @@ permalink: /earn/
     background: white;
     padding: 20px;
     border-radius: 10px;
-    width: 300px;
+    width: 90%;  /* Adjust width to be more responsive */
+    max-width: 300px;  /* Limit the width */
+    min-width: 200px;  /* Minimum width to ensure readability */
     text-align: center;
+    box-sizing: border-box;  /* Ensures padding doesn't affect the width */
 }
 
 .popup-content input,
@@ -156,6 +160,7 @@ permalink: /earn/
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;  /* Ensures padding is included in width calculation */
 }
 
 .popup-content button {
@@ -177,6 +182,25 @@ permalink: /earn/
     font-size: 30px;
     cursor: pointer;
 }
+
+/* Make the popup more flexible for smaller screens */
+@media (max-width: 400px) {
+    .popup-content {
+        min-width: 150px;  /* Allow the popup to be smaller on smaller screens */
+        padding: 15px;
+    }
+
+    .popup-content input,
+    .popup-content button {
+        font-size: 14px;  /* Slightly reduce font size */
+        padding: 8px;  /* Reduce padding for smaller form inputs */
+    }
+
+    .close-btn {
+        font-size: 20px;  /* Reduce the size of the close button */
+    }
+}
+
 
   </style>
 
