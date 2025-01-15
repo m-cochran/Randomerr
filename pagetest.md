@@ -51,8 +51,7 @@ permalink: /pro/
     }
 
   </style>
-</head>
-<body>
+
 
   <h1>Data from Google Sheets</h1>
 
@@ -126,7 +125,4 @@ permalink: /pro/
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
-
-</body>
-</html>
 
