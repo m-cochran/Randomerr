@@ -9,7 +9,8 @@ permalink: /pro/
 
 
 
-  <title>Google Sheets Data with User Filter</title>
+
+  <title>Filtered Data from Google Sheets</title>
   <style>
     .card-container {
       display: grid;
@@ -50,42 +51,37 @@ permalink: /pro/
     }
   </style>
 
-
-  <h1>Data from Google Sheets (Filtered by User)</h1>
+  <h1>Filtered Data for Logged-in User</h1>
 
   <div class="card-container" id="cardContainer">
-    <!-- Cards will be dynamically added here -->
+    <!-- Cards will be inserted here -->
   </div>
 
   <script>
-    // User information stored in localStorage after login
-    localStorage.setItem('userLoggedIn', 'true');
-    localStorage.setItem('userName', 'John Doe');
-    localStorage.setItem('userEmail', 'johndoe@gmail.com');
-    localStorage.setItem('userProfilePic', 'https://example.com/profile.jpg');
-
-    const userEmail = localStorage.getItem('userEmail'); // Logged-in user's email
-
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Filter the data to show only rows for the logged-in user's email
-        const filteredData = data.filter(row => row.email === userEmail);
+        // Get logged-in user's email
+        const loggedInUserEmail = localStorage.getItem('userEmail');
 
-        // Get the column headers from the first object
-        const headers = Object.keys(data[0]);
+        if (!loggedInUserEmail) {
+          alert('No user is logged in.');
+          return;
+        }
+
+        // Filter data for the logged-in user
+        const filteredData = data.filter(row => row.email === loggedInUserEmail);
 
         // Get the container where cards will be displayed
         const cardContainer = document.getElementById('cardContainer');
 
-        // Check if any data is available for the user
         if (filteredData.length === 0) {
-          cardContainer.innerHTML = `<p>No data available for your account.</p>`;
+          cardContainer.innerHTML = `<p>No data found for the logged-in user (${loggedInUserEmail}).</p>`;
           return;
         }
 
-        // Create a card for each filtered row of data
+        // Create a card for each row of filtered data
         filteredData.forEach(row => {
           const card = document.createElement('div');
           card.classList.add('card');
@@ -93,16 +89,16 @@ permalink: /pro/
           // Add the header with the row's first column
           const cardHeader = document.createElement('div');
           cardHeader.classList.add('card-header');
-          cardHeader.textContent = row[headers[0]]; // The first column as the card header
+          cardHeader.textContent = row.name; // Assuming 'name' is a column in your data
 
           // Add the body with the rest of the data
           const cardBody = document.createElement('div');
           cardBody.classList.add('card-body');
 
-          headers.forEach(header => {
-            if (header !== headers[0]) { // Skip the header if it's already used as the title
+          Object.keys(row).forEach(key => {
+            if (key !== 'email' && key !== 'name') { // Skip the 'email' field and header column
               const p = document.createElement('p');
-              p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
+              p.innerHTML = `<strong>${key}:</strong> ${row[key]}`;
               cardBody.appendChild(p);
             }
           });
