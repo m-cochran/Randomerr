@@ -114,23 +114,20 @@ permalink: /pro/
 
     // Function to display user data in a card format
     function displayUserData(data) {
-  console.log(data); // Log the entire data to see what it looks like
   const cardContainer = document.getElementById("card-container");
 
-  if (data.error) {
-    displayErrorState();
+  if (!data || data.error) {
+    cardContainer.innerHTML = `<div class="card"><h2>User Information</h2><p>No data found.</p></div>`;
     return;
   }
 
-  const user = data[0]; // Assuming there is only one matching record for the email
+  const user = data[0]; // Assume the first object is the user's data
 
-  // Sanitize column headers by removing spaces and quotes
-  const sanitizeHeader = (header) => {
-    return header.replace(/"/g, "").trim(); // Remove quotes and trim spaces
-  };
+  // Sanitize headers to match keys in the data
+  const sanitizeHeader = (header) => header.replace(/"/g, "").trim();
 
-  // Check the user object before rendering it
-  console.log(user);  // Log the user data object
+  // Debug: Log the user data object to ensure it's correct
+  console.log(user);
 
   cardContainer.innerHTML = `
     <div class="card">
@@ -158,6 +155,7 @@ permalink: /pro/
     </div>
   `;
 }
+
 
 
     // Function to fetch data by email
