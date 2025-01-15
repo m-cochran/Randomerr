@@ -114,6 +114,7 @@ permalink: /pro/
 
     // Function to display user data in a card format
     function displayUserData(data) {
+  console.log(data); // Log the raw data to the console for inspection
   const cardContainer = document.getElementById("card-container");
 
   if (data.error) {
@@ -154,6 +155,7 @@ permalink: /pro/
     </div>
   `;
 }
+
 
 
 
