@@ -7,6 +7,12 @@ permalink: /pro/
 # Profile
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheets Data</title>
   <style>
     table {
       width: 100%;
@@ -18,6 +24,10 @@ permalink: /pro/
       border: 1px solid #ddd;
     }
   </style>
+</head>
+<body>
+
+  <h1>Data from Google Sheets</h1>
 
   <table id="dataTable">
     <thead>
@@ -60,3 +70,6 @@ permalink: /pro/
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
+
+</body>
+</html>
