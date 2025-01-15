@@ -12,8 +12,6 @@ permalink: /pro/
 
 
   <style>
-
-
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -60,37 +58,43 @@ permalink: /pro/
     <!-- Cards will be inserted here -->
   </div>
 
-  <script>
+<script>
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Get the column headers from the first object
         const headers = Object.keys(data[0]);
         
-        // Get the container where cards will be displayed
+        // Filter and group the data by user account info (e.g., account number)
+        const groupedData = groupByAccount(data);
+
         const cardContainer = document.getElementById('cardContainer');
 
-        // Create a card for each row of data
-        data.forEach(row => {
+        // Iterate through grouped data and create cards
+        Object.keys(groupedData).forEach(accountKey => {
+          const userOrders = groupedData[accountKey];
           const card = document.createElement('div');
           card.classList.add('card');
-          
-          // Add the header with the row's first column
+
+          // Add user info as the card header
           const cardHeader = document.createElement('div');
           cardHeader.classList.add('card-header');
-          cardHeader.textContent = row[headers[0]]; // The first column as the card header
-          
-          // Add the body with the rest of the data
+          cardHeader.textContent = `${userOrders[0].account_number} - ${userOrders[0].name} (${userOrders[0].email})`;
+
           const cardBody = document.createElement('div');
           cardBody.classList.add('card-body');
-          
-          headers.forEach(header => {
-            if (header !== headers[0]) { // Skip the header if it's already used as the title
-              const p = document.createElement('p');
-              p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
-              cardBody.appendChild(p);
-            }
+
+          // Add each order for this user
+          userOrders.forEach(order => {
+            const orderDetails = `
+              <p><strong>Order ID:</strong> ${order.order_id}</p>
+              <p><strong>Product:</strong> ${order.product_name}</p>
+              <p><strong>Quantity:</strong> ${order.quantity}</p>
+              <p><strong>Price:</strong> $${order.price}</p>
+              <p><strong>Shipping Address:</strong> ${order.shipping_address}</p>
+              <hr />
+            `;
+            cardBody.innerHTML += orderDetails;
           });
 
           // Append the header and body to the card
@@ -102,6 +106,27 @@ permalink: /pro/
         });
       })
       .catch(error => console.error('Error fetching data:', error));
+
+    // Function to group data by account number or user
+    function groupByAccount(data) {
+      return data.reduce((acc, row) => {
+        const accountKey = row['account_number']; // Adjust this based on your column name
+        if (!acc[accountKey]) {
+          acc[accountKey] = [];
+        }
+        acc[accountKey].push({
+          account_number: row['account_number'],
+          name: row['name'],
+          email: row['email'],
+          order_id: row['order_id'],
+          product_name: row['product_name'],
+          quantity: row['quantity'],
+          price: row['price'],
+          shipping_address: row['shipping_address']
+        });
+        return acc;
+      }, {});
+    }
   </script>
 
 
