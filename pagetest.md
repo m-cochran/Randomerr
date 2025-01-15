@@ -74,15 +74,13 @@ permalink: /pro/
       if (userLoggedIn === 'true') {
         // Fetch data from the Google Apps Script web app URL
         fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
-          .then(response => response.json())
-          .then(data => {
-            // Filter the data based on the logged-in user's email
-            const userData = data.filter(row => row.email === userEmail);
-
-            // Display filtered data in cards
-            displayCards(userData);
-          })
-          .catch(error => console.error('Error fetching data:', error));
+           .then(response => response.json())
+  .then(data => {
+    console.log('Fetched Data:', data); // Inspect the structure here
+    const userData = data.filter(row => row.email === userEmail);
+    displayCards(userData);
+  })
+  .catch(error => console.error('Error fetching data:', error));
       } else {
         console.log('User is not logged in.');
       }
