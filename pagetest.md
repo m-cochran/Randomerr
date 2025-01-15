@@ -89,32 +89,11 @@ permalink: /pro/
 
 <script>
     // Google Apps Script API URL
-    const apiUrl = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+    const apiUrl = "https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec";
 
     // Function to display loading state
-    function displayLoadingState() {
-      const cardContainer = document.getElementById("card-container");
-      cardContainer.innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading...</p>
-        </div>
-      `;
-    }
-
-    // Function to display error state
-    function displayErrorState() {
-      const cardContainer = document.getElementById("card-container");
-      cardContainer.innerHTML = `
-        <div class="error">
-          <p>Sorry, something went wrong. Please try again later.</p>
-        </div>
-      `;
-    }
-
-    // Function to display user data in a card format
     function displayUserData(data) {
-  console.log(data); // Log the raw data to the console for inspection
+  console.log(data); // Log the entire data to see what it looks like
   const cardContainer = document.getElementById("card-container");
 
   if (data.error) {
@@ -128,6 +107,9 @@ permalink: /pro/
   const sanitizeHeader = (header) => {
     return header.replace(/"/g, "").trim(); // Remove quotes and trim spaces
   };
+
+  // Check the user object before rendering it
+  console.log(user);  // Log the user data object
 
   cardContainer.innerHTML = `
     <div class="card">
@@ -155,6 +137,7 @@ permalink: /pro/
     </div>
   `;
 }
+
 
 
 
