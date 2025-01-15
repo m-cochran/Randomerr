@@ -9,9 +9,9 @@ permalink: /pro/
 
 
 
-
-
+  <title>Google Sheets Data</title>
   <style>
+
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -49,8 +49,8 @@ permalink: /pro/
     .card .card-body {
       color: #666;
     }
-
   </style>
+
 
   <h1>Data from Google Sheets</h1>
 
@@ -58,41 +58,41 @@ permalink: /pro/
     <!-- Cards will be inserted here -->
   </div>
 
-<script>
+  <script>
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        const headers = Object.keys(data[0]);
-        
-        // Filter and group the data by user account info (e.g., account number)
-        const groupedData = groupByAccount(data);
+        // Group data by user account (ACC1736804012667)
+        const groupedData = groupBy(data, 'Account');
 
+        // Get the container where cards will be displayed
         const cardContainer = document.getElementById('cardContainer');
 
-        // Iterate through grouped data and create cards
-        Object.keys(groupedData).forEach(accountKey => {
-          const userOrders = groupedData[accountKey];
+        // Create a card for each grouped user
+        Object.keys(groupedData).forEach(accountId => {
+          const orders = groupedData[accountId];
+
+          // Create a card for this user
           const card = document.createElement('div');
           card.classList.add('card');
-
-          // Add user info as the card header
+          
+          // Add the header with user info
           const cardHeader = document.createElement('div');
           cardHeader.classList.add('card-header');
-          cardHeader.textContent = `${userOrders[0].account_number} - ${userOrders[0].name} (${userOrders[0].email})`;
-
+          cardHeader.textContent = `User: ${accountId} - ${orders[0].Name}`;
+          
+          // Add the body with the combined order information
           const cardBody = document.createElement('div');
           cardBody.classList.add('card-body');
 
-          // Add each order for this user
-          userOrders.forEach(order => {
+          // Loop through the orders and display each one
+          orders.forEach(order => {
             const orderDetails = `
-              <p><strong>Order ID:</strong> ${order.order_id}</p>
-              <p><strong>Product:</strong> ${order.product_name}</p>
-              <p><strong>Quantity:</strong> ${order.quantity}</p>
-              <p><strong>Price:</strong> $${order.price}</p>
-              <p><strong>Shipping Address:</strong> ${order.shipping_address}</p>
-              <hr />
+              <p><strong>Order ID:</strong> ${order.OrderID}</p>
+              <p><strong>Product:</strong> ${order.Product}</p>
+              <p><strong>Price:</strong> $${order.Price}</p>
+              <p><strong>Quantity:</strong> ${order.Quantity}</p>
             `;
             cardBody.innerHTML += orderDetails;
           });
@@ -107,24 +107,16 @@ permalink: /pro/
       })
       .catch(error => console.error('Error fetching data:', error));
 
-    // Function to group data by account number or user
-    function groupByAccount(data) {
-      return data.reduce((acc, row) => {
-        const accountKey = row['account_number']; // Adjust this based on your column name
-        if (!acc[accountKey]) {
-          acc[accountKey] = [];
+    // Function to group data by a specific key (in this case, 'Account')
+    function groupBy(array, key) {
+      return array.reduce((result, item) => {
+        // Use the account ID as the key to group orders
+        const groupKey = item[key];
+        if (!result[groupKey]) {
+          result[groupKey] = [];
         }
-        acc[accountKey].push({
-          account_number: row['account_number'],
-          name: row['name'],
-          email: row['email'],
-          order_id: row['order_id'],
-          product_name: row['product_name'],
-          quantity: row['quantity'],
-          price: row['price'],
-          shipping_address: row['shipping_address']
-        });
-        return acc;
+        result[groupKey].push(item);
+        return result;
       }, {});
     }
   </script>
