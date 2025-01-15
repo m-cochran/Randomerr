@@ -6,10 +6,12 @@ permalink: /pro/
 
 # Profile
 
+
   <title>Google Sheets Data</title>
   <style>
     /* Your CSS styles here */
   </style>
+
 
   <h1>Data from Google Sheets</h1>
 
@@ -59,4 +61,3 @@ permalink: /pro/
       alert('You must be logged in to view your data.');
     }
   </script>
-
