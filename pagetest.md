@@ -87,11 +87,32 @@ permalink: /pro/
 
 
 
-<script>
+  <script>
     // Google Apps Script API URL
     const apiUrl = "https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec";
 
     // Function to display loading state
+    function displayLoadingState() {
+      const cardContainer = document.getElementById("card-container");
+      cardContainer.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      `;
+    }
+
+    // Function to display error state
+    function displayErrorState() {
+      const cardContainer = document.getElementById("card-container");
+      cardContainer.innerHTML = `
+        <div class="error">
+          <p>Sorry, something went wrong. Please try again later.</p>
+        </div>
+      `;
+    }
+
+    // Function to display user data in a card format
     function displayUserData(data) {
   console.log(data); // Log the entire data to see what it looks like
   const cardContainer = document.getElementById("card-container");
@@ -137,9 +158,6 @@ permalink: /pro/
     </div>
   `;
 }
-
-
-
 
 
     // Function to fetch data by email
