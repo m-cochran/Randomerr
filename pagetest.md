@@ -26,7 +26,8 @@ permalink: /pro/
   </style>
 
    <h1>Welcome</h1>
-    <div id="cardContainer"></div>
+   
+   <div id="cardContainer"></div>
 
 <script>
         // Function to check if the user is logged in and fetch data
