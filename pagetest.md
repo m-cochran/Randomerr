@@ -6,6 +6,8 @@ permalink: /pro/
 
 # Profile
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +29,7 @@ permalink: /pro/
 <body>
 
   <h1>Your Data</h1>
-
+  
   <table id="dataTable">
     <thead>
       <tr>
@@ -39,7 +41,7 @@ permalink: /pro/
     </tbody>
   </table>
 
-  <script>
+<script>
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbxfTMl4xJbyC8dyeXWufmvghXLojnNCkHOyiegsUGb0UtKxQAwFZkr1vgTHfU2JjeZyHg/exec') // Replace with your web app URL
       .then(response => response.json())
