@@ -40,36 +40,38 @@ permalink: /pro/
     </tbody>
   </table>
 
-  <script>
-    // Fetch data from the Google Apps Script web app URL
-    fetch('https://script.google.com/macros/s/AKfycbxpdDO8FCyeLLE5_kCwsm5jvHLU95RDrUysOQOUfDiigMSaEL7x8gYNx5aUlWCNHVBt8A/exec') // Replace with your web app URL
-      .then(response => response.json())
-      .then(data => {
-        // Get the column headers from the first object
-        const headers = Object.keys(data[0]);
-        
-        // Insert headers into the table
-        const headerRow = document.querySelector('thead tr');
-        headers.forEach(header => {
-          const th = document.createElement('th');
-          th.textContent = header;
-          headerRow.appendChild(th);
-        });
+<script>
+  fetch('https://script.google.com/macros/s/AKfycbxpdDO8FCyeLLE5_kCwsm5jvHLU95RDrUysOQOUfDiigMSaEL7x8gYNx5aUlWCNHVBt8A/exec') // Replace with your web app URL
+    .then(response => response.json())
+    .then(data => {
+      if (data.length === 0) {
+        alert('No data found for your account.');
+        return;
+      }
+      
+      const headers = Object.keys(data[0]);
 
-        // Insert data rows into the table
-        const tbody = document.querySelector('tbody');
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          headers.forEach(header => {
-            const td = document.createElement('td');
-            td.textContent = row[header];
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
+      const headerRow = document.querySelector('thead tr');
+      headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+
+      const tbody = document.querySelector('tbody');
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        headers.forEach(header => {
+          const td = document.createElement('td');
+          td.textContent = row[header];
+          tr.appendChild(td);
         });
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  </script>
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+</script>
+
 
 </body>
 </html>
