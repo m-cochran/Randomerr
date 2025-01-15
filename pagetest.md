@@ -7,6 +7,10 @@ permalink: /pro/
 # Profile
 
   <title>Google Sheets Data</title>
+  
+  
+  
+  
   <style>
 
     .card-container {
@@ -47,7 +51,7 @@ permalink: /pro/
       color: #666;
     }
 
-  </style>
+</style>
 
   <h1>Data from Google Sheets</h1>
 
@@ -55,7 +59,7 @@ permalink: /pro/
     <!-- Cards will be inserted here -->
   </div>
 
-  <script>
+<script>
     // Check if user is logged in and get user information from localStorage
     if (localStorage.getItem('userLoggedIn') === 'true') {
       var userEmail = localStorage.getItem('userEmail'); // Get the logged-in user's email
