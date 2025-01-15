@@ -9,7 +9,8 @@ permalink: /pro/
 
 
 
-  <title>Google Sheets Data</title>
+
+  <title>Grouped Google Sheets Data</title>
   <style>
 
     .card-container {
@@ -49,11 +50,10 @@ permalink: /pro/
     .card .card-body {
       color: #666;
     }
-
   </style>
 
 
-  <h1>Data from Google Sheets</h1>
+  <h1>Grouped Data from Google Sheets</h1>
 
   <div class="card-container" id="cardContainer">
     <!-- Cards will be inserted here -->
@@ -64,55 +64,49 @@ permalink: /pro/
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Get the column headers from the first object
-        const headers = Object.keys(data[0]);
-        
-        // Object to store merged cards by Account Number and Order ID
-        const mergedCards = {};
+        // Group the data by "Account Number" and "Order ID"
+        const groupedData = {};
 
-        // Loop through the data and merge rows with the same Account Number and Order ID
         data.forEach(row => {
-          // Create a unique key for grouping by Account Number and Order ID
-          const key = row['Account Number'] + '-' + row['Order ID'];
+          const accountNumber = row['Account Number'];
+          const orderId = row['Order ID'];
+          const key = accountNumber + '|' + orderId; // Use both Account Number and Order ID as the key
 
-          // If the key already exists, merge the row
-          if (mergedCards[key]) {
-            mergedCards[key].rows.push(row); // Add the row to the existing merged card
-          } else {
-            // Otherwise, create a new merged card
-            mergedCards[key] = {
-              accountNumber: row['Account Number'],
-              orderId: row['Order ID'],
-              rows: [row], // Store rows in an array
+          if (!groupedData[key]) {
+            groupedData[key] = {
+              accountNumber,
+              orderId,
+              rows: []
             };
           }
+          groupedData[key].rows.push(row);
         });
 
         // Get the container where cards will be displayed
         const cardContainer = document.getElementById('cardContainer');
 
-        // Create a card for each merged entry
-        Object.values(mergedCards).forEach(mergedCard => {
+        // Create a card for each group of Account Number and Order ID
+        Object.values(groupedData).forEach(group => {
           const card = document.createElement('div');
           card.classList.add('card');
-          
-          // Add the header with the Account Number and Order ID
+
+          // Add the card header with the Account Number and Order ID
           const cardHeader = document.createElement('div');
           cardHeader.classList.add('card-header');
-          cardHeader.textContent = `Account: ${mergedCard.accountNumber} | Order ID: ${mergedCard.orderId}`;
-          
-          // Add the body with the merged rows' data
+          cardHeader.textContent = `Account Number: ${group.accountNumber} | Order ID: ${group.orderId}`;
+
+          // Add the body with the rows for this group
           const cardBody = document.createElement('div');
           cardBody.classList.add('card-body');
-          
-          mergedCard.rows.forEach(row => {
-            headers.forEach(header => {
-              if (header !== 'Account Number' && header !== 'Order ID') { // Skip Account Number and Order ID
-                const p = document.createElement('p');
-                p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
-                cardBody.appendChild(p);
-              }
-            });
+
+          group.rows.forEach(row => {
+            // Add each row's details as a paragraph in the card body
+            const p = document.createElement('p');
+            const details = Object.keys(row)
+              .map(header => `<strong>${header}:</strong> ${row[header]}`)
+              .join(' | ');
+            p.innerHTML = details;
+            cardBody.appendChild(p);
           });
 
           // Append the header and body to the card
