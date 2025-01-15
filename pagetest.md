@@ -123,8 +123,14 @@ permalink: /pro/
 
 
 <script>
+  <script>
   const apiUrl =
     "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+
+  // Safely get a field value or return a default if the field is missing or invalid
+  function getField(value, fallback = "N/A") {
+    return value !== undefined && value !== null ? value : fallback;
+  }
 
   // Display loading state
   function displayLoadingState() {
@@ -141,8 +147,7 @@ permalink: /pro/
   function displayErrorState() {
     const resultsContainer = document.getElementById("results-container");
     if (resultsContainer) {
-      resultsContainer.innerHTML =
-        "<p>An error occurred. Please try again later.</p>";
+      resultsContainer.innerHTML = "<p>An error occurred. Please try again later.</p>";
     } else {
       console.error("results-container not found.");
     }
@@ -154,9 +159,7 @@ permalink: /pro/
       displayLoadingState();
       console.log("Fetching data for email:", email);
 
-      const response = await fetch(
-        `${apiUrl}?email=${encodeURIComponent(email)}`
-      );
+      const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
       if (!response.ok) {
         console.error(`HTTP Error: ${response.status}`);
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -168,6 +171,11 @@ permalink: /pro/
       const results = Array.isArray(rawData) ? rawData : rawData.data || [];
       console.log("Processed Results:", results);
 
+      if (!results || results.length === 0) {
+        displayResults([]);
+        return;
+      }
+
       displayResults(results);
     } catch (error) {
       console.error("Fetch Error:", error);
@@ -175,7 +183,7 @@ permalink: /pro/
     }
   }
 
-  // Display results
+  // Display results in the container
   function displayResults(results) {
     const resultsContainer = document.getElementById("results-container");
     if (!resultsContainer) {
