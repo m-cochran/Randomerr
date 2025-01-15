@@ -64,65 +64,62 @@ permalink: /pro/
 
   <div class="no-data" id="noData" style="display: none;">No data available for this user.</div>
 
-  <script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  // Fetch user details from localStorage
+  const userLoggedIn = localStorage.getItem('userLoggedIn');
+  const userEmail = localStorage.getItem('userEmail');
+
+  if (userLoggedIn === 'true') {
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Get the logged-in user's email from localStorage
-        const userEmail = localStorage.getItem('userEmail');
-
-        if (!userEmail) {
-          alert('No user is logged in!');
-          return;
-        }
-
         // Filter the data based on the logged-in user's email
-        const filteredData = data.filter(row => row.email === userEmail);
+        const userData = data.filter(row => row.email === userEmail);
 
-        // Get the container where cards will be displayed
-        const cardContainer = document.getElementById('cardContainer');
-        const noData = document.getElementById('noData');
-
-        // Clear the container before adding new cards
-        cardContainer.innerHTML = '';
-
-        if (filteredData.length === 0) {
-          // Show a "no data" message if no matching data is found
-          noData.style.display = 'block';
-        } else {
-          noData.style.display = 'none';
-
-          // Create a card for each row of filtered data
-          filteredData.forEach(row => {
-            const card = document.createElement('div');
-            card.classList.add('card');
-
-            // Add the header with the row's first column
-            const cardHeader = document.createElement('h2');
-            cardHeader.textContent = row.name; // Use the "name" column for the header
-
-            // Add the body with the rest of the data
-            const cardBody = document.createElement('div');
-            Object.keys(row).forEach(key => {
-              if (key !== 'name' && key !== 'email') { // Skip name and email if they are already displayed
-                const p = document.createElement('p');
-                p.innerHTML = `<strong>${key}:</strong> ${row[key]}`;
-                cardBody.appendChild(p);
-              }
-            });
-
-            // Append the header and body to the card
-            card.appendChild(cardHeader);
-            card.appendChild(cardBody);
-
-            // Append the card to the container
-            cardContainer.appendChild(card);
-          });
-        }
+        // Display filtered data in cards
+        displayCards(userData);
       })
       .catch(error => console.error('Error fetching data:', error));
-  </script>
+  } else {
+    console.log('User is not logged in.');
+  }
+});
 
-</body>
-</html>
+// Function to display cards
+function displayCards(data) {
+  const cardContainer = document.getElementById('cardContainer');
+  cardContainer.innerHTML = ''; // Clear existing cards
+
+  if (data.length === 0) {
+    cardContainer.innerHTML = '<p>No data available for this user.</p>';
+    return;
+  }
+
+  data.forEach(row => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const cardHeader = document.createElement('div');
+    cardHeader.classList.add('card-header');
+    cardHeader.textContent = row.name; // Example: Display 'name' as the card header
+
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body');
+
+    Object.keys(row).forEach(key => {
+      if (key !== 'name') { // Skip the 'name' field if used as the header
+        const p = document.createElement('p');
+        p.innerHTML = `<strong>${key}:</strong> ${row[key]}`;
+        cardBody.appendChild(p);
+      }
+    });
+
+    card.appendChild(cardHeader);
+    card.appendChild(cardBody);
+    cardContainer.appendChild(card);
+  });
+}
+
+</script>
