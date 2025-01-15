@@ -11,7 +11,6 @@ permalink: /pro/
 
   <title>Google Sheets Data</title>
   <style>
-
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -49,8 +48,8 @@ permalink: /pro/
     .card .card-body {
       color: #666;
     }
-  </style>
 
+  </style>
 
   <h1>Data from Google Sheets</h1>
 
@@ -63,38 +62,32 @@ permalink: /pro/
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Group data by user account (ACC1736804012667)
-        const groupedData = groupBy(data, 'Account');
-
+        // Get the column headers from the first object
+        const headers = Object.keys(data[0]);
+        
         // Get the container where cards will be displayed
         const cardContainer = document.getElementById('cardContainer');
 
-        // Create a card for each grouped user
-        Object.keys(groupedData).forEach(accountId => {
-          const orders = groupedData[accountId];
-
-          // Create a card for this user
+        // Create a card for each row of data
+        data.forEach(row => {
           const card = document.createElement('div');
           card.classList.add('card');
           
-          // Add the header with user info
+          // Add the header with the row's first column
           const cardHeader = document.createElement('div');
           cardHeader.classList.add('card-header');
-          cardHeader.textContent = `User: ${accountId} - ${orders[0].Name}`;
+          cardHeader.textContent = row[headers[0]]; // The first column as the card header
           
-          // Add the body with the combined order information
+          // Add the body with the rest of the data
           const cardBody = document.createElement('div');
           cardBody.classList.add('card-body');
-
-          // Loop through the orders and display each one
-          orders.forEach(order => {
-            const orderDetails = `
-              <p><strong>Order ID:</strong> ${order.OrderID}</p>
-              <p><strong>Product:</strong> ${order.Product}</p>
-              <p><strong>Price:</strong> $${order.Price}</p>
-              <p><strong>Quantity:</strong> ${order.Quantity}</p>
-            `;
-            cardBody.innerHTML += orderDetails;
+          
+          headers.forEach(header => {
+            if (header !== headers[0]) { // Skip the header if it's already used as the title
+              const p = document.createElement('p');
+              p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
+              cardBody.appendChild(p);
+            }
           });
 
           // Append the header and body to the card
@@ -106,19 +99,4 @@ permalink: /pro/
         });
       })
       .catch(error => console.error('Error fetching data:', error));
-
-    // Function to group data by a specific key (in this case, 'Account')
-    function groupBy(array, key) {
-      return array.reduce((result, item) => {
-        // Use the account ID as the key to group orders
-        const groupKey = item[key];
-        if (!result[groupKey]) {
-          result[groupKey] = [];
-        }
-        result[groupKey].push(item);
-        return result;
-      }, {});
-    }
   </script>
-
-
