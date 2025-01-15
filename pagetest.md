@@ -159,6 +159,32 @@ permalink: /pro/
   `;
 }
 
+const mockData = [
+  {
+    "\"Email\"": "reachmycupofearth@gmail.com",
+    "\"Name\"": "Andre Cochran",
+    "\"Phone\"": "123-456-7890",
+    "\"Billing Street\"": "123 Elm St.",
+    "\"Billing City\"": "Somewhere",
+    "\"Billing State\"": "CA",
+    "\"Billing Postal\"": "12345",
+    "\"Billing Country\"": "USA",
+    "\"Shipping Street\"": "456 Oak St.",
+    "\"Shipping City\"": "Elsewhere",
+    "\"Shipping State\"": "NY",
+    "\"Shipping Postal\"": "67890",
+    "\"Shipping Country\"": "USA",
+    "\"Order Date\"": "2024-01-10",
+    "\"Order ID\"": "987654",
+    "\"Item Name\"": "Coffee Maker",
+    "\"Item Quantity\"": "1",
+    "\"Item Price\"": "$100",
+    "\"Total Amount\"": "$100",
+    "\"Tracking Number\"": "ABC123456789"
+  }
+];
+
+displayUserData(mockData);
 
 
 
