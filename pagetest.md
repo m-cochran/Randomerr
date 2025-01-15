@@ -16,7 +16,6 @@ permalink: /pro/
 
 <div id="results" class="results-container"></div>
 
-<div id="results-container"></div>
 
 
 
