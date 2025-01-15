@@ -114,26 +114,48 @@ permalink: /pro/
 
     // Function to display user data in a card format
     function displayUserData(data) {
-      const cardContainer = document.getElementById("card-container");
+  const cardContainer = document.getElementById("card-container");
 
-      if (data.error) {
-        displayErrorState();
-        return;
-      }
+  if (data.error) {
+    displayErrorState();
+    return;
+  }
 
-      const user = data[0]; // Assuming there is only one matching record for the email
+  const user = data[0]; // Assuming there is only one matching record for the email
 
-      cardContainer.innerHTML = `
-        <div class="card">
-          <h2>User Information</h2>
-          <p><strong>Email:</strong> ${user["\"Email\""] || "N/A"}</p>
-          <p><strong>Full Name:</strong> ${user["Full Name"] || "N/A"}</p>
-          <p><strong>Phone:</strong> ${user["Phone"] || "N/A"}</p>
-          <p><strong>Address:</strong> ${user["Address"] || "N/A"}</p>
-          <p><strong>City:</strong> ${user["City"] || "N/A"}</p>
-        </div>
-      `;
-    }
+  // Sanitize column headers by removing spaces and quotes
+  const sanitizeHeader = (header) => {
+    return header.replace(/"/g, "").trim(); // Remove quotes and trim spaces
+  };
+
+  cardContainer.innerHTML = `
+    <div class="card">
+      <h2>User Information</h2>
+      <p><strong>Email:</strong> ${user[sanitizeHeader("Email")] || "N/A"}</p>
+      <p><strong>Full Name:</strong> ${user[sanitizeHeader("Name")] || "N/A"}</p>
+      <p><strong>Phone:</strong> ${user[sanitizeHeader("Phone")] || "N/A"}</p>
+      <p><strong>Billing Street:</strong> ${user[sanitizeHeader("Billing Street")] || "N/A"}</p>
+      <p><strong>Billing City:</strong> ${user[sanitizeHeader("Billing City")] || "N/A"}</p>
+      <p><strong>Billing State:</strong> ${user[sanitizeHeader("Billing State")] || "N/A"}</p>
+      <p><strong>Billing Postal:</strong> ${user[sanitizeHeader("Billing Postal")] || "N/A"}</p>
+      <p><strong>Billing Country:</strong> ${user[sanitizeHeader("Billing Country")] || "N/A"}</p>
+      <p><strong>Shipping Street:</strong> ${user[sanitizeHeader("Shipping Street")] || "N/A"}</p>
+      <p><strong>Shipping City:</strong> ${user[sanitizeHeader("Shipping City")] || "N/A"}</p>
+      <p><strong>Shipping State:</strong> ${user[sanitizeHeader("Shipping State")] || "N/A"}</p>
+      <p><strong>Shipping Postal:</strong> ${user[sanitizeHeader("Shipping Postal")] || "N/A"}</p>
+      <p><strong>Shipping Country:</strong> ${user[sanitizeHeader("Shipping Country")] || "N/A"}</p>
+      <p><strong>Order Date:</strong> ${user[sanitizeHeader("Order Date")] || "N/A"}</p>
+      <p><strong>Order ID:</strong> ${user[sanitizeHeader("Order ID")] || "N/A"}</p>
+      <p><strong>Item Name:</strong> ${user[sanitizeHeader("Item Name")] || "N/A"}</p>
+      <p><strong>Item Quantity:</strong> ${user[sanitizeHeader("Item Quantity")] || "N/A"}</p>
+      <p><strong>Item Price:</strong> ${user[sanitizeHeader("Item Price")] || "N/A"}</p>
+      <p><strong>Total Amount:</strong> ${user[sanitizeHeader("Total Amount")] || "N/A"}</p>
+      <p><strong>Tracking Number:</strong> ${user[sanitizeHeader("Tracking Number")] || "N/A"}</p>
+    </div>
+  `;
+}
+
+
 
     // Function to fetch data by email
     async function fetchUserData(email) {
