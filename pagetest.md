@@ -25,89 +25,63 @@ permalink: /pro/
 
 
 
-<style>
-.results-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  max-width: 300px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-
-.card h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.card p {
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.card p strong {
-  color: #333;
-}
-
-.no-data {
-  font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-
-.result-card {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-  margin: 10px 0;
-  background: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.result-card p {
-  margin: 5px 0;
-}
-
-.result-card strong {
-  font-weight: bold;
-}
-
-</style>
-
-
-
-<style>
-  .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-    margin: 10px auto;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    100% {
-      transform: rotate(360deg);
+
+    .card {
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      padding: 20px;
+      border-radius: 8px;
     }
-  }
-</style>
+
+    .card h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .card p {
+      margin: 8px 0;
+      color: #555;
+    }
+
+    .loading,
+    .error {
+      text-align: center;
+      color: #888;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #333;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+
+
+
+
+
+  <div id="card-container">
 
 
 
@@ -115,83 +89,89 @@ permalink: /pro/
 
 
 
-<h1>Order Details</h1>
-  <div id="results-container">
-    <!-- This is where the order details will be displayed -->
-  </div>
+
+
+
+
+
 
 
 
 <script>
-  // Function to fetch and display data
-  async function fetchDataByEmail(email) {
-    const resultsContainer = document.getElementById('results-container');
-    resultsContainer.innerHTML = '<div class="spinner"></div>'; // Show loading spinner
+    // Google Apps Script API URL
+    const apiUrl = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
 
-    try {
-      // Construct the API URL to fetch data by email
-      const url = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+    // Function to display loading state
+    function displayLoadingState() {
+      const cardContainer = document.getElementById("card-container");
+      cardContainer.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      `;
+    }
 
-      
-      // Fetch the data
-      const response = await fetch(url);
-      const data = await response.json();
+    // Function to display error state
+    function displayErrorState() {
+      const cardContainer = document.getElementById("card-container");
+      cardContainer.innerHTML = `
+        <div class="error">
+          <p>Sorry, something went wrong. Please try again later.</p>
+        </div>
+      `;
+    }
 
-      // Remove the loading spinner
-      resultsContainer.innerHTML = '';
+    // Function to display user data in a card format
+    function displayUserData(data) {
+      const cardContainer = document.getElementById("card-container");
 
-      // Check if the API returned any errors
       if (data.error) {
-        resultsContainer.innerHTML = `<p>Error: ${data.error}</p>`;
+        displayErrorState();
         return;
       }
 
-      // Process and display the data
-      data.forEach(entry => {
-        const resultCard = document.createElement('div');
-        resultCard.classList.add('result-card');
+      const user = data[0]; // Assuming there is only one matching record for the email
 
-        // For user sign-up data (non-order rows)
-        const isOrderRow = entry['Order ID'];  // Check if it's an order row
-
-        if (isOrderRow) {
-          // Format order data
-          resultCard.innerHTML = `
-            <p><strong>Email:</strong> ${entry['Email']}</p>
-            <p><strong>Full Name:</strong> ${entry['Name']}</p>
-            <p><strong>Phone:</strong> ${entry['Phone']}</p>
-            <p><strong>Billing Address:</strong> ${entry['Billing Street']}, ${entry['Billing City']}, ${entry['Billing State']} ${entry['Billing Postal']}, ${entry['Billing Country']}</p>
-            <p><strong>Shipping Address:</strong> ${entry['Shipping Street']}, ${entry['Shipping City']}, ${entry['Shipping State']} ${entry['Shipping Postal']}, ${entry['Shipping Country']}</p>
-            <p><strong>Order Date:</strong> ${entry['Order Date']}</p>
-            <p><strong>Order ID:</strong> ${entry['Order ID']}</p>
-            <p><strong>Item Name:</strong> ${entry['Item Name']}</p>
-            <p><strong>Item Quantity:</strong> ${entry['Item Quantity']}</p>
-            <p><strong>Item Price:</strong> ${entry['Item Price']}</p>
-            <p><strong>Total Amount:</strong> ${entry['Total Amount']}</p>
-          `;
-        } else {
-          // Format user sign-up data (non-order rows)
-          resultCard.innerHTML = `
-            <p><strong>Email:</strong> ${entry['Email']}</p>
-            <p><strong>Full Name:</strong> ${entry['Name']}</p>
-            <p><strong>Phone:</strong> ${entry['Phone']}</p>
-            <p><strong>Billing Address:</strong> ${entry['Billing Street']}, ${entry['Billing City']}, ${entry['Billing State']} ${entry['Billing Postal']}, ${entry['Billing Country']}</p>
-            <p><strong>Shipping Address:</strong> ${entry['Shipping Street']}, ${entry['Shipping City']}, ${entry['Shipping State']} ${entry['Shipping Postal']}, ${entry['Shipping Country']}</p>
-          `;
-        }
-
-        // Append the result card to the container
-        resultsContainer.appendChild(resultCard);
-      });
-    } catch (error) {
-      // Handle errors
-      resultsContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+      cardContainer.innerHTML = `
+        <div class="card">
+          <h2>User Information</h2>
+          <p><strong>Email:</strong> ${user["\"Email\""] || "N/A"}</p>
+          <p><strong>Full Name:</strong> ${user["Full Name"] || "N/A"}</p>
+          <p><strong>Phone:</strong> ${user["Phone"] || "N/A"}</p>
+          <p><strong>Address:</strong> ${user["Address"] || "N/A"}</p>
+          <p><strong>City:</strong> ${user["City"] || "N/A"}</p>
+        </div>
+      `;
     }
-  }
 
-  // Call the fetchDataByEmail function when the page loads with a specified email
-  document.addEventListener('DOMContentLoaded', function () {
-    const userEmail = 'reachmycupofearth@gmail.com'; // Replace with the email to search for
-    fetchDataByEmail(userEmail);
-  });
-</script>
+    // Function to fetch data by email
+    async function fetchUserData(email) {
+      displayLoadingState();
+
+      try {
+        const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        
+        const data = await response.json();
+        displayUserData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        displayErrorState();
+      }
+    }
+
+    // Fetch and display user data when the page loads
+    document.addEventListener("DOMContentLoaded", () => {
+      const email = localStorage.getItem("userEmail"); // Get email from localStorage
+
+      if (!email) {
+        displayErrorState();
+        return;
+      }
+
+      fetchUserData(email);
+    });
+  </script>
