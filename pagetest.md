@@ -10,11 +10,7 @@ permalink: /pro/
 
   <title>Google Sheets Data</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
+
 
     .card-container {
       display: grid;
