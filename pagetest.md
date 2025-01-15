@@ -12,7 +12,7 @@ permalink: /pro/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sheets Data</title>
+  <title>Google Sheets Data - User Info</title>
   <style>
     table {
       width: 100%;
@@ -27,9 +27,9 @@ permalink: /pro/
 </head>
 <body>
 
-  <h1>Welcome to the Data Page</h1>
+  <h1>Welcome, <span id="userName">Loading...</span></h1>
+  <p>Your email: <span id="userEmail">Loading...</span></p>
 
-  <div id="userEmail"></div>
   <h2>Data from Google Sheets</h2>
 
   <table id="dataTable">
@@ -45,38 +45,35 @@ permalink: /pro/
 
   <script>
     // Fetch data from the Google Apps Script web app URL
-    fetch('https://script.google.com/macros/s/AKfycbz_-gkzJBIX5ShOHcCpXFy1GQ9UfXxLs8_NhRCk-S-kt9NKEZKMLBJ9ZGN-VJVRt0N-/exec')  // Replace with your web app URL
+    fetch('https://script.google.com/macros/s/AKfycbyPSivLrnOMlZyHpCj65rRoPxRu1iMRvR7Afk13d8TgUUb9uWwavcsTsOkYiHYdWxtQwA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        if (data.email) {
-          // Display the user's email
-          document.getElementById('userEmail').textContent = 'Logged in as: ' + data.email;
+        // Display user info
+        document.getElementById('userName').textContent = data.user.name;
+        document.getElementById('userEmail').textContent = data.user.email;
 
-          // Get the column headers from the first object
-          const headers = Object.keys(data.data[0]);
-          
-          // Insert headers into the table
-          const headerRow = document.querySelector('thead tr');
+        // Get the column headers from the first object
+        const headers = Object.keys(data.data[0]);
+        
+        // Insert headers into the table
+        const headerRow = document.querySelector('thead tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
+
+        // Insert data rows into the table
+        const tbody = document.querySelector('tbody');
+        data.data.forEach(row => {
+          const tr = document.createElement('tr');
           headers.forEach(header => {
-            const th = document.createElement('th');
-            th.textContent = header;
-            headerRow.appendChild(th);
+            const td = document.createElement('td');
+            td.textContent = row[header];
+            tr.appendChild(td);
           });
-
-          // Insert data rows into the table
-          const tbody = document.querySelector('tbody');
-          data.data.forEach(row => {
-            const tr = document.createElement('tr');
-            headers.forEach(header => {
-              const td = document.createElement('td');
-              td.textContent = row[header];
-              tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-          });
-        } else {
-          document.getElementById('userEmail').textContent = 'You must be logged in to view this data.';
-        }
+          tbody.appendChild(tr);
+        });
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
