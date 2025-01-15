@@ -68,41 +68,50 @@ permalink: /pro/
 fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Get the column headers from the first object
-        const headers = Object.keys(data[0]);
-        
-        // Get the container where cards will be displayed
-        const cardContainer = document.getElementById('cardContainer');
+        // Filter the data based on the logged-in user's email
+        const userData = data.filter(row => row.email === userEmail);
 
-        // Create a card for each row of data
-        data.forEach(row => {
-          const card = document.createElement('div');
-          card.classList.add('card');
-          
-          // Add the header with the row's first column
-          const cardHeader = document.createElement('div');
-          cardHeader.classList.add('card-header');
-          cardHeader.textContent = row[headers[0]]; // The first column as the card header
-          
-          // Add the body with the rest of the data
-          const cardBody = document.createElement('div');
-          cardBody.classList.add('card-body');
-          
-          headers.forEach(header => {
-            if (header !== headers[0]) { // Skip the header if it's already used as the title
-              const p = document.createElement('p');
-              p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
-              cardBody.appendChild(p);
-            }
-          });
-
-          // Append the header and body to the card
-          card.appendChild(cardHeader);
-          card.appendChild(cardBody);
-
-          // Append the card to the container
-          cardContainer.appendChild(card);
-        });
+        // Display filtered data in cards
+        displayCards(userData);
       })
       .catch(error => console.error('Error fetching data:', error));
+  } else {
+    console.log('User is not logged in.');
+  }
+});
+
+// Function to display cards
+function displayCards(data) {
+  const cardContainer = document.getElementById('cardContainer');
+  cardContainer.innerHTML = ''; // Clear existing cards
+
+  if (data.length === 0) {
+    cardContainer.innerHTML = '<p>No data available for this user.</p>';
+    return;
+  }
+
+  data.forEach(row => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const cardHeader = document.createElement('div');
+    cardHeader.classList.add('card-header');
+    cardHeader.textContent = row.name; // Example: Display 'name' as the card header
+
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body');
+
+    Object.keys(row).forEach(key => {
+      if (key !== 'name') { // Skip the 'name' field if used as the header
+        const p = document.createElement('p');
+        p.innerHTML = `<strong>${key}:</strong> ${row[key]}`;
+        cardBody.appendChild(p);
+      }
+    });
+
+    card.appendChild(cardHeader);
+    card.appendChild(cardBody);
+    cardContainer.appendChild(card);
+  });
+}
   </script>
