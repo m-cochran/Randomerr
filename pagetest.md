@@ -6,12 +6,48 @@ permalink: /pro/
 
 # Profile
 
-
   <title>Google Sheets Data</title>
   <style>
-    /* Your CSS styles here */
-  </style>
 
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    .card .card-header {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .card .card-body {
+      color: #666;
+    }
+
+  </style>
 
   <h1>Data from Google Sheets</h1>
 
