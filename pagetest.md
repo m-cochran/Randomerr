@@ -130,7 +130,8 @@ permalink: /pro/
 
     try {
       // Construct the API URL to fetch data by email
-      const url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?email=${email}`;
+      const url = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+
       
       // Fetch the data
       const response = await fetch(url);
