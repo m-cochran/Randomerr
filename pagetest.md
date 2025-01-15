@@ -88,8 +88,8 @@ fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohH
     }
     console.log("Stored userEmail:", userEmail);
 
-    // Filter data for the logged-in user
-    const userData = data.filter(row => row["Email"]?.trim() === userEmail.trim());
+    // Filter data for the logged-in user with trimming and case-insensitive matching
+    const userData = data.filter(row => row["Email"]?.trim().toLowerCase() === userEmail.trim().toLowerCase());
     console.log("Filtered userData:", userData);
 
     const cardContainer = document.getElementById('cardContainer');
