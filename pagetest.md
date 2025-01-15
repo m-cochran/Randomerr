@@ -7,53 +7,28 @@ permalink: /pro/
 # Profile
 
 
-  <title>Google Sheets Data</title>
-  
   <style>
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
-
-    .card {
-      background: #fff;
+    th, td {
+      padding: 8px;
+      text-align: left;
       border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
     }
+  </style>
 
-    .card h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      font-size: 16px;
-      margin: 5px 0;
-    }
-
-    .card .card-header {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .card .card-body {
-      color: #666;
-    }
-</style>
-
-  <h1>Data from Google Sheets</h1>
-
-  <div class="card-container" id="cardContainer">
-    <!-- Cards will be inserted here -->
-  </div>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <!-- Column headers will be inserted here -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data rows will be inserted here -->
+    </tbody>
+  </table>
 
   <script>
     // Fetch data from the Google Apps Script web app URL
@@ -63,38 +38,28 @@ permalink: /pro/
         // Get the column headers from the first object
         const headers = Object.keys(data[0]);
         
-        // Get the container where cards will be displayed
-        const cardContainer = document.getElementById('cardContainer');
+        // Insert headers into the table
+        const headerRow = document.querySelector('thead tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
 
-        // Create a card for each row of data
+        // Insert data rows into the table
+        const tbody = document.querySelector('tbody');
         data.forEach(row => {
-          const card = document.createElement('div');
-          card.classList.add('card');
-          
-          // Add the header with the row's first column
-          const cardHeader = document.createElement('div');
-          cardHeader.classList.add('card-header');
-          cardHeader.textContent = row[headers[0]]; // The first column as the card header
-          
-          // Add the body with the rest of the data
-          const cardBody = document.createElement('div');
-          cardBody.classList.add('card-body');
-          
+          const tr = document.createElement('tr');
           headers.forEach(header => {
-            if (header !== headers[0]) { // Skip the header if it's already used as the title
-              const p = document.createElement('p');
-              p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
-              cardBody.appendChild(p);
-            }
+            const td = document.createElement('td');
+            td.textContent = row[header];
+            tr.appendChild(td);
           });
-
-          // Append the header and body to the card
-          card.appendChild(cardHeader);
-          card.appendChild(cardBody);
-
-          // Append the card to the container
-          cardContainer.appendChild(card);
+          tbody.appendChild(tr);
         });
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
+
+</body>
+</html>
