@@ -14,7 +14,7 @@ permalink: /pro/
     <p id="profileEmail">Loading...</p>
   </div>
 
-<div id="results" class="results-container"></div>
+<div id="results-container">
 
 
 
