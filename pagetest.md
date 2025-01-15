@@ -128,13 +128,15 @@ permalink: /pro/
 
   // Display loading state
   function displayLoadingState() {
-    const resultsContainer = document.getElementById("results-container");
-    if (resultsContainer) {
-      resultsContainer.innerHTML = "<p>Loading...</p>";
-    } else {
-      console.error("results-container not found.");
-    }
+  const resultsContainer = document.getElementById("results-container");
+  if (resultsContainer) {
+    resultsContainer.innerHTML =
+      '<div class="spinner"></div><p>Loading...</p>';
+  } else {
+    console.error("results-container not found.");
   }
+}
+
 
   // Display error state
   function displayErrorState() {
