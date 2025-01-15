@@ -7,8 +7,6 @@ permalink: /pro/
 # Profile
 
 
-
-
   <title>Google Sheets Data</title>
   <style>
     body {
@@ -55,100 +53,54 @@ permalink: /pro/
       color: #666;
     }
 
-    #noDataMessage {
-      text-align: center;
-      font-size: 18px;
-      color: #666;
-      margin-top: 20px;
-    }
   </style>
 
+  <h1>Data from Google Sheets</h1>
 
-  <h1>Your Orders</h1>
-
-  <div id="noDataMessage" style="display: none;">No data available for this user.</div>
   <div class="card-container" id="cardContainer">
     <!-- Cards will be inserted here -->
   </div>
 
   <script>
-fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
-  .then(response => response.json())
-  .then(data => {
-    console.log('Fetched Data:', data); // Debug fetched data
+    // Fetch data from the Google Apps Script web app URL
+    fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
+      .then(response => response.json())
+      .then(data => {
+        // Get the column headers from the first object
+        const headers = Object.keys(data[0]);
+        
+        // Get the container where cards will be displayed
+        const cardContainer = document.getElementById('cardContainer');
 
-    // Verify stored email
-    const userEmail = localStorage.getItem('userEmail');
-    if (!userEmail) {
-      console.error("No userEmail found in localStorage.");
-      document.getElementById('noDataMessage').textContent = "Please log in to view your orders.";
-      document.getElementById('noDataMessage').style.display = 'block';
-      document.getElementById('cardContainer').style.display = 'none';
-      return;
-    }
-    console.log("Stored userEmail:", userEmail);
+        // Create a card for each row of data
+        data.forEach(row => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          
+          // Add the header with the row's first column
+          const cardHeader = document.createElement('div');
+          cardHeader.classList.add('card-header');
+          cardHeader.textContent = row[headers[0]]; // The first column as the card header
+          
+          // Add the body with the rest of the data
+          const cardBody = document.createElement('div');
+          cardBody.classList.add('card-body');
+          
+          headers.forEach(header => {
+            if (header !== headers[0]) { // Skip the header if it's already used as the title
+              const p = document.createElement('p');
+              p.innerHTML = `<strong>${header}:</strong> ${row[header]}`;
+              cardBody.appendChild(p);
+            }
+          });
 
-    // Filter data for the logged-in user with trimming and case-insensitive matching
-    const userData = data.filter(row => row["Email"]?.trim().toLowerCase() === userEmail.trim().toLowerCase());
-    console.log("Filtered userData:", userData);
+          // Append the header and body to the card
+          card.appendChild(cardHeader);
+          card.appendChild(cardBody);
 
-    const cardContainer = document.getElementById('cardContainer');
-    const noDataMessage = document.getElementById('noDataMessage');
-
-    if (userData.length === 0) {
-      // No data for the user
-      noDataMessage.style.display = 'block';
-      cardContainer.style.display = 'none';
-      return;
-    }
-
-    // Hide no data message and show the card container
-    noDataMessage.style.display = 'none';
-    cardContainer.style.display = 'grid';
-
-    // Display user-specific cards
-    userData.forEach(row => {
-      const card = document.createElement('div');
-      card.classList.add('card');
-
-      const cardHeader = document.createElement('div');
-      cardHeader.classList.add('card-header');
-      cardHeader.textContent = `${row["Name"]} (Order ID: ${row["Order ID"]})`;
-
-      const cardBody = document.createElement('div');
-      cardBody.classList.add('card-body');
-
-      const fieldsToShow = [
-        "Order Date",
-        "Phone",
-        "Billing Street",
-        "Billing City",
-        "Billing State",
-        "Item Name",
-        "Item Quantity",
-        "Item Price",
-        "Total Amount",
-        "Tracking Number"
-      ];
-
-      fieldsToShow.forEach(field => {
-        if (row[field]) {
-          const p = document.createElement('p');
-          p.innerHTML = `<strong>${field}:</strong> ${row[field]}`;
-          cardBody.appendChild(p);
-        }
-      });
-
-      card.appendChild(cardHeader);
-      card.appendChild(cardBody);
-      cardContainer.appendChild(card);
-    });
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-    document.getElementById('noDataMessage').textContent = "Error fetching data. Please try again.";
-    document.getElementById('noDataMessage').style.display = 'block';
-  });
-
+          // Append the card to the container
+          cardContainer.appendChild(card);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
   </script>
-
