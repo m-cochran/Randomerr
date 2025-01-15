@@ -123,108 +123,74 @@ permalink: /pro/
 
 
 <script>
-  const apiUrl = "https://script.google.com/macros/s/AKfycbw7gi9GqPCwPdFBlmpHTn12dEbLtp1Cq1z8IDJoxqYvsEgjE4HmfXKLrJExfdCz6cgQYw/exec";
+  // Function to fetch and display data
+  async function fetchDataByEmail(email) {
+    const resultsContainer = document.getElementById('results-container');
+    resultsContainer.innerHTML = '<div class="spinner"></div>'; // Show loading spinner
 
-// Display loading state
-function displayLoadingState() {
-  const resultsContainer = document.getElementById("results-container");
-  if (resultsContainer) {
-    resultsContainer.innerHTML = '<div class="spinner"></div><p>Loading...</p>';
-  } else {
-    console.error("results-container not found.");
-  }
-}
+    try {
+      // Construct the API URL to fetch data by email
+      const url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?email=${email}`;
+      
+      // Fetch the data
+      const response = await fetch(url);
+      const data = await response.json();
 
-// Display error state
-function displayErrorState() {
-  const resultsContainer = document.getElementById("results-container");
-  if (resultsContainer) {
-    resultsContainer.innerHTML = "<p>An error occurred. Please try again later.</p>";
-  } else {
-    console.error("results-container not found.");
-  }
-}
+      // Remove the loading spinner
+      resultsContainer.innerHTML = '';
 
-// Fetch data by email
-async function fetchDataByEmail(email) {
-  try {
-    displayLoadingState();
-    console.log("Fetching data for email:", email);
+      // Check if the API returned any errors
+      if (data.error) {
+        resultsContainer.innerHTML = `<p>Error: ${data.error}</p>`;
+        return;
+      }
 
-    const response = await fetch(`${apiUrl}?email=${encodeURIComponent(email)}`);
-    if (!response.ok) {
-      console.error(`HTTP Error: ${response.status}`);
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      // Process and display the data
+      data.forEach(entry => {
+        const resultCard = document.createElement('div');
+        resultCard.classList.add('result-card');
+
+        // For user sign-up data (non-order rows)
+        const isOrderRow = entry['Order ID'];  // Check if it's an order row
+
+        if (isOrderRow) {
+          // Format order data
+          resultCard.innerHTML = `
+            <p><strong>Email:</strong> ${entry['Email']}</p>
+            <p><strong>Full Name:</strong> ${entry['Name']}</p>
+            <p><strong>Phone:</strong> ${entry['Phone']}</p>
+            <p><strong>Billing Address:</strong> ${entry['Billing Street']}, ${entry['Billing City']}, ${entry['Billing State']} ${entry['Billing Postal']}, ${entry['Billing Country']}</p>
+            <p><strong>Shipping Address:</strong> ${entry['Shipping Street']}, ${entry['Shipping City']}, ${entry['Shipping State']} ${entry['Shipping Postal']}, ${entry['Shipping Country']}</p>
+            <p><strong>Order Date:</strong> ${entry['Order Date']}</p>
+            <p><strong>Order ID:</strong> ${entry['Order ID']}</p>
+            <p><strong>Item Name:</strong> ${entry['Item Name']}</p>
+            <p><strong>Item Quantity:</strong> ${entry['Item Quantity']}</p>
+            <p><strong>Item Price:</strong> ${entry['Item Price']}</p>
+            <p><strong>Total Amount:</strong> ${entry['Total Amount']}</p>
+          `;
+        } else {
+          // Format user sign-up data (non-order rows)
+          resultCard.innerHTML = `
+            <p><strong>Email:</strong> ${entry['Email']}</p>
+            <p><strong>Full Name:</strong> ${entry['Name']}</p>
+            <p><strong>Phone:</strong> ${entry['Phone']}</p>
+            <p><strong>Billing Address:</strong> ${entry['Billing Street']}, ${entry['Billing City']}, ${entry['Billing State']} ${entry['Billing Postal']}, ${entry['Billing Country']}</p>
+            <p><strong>Shipping Address:</strong> ${entry['Shipping Street']}, ${entry['Shipping City']}, ${entry['Shipping State']} ${entry['Shipping Postal']}, ${entry['Shipping Country']}</p>
+          `;
+        }
+
+        // Append the result card to the container
+        resultsContainer.appendChild(resultCard);
+      });
+    } catch (error) {
+      // Handle errors
+      resultsContainer.innerHTML = `<p>Error: ${error.message}</p>`;
     }
-
-    const rawData = await response.json();
-    console.log("Raw API Response:", rawData);
-
-    if (rawData.error) {
-      console.error("API Error:", rawData.error);
-      displayErrorState();
-      return;
-    }
-
-    displayResults(rawData);
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    displayErrorState();
-  }
-}
-
-// Display results
-function displayResults(results) {
-  const resultsContainer = document.getElementById("results-container");
-  if (!resultsContainer) {
-    console.error("results-container not found. Cannot display results.");
-    return;
   }
 
-  resultsContainer.innerHTML = ""; // Clear previous results
-
-  if (!results || results.length === 0) {
-    resultsContainer.innerHTML = "<p>No results found.</p>";
-    return;
-  }
-
-  results.forEach((result) => {
-    const resultCard = document.createElement("div");
-    resultCard.className = "result-card";
-
-    resultCard.innerHTML = `
-      <p><strong>Email:</strong> ${escapeHTML(result.Email)}</p>
-      <p><strong>Full Name:</strong> ${escapeHTML(result.FullName)}</p>
-      <p><strong>Phone:</strong> ${escapeHTML(result.Phone)}</p>
-      <p><strong>Billing Address:</strong> ${escapeHTML(result.BillingAddress)}</p>
-      <p><strong>Shipping Address:</strong> ${escapeHTML(result.ShippingAddress)}</p>
-    `;
-
-    resultsContainer.appendChild(resultCard);
-  });
-}
-
-// Escape HTML to prevent injection
-function escapeHTML(str) {
-  const element = document.createElement("div");
-  if (str) element.innerText = str;
-  return element.innerHTML;
-}
-
-// Get logged-in user's email from localStorage
-function getLoggedInUserEmail() {
-  return localStorage.getItem("userEmail") || null;
-}
-
-// Fetch data on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-  const userEmail = getLoggedInUserEmail();
-  if (userEmail) {
-    console.log("User email found:", userEmail);
+  // Call the fetchDataByEmail function when the page loads with a specified email
+  document.addEventListener('DOMContentLoaded', function () {
+    const userEmail = 'reachmycupofearth@gmail.com'; // Replace with the email to search for
     fetchDataByEmail(userEmail);
-  } else {
-    console.warn("No user email found in localStorage.");
-  }
-});
-
+  });
 </script>
