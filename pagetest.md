@@ -42,7 +42,7 @@ permalink: /pro/
 
   <script>
     // Fetch data from the Google Apps Script web app URL
-    fetch('https://script.google.com/macros/s/AKfycbwhw2tOCrNze4gWbGw2NJwBFf6vmF5zgGlg-cthydjqLuuvTb87oHbNQLtxeDxNlMfAaw/exec') // Replace with your web app URL
+    fetch('https://script.google.com/macros/s/AKfycbxKvovC_wVNA5b3e_-1LMGr19ecTSJ90El_MyoJSSqaPQO8NRN0g5Fb_XNatJYIbYk/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
         // Get the column headers from the first object
