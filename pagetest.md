@@ -28,7 +28,7 @@ permalink: /pro/
    <h1>Welcome</h1>
     <div id="cardContainer"></div>
 
-  <script>
+<script>
         // Function to check if the user is logged in and fetch data
         function fetchData() {
             const userEmail = localStorage.getItem('userEmail'); // Get the logged-in user's email from localStorage
@@ -74,7 +74,4 @@ permalink: /pro/
 
         // Call the fetchData function on page load
         window.onload = fetchData;
-    </script>
-</body>
-</html>
-
+  </script>
