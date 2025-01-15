@@ -41,7 +41,7 @@ permalink: /pro/
   </table>
 
 <script>
-fetch('https://script.google.com/macros/s/AKfycbyCqyVsJ3_CMsxzFTKgtIklgH_YWIXyObM75ddwYSDGEiMjVUBclGtSII-_sSG_HkEjHw/exec') // Replace with your web app URL
+fetch('https://script.google.com/macros/s/AKfycbyxzc7lWjQR1hNiGWzvLXmU-JCp1d12S2oPHYEvGKqepQtsVkZS8-iqrAU_6voSjoWl/exec') // Replace with your web app URL
   .then(response => response.json())
   .then(data => {
     if (!data.length) {
