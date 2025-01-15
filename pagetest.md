@@ -42,28 +42,27 @@ permalink: /pro/
   </table>
 
 <script>
-    // Fetch data from the Google Apps Script web app URL
-    fetch('https://script.google.com/macros/s/AKfycbxfTMl4xJbyC8dyeXWufmvghXLojnNCkHOyiegsUGb0UtKxQAwFZkr1vgTHfU2JjeZyHg/exec') // Replace with your web app URL
+  function fetchData(email) {
+    // Construct the URL with the email query parameter
+    const url = `https://script.google.com/macros/s/AKfycbwP2i89wVvZQhur1B5mLTDSQed-M3DO2EXw8xMUl9GjS_nuRx7zS4S1LJQYfGjclMuX/exec?email=${email}`; // Replace with your web app URL
+    
+    fetch(url)
       .then(response => response.json())
       .then(data => {
-        if (data.length === 0) {
-          document.body.innerHTML = '<h1>No data available for your account.</h1>';
-          return;
-        }
-
-        // Get the column headers from the first object
-        const headers = Object.keys(data[0]);
+        // Process the data (filter and display it)
+        const table = document.querySelector('#dataTable');
+        const headerRow = table.querySelector('thead tr');
+        const tbody = table.querySelector('tbody');
         
-        // Insert headers into the table
-        const headerRow = document.querySelector('thead tr');
+        // Insert headers
+        const headers = Object.keys(data[0]);
         headers.forEach(header => {
           const th = document.createElement('th');
           th.textContent = header;
           headerRow.appendChild(th);
         });
 
-        // Insert data rows into the table
-        const tbody = document.querySelector('tbody');
+        // Insert data rows
         data.forEach(row => {
           const tr = document.createElement('tr');
           headers.forEach(header => {
@@ -75,7 +74,8 @@ permalink: /pro/
         });
       })
       .catch(error => console.error('Error fetching data:', error));
-  </script>
+  }
+</script>
 
 </body>
 </html>
