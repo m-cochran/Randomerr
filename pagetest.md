@@ -121,13 +121,16 @@ permalink: /pro/
     return;
   }
 
-  const user = data[0]; // Assume the first object is the user's data
+  // Assuming you're working with the first element in the array
+  const user = data[0];
 
-  // Sanitize headers to match keys in the data
-  const sanitizeHeader = (header) => header.replace(/"/g, "").trim();
+  // Function to sanitize the field names
+  function sanitizeHeader(header) {
+    return header.replace(/["\s]/g, '').trim(); // Remove quotes and spaces
+  }
 
-  // Debug: Log the user data object to ensure it's correct
-  console.log(user);
+  // Log the sanitized keys and values for debugging
+  console.log('Sanitized Data:', user);
 
   cardContainer.innerHTML = `
     <div class="card">
@@ -155,6 +158,7 @@ permalink: /pro/
     </div>
   `;
 }
+
 
 
 
