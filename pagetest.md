@@ -150,8 +150,6 @@ async function fetchDataByEmail(email) {
 }
 
 function displayResults(results) {
-  console.log("Results:", results); // Log the raw data
-
   const resultsContainer = document.getElementById("results-container");
   if (!resultsContainer) {
     console.error("results-container not found. Cannot display results.");
@@ -164,10 +162,6 @@ function displayResults(results) {
     resultsContainer.innerHTML = "<p>No results found.</p>";
     return;
   }
-
-  // Helper function to handle missing fields
-  const getField = (field, defaultValue = "N/A") =>
-    field !== undefined && field !== null ? field : defaultValue;
 
   // Group results by OrderID
   const groupedResults = results.reduce((acc, result) => {
@@ -204,10 +198,10 @@ function displayResults(results) {
     const itemsHTML = order.items
       .map(
         (item) => `
-          <p>Item Name: ${escapeHTML(item.itemName)}</p>
-          <p>Item Quantity: ${escapeHTML(item.itemQuantity)}</p>
-          <p>Item Price: $${escapeHTML(item.itemPrice)}</p>
-          <p>Item Total: $${escapeHTML(item.itemTotal)}</p>
+          <p><strong>Item Name:</strong> ${escapeHTML(item.itemName)}</p>
+          <p><strong>Item Quantity:</strong> ${escapeHTML(item.itemQuantity)}</p>
+          <p><strong>Item Price:</strong> $${escapeHTML(item.itemPrice)}</p>
+          <p><strong>Item Total:</strong> $${escapeHTML(item.itemTotal)}</p>
           <hr>`
       )
       .join("");
@@ -239,6 +233,7 @@ function displayResults(results) {
     resultsContainer.appendChild(resultCard);
   });
 }
+
 
 
 
