@@ -163,45 +163,76 @@ function displayResults(results) {
     return;
   }
 
-  results.forEach((result) => {
-    console.log("Displaying Result:", result);
+  // Group results by OrderID
+  const groupedResults = results.reduce((acc, result) => {
+    const orderId = result.OrderID || "N/A";
 
+    if (!acc[orderId]) {
+      acc[orderId] = {
+        ...result,
+        items: [],
+        totalAmount: 0,
+      };
+    }
+
+    const itemTotal =
+      (parseFloat(result.ItemPrice) || 0) *
+      (parseInt(result.ItemQuantity, 10) || 0);
+    acc[orderId].items.push({
+      itemName: result.ItemName || "N/A",
+      itemQuantity: result.ItemQuantity || "N/A",
+      itemPrice: parseFloat(result.ItemPrice || 0).toFixed(2),
+      itemTotal: itemTotal.toFixed(2),
+    });
+
+    acc[orderId].totalAmount += itemTotal;
+    return acc;
+  }, {});
+
+  // Create and append result cards
+  Object.values(groupedResults).forEach((order) => {
     const resultCard = document.createElement("div");
     resultCard.className = "result-card";
 
-    const itemsHTML = `
-      <p><strong>Item Name:</strong> ${escapeHTML(result.ItemName || "N/A")}</p>
-      <p><strong>Item Quantity:</strong> ${escapeHTML(result.ItemQuantity || "N/A")}</p>
-      <p><strong>Item Price:</strong> $${parseFloat(result.ItemPrice || 0).toFixed(2)}</p>
-      <hr>`;
+    const itemsHTML = order.items
+      .map(
+        (item) => `
+          <p>Item Name: ${escapeHTML(item.itemName)}</p>
+          <p>Item Quantity: ${escapeHTML(item.itemQuantity)}</p>
+          <p>Item Price: $${escapeHTML(item.itemPrice)}</p>
+          <p>Item Total: $${escapeHTML(item.itemTotal)}</p>
+          <hr>`
+      )
+      .join("");
 
     resultCard.innerHTML = `
-      <p><strong>Order ID:</strong> ${escapeHTML(result.OrderID || "N/A")}</p>
+      <p><strong>Order ID:</strong> ${escapeHTML(order.OrderID || "N/A")}</p>
       <p><strong>Total Amount:</strong> $${parseFloat(
-        result.totalAmount || 0
+        order.totalAmount || 0
       ).toFixed(2)}</p>
       <div>${itemsHTML}</div>
       <p><strong>Billing Address:</strong> ${formatAddress(
-        result.BillingStreet,
-        result.BillingCity,
-        result.BillingState,
-        result.BillingPostal,
-        result.BillingCountry
+        order.BillingStreet,
+        order.BillingCity,
+        order.BillingState,
+        order.BillingPostal,
+        order.BillingCountry
       )}</p>
       <p><strong>Shipping Address:</strong> ${formatAddress(
-        result.ShippingStreet,
-        result.ShippingCity,
-        result.ShippingState,
-        result.ShippingPostal,
-        result.ShippingCountry
+        order.ShippingStreet,
+        order.ShippingCity,
+        order.ShippingState,
+        order.ShippingPostal,
+        order.ShippingCountry
       )}</p>
-      <p><strong>Phone:</strong> ${escapeHTML(result.Phone || "N/A")}</p>
-      <p><strong>Email:</strong> ${escapeHTML(result.Email || "N/A")}</p>
+      <p><strong>Phone:</strong> ${escapeHTML(order.Phone || "N/A")}</p>
+      <p><strong>Email:</strong> ${escapeHTML(order.Email || "N/A")}</p>
     `;
 
     resultsContainer.appendChild(resultCard);
   });
 }
+
 
 
   // Escape HTML to prevent injection
