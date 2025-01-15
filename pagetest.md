@@ -8,7 +8,14 @@ permalink: /pro/
 
 
 
+  <title>Google Sheets Data</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -46,28 +53,18 @@ permalink: /pro/
     .card .card-body {
       color: #666;
     }
+
   </style>
+</head>
+<body>
 
+  <h1>Data from Google Sheets</h1>
 
+  <div class="card-container" id="cardContainer">
+    <!-- Cards will be inserted here -->
+  </div>
 
-
-    <h1>Data from Google Sheets</h1>
-
-  <table id="dataTable">
-    <thead>
-      <tr>
-        <!-- Column headers will be inserted here -->
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Data rows will be inserted here -->
-    </tbody>
-  </table>
-
-
-
-
-<script>
+  <script>
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
@@ -110,4 +107,3 @@ permalink: /pro/
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
-
