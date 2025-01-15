@@ -59,8 +59,13 @@ permalink: /pro/
   </div>
 
   <script>
-    // Fetch data from the Google Apps Script web app URL
-    fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
+    document.addEventListener('DOMContentLoaded', () => {
+  // Fetch user details from localStorage
+  const userLoggedIn = localStorage.getItem('userLoggedIn');
+  const userEmail = localStorage.getItem('userEmail');
+
+  if (userLoggedIn === 'true') {   
+fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
         // Get the column headers from the first object
