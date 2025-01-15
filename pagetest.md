@@ -9,7 +9,7 @@ permalink: /pro/
 
 
 
-  <title>Google Sheets Data</title>
+  <title>Google Sheets Data with User Filter</title>
   <style>
     .card-container {
       display: grid;
@@ -48,40 +48,57 @@ permalink: /pro/
     .card .card-body {
       color: #666;
     }
-
   </style>
 
-  <h1>Data from Google Sheets</h1>
+
+  <h1>Data from Google Sheets (Filtered by User)</h1>
 
   <div class="card-container" id="cardContainer">
-    <!-- Cards will be inserted here -->
+    <!-- Cards will be dynamically added here -->
   </div>
 
   <script>
+    // User information stored in localStorage after login
+    localStorage.setItem('userLoggedIn', 'true');
+    localStorage.setItem('userName', 'John Doe');
+    localStorage.setItem('userEmail', 'johndoe@gmail.com');
+    localStorage.setItem('userProfilePic', 'https://example.com/profile.jpg');
+
+    const userEmail = localStorage.getItem('userEmail'); // Logged-in user's email
+
     // Fetch data from the Google Apps Script web app URL
     fetch('https://script.google.com/macros/s/AKfycbwGUhSttkDP3B8bUie3h_zHvoUHfZgohHofiL_EonGAyV6TNXhPbFmXiGD78DFXwzBKAA/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
+        // Filter the data to show only rows for the logged-in user's email
+        const filteredData = data.filter(row => row.email === userEmail);
+
         // Get the column headers from the first object
         const headers = Object.keys(data[0]);
-        
+
         // Get the container where cards will be displayed
         const cardContainer = document.getElementById('cardContainer');
 
-        // Create a card for each row of data
-        data.forEach(row => {
+        // Check if any data is available for the user
+        if (filteredData.length === 0) {
+          cardContainer.innerHTML = `<p>No data available for your account.</p>`;
+          return;
+        }
+
+        // Create a card for each filtered row of data
+        filteredData.forEach(row => {
           const card = document.createElement('div');
           card.classList.add('card');
-          
+
           // Add the header with the row's first column
           const cardHeader = document.createElement('div');
           cardHeader.classList.add('card-header');
           cardHeader.textContent = row[headers[0]]; // The first column as the card header
-          
+
           // Add the body with the rest of the data
           const cardBody = document.createElement('div');
           cardBody.classList.add('card-body');
-          
+
           headers.forEach(header => {
             if (header !== headers[0]) { // Skip the header if it's already used as the title
               const p = document.createElement('p');
