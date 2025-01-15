@@ -40,16 +40,7 @@ permalink: /pro/
   <p id="tracking-number">Tracking Number: N/A</p>
 </div>
 
-
-
-
-
-
-
-
-
   <style>
-
     .card {
       background-color: white;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -57,23 +48,19 @@ permalink: /pro/
       padding: 20px;
       border-radius: 8px;
     }
-
     .card h2 {
       margin-top: 0;
       color: #333;
     }
-
     .card p {
       margin: 8px 0;
       color: #555;
     }
-
     .loading,
     .error {
       text-align: center;
       color: #888;
     }
-
     .spinner {
       border: 4px solid rgba(255, 255, 255, 0.3);
       border-top: 4px solid #333;
@@ -82,33 +69,13 @@ permalink: /pro/
       height: 30px;
       animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
   </style>
 
-
-
-
-
-
-  <div id="card-container">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <div id="card-container"></div>
 
 <script>
   // Google Apps Script API URL
@@ -144,16 +111,12 @@ permalink: /pro/
       return;
     }
 
-    // Assuming you're working with the first element in the array
     const user = data[0];
 
     // Function to sanitize the field names
     function sanitizeHeader(header) {
       return header.replace(/["\s]/g, '').trim(); // Remove quotes and spaces
     }
-
-    // Log the sanitized keys and values for debugging
-    console.log('Sanitized Data:', user);
 
     cardContainer.innerHTML = `
       <div class="card">
@@ -200,41 +163,15 @@ permalink: /pro/
     }
   }
 
- // Function to display user data
-function displayUserData(data) {
-  // Select all elements by ID where we want to insert the data
-  document.getElementById("email").textContent = `Email: ${data["\"Email\""] || "N/A"}`;
-  document.getElementById("name").textContent = `Full Name: ${data["\"Name\""] || "N/A"}`;
-  document.getElementById("phone").textContent = `Phone: ${data["\"Phone\""] || "N/A"}`;
-  document.getElementById("billing-street").textContent = `Billing Street: ${data["\"Billing Street\""] || "N/A"}`;
-  document.getElementById("billing-city").textContent = `Billing City: ${data["\"Billing City\""] || "N/A"}`;
-  document.getElementById("billing-state").textContent = `Billing State: ${data["\"Billing State\""] || "N/A"}`;
-  document.getElementById("billing-postal").textContent = `Billing Postal: ${data["\"Billing Postal\""] || "N/A"}`;
-  document.getElementById("billing-country").textContent = `Billing Country: ${data["\"Billing Country\""] || "N/A"}`;
-  document.getElementById("shipping-street").textContent = `Shipping Street: ${data["\"Shipping Street\""] || "N/A"}`;
-  document.getElementById("shipping-city").textContent = `Shipping City: ${data["\"Shipping City\""] || "N/A"}`;
-  document.getElementById("shipping-state").textContent = `Shipping State: ${data["\"Shipping State\""] || "N/A"}`;
-  document.getElementById("shipping-postal").textContent = `Shipping Postal: ${data["\"Shipping Postal\""] || "N/A"}`;
-  document.getElementById("shipping-country").textContent = `Shipping Country: ${data["\"Shipping Country\""] || "N/A"}`;
-  document.getElementById("order-date").textContent = `Order Date: ${data["\"Order Date\""] || "N/A"}`;
-  document.getElementById("order-id").textContent = `Order ID: ${data["\"Order ID\""] || "N/A"}`;
-  document.getElementById("item-name").textContent = `Item Name: ${data["\"Item Name\""] || "N/A"}`;
-  document.getElementById("item-quantity").textContent = `Item Quantity: ${data["\"Item Quantity\""] || "N/A"}`;
-  document.getElementById("item-price").textContent = `Item Price: ${data["\"Item Price\""] || "N/A"}`;
-  document.getElementById("total-amount").textContent = `Total Amount: ${data["\"Total Amount\""] || "N/A"}`;
-  document.getElementById("tracking-number").textContent = `Tracking Number: ${data["\"Tracking Number\""] || "N/A"}`;
-}
+  // Fetch and display user data when the page loads
+  document.addEventListener("DOMContentLoaded", () => {
+    const email = localStorage.getItem("userEmail"); // Get email from localStorage
 
-// Fetch and display user data when the page loads
-document.addEventListener("DOMContentLoaded", () => {
-  const email = localStorage.getItem("userEmail"); // Get email from localStorage
+    if (!email) {
+      displayErrorState();
+      return;
+    }
 
-  if (!email) {
-    displayErrorState();
-    return;
-  }
-
-  fetchUserData(email);
-});
-
+    fetchUserData(email);
+  });
 </script>
