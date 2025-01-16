@@ -6,82 +6,70 @@ permalink: /pro/
 
 # Profile
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sheets Data for Logged-In User</title>
-  <script src="https://apis.google.com/js/api:client.js"></script>
+  <title>User Specific Data</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Data from Google Sheets</h1>
+  <h1>Data for Logged-In User</h1>
 
-  <!-- Google Sign-In Button -->
-  <div id="gSignInWrapper">
-    <span>Sign in with Google:</span>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-  </div>
-
-
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
-
-
-
-
-  <!-- Data will be shown here -->
-  <div id="userData">
-    <p>Loading user-specific data...</p>
-  </div>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <!-- Column headers will be inserted here -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data rows will be inserted here -->
+    </tbody>
+  </table>
 
   <script>
-    // Google Sign-In initialization
-    var googleUser = {};
-
-    function onSignIn(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      var email = profile.getEmail(); // Get the user's email
-
-      // Fetch data specific to the logged-in user's email
-      fetchDataForUser(email);
-    }
-
-    // Function to fetch user-specific data from Google Apps Script
-    function fetchDataForUser(email) {
-      fetch(`https://script.google.com/macros/s/AKfycbxXllNeWDV93xHrhaBClYRqV1a0hFJ2oTtMs_NHnJZStd_lxpPtI66EXgIkO5R0q3hf/exec?email=${email}`) // Pass the email as a query parameter
-        .then(response => response.json())
-        .then(data => {
-          displayUserData(data); // Display user-specific data
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    }
-
-    // Function to display data in HTML
-    function displayUserData(data) {
-      const userDataDiv = document.getElementById('userData');
-      if (data && data.length > 0) {
-        let htmlContent = '<table border="1"><tr>';
-        // Add headers
-        Object.keys(data[0]).forEach(key => {
-          htmlContent += `<th>${key}</th>`;
-        });
-        htmlContent += '</tr>';
+    // Fetch data from the Google Apps Script web app URL
+    fetch('https://script.google.com/macros/s/AKfycby_gFV-SqfqD3lHVFBr-1QeVfFRZKmRGlJ3Zbpzr6N8lOO5j2klOyc1U5MzBkn-52NFKA/exec') // Replace with your web app URL
+      .then(response => response.json())
+      .then(data => {
+        // Get the column headers from the first object
+        const headers = Object.keys(data[0]);
         
-        // Add data rows
-        data.forEach(row => {
-          htmlContent += '<tr>';
-          Object.values(row).forEach(value => {
-            htmlContent += `<td>${value}</td>`;
-          });
-          htmlContent += '</tr>';
+        // Insert headers into the table
+        const headerRow = document.querySelector('thead tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
         });
-        htmlContent += '</table>';
-        userDataDiv.innerHTML = htmlContent;
-      } else {
-        userDataDiv.innerHTML = '<p>No data available for this user.</p>';
-      }
-    }
+
+        // Insert data rows into the table
+        const tbody = document.querySelector('tbody');
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          headers.forEach(header => {
+            const td = document.createElement('td');
+            td.textContent = row[header];
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
   </script>
 
 </body>
