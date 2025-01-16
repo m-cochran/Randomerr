@@ -24,6 +24,12 @@ permalink: /pro/
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </div>
 
+
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+
+
+
   <!-- Data will be shown here -->
   <div id="userData">
     <p>Loading user-specific data...</p>
