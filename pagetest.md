@@ -6,67 +6,33 @@ permalink: /pro/
 
 # Profile
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data from Google Sheets</title>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
-  </style>
-</head>
-<body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
-  <h1>Welcome, <span id="userEmail"></span></h1>
-  
-  <table id="dataTable">
-    <thead>
-      <tr>
-        <!-- Column headers will be inserted here -->
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Data rows will be inserted here -->
-    </tbody>
-  </table>
+<!-- Add this to your HTML where you want the Google Sign-In button -->
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-  <script>
-    // Set the logged-in user's email
-    document.getElementById('userEmail').innerText = "Logged in as: " + Session.getActiveUser().getEmail();
+<script>
+  // Called when a user successfully signs in
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    var userInfo = {
+      name: profile.getName(),
+      email: profile.getEmail(),
+      id: profile.getId(),
+      imageUrl: profile.getImageUrl()
+    };
 
-    // Populate the table with data from Google Sheets
-    const data = sheetData; // Passed from Google Apps Script
-    const headers = Object.keys(data[0]);
-    
-    // Insert headers into the table
-    const headerRow = document.querySelector('thead tr');
-    headers.forEach(header => {
-      const th = document.createElement('th');
-      th.textContent = header;
-      headerRow.appendChild(th);
-    });
-
-    // Insert data rows into the table
-    const tbody = document.querySelector('tbody');
-    data.forEach(row => {
-      const tr = document.createElement('tr');
-      headers.forEach(header => {
-        const td = document.createElement('td');
-        td.textContent = row[header];
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-  </script>
-
-</body>
-</html>
+    // Send the user info to the server (Google Apps Script)
+    fetch('https://script.google.com/macros/s/AKfycbyO3OEgeln7Jrvg13O-Vzyj9u9H4fg-obFbeucdZ6s_QH1FizRwwMrzrgzJV0k-o8p5Tg/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userInfo)
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Display data returned from the server (Google Apps Script)
+      console.log(data);
+    })
+    .catch(error => console.error('Error sending user info:', error));
+  }
+</script>
