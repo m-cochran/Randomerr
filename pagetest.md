@@ -46,35 +46,28 @@ permalink: /pro/
     fetch('https://script.google.com/macros/s/AKfycbygmz83FkhcO6d2az2ocS_7gZYWlLKRGsQlQrT6UalW8ZvfnKSeTFt2zhq9UFtIT_40ig/exec') // Replace with your web app URL
       .then(response => response.json())
       .then(data => {
-        // Check if the data is valid and not empty
-        if (Array.isArray(data) && data.length > 0) {
-          // Get the column headers from the first object
-          const headers = Object.keys(data[0]);
-          
-          // Insert headers into the table
-          const headerRow = document.querySelector('thead tr');
-          headers.forEach(header => {
-            const th = document.createElement('th');
-            th.textContent = header;
-            headerRow.appendChild(th);
-          });
+        // Get the column headers from the first object
+        const headers = Object.keys(data[0]);
+        
+        // Insert headers into the table
+        const headerRow = document.querySelector('thead tr');
+        headers.forEach(header => {
+          const th = document.createElement('th');
+          th.textContent = header;
+          headerRow.appendChild(th);
+        });
 
-          // Insert data rows into the table
-          const tbody = document.querySelector('tbody');
-          data.forEach(row => {
-            const tr = document.createElement('tr');
-            headers.forEach(header => {
-              const td = document.createElement('td');
-              td.textContent = row[header];
-              tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
+        // Insert data rows into the table
+        const tbody = document.querySelector('tbody');
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          headers.forEach(header => {
+            const td = document.createElement('td');
+            td.textContent = row[header];
+            tr.appendChild(td);
           });
-        } else {
-          console.error("No data found or invalid data structure.");
-          // Handle empty data or display a message to the user
-          document.body.innerHTML = '<p>No data available for the logged-in user.</p>';
-        }
+          tbody.appendChild(tr);
+        });
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
