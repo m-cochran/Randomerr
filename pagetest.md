@@ -13,8 +13,16 @@ permalink: /pro/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sheets Data</title>
+  <title>Orders</title>
   <style>
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
 /* Table Styles */
 table {
   width: 100%;
@@ -59,49 +67,41 @@ tr:hover {
     font-size: 14px;
   }
 }
-    
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
   </style>
-</head>
-<body>
-
-  <h1>Data from Google Sheets</h1>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Data</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Link your CSS file -->
 </head>
 <body>
   <h1>User Orders</h1>
   <table id="orderTable">
     <thead>
       <tr>
+        <th>Account Number</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Order Date</th>
         <th>Order ID</th>
+        <th>Phone</th>
+        <th>Billing Street</th>
+        <th>Billing City</th>
+        <th>Billing State</th>
+        <th>Billing Postal</th>
+        <th>Billing Country</th>
+        <th>Shipping Street</th>
+        <th>Shipping City</th>
+        <th>Shipping State</th>
+        <th>Shipping Postal</th>
+        <th>Shipping Country</th>
         <th>Item Name</th>
         <th>Item Quantity</th>
         <th>Item Price</th>
         <th>Total Amount</th>
-        <th>Order Date</th>
         <th>Tracking Number</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Data will be dynamically added here -->
+      <!-- Rows will be dynamically added here -->
     </tbody>
   </table>
-
+  <script src="script.js"></script>
 </body>
 </html>
 
@@ -124,20 +124,34 @@ document.addEventListener("DOMContentLoaded", function () {
         userOrders.forEach(order => {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${order["Order ID"]}</td>
-            <td>${order["Name"]}</td>
-            <td>${order["Email"]}</td>
-            <td>${order["Order Date"]}</td>
-            <td>${order["Item Name"]}</td>
-            <td>${order["Item Quantity"]}</td>
-            <td>$${order["Total Amount"]}</td>
+            <td>${order["Account Number"] || "N/A"}</td>
+            <td>${order["Name"] || "N/A"}</td>
+            <td>${order["Email"] || "N/A"}</td>
+            <td>${order["Order Date"] || "N/A"}</td>
+            <td>${order["Order ID"] || "N/A"}</td>
+            <td>${order["Phone"] || "N/A"}</td>
+            <td>${order["Billing Street"] || "N/A"}</td>
+            <td>${order["Billing City"] || "N/A"}</td>
+            <td>${order["Billing State"] || "N/A"}</td>
+            <td>${order["Billing Postal"] || "N/A"}</td>
+            <td>${order["Billing Country"] || "N/A"}</td>
+            <td>${order["Shipping Street"] || "N/A"}</td>
+            <td>${order["Shipping City"] || "N/A"}</td>
+            <td>${order["Shipping State"] || "N/A"}</td>
+            <td>${order["Shipping Postal"] || "N/A"}</td>
+            <td>${order["Shipping Country"] || "N/A"}</td>
+            <td>${order["Item Name"] || "N/A"}</td>
+            <td>${order["Item Quantity"] || "N/A"}</td>
+            <td>$${order["Item Price"] || "N/A"}</td>
+            <td>$${order["Total Amount"] || "N/A"}</td>
+            <td>${order["Tracking Number"] || "N/A"}</td>
           `;
           tableBody.appendChild(row);
         });
       } else {
         tableBody.innerHTML = `
           <tr>
-            <td colspan="7" style="text-align: center;">No orders found for this user.</td>
+            <td colspan="21" style="text-align: center;">No orders found for this user.</td>
           </tr>
         `;
       }
@@ -146,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error fetching orders.json:", error);
       tableBody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center;">Error loading data. Please try again later.</td>
+          <td colspan="21" style="text-align: center;">Error loading data. Please try again later.</td>
         </tr>
       `;
     });
