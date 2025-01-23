@@ -8,19 +8,6 @@ permalink: /pro/
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Orders</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <h1>User Orders</h1>
-  </header>
-  <main>
     <!-- User Info Section -->
     <section id="userInfo" class="user-info">
       <!-- User's name and email will be populated here by JavaScript -->
@@ -62,30 +49,27 @@ permalink: /pro/
         </table>
       </div>
     </section>
-  </main>
-
 
 
 <script>
-  // Mock existing user object from the global Google authentication context
-// Replace this with the actual implementation from your site
-const user = JSON.parse(localStorage.getItem("googleUser")) || {
-  name: "John Doe",
-  email: "johndoe@example.com" // Replace with dynamically fetched email
-};
+  document.addEventListener("DOMContentLoaded", function () {
+  const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
 
-// Display the logged-in user's name and email
-document.addEventListener("DOMContentLoaded", () => {
-  const userInfoDiv = document.getElementById("userInfo");
-  userInfoDiv.innerHTML = `
-    <p>Welcome, ${user.name} (${user.email})!</p>
+  if (!loggedInUserEmail) {
+    // Redirect to login page if the user is not logged in
+    window.location.href = "/login.html";
+    return;
+  }
+
+  // Display user information
+  document.getElementById("userInfo").innerHTML = `
+    <p>Welcome, ${loggedInUserEmail}!</p>
   `;
 
   // Fetch and display user orders
-  fetchUserOrders(user.email);
+  fetchUserOrders(loggedInUserEmail);
 });
 
-// Fetch and display user orders
 function fetchUserOrders(email) {
   const tableBody = document.querySelector("#orderTable tbody");
 
@@ -146,6 +130,4 @@ function fetchUserOrders(email) {
 }
 
 </script>
-</body>
-</html>
 
