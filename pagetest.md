@@ -15,7 +15,93 @@ permalink: /pro/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Login and User Data</title>
   <style>
-    /* Your CSS styles */
+    <style>
+  /* General Styles */
+
+  h1, h2 {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  h1 {
+    font-size: 2rem;
+    color: #4CAF50;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  /* Container */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  /* Table Styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+
+  td {
+    background-color: #f9f9f9;
+  }
+
+  /* Zebra striping for rows */
+  tr:nth-child(even) td {
+    background-color: #f1f1f1;
+  }
+
+  /* Responsive Table */
+  @media (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 10px;
+    }
+  }
+
+  /* No Orders Message */
+  .no-orders {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    margin: 20px 0;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px 0;
+    background: #4CAF50;
+    color: white;
+    margin-top: 30px;
+    font-size: 0.9rem;
+  }
+</style>
+
   </style>
 </head>
 <body>
