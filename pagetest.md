@@ -100,9 +100,23 @@ tr:hover {
 
   <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const loggedInEmail = "johndoe@example.com"; // Replace with actual logged-in user's email
+  // Simulate storing a logged-in user's email in localStorage
+  localStorage.setItem("loggedInUserEmail", "johndoe@example.com");
+
+  // Get the logged-in user's email from localStorage
+  const loggedInEmail = localStorage.getItem("loggedInUserEmail");
   const tableBody = document.querySelector("#orderTable tbody");
 
+  if (!loggedInEmail) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="21" style="text-align: center;">No user is logged in.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  // Fetch the JSON data
   fetch("https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json")
     .then(response => {
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -157,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     });
 });
+
 
   </script>
 
