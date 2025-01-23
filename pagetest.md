@@ -15,7 +15,6 @@ permalink: /pro/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Login and User Data</title>
   <style>
-    <style>
   /* General Styles */
 
 
