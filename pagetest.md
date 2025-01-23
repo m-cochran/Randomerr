@@ -13,56 +13,35 @@ permalink: /pro/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Orders</title>
+  <title>Google Login with JSON Data</title>
   <style>
-/* Table Styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-  padding: 12px 15px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-/* Header Row */
-th {
-  background-color: #4CAF50;
-  color: white;
-  font-weight: bold;
-}
-
-/* Alternating Row Colors */
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Hover Effect */
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Responsive Table */
-@media screen and (max-width: 768px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  th, td {
-    font-size: 14px;
-  }
-}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #orderTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    #orderTable th, #orderTable td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    #orderTable th {
+      background-color: #4CAF50;
+      color: white;
+    }
   </style>
 </head>
 <body>
-  <h1>User Orders</h1>
+
+  <!-- User Info -->
+  <div id="userInfo"></div>
+
+  <!-- Orders Table -->
+  <h2>User Orders</h2>
   <table id="orderTable">
     <thead>
       <tr>
@@ -90,41 +69,44 @@ tr:hover {
       </tr>
     </thead>
     <tbody>
-      <!-- Rows will be dynamically added here -->
+      <!-- Orders will be dynamically added here -->
     </tbody>
   </table>
+
   <script src="script.js"></script>
 </body>
 </html>
 
 
   <script>
-document.addEventListener("DOMContentLoaded", function () {
-  // Simulate storing a logged-in user's email in localStorage
-  localStorage.setItem("loggedInUserEmail", "johndoe@example.com");
+// Function to handle Google Login response
+function handleCredentialResponse(response) {
+  // Decode the JWT token to get user info
+  const user = parseJwt(response.credential);
 
-  // Get the logged-in user's email from localStorage
-  const loggedInEmail = localStorage.getItem("loggedInUserEmail");
+  // Display user info
+  document.getElementById("userInfo").innerHTML = `
+    <p>Welcome, ${user.name} (${user.email})!</p>
+  `;
+
+  // Fetch and display user orders
+  fetchUserOrders(user.email);
+}
+
+
+// Fetch and display user orders
+function fetchUserOrders(email) {
   const tableBody = document.querySelector("#orderTable tbody");
 
-  if (!loggedInEmail) {
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="21" style="text-align: center;">No user is logged in.</td>
-      </tr>
-    `;
-    return;
-  }
-
-  // Fetch the JSON data
+  // Fetch the orders JSON
   fetch("https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json")
     .then(response => {
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response.json();
     })
     .then(data => {
-      // Filter data for the logged-in user's email
-      const userOrders = data.filter(order => order.Email === loggedInEmail);
+      // Filter orders for the logged-in user
+      const userOrders = data.filter(order => order.Email === email);
 
       if (userOrders.length > 0) {
         userOrders.forEach(order => {
@@ -163,14 +145,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
     .catch(error => {
-      console.error("Error fetching orders.json:", error);
+      console.error("Error fetching orders:", error);
       tableBody.innerHTML = `
         <tr>
-          <td colspan="21" style="text-align: center;">Error loading data. Please try again later.</td>
+          <td colspan="21" style="text-align: center;">Error loading data.</td>
         </tr>
       `;
     });
-});
+}
 
 
   </script>
