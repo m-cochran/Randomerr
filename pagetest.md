@@ -108,28 +108,30 @@ tr:hover {
 
   <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const loggedInEmail = "johndoe@example.com"; // Simulate the logged-in user's email
-  const tableBody = document.getElementById("orderTable").querySelector("tbody");
+  const loggedInEmail = "johndoe@example.com"; // Replace with actual logged-in user's email
+  const tableBody = document.querySelector("#orderTable tbody");
 
-  fetch("orders.json") // Replace with your JSON file's path
-    .then(response => response.json())
+  fetch("https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json")
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return response.json();
+    })
     .then(data => {
+      // Filter data for the logged-in user's email
       const userOrders = data.filter(order => order.Email === loggedInEmail);
 
       if (userOrders.length > 0) {
         userOrders.forEach(order => {
           const row = document.createElement("tr");
-
           row.innerHTML = `
             <td>${order["Order ID"]}</td>
+            <td>${order["Name"]}</td>
+            <td>${order["Email"]}</td>
+            <td>${order["Order Date"]}</td>
             <td>${order["Item Name"]}</td>
             <td>${order["Item Quantity"]}</td>
-            <td>$${order["Item Price"].toFixed(2)}</td>
-            <td>$${order["Total Amount"].toFixed(2)}</td>
-            <td>${order["Order Date"]}</td>
-            <td>${order["Tracking Number"]}</td>
+            <td>$${order["Total Amount"]}</td>
           `;
-
           tableBody.appendChild(row);
         });
       } else {
@@ -141,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
     .catch(error => {
-      console.error("Error fetching JSON:", error);
+      console.error("Error fetching orders.json:", error);
       tableBody.innerHTML = `
         <tr>
           <td colspan="7" style="text-align: center;">Error loading data. Please try again later.</td>
