@@ -45,8 +45,34 @@ permalink: /pro/
       </tr>
     </thead>
     <tbody>
+      <!-- Example Row -->
+      <tr>
+        <td>123456</td>
+        <td>John Doe</td>
+        <td>johndoe@example.com</td>
+        <td>2025-01-15</td>
+        <td>ORD12345</td>
+        <td>+1234567890</td>
+        <td>123 Main Street</td>
+        <td>New York</td>
+        <td>NY</td>
+        <td>10001</td>
+        <td>USA</td>
+        <td>456 Elm Street</td>
+        <td>Los Angeles</td>
+        <td>CA</td>
+        <td>90001</td>
+        <td>USA</td>
+        <td>Laptop</td>
+        <td>1</td>
+        <td>$1200.00</td>
+        <td>$1200.00</td>
+        <td>TRACK123</td>
+      </tr>
+    </tbody>
   </table>
 </div>
+
 
 
 
