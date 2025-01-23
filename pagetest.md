@@ -44,7 +44,7 @@ permalink: /pro/
   /* Container */
   .container {
     width: 90%;
-    max-width: 95hw;
+    max-width: 950px;
     margin: 0 auto;
     padding: 20px;
     background: #fff;
