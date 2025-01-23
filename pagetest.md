@@ -45,7 +45,7 @@ permalink: /pro/
   /* Container */
   .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 95hw;
     margin: 0 auto;
     padding: 20px;
     background: #fff;
@@ -99,17 +99,6 @@ permalink: /pro/
     color: #888;
     margin: 20px 0;
   }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 20px 0;
-    background: #4CAF50;
-    color: white;
-    margin-top: 30px;
-    font-size: 0.9rem;
-  }
-</style>
 
   </style>
 </head>
