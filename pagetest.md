@@ -18,6 +18,15 @@ permalink: /pro/
     <style>
   /* General Styles */
 
+
+    <div class="profile-container">
+    <h2>Your Profile</h2>
+    <div class="profile">
+      <img id="profilePicture" src="default-avatar.png" alt="Profile Picture" class="profile-picture" />
+      <h1 id="profileName">Name</h1>
+      <p id="profileEmail">Email</p>
+    </div>
+
   h1, h2 {
     text-align: center;
     margin: 20px 0;
