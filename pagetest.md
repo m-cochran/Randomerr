@@ -167,7 +167,6 @@ header h1 {
     font-size: 0.9rem;
   }
 }
-
 </style>
 
 
@@ -249,6 +248,5 @@ function fetchUserOrders(email) {
       `;
     });
 }
-
 </script>
 
