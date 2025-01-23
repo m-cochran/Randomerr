@@ -7,6 +7,49 @@ permalink: /pro/
 # Profile
 
 
+<div class="container">
+  <header>
+    <h1>Order History</h1>
+  </header>
+
+  <!-- User Info -->
+  <div id="userInfo">
+    <p>Welcome, johndoe@example.com!</p>
+  </div>
+
+  <!-- Orders Table -->
+  <table id="orderTable">
+    <thead>
+      <tr>
+        <th>Account Number</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Order Date</th>
+        <th>Order ID</th>
+        <th>Phone</th>
+        <th>Billing Street</th>
+        <th>Billing City</th>
+        <th>Billing State</th>
+        <th>Billing Postal</th>
+        <th>Billing Country</th>
+        <th>Shipping Street</th>
+        <th>Shipping City</th>
+        <th>Shipping State</th>
+        <th>Shipping Postal</th>
+        <th>Shipping Country</th>
+        <th>Item Name</th>
+        <th>Item Quantity</th>
+        <th>Item Price</th>
+        <th>Total Amount</th>
+        <th>Tracking Number</th>
+      </tr>
+    </thead>
+    <tbody>
+  </table>
+</div>
+
+
+
 <style>
 /* Page Container */
 .container {
