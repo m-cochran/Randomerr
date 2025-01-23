@@ -79,7 +79,7 @@ permalink: /pro/
 <style>
 /* Page Container */
 .container {
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 20px;
   background: #fff;
