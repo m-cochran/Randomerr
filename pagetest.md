@@ -7,48 +7,100 @@ permalink: /pro/
 # Profile
 
 
+<style>
+/* Page Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    <!-- User Info Section -->
-    <section id="userInfo" class="user-info">
-      <!-- User's name and email will be populated here by JavaScript -->
-    </section>
+/* Header Section */
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-    <!-- Orders Table Section -->
-    <section class="orders-section">
-      <h2>Order Details</h2>
-      <div class="table-container">
-        <table id="orderTable">
-          <thead>
-            <tr>
-              <th>Account Number</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Order Date</th>
-              <th>Order ID</th>
-              <th>Phone</th>
-              <th>Billing Street</th>
-              <th>Billing City</th>
-              <th>Billing State</th>
-              <th>Billing Postal</th>
-              <th>Billing Country</th>
-              <th>Shipping Street</th>
-              <th>Shipping City</th>
-              <th>Shipping State</th>
-              <th>Shipping Postal</th>
-              <th>Shipping Country</th>
-              <th>Item Name</th>
-              <th>Item Quantity</th>
-              <th>Item Price</th>
-              <th>Total Amount</th>
-              <th>Tracking Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Table rows will be populated dynamically via JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </section>
+header h1 {
+  font-size: 2rem;
+  color: #444;
+}
+
+/* User Info Section */
+#userInfo {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #eef6ff;
+  border: 1px solid #d3e2f4;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #0056b3;
+}
+
+/* Orders Table */
+#orderTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#orderTable thead {
+  background: #0056b3;
+  color: #fff;
+}
+
+#orderTable th, #orderTable td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#orderTable th {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#orderTable tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+#orderTable tr:hover {
+  background: #e9f5ff;
+}
+
+/* No Orders Message */
+#orderTable tbody tr td {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #orderTable {
+    font-size: 0.9rem;
+  }
+
+  #orderTable th, #orderTable td {
+    padding: 8px 10px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  #userInfo {
+    font-size: 0.9rem;
+  }
+}
+
+</style>
+
 
 
 <script>
