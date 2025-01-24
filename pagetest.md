@@ -115,58 +115,53 @@ permalink: /pro/
       // Filter orders based on the logged-in user's email
       const userOrders = data.filter((order) => order.Email.trim().toLowerCase() === loggedInUserEmail.trim().toLowerCase());
 
-      // Check if the user has matching orders
-      if (!loggedInUserEmail) {
+// Check if the user has matching orders
+if (!loggedInUserEmail) {
   ordersList.innerHTML = `<p>You are not logged in. Please log in to view your orders.</p>`;
 } else if (userOrders.length === 0) {
   ordersList.innerHTML = `<p>No orders found for the email address: ${loggedInUserEmail}.</p>`;
 } else {
-        // Populate the collapsible list with filtered orders
-        ordersList.innerHTML = ""; // Clear existing content
-        userOrders.forEach((order, index) => {
-          const listItem = document.createElement("div");
-          listItem.classList.add("order-item");
-          listItem.innerHTML = `
-            <div class="order-header" onclick="toggleOrderDetails(${index})">
-              <span>Order ID: ${order["Order ID"]}</span>
-              <span class="toggle-icon">+</span>
-            </div>
-            <div class="order-details" id="orderDetails-${index}">
-              <p><strong>Name:</strong> ${order.Name}</p>
-              <p><strong>Email:</strong> ${order.Email}</p>
-              <p><strong>Order Date:</strong> ${order["Order Date"]}</p>
-              <p><strong>Total Amount:</strong> $${order["Total Amount"]}</p>
-              <p><strong>Item Name:</strong> ${order["Item Name"]}</p>
-              <p><strong>Quantity:</strong> ${order["Item Quantity"]}</p>
-              <p><strong>Shipping Address:</strong><br>
-                 ${order["Shipping Street"]}, ${order["Shipping City"]}, ${order["Shipping State"]} ${order["Shipping Postal"]}, ${order["Shipping Country"]}
-              </p>
-              <p><strong>Billing Address:</strong><br>
-                 ${order["Billing Street"]}, ${order["Billing City"]}, ${order["Billing State"]} ${order["Billing Postal"]}, ${order["Billing Country"]}
-              </p>
-              <p><strong>Tracking Number:</strong> ${order["Tracking Number"]}</p>
-            </div>
-          `;
-          ordersList.appendChild(listItem);
-        });
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching orders.json:", error);
-      ordersList.innerHTML = `<p>Failed to load order data. Please try again later.</p>`;
-    });
-});
+  // Populate the collapsible list with filtered orders
+  ordersList.innerHTML = ""; // Clear existing content
+  userOrders.forEach((order, index) => {
+    const listItem = document.createElement("div");
+    listItem.classList.add("order-item");
 
-// Function to toggle order details visibility
+    listItem.innerHTML = `
+      <div class="order-header" onclick="toggleOrderDetails(${index})">
+        <span>Order ID: ${order["Order ID"]}</span>
+        <span class="toggle-icon" id="toggleIcon-${index}">+</span>
+      </div>
+      <div class="order-details" id="orderDetails-${index}" style="display: none;">
+        <p><strong>Name:</strong> ${order.Name}</p>
+        <p><strong>Email:</strong> ${order.Email}</p>
+        <p><strong>Order Date:</strong> ${order["Order Date"]}</p>
+        <p><strong>Total Amount:</strong> $${order["Total Amount"]}</p>
+        <p><strong>Item Name:</strong> ${order["Item Name"]}</p>
+        <p><strong>Quantity:</strong> ${order["Item Quantity"]}</p>
+        <p><strong>Shipping Address:</strong><br>
+           ${order["Shipping Street"]}, ${order["Shipping City"]}, ${order["Shipping State"]} ${order["Shipping Postal"]}, ${order["Shipping Country"]}
+        </p>
+        <p><strong>Billing Address:</strong><br>
+           ${order["Billing Street"]}, ${order["Billing City"]}, ${order["Billing State"]} ${order["Billing Postal"]}, ${order["Billing Country"]}
+        </p>
+        <p><strong>Tracking Number:</strong> ${order["Tracking Number"]}</p>
+      </div>
+    `;
+    ordersList.appendChild(listItem);
+  });
+}
+
+
 function toggleOrderDetails(index) {
   const details = document.getElementById(`orderDetails-${index}`);
-  const icon = details.previousElementSibling.querySelector(".toggle-icon");
-  if (details.style.display === "block") {
-    details.style.display = "none";
-    icon.textContent = "+";
-  } else {
+  const icon = document.getElementById(`toggleIcon-${index}`);
+  if (details.style.display === "none" || details.style.display === "") {
     details.style.display = "block";
-    icon.textContent = "-";
+    icon.textContent = "-"; // Change the toggle icon
+  } else {
+    details.style.display = "none";
+    icon.textContent = "+"; // Reset the toggle icon
   }
 }
 </script>
