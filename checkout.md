@@ -347,6 +347,10 @@ async function submitOrderToGitHub() {
     price: item.price,
   }));
   formData.append("purchasedItems", JSON.stringify(items));
+  formData.append(
+      "totalAmount",
+      cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0)
+    );
 
   // Add total amount
   const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
@@ -414,11 +418,14 @@ async function submitOrderToGitHub() {
   }
 
   console.log("Order submitted successfully!");
+  const updateData = await updateResponse.json();
 }
 
 // Call the function to submit the order
 submitOrderToGitHub().catch((error) => {
   console.error("Error submitting order:", error);
+  // Verify if the file was updated by checking its content
+  console.log("Updated File Content:", updateData.content);
 });
 
 
@@ -430,6 +437,8 @@ submitOrderToGitHub().catch((error) => {
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
+      console.error("Error submitting order:", error);
+      alert("There was an error submitting your order. Please try again.");
       paymentStatus.textContent = `Error: ${error.message}`;
       paymentStatus.classList.add('error');
     } finally {
