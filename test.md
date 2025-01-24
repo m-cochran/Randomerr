@@ -29,7 +29,7 @@ permalink: /test/
       event.preventDefault();
 
       // GitHub configuration
-      const owner = "m-cochran"; // Replace with your GitHub username
+      const owner = "'m-cochran"; // Replace with your GitHub username
       const repo = "Randomerr"; // Replace with your repository name
       const path = "orders.json"; // File path in the repository
       const branch = "main"; // Branch name (e.g., main or master)
@@ -43,11 +43,13 @@ permalink: /test/
       }
 
       try {
-        const content = btoa(unescape(encodeURIComponent(orderData))); // Encode content in Base64
+        const newOrder = JSON.parse(orderData); // Parse the new order data
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(newOrder)))); // Encode content in Base64
         const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
         // Fetch existing file information (to get SHA if file exists)
         let sha = null;
+        let existingData = [];
         try {
           const fileResponse = await fetch(url, {
             headers: {
@@ -58,15 +60,19 @@ permalink: /test/
           if (fileResponse.ok) {
             const fileData = await fileResponse.json();
             sha = fileData.sha; // Get SHA of the existing file
+            existingData = JSON.parse(atob(fileData.content)); // Decode the existing content
           }
         } catch (error) {
           console.log("File does not exist or cannot fetch SHA. Proceeding to create it.");
         }
 
+        // Merge existing data with the new order
+        const updatedData = [...existingData, newOrder];
+
         // Prepare the API request payload
         const payload = {
           message: "Update orders.json via HTML form",
-          content: content,
+          content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedData)))), // New combined content
           branch: branch,
           sha: sha || undefined, // Include SHA for updates, exclude for new files
         };
@@ -95,3 +101,4 @@ permalink: /test/
   </script>
 </body>
 </html>
+
