@@ -41,7 +41,7 @@ permalink: /pro/
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #06f;
+  background-color: #f9f9f9;
 }
 
 .order-item {
@@ -54,7 +54,7 @@ permalink: /pro/
 }
 
 .order-header {
-  background-color: #4caf50;
+  background-color: #06f;
   color: #fff;
   padding: 10px;
   cursor: pointer;
