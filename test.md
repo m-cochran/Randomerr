@@ -48,10 +48,9 @@ permalink: /test/
     const status = document.getElementById("status");
     status.textContent = "Writing to GitHub...";
 
-    // Replace with your GitHub details
     const GITHUB_REPO = "m-cochran/Randomerr"; // Your repo
     const FILE_PATH = "main/orders.json"; // Path to your file
-    const GITHUB_TOKEN = "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"; // Your GitHub token
+    const GITHUB_TOKEN = "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"; // Your GitHub token
 
     const dataToWrite = {
       message: "Hello, GitHub!",
@@ -68,8 +67,10 @@ permalink: /test/
         },
       });
 
+      // Handle the response if the file doesn't exist or we get an error
       if (!getFileResponse.ok) {
         const error = await getFileResponse.json();
+        console.error("Error getting file:", error);
         status.textContent = `Error: ${error.message}`;
         return;
       }
@@ -94,11 +95,12 @@ permalink: /test/
         status.textContent = "File written successfully!";
       } else {
         const error = await response.json();
+        console.error("Error writing to file:", error);
         status.textContent = `Error: ${error.message}`;
       }
     } catch (error) {
+      console.error("Request failed:", error);
       status.textContent = `Error: ${error.message}`;
     }
   });
 </script>
-
