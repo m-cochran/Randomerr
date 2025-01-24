@@ -205,13 +205,14 @@ header h1 {
       const tableBody = document.querySelector("#orderTable tbody");
 
       // Filter orders based on the logged-in user's email
-      const userOrders = data.filter((order) => order.Email === loggedInUserEmail);
+      const userOrders = data.filter((order) => order.Email.trim().toLowerCase() === loggedInUserEmail.trim().toLowerCase());
 
       // Check if the user has matching orders
       if (userOrders.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="21">No orders found for ${loggedInUserEmail}.</td></tr>`;
       } else {
         // Populate the table with filtered orders
+        tableBody.innerHTML = ""; // Clear existing rows
         userOrders.forEach((order) => {
           const row = document.createElement("tr");
           row.innerHTML = `
