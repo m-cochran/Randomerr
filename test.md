@@ -67,7 +67,7 @@ permalink: /test/
         },
       });
 
-      // Handle the response if the file doesn't exist or we get an error
+      // Check the status code and capture more information
       if (!getFileResponse.ok) {
         const error = await getFileResponse.json();
         console.error("Error getting file:", error);
@@ -104,3 +104,4 @@ permalink: /test/
     }
   });
 </script>
+
