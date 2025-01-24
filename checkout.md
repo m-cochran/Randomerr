@@ -316,39 +316,111 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('success');
 
         // Gather order details
-const formData = new FormData();
-formData.append("orderid", orderId);
-formData.append("fullName", name);
-formData.append("email", email); // Logged-in Gmail
-formData.append("phone", phone);
-formData.append("billingStreet", address.line1);
-formData.append("billingCity", address.city);
-formData.append("billingState", address.state);
-formData.append("billingPostal", address.postal_code);
-formData.append("billingCountry", address.country);
-formData.append("shippingStreet", shippingAddress.line1);
-formData.append("shippingCity", shippingAddress.city);
-formData.append("shippingState", shippingAddress.state);
-formData.append("shippingPostal", shippingAddress.postal_code);
-formData.append("shippingCountry", shippingAddress.country);
+const GITHUB_REPO = "m-cochran/Randomerr";
+const FILE_PATH = "main/orders.json";
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
+const GITHUB_TOKEN = "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"; // Replace with your GitHub personal access token
 
-// Add purchased items
-const items = cartItems.map(item => ({
-  name: item.name,
-  quantity: item.quantity,
-  price: item.price,
-}));
-formData.append("purchasedItems", JSON.stringify(items));
+// Function to submit the order details to GitHub
+async function submitOrderToGitHub() {
+  // Gather order details
+  const formData = new FormData();
+  formData.append("orderid", orderId);
+  formData.append("fullName", name);
+  formData.append("email", email); // Logged-in Gmail
+  formData.append("phone", phone);
+  formData.append("billingStreet", address.line1);
+  formData.append("billingCity", address.city);
+  formData.append("billingState", address.state);
+  formData.append("billingPostal", address.postal_code);
+  formData.append("billingCountry", address.country);
+  formData.append("shippingStreet", shippingAddress.line1);
+  formData.append("shippingCity", shippingAddress.city);
+  formData.append("shippingState", shippingAddress.state);
+  formData.append("shippingPostal", shippingAddress.postal_code);
+  formData.append("shippingCountry", shippingAddress.country);
 
-// Add total amount
-const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
-formData.append("totalAmount", totalAmount);
+  // Add purchased items
+  const items = cartItems.map((item) => ({
+    name: item.name,
+    quantity: item.quantity,
+    price: item.price,
+  }));
+  formData.append("purchasedItems", JSON.stringify(items));
 
-// Send order details to Google Sheets
-await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
-  method: "POST",
-  body: formData
+  // Add total amount
+  const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
+  formData.append("totalAmount", totalAmount);
+
+  // Convert FormData to JSON for GitHub
+  const orderData = {
+    orderid: formData.get("orderid"),
+    fullName: formData.get("fullName"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+    billingStreet: formData.get("billingStreet"),
+    billingCity: formData.get("billingCity"),
+    billingState: formData.get("billingState"),
+    billingPostal: formData.get("billingPostal"),
+    billingCountry: formData.get("billingCountry"),
+    shippingStreet: formData.get("shippingStreet"),
+    shippingCity: formData.get("shippingCity"),
+    shippingState: formData.get("shippingState"),
+    shippingPostal: formData.get("shippingPostal"),
+    shippingCountry: formData.get("shippingCountry"),
+    purchasedItems: JSON.parse(formData.get("purchasedItems")),
+    totalAmount: formData.get("totalAmount"),
+  };
+
+  // Fetch the current JSON file from GitHub
+  const response = await fetch(GITHUB_API_URL, {
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch the file: ${response.statusText}`);
+  }
+
+  const fileData = await response.json();
+
+  // Decode the current content from base64
+  const currentOrders = JSON.parse(atob(fileData.content));
+
+  // Add the new order
+  currentOrders.push(orderData);
+
+  // Encode the updated content back to base64
+  const updatedContent = btoa(JSON.stringify(currentOrders, null, 2));
+
+  // Send the updated content back to GitHub
+  const updateResponse = await fetch(GITHUB_API_URL, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      message: "Add new order",
+      content: updatedContent,
+      sha: fileData.sha, // Required to update the file
+    }),
+  });
+
+  if (!updateResponse.ok) {
+    throw new Error(`Failed to update the file: ${updateResponse.statusText}`);
+  }
+
+  console.log("Order submitted successfully!");
+}
+
+// Call the function to submit the order
+submitOrderToGitHub().catch((error) => {
+  console.error("Error submitting order:", error);
 });
+
 
 
         // Clear cart and redirect
