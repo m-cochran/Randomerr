@@ -7,86 +7,82 @@ permalink: /test/
 # Checkout
 
 
-  <title>GitHub Write Test</title>
-  <style>
-    h1 {
-      color: #333;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write to GitHub JSON</title>
+</head>
+<body>
+  <h1>Write to GitHub order.json</h1>
+  <form id="githubForm">
+    <label for="content">Order JSON Content:</label><br>
+    <textarea id="content" rows="10" cols="50" placeholder='{"order_id": 1, "item": "example"}'></textarea><br><br>
+    <button type="submit">Submit</button>
+  </form>
 
-    button {
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+  <div id="response" style="margin-top: 20px; color: green;"></div>
 
-    button:hover {
-      background-color: #0056b3;
-    }
+  <script>
+    document.getElementById("githubForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-    button:active {
-      background-color: #003f7f;
-    }
+      const token = prompt("Enter your GitHub personal access token:");
+      const owner = "'m-cochran"; // Replace with your GitHub username
+      const repo = "Randomerr"; // Replace with your repository name
+      const path = "orders.json"; // File path in the repository
+      const branch = "main"; // Replace with your branch name (e.g., main or master)
+      const content = btoa(unescape(encodeURIComponent(document.getElementById("content").value)));
 
-    #status {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-
-<button id="trigger-action">Trigger GitHub Action</button>
-
-<script>
-  document.getElementById('trigger-action').addEventListener('click', function () {
-    // Replace with your repository details
-    const owner = 'm-cochran';
-    const repo = 'Randomerr';
-    const workflowFile = 'write-file.yml'; // The name of the workflow file
-
-    // Prompt the user to enter their personal access token for better security
-    const token = prompt('Enter your GitHub Personal Access Token:');
-    if (!token) {
-      alert('No token entered. Action canceled.');
-      return;
-    }
-
-    // GitHub API URL
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFile}/dispatches`;
-
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        ref: 'main' // Trigger the workflow on the main branch
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          alert('GitHub Action triggered successfully!');
-        } else {
-          // Handle specific status codes for better feedback
-          if (response.status === 401) {
-            alert('Unauthorized: Please check your token or permissions.');
-          } else if (response.status === 404) {
-            alert('Workflow file not found. Verify the workflow file name and branch.');
-          } else {
-            alert(`Failed to trigger GitHub Action: ${response.status} ${response.statusText}`);
-          }
+      // Fetch the existing file's SHA (if it exists)
+      let sha;
+      try {
+        const existingFile = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+          },
+        });
+        if (existingFile.ok) {
+          const data = await existingFile.json();
+          sha = data.sha;
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error triggering GitHub Action. Check the console for more details.');
-      });
-  });
-</script>
+      } catch (error) {
+        console.error("Error fetching file SHA:", error);
+      }
+
+      // Create or update the file
+      const payload = {
+        message: "Update order.json",
+        content: content,
+        branch: branch,
+        sha: sha || undefined, // Include sha if file exists, otherwise undefined
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (response.ok) {
+          document.getElementById("response").textContent = "File updated successfully!";
+        } else {
+          const errorData = await response.json();
+          document.getElementById("response").textContent = `Error: ${errorData.message}`;
+        }
+      } catch (error) {
+        console.error("Error updating file:", error);
+        document.getElementById("response").textContent = "An error occurred.";
+      }
+    });
+  </script>
+</body>
+</html>
