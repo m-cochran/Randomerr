@@ -43,62 +43,62 @@ permalink: /test/
   <button id="write-button">Write to GitHub</button>
   <p id="status">Click the button to start writing to GitHub.</p>
 
-  <script>
-    document.getElementById("write-button").addEventListener("click", async () => {
-      const status = document.getElementById("status");
-      status.textContent = "Writing to GitHub...";
+<script>
+  document.getElementById("write-button").addEventListener("click", async () => {
+    const status = document.getElementById("status");
+    status.textContent = "Writing to GitHub...";
 
-      // Replace with your GitHub details
-      const GITHUB_REPO = "m-cochran/Randomerr";
-      const FILE_PATH = "main/orders.json";
-      const GITHUB_TOKEN = "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"; // Replace with your GitHub personal access token
+    // Replace with your GitHub details
+    const GITHUB_REPO = "m-cochran/Randomerr";
+    const FILE_PATH = "main/orders.json";
+    const GITHUB_TOKEN = "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"; // Replace with your GitHub personal access token
 
-      // Data to write to the file
-      const dataToWrite = {
-        message: "Hello, GitHub!",
-        timestamp: new Date().toISOString(),
-      };
+    // Data to write to the file
+    const dataToWrite = {
+      message: "Hello, GitHub!",
+      timestamp: new Date().toISOString(),
+    };
 
-      try {
-        // GitHub API URL for the file
-        const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
+    try {
+      // GitHub API URL for the file
+      const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
 
-        // Check if the file already exists
-        const getFileResponse = await fetch(url, {
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-        });
+      // Check if the file already exists
+      const getFileResponse = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+      });
 
-        let sha = null;
-        if (getFileResponse.ok) {
-          const fileData = await getFileResponse.json();
-          sha = fileData.sha; // Get the file's SHA if it exists
-        }
+      let sha = null;
+      if (getFileResponse.ok) {
+        const fileData = await getFileResponse.json();
+        sha = fileData.sha; // Get the file's SHA if it exists
+      }
 
-        // Prepare the request to write the file
-        const response = await fetch(url, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-          body: JSON.stringify({
-            message: "Write test file",
-            content: btoa(JSON.stringify(dataToWrite, null, 2)), // Base64 encode the content
-            sha: sha, // Include the SHA if the file exists
-          }),
-        });
+      // Prepare the request to write the file
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+        body: JSON.stringify({
+          message: "Write test file", // Commit message
+          content: btoa(JSON.stringify(dataToWrite, null, 2)), // Base64 encode the content
+          sha: sha, // Include the SHA if the file exists
+        }),
+      });
 
-        if (response.ok) {
-          status.textContent = "File written successfully!";
-        } else {
-          const error = await response.json();
-          status.textContent = `Error: ${error.message}`;
-        }
-      } catch (error) {
+      if (response.ok) {
+        status.textContent = "File written successfully!";
+      } else {
+        const error = await response.json();
         status.textContent = `Error: ${error.message}`;
       }
-    });
-  </script>
+    } catch (error) {
+      status.textContent = `Error: ${error.message}`;
+    }
+  });
+</script>
