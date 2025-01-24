@@ -39,46 +39,41 @@ permalink: /test/
     }
   </style>
 
-  <h1>GitHub Write Test</h1>
-  <button id="write-button">Write to GitHub</button>
-  <p id="status">Click the button to start writing to GitHub.</p>
+
+  <button id="trigger-action">Trigger GitHub Action</button>
+
 
 <script>
-  document.getElementById("write-button").addEventListener("click", async () => {
-    const status = document.getElementById("status");
-    status.textContent = "Checking file...";
+document.getElementById('trigger-action').addEventListener('click', function() {
+  // Replace with your repository details
+  const owner = 'm-cochran';
+  const repo = 'Randomerr';
+  const workflowFile = 'write-file.yml'; // The name of the workflow file
 
-    // GitHub details
-    const GITHUB_REPO = "m-cochran/Randomerr"; // Repository
-    const FILE_PATH = "main/orders.json"; // File path
-    const GITHUB_TOKEN = "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"; // Personal Access Token
+  // Replace with your personal access token
+  const token = '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';
 
-    try {
-      // GitHub API URL
-      const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
-
-      // Check if the file exists
-      const getFileResponse = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      });
-
-      if (getFileResponse.ok) {
-        const fileData = await getFileResponse.json();
-        status.textContent = "File found!";
-        console.log(fileData); // Log the file data for debugging
-      } else {
-        const error = await getFileResponse.json();
-        status.textContent = `Error: ${error.message}`; // Error message
-        console.error("Error fetching file:", error);
-      }
-    } catch (error) {
-      console.error("Request failed:", error);
-      status.textContent = `Error: ${error.message}`;
+  fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFile}/dispatches`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ref: 'main' // Trigger the workflow on the main branch
+    })
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('GitHub Action triggered successfully!');
+    } else {
+      alert('Failed to trigger GitHub Action');
     }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error triggering GitHub Action');
   });
+});
 </script>
-
-
