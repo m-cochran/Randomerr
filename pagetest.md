@@ -36,16 +36,20 @@ permalink: /pro/
 }
 
 .orders-list {
-  max-height: 400px; /* Limits the height and enables scrolling */
-  overflow-y: auto;
+  max-height: 400px; /* Limits the height of the box */
+  overflow-y: auto; /* Enables vertical scrolling */
   padding-right: 10px;
+  padding-left: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
 .order-item {
   margin-bottom: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #f7f7f7;
+  background-color: #fff;
   overflow: hidden;
 }
 
@@ -59,6 +63,7 @@ permalink: /pro/
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #ddd;
 }
 
 .order-header:hover {
@@ -74,7 +79,8 @@ permalink: /pro/
   padding: 15px;
   font-size: 14px;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: #f7f7f7;
+  border-top: 1px solid #ddd;
 }
 
 .order-details p {
