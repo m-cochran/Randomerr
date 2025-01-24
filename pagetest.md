@@ -67,7 +67,7 @@ permalink: /pro/
 }
 
 .order-header:hover {
-  background-color: #45a049;
+  background-color: #07f;
 }
 
 .order-header .toggle-icon {
