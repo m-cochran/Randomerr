@@ -185,46 +185,64 @@ header h1 {
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-  const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com"; // Example fallback
-  const orders = JSON.parse(localStorage.getItem("userOrders")) || []; // Fallback if no data exists
+  const ordersJsonUrl =
+    "https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json"; // URL to the JSON file
 
-  // Display logged-in user email
+  // Display the logged-in user email
+  const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com"; // Example fallback
   const userInfoDiv = document.getElementById("userInfo");
   userInfoDiv.innerHTML = `<p>Welcome, ${loggedInUserEmail}!</p>`;
 
-  // Populate orders table
-  const tableBody = document.querySelector("#orderTable tbody");
-  if (orders.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="21">No orders found for ${loggedInUserEmail}.</td></tr>`;
-  } else {
-    orders.forEach((order) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${order["Account Number"]}</td>
-        <td>${order.Name}</td>
-        <td>${order.Email}</td>
-        <td>${order["Order Date"]}</td>
-        <td>${order["Order ID"]}</td>
-        <td>${order.Phone}</td>
-        <td>${order["Billing Street"]}</td>
-        <td>${order["Billing City"]}</td>
-        <td>${order["Billing State"]}</td>
-        <td>${order["Billing Postal"]}</td>
-        <td>${order["Billing Country"]}</td>
-        <td>${order["Shipping Street"]}</td>
-        <td>${order["Shipping City"]}</td>
-        <td>${order["Shipping State"]}</td>
-        <td>${order["Shipping Postal"]}</td>
-        <td>${order["Shipping Country"]}</td>
-        <td>${order["Item Name"]}</td>
-        <td>${order["Item Quantity"]}</td>
-        <td>${order["Item Price"]}</td>
-        <td>${order["Total Amount"]}</td>
-        <td>${order["Tracking Number"]}</td>
-      `;
-      tableBody.appendChild(row);
+  // Fetch orders.json
+  fetch(ordersJsonUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to load orders.json: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const tableBody = document.querySelector("#orderTable tbody");
+      const userOrders = data.filter((order) => order.Email === loggedInUserEmail);
+
+      // Check if the user has orders
+      if (userOrders.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="21">No orders found for ${loggedInUserEmail}.</td></tr>`;
+      } else {
+        userOrders.forEach((order) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${order["Account Number"]}</td>
+            <td>${order.Name}</td>
+            <td>${order.Email}</td>
+            <td>${order["Order Date"]}</td>
+            <td>${order["Order ID"]}</td>
+            <td>${order.Phone}</td>
+            <td>${order["Billing Street"]}</td>
+            <td>${order["Billing City"]}</td>
+            <td>${order["Billing State"]}</td>
+            <td>${order["Billing Postal"]}</td>
+            <td>${order["Billing Country"]}</td>
+            <td>${order["Shipping Street"]}</td>
+            <td>${order["Shipping City"]}</td>
+            <td>${order["Shipping State"]}</td>
+            <td>${order["Shipping Postal"]}</td>
+            <td>${order["Shipping Country"]}</td>
+            <td>${order["Item Name"]}</td>
+            <td>${order["Item Quantity"]}</td>
+            <td>${order["Item Price"]}</td>
+            <td>${order["Total Amount"]}</td>
+            <td>${order["Tracking Number"]}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching orders.json:", error);
+      const tableBody = document.querySelector("#orderTable tbody");
+      tableBody.innerHTML = `<tr><td colspan="21">Failed to load order data. Please try again later.</td></tr>`;
     });
-  }
 });
 
 </script>
