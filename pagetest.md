@@ -99,9 +99,16 @@ permalink: /pro/
     const ordersJsonUrl =
       "https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json"; // URL to the JSON file
 
-    // Retrieve the logged-in user's email from localStorage or set a fallback
-    const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com";
+    // Retrieve the logged-in user's email from localStorage
+    const loggedInUserEmail = localStorage.getItem("userEmail");
     const ordersList = document.getElementById("ordersList");
+
+    // Check if the user is logged in
+    if (!loggedInUserEmail) {
+      // Display a message prompting the user to log in
+      ordersList.innerHTML = `<p>Please log in to view your orders.</p>`;
+      return;
+    }
 
     // Display a loading message
     ordersList.innerHTML = `<p>Loading your orders...</p>`;
