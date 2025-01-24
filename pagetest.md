@@ -116,9 +116,11 @@ permalink: /pro/
       const userOrders = data.filter((order) => order.Email.trim().toLowerCase() === loggedInUserEmail.trim().toLowerCase());
 
       // Check if the user has matching orders
-      if (userOrders.length === 0) {
-        ordersList.innerHTML = `<p>No orders found for ${loggedInUserEmail}.</p>`;
-      } else {
+      if (!loggedInUserEmail) {
+  ordersList.innerHTML = `<p>You are not logged in. Please log in to view your orders.</p>`;
+} else if (userOrders.length === 0) {
+  ordersList.innerHTML = `<p>No orders found for the email address: ${loggedInUserEmail}.</p>`;
+} else {
         // Populate the collapsible list with filtered orders
         ordersList.innerHTML = ""; // Clear existing content
         userOrders.forEach((order, index) => {
