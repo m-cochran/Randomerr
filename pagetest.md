@@ -139,6 +139,9 @@ permalink: /pro/
               <p><strong>Shipping Address:</strong><br>
                  ${order["Shipping Street"]}, ${order["Shipping City"]}, ${order["Shipping State"]} ${order["Shipping Postal"]}, ${order["Shipping Country"]}
               </p>
+              <p><strong>Billing Address:</strong><br>
+                 ${order["Billing Street"]}, ${order["Billing City"]}, ${order["Billing State"]} ${order["Billing Postal"]}, ${order["Billing Country"]}
+              </p>
               <p><strong>Tracking Number:</strong> ${order["Tracking Number"]}</p>
             </div>
           `;
