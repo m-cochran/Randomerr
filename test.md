@@ -46,20 +46,18 @@ permalink: /test/
 <script>
   document.getElementById("write-button").addEventListener("click", async () => {
     const status = document.getElementById("status");
-    status.textContent = "Writing to GitHub...";
+    status.textContent = "Checking file...";
 
-    const GITHUB_REPO = "m-cochran/Randomerr"; // Your repo
-    const FILE_PATH = "main/orders.json"; // Path to your file
-    const GITHUB_TOKEN = "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"; // Your GitHub token
-
-    const dataToWrite = {
-      message: "Hello, GitHub!",
-      timestamp: new Date().toISOString(),
-    };
+    // GitHub details
+    const GITHUB_REPO = "m-cochran/Randomerr"; // Repository
+    const FILE_PATH = "main/orders.json"; // File path
+    const GITHUB_TOKEN = "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"; // Personal Access Token
 
     try {
+      // GitHub API URL
       const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
 
+      // Check if the file exists
       const getFileResponse = await fetch(url, {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -67,36 +65,14 @@ permalink: /test/
         },
       });
 
-      // Check the status code and capture more information
-      if (!getFileResponse.ok) {
-        const error = await getFileResponse.json();
-        console.error("Error getting file:", error);
-        status.textContent = `Error: ${error.message}`;
-        return;
-      }
-
-      const fileData = await getFileResponse.json();
-      const sha = fileData.sha; // SHA from the file data (if it exists)
-
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-        body: JSON.stringify({
-          message: "Write test file",
-          content: btoa(JSON.stringify(dataToWrite, null, 2)), // Base64 encode the content
-          sha: sha, // Include the SHA if the file exists
-        }),
-      });
-
-      if (response.ok) {
-        status.textContent = "File written successfully!";
+      if (getFileResponse.ok) {
+        const fileData = await getFileResponse.json();
+        status.textContent = "File found!";
+        console.log(fileData); // Log the file data for debugging
       } else {
-        const error = await response.json();
-        console.error("Error writing to file:", error);
-        status.textContent = `Error: ${error.message}`;
+        const error = await getFileResponse.json();
+        status.textContent = `Error: ${error.message}`; // Error message
+        console.error("Error fetching file:", error);
       }
     } catch (error) {
       console.error("Request failed:", error);
@@ -104,4 +80,5 @@ permalink: /test/
     }
   });
 </script>
+
 
