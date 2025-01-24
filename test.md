@@ -40,8 +40,7 @@ permalink: /test/
   </style>
 
 
-  <button id="trigger-action">Trigger GitHub Action</button>
-
+<button id="trigger-action">Trigger GitHub Action</button>
 
 <script>
 document.getElementById('trigger-action').addEventListener('click', function() {
@@ -51,7 +50,7 @@ document.getElementById('trigger-action').addEventListener('click', function() {
   const workflowFile = 'write-file.yml'; // The name of the workflow file
 
   // Replace with your personal access token
-  const token = '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';
+  const token = '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';
 
   fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFile}/dispatches`, {
     method: 'POST',
@@ -68,7 +67,7 @@ document.getElementById('trigger-action').addEventListener('click', function() {
     if (response.ok) {
       alert('GitHub Action triggered successfully!');
     } else {
-      alert('Failed to trigger GitHub Action');
+      alert('Failed to trigger GitHub Action: ' + response.statusText);
     }
   })
   .catch(error => {
