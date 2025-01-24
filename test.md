@@ -49,21 +49,18 @@ permalink: /test/
     status.textContent = "Writing to GitHub...";
 
     // Replace with your GitHub details
-    const GITHUB_REPO = "m-cochran/Randomerr";
-    const FILE_PATH = "main/orders.json";
-    const GITHUB_TOKEN = "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"; // Replace with your GitHub personal access token
+    const GITHUB_REPO = "m-cochran/Randomerr"; // Your repo
+    const FILE_PATH = "main/orders.json"; // Path to your file
+    const GITHUB_TOKEN = "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"; // Your GitHub token
 
-    // Data to write to the file
     const dataToWrite = {
       message: "Hello, GitHub!",
       timestamp: new Date().toISOString(),
     };
 
     try {
-      // GitHub API URL for the file
       const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
 
-      // Check if the file already exists
       const getFileResponse = await fetch(url, {
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -71,13 +68,15 @@ permalink: /test/
         },
       });
 
-      let sha = null;
-      if (getFileResponse.ok) {
-        const fileData = await getFileResponse.json();
-        sha = fileData.sha; // Get the file's SHA if it exists
+      if (!getFileResponse.ok) {
+        const error = await getFileResponse.json();
+        status.textContent = `Error: ${error.message}`;
+        return;
       }
 
-      // Prepare the request to write the file
+      const fileData = await getFileResponse.json();
+      const sha = fileData.sha; // SHA from the file data (if it exists)
+
       const response = await fetch(url, {
         method: "PUT",
         headers: {
@@ -85,7 +84,7 @@ permalink: /test/
           Accept: "application/vnd.github.v3+json",
         },
         body: JSON.stringify({
-          message: "Write test file", // Commit message
+          message: "Write test file",
           content: btoa(JSON.stringify(dataToWrite, null, 2)), // Base64 encode the content
           sha: sha, // Include the SHA if the file exists
         }),
@@ -102,3 +101,4 @@ permalink: /test/
     }
   });
 </script>
+
