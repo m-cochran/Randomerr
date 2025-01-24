@@ -38,17 +38,17 @@ permalink: /pro/
 .orders-list {
   max-height: 400px; /* Limits the height of the box */
   overflow-y: auto; /* Enables vertical scrolling */
-  padding-right: 10px;
-  padding-left: 5px;
+  padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 5px;
   background-color: #f9f9f9;
 }
 
 .order-item {
   margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 5px;
+  padding: 10px;
   background-color: #fff;
   overflow: hidden;
 }
@@ -96,72 +96,77 @@ permalink: /pro/
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-  const ordersJsonUrl =
-    "https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json"; // URL to the JSON file
+    const ordersJsonUrl =
+      "https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json"; // URL to the JSON file
 
-  // Retrieve the logged-in user's email from localStorage
-  const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com"; // Replace with fallback if needed
-  const ordersList = document.getElementById("ordersList");
+    // Retrieve the logged-in user's email from localStorage or set a fallback
+    const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com";
+    const ordersList = document.getElementById("ordersList");
 
-  // Fetch orders.json
-  fetch(ordersJsonUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to load orders.json: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      // Filter orders based on the logged-in user's email
-      const userOrders = data.filter((order) => order.Email.trim().toLowerCase() === loggedInUserEmail.trim().toLowerCase());
+    // Display a loading message
+    ordersList.innerHTML = `<p>Loading your orders...</p>`;
 
-// Check if the user has matching orders
-if (!loggedInUserEmail) {
-  ordersList.innerHTML = `<p>You are not logged in. Please log in to view your orders.</p>`;
-} else if (userOrders.length === 0) {
-  ordersList.innerHTML = `<p>No orders found for the email address: ${loggedInUserEmail}.</p>`;
-} else {
-  // Populate the collapsible list with filtered orders
-  ordersList.innerHTML = ""; // Clear existing content
-  userOrders.forEach((order, index) => {
-    const listItem = document.createElement("div");
-    listItem.classList.add("order-item");
+    // Fetch orders.json
+    fetch(ordersJsonUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to load orders.json: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Filter orders based on the logged-in user's email
+        const userOrders = data.filter(
+          (order) => order.Email.trim().toLowerCase() === loggedInUserEmail.trim().toLowerCase()
+        );
 
-    listItem.innerHTML = `
-      <div class="order-header" onclick="toggleOrderDetails(${index})">
-        <span>Order ID: ${order["Order ID"]}</span>
-        <span class="toggle-icon" id="toggleIcon-${index}">+</span>
-      </div>
-      <div class="order-details" id="orderDetails-${index}" style="display: none;">
-        <p><strong>Name:</strong> ${order.Name}</p>
-        <p><strong>Email:</strong> ${order.Email}</p>
-        <p><strong>Order Date:</strong> ${order["Order Date"]}</p>
-        <p><strong>Total Amount:</strong> $${order["Total Amount"]}</p>
-        <p><strong>Item Name:</strong> ${order["Item Name"]}</p>
-        <p><strong>Quantity:</strong> ${order["Item Quantity"]}</p>
-        <p><strong>Shipping Address:</strong><br>
-           ${order["Shipping Street"]}, ${order["Shipping City"]}, ${order["Shipping State"]} ${order["Shipping Postal"]}, ${order["Shipping Country"]}
-        </p>
-        <p><strong>Billing Address:</strong><br>
-           ${order["Billing Street"]}, ${order["Billing City"]}, ${order["Billing State"]} ${order["Billing Postal"]}, ${order["Billing Country"]}
-        </p>
-        <p><strong>Tracking Number:</strong> ${order["Tracking Number"]}</p>
-      </div>
-    `;
-    ordersList.appendChild(listItem);
+        // Handle cases where no orders match the user's email
+        if (userOrders.length === 0) {
+          ordersList.innerHTML = `<p>No orders found for ${loggedInUserEmail}.</p>`;
+          return;
+        }
+
+        // Populate the collapsible list with filtered orders
+        ordersList.innerHTML = ""; // Clear existing content
+        userOrders.forEach((order, index) => {
+          const listItem = document.createElement("div");
+          listItem.classList.add("order-item");
+          listItem.innerHTML = `
+            <div class="order-header" onclick="toggleOrderDetails(${index})">
+              <span>Order ID: ${order["Order ID"]}</span>
+              <span class="toggle-icon">+</span>
+            </div>
+            <div class="order-details" id="orderDetails-${index}" style="display: none;">
+              <p><strong>Name:</strong> ${order.Name}</p>
+              <p><strong>Email:</strong> ${order.Email}</p>
+              <p><strong>Order Date:</strong> ${order["Order Date"]}</p>
+              <p><strong>Total Amount:</strong> $${order["Total Amount"]}</p>
+              <p><strong>Item Name:</strong> ${order["Item Name"]}</p>
+              <p><strong>Quantity:</strong> ${order["Item Quantity"]}</p>
+              <p><strong>Shipping Address:</strong><br>
+                ${order["Shipping Street"]}, ${order["Shipping City"]}, ${order["Shipping State"]} ${order["Shipping Postal"]}, ${order["Shipping Country"]}
+              </p>
+              <p><strong>Billing Address:</strong><br>
+                ${order["Billing Street"]}, ${order["Billing City"]}, ${order["Billing State"]} ${order["Billing Postal"]}, ${order["Billing Country"]}
+              </p>
+              <p><strong>Tracking Number:</strong> ${order["Tracking Number"]}</p>
+            </div>
+          `;
+          ordersList.appendChild(listItem);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching orders.json:", error);
+        ordersList.innerHTML = `<p>Failed to load order data. Please try again later.</p>`;
+      });
   });
-}
 
-
-function toggleOrderDetails(index) {
-  const details = document.getElementById(`orderDetails-${index}`);
-  const icon = document.getElementById(`toggleIcon-${index}`);
-  if (details.style.display === "none" || details.style.display === "") {
-    details.style.display = "block";
-    icon.textContent = "-"; // Change the toggle icon
-  } else {
-    details.style.display = "none";
-    icon.textContent = "+"; // Reset the toggle icon
+  // Function to toggle order details visibility
+  function toggleOrderDetails(index) {
+    const details = document.getElementById(`orderDetails-${index}`);
+    const icon = details.previousElementSibling.querySelector(".toggle-icon");
+    const isVisible = details.style.display === "block";
+    details.style.display = isVisible ? "none" : "block";
+    icon.textContent = isVisible ? "+" : "-";
   }
-}
 </script>
