@@ -43,36 +43,50 @@ permalink: /test/
 <button id="trigger-action">Trigger GitHub Action</button>
 
 <script>
-document.getElementById('trigger-action').addEventListener('click', function() {
-  // Replace with your repository details
-  const owner = 'm-cochran';
-  const repo = 'Randomerr';
-  const workflowFile = 'write-file.yml'; // The name of the workflow file
+  document.getElementById('trigger-action').addEventListener('click', function () {
+    // Replace with your repository details
+    const owner = 'm-cochran';
+    const repo = 'Randomerr';
+    const workflowFile = 'write-file.yml'; // The name of the workflow file
 
-  // Replace with your personal access token
-  const token = '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';
-
-  fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFile}/dispatches`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      ref: 'main' // Trigger the workflow on the main branch
-    })
-  })
-  .then(response => {
-    if (response.ok) {
-      alert('GitHub Action triggered successfully!');
-    } else {
-      alert('Failed to trigger GitHub Action: ' + response.statusText);
+    // Prompt the user to enter their personal access token for better security
+    const token = prompt('Enter your GitHub Personal Access Token:');
+    if (!token) {
+      alert('No token entered. Action canceled.');
+      return;
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('Error triggering GitHub Action');
+
+    // GitHub API URL
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFile}/dispatches`;
+
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ref: 'main' // Trigger the workflow on the main branch
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          alert('GitHub Action triggered successfully!');
+        } else {
+          // Handle specific status codes for better feedback
+          if (response.status === 401) {
+            alert('Unauthorized: Please check your token or permissions.');
+          } else if (response.status === 404) {
+            alert('Workflow file not found. Verify the workflow file name and branch.');
+          } else {
+            alert(`Failed to trigger GitHub Action: ${response.status} ${response.statusText}`);
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error triggering GitHub Action. Check the console for more details.');
+      });
   });
-});
 </script>
