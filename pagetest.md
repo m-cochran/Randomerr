@@ -188,8 +188,8 @@ header h1 {
   const ordersJsonUrl =
     "https://raw.githubusercontent.com/m-cochran/Randomerr/main/orders.json"; // URL to the JSON file
 
-  // Display the logged-in user email
-  const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com"; // Example fallback
+  // Retrieve the logged-in user's email from localStorage
+  const loggedInUserEmail = localStorage.getItem("userEmail") || "johndoe@example.com"; // Replace with fallback if needed
   const userInfoDiv = document.getElementById("userInfo");
   userInfoDiv.innerHTML = `<p>Welcome, ${loggedInUserEmail}!</p>`;
 
@@ -203,12 +203,15 @@ header h1 {
     })
     .then((data) => {
       const tableBody = document.querySelector("#orderTable tbody");
+
+      // Filter orders based on the logged-in user's email
       const userOrders = data.filter((order) => order.Email === loggedInUserEmail);
 
-      // Check if the user has orders
+      // Check if the user has matching orders
       if (userOrders.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="21">No orders found for ${loggedInUserEmail}.</td></tr>`;
       } else {
+        // Populate the table with filtered orders
         userOrders.forEach((order) => {
           const row = document.createElement("tr");
           row.innerHTML = `
