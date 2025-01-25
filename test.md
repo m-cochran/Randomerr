@@ -37,7 +37,7 @@ permalink: /test/
     <script>
         // Function to save order to GitHub
         async function saveOrderToGitHub(orderDetails) {
-            const token = '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'; // Replace with your token
+            const token = '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'; // Replace with your token
             const owner = 'm-cochran';  // Replace with your GitHub username
             const repo = 'Randomerr';  // Replace with your repository name
             const filePath = 'orders.json';  // Path to the orders file in your repo
