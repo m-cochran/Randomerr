@@ -316,16 +316,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('success');
 
         // Prepare order details
-        const orderDetails = {
-          orderId,
-          name,
-          email,
-          phone,
-          billingAddress: address,
-          shippingAddress,
-          cartItems,
-          totalAmount: total.toFixed(2)
-        };
+  const formData = new FormData(event.target);
+    const order = {
+      "Account Number": formData.get("accountNumber"),
+      "Name": formData.get("name"),
+      "Email": formData.get("email"),
+      "Order Date": formData.get("orderDate"),
+      "Order ID": formData.get("orderID"),
+      "Phone": formData.get("phone"),
+      "Billing Street": formData.get("billingStreet"),
+      "Billing City": formData.get("billingCity"),
+      "Billing State": formData.get("billingState"),
+      "Billing Postal": formData.get("billingPostal"),
+      "Billing Country": formData.get("billingCountry"),
+      "Shipping Street": formData.get("shippingStreet"),
+      "Shipping City": formData.get("shippingCity"),
+      "Shipping State": formData.get("shippingState"),
+      "Shipping Postal": formData.get("shippingPostal"),
+      "Shipping Country": formData.get("shippingCountry"),
+      "Item Name": formData.get("itemName"),
+      "Item Quantity": parseInt(formData.get("itemQuantity")),
+      "Item Price": parseFloat(formData.get("itemPrice")),
+      "Total Amount": parseFloat(formData.get("totalAmount")),
+      "Tracking Number": formData.get("trackingNumber"),
+    };
 
         // Send order details to GitHub
         const fileName = `orders/${orderId}.json`;
