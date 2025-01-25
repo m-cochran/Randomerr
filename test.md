@@ -69,7 +69,7 @@ permalink: /test/
     ];
 
     document.getElementById('writeButton').addEventListener('click', async () => {
-      const token = prompt('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'); // Securely store this in a real application
+      const token = prompt('Enter your GitHub Personal Access Token'); // Securely store this in a real application // Securely store this in a real application
       const repo = "Randomerr"; // Replace with your GitHub username and repository name
       const filePath = "orders.json"; // File path in the repository
 
