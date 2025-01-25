@@ -1,25 +1,25 @@
-{
-  "order_id": 444,
-  "status": "Pending",
-  "shipping": {
-    "address": "123 Elm Street",
-    "city": "Springfield",
-    "state": "IL",
-    "zipcode": "62701"
-  },
-  "items": [
-    {
-      "item_id": 101,
-      "name": "Gaming Chair",
-      "quantity": 1,
-      "price": 199.99
-    },
-    {
-      "item_id": 102,
-      "name": "Desk Lamp",
-      "quantity": 2,
-      "price": 45.50
-    }
-  ],
-  "notes": "Customer requested gift wrapping."
-}
+[
+  {
+    "Account Number": "123456",
+    "Name": "John Doe",
+    "Email": "reachmycupofearth@gmail.com",
+    "Order Date": "2025-01-24",
+    "Order ID": "ORD001",
+    "Phone": "123-456-7890",
+    "Billing Street": "123 Main St",
+    "Billing City": "New York",
+    "Billing State": "NY",
+    "Billing Postal": "10001",
+    "Billing Country": "USA",
+    "Shipping Street": "456 Elm St",
+    "Shipping City": "Los Angeles",
+    "Shipping State": "CA",
+    "Shipping Postal": "90001",
+    "Shipping Country": "USA",
+    "Item Name": "Laptop",
+    "Item Quantity": 1,
+    "Item Price": 1000.0,
+    "Total Amount": 1000.0,
+    "Tracking Number": "TRK12345"
+  }
+]
