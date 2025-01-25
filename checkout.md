@@ -345,8 +345,6 @@ const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.p
 formData.append("totalAmount", totalAmount);
 
 // Send order details to Google Sheets
-  document.getElementById("submitForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
 
     const formData = new FormData(event.target);
     const order = {
@@ -434,8 +432,6 @@ formData.append("totalAmount", totalAmount);
       document.getElementById("statusMessage").textContent = "An unexpected error occurred. Check the console for details.";
     }
   });
-
-
 
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
