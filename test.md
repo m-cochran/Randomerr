@@ -7,16 +7,7 @@ permalink: /test/
 # Checkout
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Write to GitHub orders.json</title>
-</head>
-<body>
-  <h1>Submit Data to GitHub orders.json</h1>
-  <form id="submitForm">
+<form id="submitForm">
   <label>Account Number: <input type="text" name="accountNumber" required /></label>
   <label>Name: <input type="text" name="name" required /></label>
   <label>Email: <input type="email" name="email" required /></label>
@@ -41,6 +32,7 @@ permalink: /test/
   <button type="submit">Submit</button>
 </form>
 <p id="statusMessage"></p>
+
 
 
 <script>
@@ -134,7 +126,3 @@ permalink: /test/
     }
   });
 </script>
-
-</body>
-</html>
-
