@@ -29,7 +29,7 @@ permalink: /test/
       event.preventDefault();
 
       // GitHub configuration
-      const owner = "'m-cochran"; // Replace with your GitHub username
+      const owner = "m-cochran"; // Replace with your GitHub username
       const repo = "Randomerr"; // Replace with your repository name
       const path = "orders.json"; // File path in the repository
       const branch = "main"; // Branch name (e.g., main or master)
