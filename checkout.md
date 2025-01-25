@@ -316,118 +316,92 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('success');
 
         // Gather order details
-const GITHUB_REPO = "m-cochran/Randomerr";
-const FILE_PATH = "main/orders.json";
-const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
-const GITHUB_TOKEN = "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"; // Replace with your GitHub personal access token
+    const formData = new FormData(event.target);
+    const order = {
+      "Account Number": formData.get("accountNumber"),
+      "Name": formData.get("name"),
+      "Email": formData.get("email"),
+      "Order Date": formData.get("orderDate"),
+      "Order ID": formData.get("orderID"),
+      "Phone": formData.get("phone"),
+      "Billing Street": formData.get("billingStreet"),
+      "Billing City": formData.get("billingCity"),
+      "Billing State": formData.get("billingState"),
+      "Billing Postal": formData.get("billingPostal"),
+      "Billing Country": formData.get("billingCountry"),
+      "Shipping Street": formData.get("shippingStreet"),
+      "Shipping City": formData.get("shippingCity"),
+      "Shipping State": formData.get("shippingState"),
+      "Shipping Postal": formData.get("shippingPostal"),
+      "Shipping Country": formData.get("shippingCountry"),
+      "Item Name": formData.get("itemName"),
+      "Item Quantity": parseInt(formData.get("itemQuantity")),
+      "Item Price": parseFloat(formData.get("itemPrice")),
+      "Total Amount": parseFloat(formData.get("totalAmount")),
+      "Tracking Number": formData.get("trackingNumber"),
+    };
 
-// Function to submit the order details to GitHub
-async function submitOrderToGitHub() {
-  // Gather order details
-  const formData = new FormData();
-  formData.append("orderid", orderId);
-  formData.append("fullName", name);
-  formData.append("email", email); // Logged-in Gmail
-  formData.append("phone", phone);
-  formData.append("billingStreet", address.line1);
-  formData.append("billingCity", address.city);
-  formData.append("billingState", address.state);
-  formData.append("billingPostal", address.postal_code);
-  formData.append("billingCountry", address.country);
-  formData.append("shippingStreet", shippingAddress.line1);
-  formData.append("shippingCity", shippingAddress.city);
-  formData.append("shippingState", shippingAddress.state);
-  formData.append("shippingPostal", shippingAddress.postal_code);
-  formData.append("shippingCountry", shippingAddress.country);
+    const owner = "m-cochran"; // Replace with your GitHub username
+    const repo = "Randomerr"; // Replace with your repository name
+    const path = "orders.json"; // File path in the repository
+    const branch = "main"; // Branch name
+    const token = prompt("Enter your GitHub personal access token:");
 
-  // Add purchased items
-  const items = cartItems.map((item) => ({
-    name: item.name,
-    quantity: item.quantity,
-    price: item.price,
-  }));
-  formData.append("purchasedItems", JSON.stringify(items));
-  formData.append(
-      "totalAmount",
-      cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0)
-    );
+    try {
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-  // Add total amount
-  const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
-  formData.append("totalAmount", totalAmount);
+      // Fetch existing orders.json
+      let sha = null;
+      let existingOrders = [];
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+          },
+        });
 
-  // Convert FormData to JSON for GitHub
-  const orderData = {
-    orderid: formData.get("orderid"),
-    fullName: formData.get("fullName"),
-    email: formData.get("email"),
-    phone: formData.get("phone"),
-    billingStreet: formData.get("billingStreet"),
-    billingCity: formData.get("billingCity"),
-    billingState: formData.get("billingState"),
-    billingPostal: formData.get("billingPostal"),
-    billingCountry: formData.get("billingCountry"),
-    shippingStreet: formData.get("shippingStreet"),
-    shippingCity: formData.get("shippingCity"),
-    shippingState: formData.get("shippingState"),
-    shippingPostal: formData.get("shippingPostal"),
-    shippingCountry: formData.get("shippingCountry"),
-    purchasedItems: JSON.parse(formData.get("purchasedItems")),
-    totalAmount: formData.get("totalAmount"),
-  };
+        if (response.ok) {
+          const fileData = await response.json();
+          sha = fileData.sha;
+          existingOrders = JSON.parse(atob(fileData.content)); // Decode existing JSON
+        }
+      } catch (error) {
+        console.log("orders.json does not exist. A new file will be created.");
+      }
 
-  // Fetch the current JSON file from GitHub
-  const response = await fetch(GITHUB_API_URL, {
-    headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
-      Accept: "application/vnd.github.v3+json",
-    },
+      // Merge new order
+      const updatedOrders = [...existingOrders, order];
+
+      // Prepare the API payload
+      const payload = {
+        message: "Update orders.json via HTML form",
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedOrders, null, 2)))),
+        branch: branch,
+        sha: sha || undefined,
+      };
+
+      // Update orders.json on GitHub
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        document.getElementById("statusMessage").textContent = "Success: orders.json has been updated!";
+      } else {
+        const errorData = await response.json();
+        document.getElementById("statusMessage").textContent = `Error: ${errorData.message}`;
+      }
+    } catch (error) {
+      console.error("Error submitting data to GitHub:", error);
+      document.getElementById("statusMessage").textContent = "An unexpected error occurred. Check the console for details.";
+    }
   });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch the file: ${response.statusText}`);
-  }
-
-  const fileData = await response.json();
-
-  // Decode the current content from base64
-  const currentOrders = JSON.parse(atob(fileData.content));
-
-  // Add the new order
-  currentOrders.push(orderData);
-
-  // Encode the updated content back to base64
-  const updatedContent = btoa(JSON.stringify(currentOrders, null, 2));
-
-  // Send the updated content back to GitHub
-  const updateResponse = await fetch(GITHUB_API_URL, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
-      Accept: "application/vnd.github.v3+json",
-    },
-    body: JSON.stringify({
-      message: "Add new order",
-      content: updatedContent,
-      sha: fileData.sha, // Required to update the file
-    }),
-  });
-
-  if (!updateResponse.ok) {
-    throw new Error(`Failed to update the file: ${updateResponse.statusText}`);
-  }
-
-  console.log("Order submitted successfully!");
-  const updateData = await updateResponse.json();
-}
-
-// Call the function to submit the order
-submitOrderToGitHub().catch((error) => {
-  console.error("Error submitting order:", error);
-  // Verify if the file was updated by checking its content
-  console.log("Updated File Content:", updateData.content);
-});
-
 
 
         // Clear cart and redirect
@@ -437,8 +411,6 @@ submitOrderToGitHub().catch((error) => {
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
-      console.error("Error submitting order:", error);
-      alert("There was an error submitting your order. Please try again.");
       paymentStatus.textContent = `Error: ${error.message}`;
       paymentStatus.classList.add('error');
     } finally {
