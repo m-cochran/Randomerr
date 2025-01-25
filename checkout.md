@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           })
         });
 
-        // Clear cart and redirect
+       // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
@@ -359,7 +359,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       submitButton.disabled = false;
     }
   });
-});
 
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
