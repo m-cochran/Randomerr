@@ -316,8 +316,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('success');
 
         // Prepare order details
-  const formData = new FormData(event.target);
-    const order = {
+       const orderDetails = {
       "Account Number": formData.get("accountNumber"),
       "Name": formData.get("name"),
       "Email": formData.get("email"),
