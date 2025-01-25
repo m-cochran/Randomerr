@@ -7,122 +7,108 @@ permalink: /test/
 # Checkout
 
 
-<form id="submitForm">
-  <label>Account Number: <input type="text" name="accountNumber" required /></label>
-  <label>Name: <input type="text" name="name" required /></label>
-  <label>Email: <input type="email" name="email" required /></label>
-  <label>Order Date: <input type="date" name="orderDate" required /></label>
-  <label>Order ID: <input type="text" name="orderID" required /></label>
-  <label>Phone: <input type="tel" name="phone" required /></label>
-  <label>Billing Street: <input type="text" name="billingStreet" required /></label>
-  <label>Billing City: <input type="text" name="billingCity" required /></label>
-  <label>Billing State: <input type="text" name="billingState" required /></label>
-  <label>Billing Postal: <input type="text" name="billingPostal" required /></label>
-  <label>Billing Country: <input type="text" name="billingCountry" required /></label>
-  <label>Shipping Street: <input type="text" name="shippingStreet" required /></label>
-  <label>Shipping City: <input type="text" name="shippingCity" required /></label>
-  <label>Shipping State: <input type="text" name="shippingState" required /></label>
-  <label>Shipping Postal: <input type="text" name="shippingPostal" required /></label>
-  <label>Shipping Country: <input type="text" name="shippingCountry" required /></label>
-  <label>Item Name: <input type="text" name="itemName" required /></label>
-  <label>Item Quantity: <input type="number" name="itemQuantity" required /></label>
-  <label>Item Price: <input type="number" name="itemPrice" step="0.01" required /></label>
-  <label>Total Amount: <input type="number" name="totalAmount" step="0.01" required /></label>
-  <label>Tracking Number: <input type="text" name="trackingNumber" /></label>
-  <button type="submit">Submit</button>
-</form>
-<p id="statusMessage"></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write to GitHub</title>
+</head>
+<body>
+  <h1>Write Orders to GitHub</h1>
+  <button id="writeButton">Write to GitHub</button>
 
+  <script>
+    const ordersData = [
+      {
+        "Account Number": "123456",
+        "Name": "John Doe",
+        "Email": "reachmycupofearth@gmail.com",
+        "Order Date": "2025-01-24",
+        "Order ID": "ORD001",
+        "Phone": "123-456-7890",
+        "Billing Street": "123 Main St",
+        "Billing City": "New York",
+        "Billing State": "NY",
+        "Billing Postal": "10001",
+        "Billing Country": "USA",
+        "Shipping Street": "456 Elm St",
+        "Shipping City": "Los Angeles",
+        "Shipping State": "CA",
+        "Shipping Postal": "90001",
+        "Shipping Country": "USA",
+        "Item Name": "Laptop",
+        "Item Quantity": 1,
+        "Item Price": 1000,
+        "Total Amount": 1000,
+        "Tracking Number": "TRK12345"
+      },
+      {
+        "Account Number": "cvdvsdvvdv",
+        "Name": "Marlin Cochran",
+        "Email": "chilarue@msn.com",
+        "Order Date": "1111-11-11",
+        "Order ID": "111111",
+        "Phone": "7248106009",
+        "Billing Street": "942 Meldon Ave",
+        "Billing City": "Donora",
+        "Billing State": "PA",
+        "Billing Postal": "15033",
+        "Billing Country": "United States",
+        "Shipping Street": "942 Meldon Ave",
+        "Shipping City": "Donora",
+        "Shipping State": "PA",
+        "Shipping Postal": "15033",
+        "Shipping Country": "United States",
+        "Item Name": "wvwvwv",
+        "Item Quantity": 8,
+        "Item Price": 11,
+        "Total Amount": 11,
+        "Tracking Number": "111111"
+      }
+    ];
 
+    document.getElementById('writeButton').addEventListener('click', async () => {
+      const token = prompt('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'); // Securely store this in a real application
+      const repo = "Randomerr"; // Replace with your GitHub username and repository name
+      const filePath = "orders.json"; // File path in the repository
 
-<script>
-  document.getElementById("submitForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const order = {
-      "Account Number": formData.get("accountNumber"),
-      "Name": formData.get("name"),
-      "Email": formData.get("email"),
-      "Order Date": formData.get("orderDate"),
-      "Order ID": formData.get("orderID"),
-      "Phone": formData.get("phone"),
-      "Billing Street": formData.get("billingStreet"),
-      "Billing City": formData.get("billingCity"),
-      "Billing State": formData.get("billingState"),
-      "Billing Postal": formData.get("billingPostal"),
-      "Billing Country": formData.get("billingCountry"),
-      "Shipping Street": formData.get("shippingStreet"),
-      "Shipping City": formData.get("shippingCity"),
-      "Shipping State": formData.get("shippingState"),
-      "Shipping Postal": formData.get("shippingPostal"),
-      "Shipping Country": formData.get("shippingCountry"),
-      "Item Name": formData.get("itemName"),
-      "Item Quantity": parseInt(formData.get("itemQuantity")),
-      "Item Price": parseFloat(formData.get("itemPrice")),
-      "Total Amount": parseFloat(formData.get("totalAmount")),
-      "Tracking Number": formData.get("trackingNumber"),
-    };
-
-    const owner = "m-cochran"; // Replace with your GitHub username
-    const repo = "Randomerr"; // Replace with your repository name
-    const path = "orders.json"; // File path in the repository
-    const branch = "main"; // Branch name
-    const token = prompt("Enter your GitHub personal access token:");
-
-    try {
-      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-
-      // Fetch existing orders.json
-      let sha = null;
-      let existingOrders = [];
       try {
-        const response = await fetch(url, {
+        // Fetch the current file content to get the SHA (if the file exists)
+        const response = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            Accept: "application/vnd.github+json",
           },
         });
 
-        if (response.ok) {
-          const fileData = await response.json();
-          sha = fileData.sha;
-          existingOrders = JSON.parse(atob(fileData.content)); // Decode existing JSON
+        const fileData = await response.json();
+        const sha = fileData.sha || null;
+
+        // Write the new file content
+        const writeResponse = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: "Update orders.json",
+            content: btoa(JSON.stringify(ordersData, null, 2)),
+            sha: sha
+          })
+        });
+
+        if (writeResponse.ok) {
+          alert('File written successfully!');
+        } else {
+          throw new Error('Failed to write file.');
         }
       } catch (error) {
-        console.log("orders.json does not exist. A new file will be created.");
+        console.error(error);
+        alert('Error writing file to GitHub.');
       }
+    });
+  </script>
+</body>
+</html>
 
-      // Merge new order
-      const updatedOrders = [...existingOrders, order];
-
-      // Prepare the API payload
-      const payload = {
-        message: "Update orders.json via HTML form",
-        content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedOrders, null, 2)))),
-        branch: branch,
-        sha: sha || undefined,
-      };
-
-      // Update orders.json on GitHub
-      const response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/vnd.github+json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        document.getElementById("statusMessage").textContent = "Success: orders.json has been updated!";
-      } else {
-        const errorData = await response.json();
-        document.getElementById("statusMessage").textContent = `Error: ${errorData.message}`;
-      }
-    } catch (error) {
-      console.error("Error submitting data to GitHub:", error);
-      document.getElementById("statusMessage").textContent = "An unexpected error occurred. Check the console for details.";
-    }
-  });
-</script>
