@@ -315,51 +315,43 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Prepare order details
-       const orderDetails = {
-      "Account Number": formData.get("accountNumber"),
-      "Name": formData.get("name"),
-      "Email": formData.get("email"),
-      "Order Date": formData.get("orderDate"),
-      "Order ID": formData.get("orderID"),
-      "Phone": formData.get("phone"),
-      "Billing Street": formData.get("billingStreet"),
-      "Billing City": formData.get("billingCity"),
-      "Billing State": formData.get("billingState"),
-      "Billing Postal": formData.get("billingPostal"),
-      "Billing Country": formData.get("billingCountry"),
-      "Shipping Street": formData.get("shippingStreet"),
-      "Shipping City": formData.get("shippingCity"),
-      "Shipping State": formData.get("shippingState"),
-      "Shipping Postal": formData.get("shippingPostal"),
-      "Shipping Country": formData.get("shippingCountry"),
-      "Item Name": formData.get("itemName"),
-      "Item Quantity": parseInt(formData.get("itemQuantity")),
-      "Item Price": parseFloat(formData.get("itemPrice")),
-      "Total Amount": parseFloat(formData.get("totalAmount")),
-      "Tracking Number": formData.get("trackingNumber"),
-    };
+        // Gather order details
+const formData = new FormData();
+formData.append("orderid", orderId);
+formData.append("fullName", name);
+formData.append("email", email); // Logged-in Gmail
+formData.append("phone", phone);
+formData.append("billingStreet", address.line1);
+formData.append("billingCity", address.city);
+formData.append("billingState", address.state);
+formData.append("billingPostal", address.postal_code);
+formData.append("billingCountry", address.country);
+formData.append("shippingStreet", shippingAddress.line1);
+formData.append("shippingCity", shippingAddress.city);
+formData.append("shippingState", shippingAddress.state);
+formData.append("shippingPostal", shippingAddress.postal_code);
+formData.append("shippingCountry", shippingAddress.country);
 
-        // Send order details to GitHub
-        const fileName = `orders/${orderId}.json`;
-        const githubToken = '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';
-        const githubRepo = 'Randomerr'; // Replace with your GitHub username/repo
-        const githubBranch = 'main'; // Replace with your branch
+// Add purchased items
+const items = cartItems.map(item => ({
+  name: item.name,
+  quantity: item.quantity,
+  price: item.price,
+}));
+formData.append("purchasedItems", JSON.stringify(items));
 
-        await fetch(`https://api.github.com/repos/${githubRepo}/contents/${fileName}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${githubToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: `Create order ${orderId}`,
-            content: btoa(JSON.stringify(orderDetails, null, 2)),
-            branch: githubBranch
-          })
-        });
+// Add total amount
+const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
+formData.append("totalAmount", totalAmount);
 
-       // Clear cart and redirect
+// Send order details to Google Sheets
+await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
+  method: "POST",
+  body: formData
+});
+
+
+        // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
