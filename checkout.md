@@ -316,7 +316,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.classList.add('success');
 
         // Gather order details
-const formData = new FormData();
+const formData = new FormData(event.target);
+const order = {
 formData.append("orderid", orderId);
 formData.append("fullName", name);
 formData.append("email", email); // Logged-in Gmail
@@ -345,10 +346,67 @@ const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.p
 formData.append("totalAmount", totalAmount);
 
 // Send order details to Google Sheets
-await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
-  method: "POST",
-  body: formData
-});
+   const owner = "m-cochran"; // Replace with your GitHub username
+    const repo = "Randomerr"; // Replace with your repository name
+    const path = "orders.json"; // File path in the repository
+    const branch = "main"; // Branch name
+    const token = prompt("Enter your GitHub personal access token:");
+
+    try {
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+      // Fetch existing orders.json
+      let sha = null;
+      let existingOrders = [];
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+          },
+        });
+
+        if (response.ok) {
+          const fileData = await response.json();
+          sha = fileData.sha;
+          existingOrders = JSON.parse(atob(fileData.content)); // Decode existing JSON
+        }
+      } catch (error) {
+        console.log("orders.json does not exist. A new file will be created.");
+      }
+
+      // Merge new order
+      const updatedOrders = [...existingOrders, order];
+
+      // Prepare the API payload
+      const payload = {
+        message: "Update orders.json via HTML form",
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedOrders, null, 2)))),
+        branch: branch,
+        sha: sha || undefined,
+      };
+
+      // Update orders.json on GitHub
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        document.getElementById("statusMessage").textContent = "Success: orders.json has been updated!";
+      } else {
+        const errorData = await response.json();
+        document.getElementById("statusMessage").textContent = `Error: ${errorData.message}`;
+      }
+    } catch (error) {
+      console.error("Error submitting data to GitHub:", error);
+      document.getElementById("statusMessage").textContent = "An unexpected error occurred. Check the console for details.";
+    }
+  });
 
 
         // Clear cart and redirect
