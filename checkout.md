@@ -351,8 +351,8 @@ await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfX
 });
 
 
-// GitHub API to save order details to orders.json
-const githubOrderData = {
+// Send order data to your Node.js backend
+const orderData = {
   orderId: orderId,
   name: name,
   email: email,
@@ -363,53 +363,20 @@ const githubOrderData = {
   totalAmount: totalAmount,
 };
 
-const githubAPIUrl = 'https://api.github.com/repos/m-cochran/randomerr/contents/orders.json';
-const githubToken = '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';  // Replace with your Personal Access Token
-
-// Fetch the current contents of orders.json
-let currentOrders = [];
-try {
-  const response = await fetch(githubAPIUrl, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${githubToken}`
-    }
-  });
-  
-  if (response.ok) {
-    const data = await response.json();
-    currentOrders = JSON.parse(atob(data.content));  // Decoding base64 content
-  }
-} catch (error) {
-  console.error("Error fetching orders.json:", error);
-}
-
-// Add new order to the list of current orders
-currentOrders.push(githubOrderData);
-
-// Convert the updated orders to base64
-const updatedOrdersContent = btoa(JSON.stringify(currentOrders));
-
-// Update the orders.json file with the new order data
-const commitMessage = `Add order ${orderId}`;
-await fetch(githubAPIUrl, {
-  method: 'PUT',
+fetch('http://localhost:3000/submit-order', {
+  method: 'POST',
   headers: {
-    'Authorization': `Bearer ${githubToken}`,
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify({
-    message: commitMessage,
-    committer: {
-      name: 'Your Name',
-      email: 'your-email@example.com',
-    },
-    content: updatedOrdersContent,
-    sha: data.sha,  // This is the file's current sha to avoid conflicts
-  }),
-});
-
-console.log('Order saved to GitHub');
+  body: JSON.stringify(orderData),
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log('Order saved to GitHub:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 
 
         // Clear cart and redirect
