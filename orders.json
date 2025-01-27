@@ -1,6 +1,7 @@
 {
   "order_id": "12345",
   "customer": "John Doe",
+  "email": "reachmycupofearth@gmail.com",
   "items": [
     {"item": "Apple", "quantity": 3},
     {"item": "Banana", "quantity": 2}
