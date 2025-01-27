@@ -10,101 +10,132 @@ permalink: /test/
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Order Save</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Orders on GitHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      max-width: 600px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
 </head>
 <body>
-    <h1>Place an Order</h1>
-    <form id="orderForm">
-        <label for="orderId">Order ID:</label>
-        <input type="text" id="orderId" name="orderId" required><br><br>
-        
-        <label for="customerName">Customer Name:</label>
-        <input type="text" id="customerName" name="customerName" required><br><br>
+  <h1>Update Orders File on GitHub</h1>
+  <form id="updateForm">
+    <label for="orders">Enter Order Data (JSON Format):</label>
+    <textarea id="orders" rows="10" required>
+{
+  "order_id": "12345",
+  "customer": "John Doe",
+  "items": [
+    {"item": "Apple", "quantity": 3},
+    {"item": "Banana", "quantity": 2}
+  ],
+  "total": 25.50
+}
+    </textarea>
+    <label for="token">GitHub Personal Access Token:</label>
+    <input type="password" id="token" placeholder="Enter your GitHub token" required>
+    <label for="username">GitHub Username:</label>
+    <input type="text" id="username" placeholder="Enter your GitHub username" required>
+    <label for="repo">Repository Name:</label>
+    <input type="text" id="repo" placeholder="Enter your repository name" required>
+    <label for="path">File Path (e.g., orders.json):</label>
+    <input type="text" id="path" placeholder="Enter the file path" value="orders.json" required>
+    <button type="submit">Update File</button>
+  </form>
+  <p id="response" class=""></p>
 
-        <label for="items">Items (comma separated):</label>
-        <input type="text" id="items" name="items" required><br><br>
+  <script>
+    document.getElementById("updateForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-        <label for="totalAmount">Total Amount:</label>
-        <input type="number" id="totalAmount" name="totalAmount" required><br><br>
+      const orders = document.getElementById("orders").value;
+      const token = document.getElementById("token").value;
+      const username = document.getElementById("username").value;
+      const repo = document.getElementById("repo").value;
+      const path = document.getElementById("path").value;
+      const responseMessage = document.getElementById("response");
 
-        <button type="submit">Place Order</button>
-    </form>
+      responseMessage.textContent = ""; // Clear previous messages
+      responseMessage.className = "";
 
-    <p id="statusMessage"></p>
+      try {
+        // Step 1: Get the current file's SHA
+        const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+        const headers = {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github.v3+json"
+        };
 
-    <script>
-        // Function to save order to GitHub
-        async function saveOrderToGitHub(orderDetails) {
-            const token = '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'; // Replace with your token
-            const owner = 'm-cochran';  // Replace with your GitHub username
-            const repo = 'Randomerr';  // Replace with your repository name
-            const filePath = 'orders.json';  // Path to the orders file in your repo
+        const fileResponse = await fetch(fileUrl, { headers });
+        const fileData = await fileResponse.json();
 
-            // Get the current content of orders.json
-            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                }
-            });
-            const data = await response.json();
-
-            let currentOrders = [];
-            if (data.content) {
-                // Decode base64 content and parse as JSON
-                currentOrders = JSON.parse(atob(data.content));
-            }
-
-            // Add the new order to the list of orders
-            currentOrders.push(orderDetails);
-
-            // Prepare the payload to update the file
-            const payload = {
-                message: 'Adding new order',
-                content: btoa(JSON.stringify(currentOrders)),  // Encode the updated JSON
-                sha: data.sha,  // Get the file's current SHA
-            };
-
-            // Send a PUT request to update the file
-            const updateResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const updateData = await updateResponse.json();
-            if (updateData.content) {
-                document.getElementById('statusMessage').textContent = 'Order saved successfully!';
-            } else {
-                document.getElementById('statusMessage').textContent = 'Failed to save order.';
-            }
+        if (!fileResponse.ok) {
+          throw new Error(
+            `Error fetching file: ${fileData.message || fileResponse.statusText}`
+          );
         }
 
-        // Handle form submission
-        document.getElementById('orderForm').addEventListener('submit', function(event) {
-            event.preventDefault();  // Prevent form submission from refreshing the page
+        const sha = fileData.sha; // File's current SHA
 
-            const orderId = document.getElementById('orderId').value;
-            const customerName = document.getElementById('customerName').value;
-            const items = document.getElementById('items').value.split(',').map(item => item.trim());
-            const totalAmount = parseFloat(document.getElementById('totalAmount').value);
-
-            const newOrder = {
-                orderId: orderId,
-                customerName: customerName,
-                items: items.map(item => ({ itemName: item, quantity: 1, price: totalAmount / items.length })),
-                totalAmount: totalAmount,
-                date: new Date().toISOString(),
-            };
-
-            // Call the function to save the order
-            saveOrderToGitHub(newOrder);
+        // Step 2: Update the file
+        const updateResponse = await fetch(fileUrl, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({
+            message: `Updating ${path}`,
+            content: btoa(unescape(encodeURIComponent(orders))), // Encode content to Base64
+            sha: sha // Required to update the file
+          })
         });
-    </script>
+
+        const updateData = await updateResponse.json();
+
+        if (!updateResponse.ok) {
+          throw new Error(
+            `Error updating file: ${updateData.message || updateResponse.statusText}`
+          );
+        }
+
+        responseMessage.textContent = "File updated successfully!";
+        responseMessage.className = "success";
+      } catch (error) {
+        responseMessage.textContent = `Failed: ${error.message}`;
+        responseMessage.className = "error";
+      }
+    });
+  </script>
 </body>
 </html>
+
