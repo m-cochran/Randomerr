@@ -1,11 +1,34 @@
-{
-  "order_id": "12345",
-  "customer": "John Doe",
-  "email": "reachmycupofearth@gmail.com",
-  "items": [
-    {"item": "Apple", "quantity": 3},
-    {"item": "Banana", "quantity": 2}
-  ],
-  "total": 25.50
-}
-    
+[
+  {
+    "order_id": "12345",
+    "customer": "John Doe",
+    "email": "reachmycupofearth@gmail.com",
+    "items": [
+      {
+        "item": "Apple",
+        "quantity": 3
+      },
+      {
+        "item": "Banana",
+        "quantity": 2
+      }
+    ],
+    "total": 25.5
+  },
+  {
+    "order_id": "67890",
+    "customer": "Jane Smith",
+    "email": "reachmycupofearth",
+    "items": [
+      {
+        "item": "Orange",
+        "quantity": 5
+      },
+      {
+        "item": "Grapes",
+        "quantity": 1
+      }
+    ],
+    "total": 15.75
+  }
+]
