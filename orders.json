@@ -1,71 +1,10 @@
-[
-  {
-    "Account Number": "123456",
-    "Name": "John Doe",
-    "Email": "reachmycupofearth@gmail.com",
-    "Order Date": "2025-01-24",
-    "Order ID": "ORD001",
-    "Phone": "123-456-7890",
-    "Billing Street": "123 Main St",
-    "Billing City": "New York",
-    "Billing State": "NY",
-    "Billing Postal": "10001",
-    "Billing Country": "USA",
-    "Shipping Street": "456 Elm St",
-    "Shipping City": "Los Angeles",
-    "Shipping State": "CA",
-    "Shipping Postal": "90001",
-    "Shipping Country": "USA",
-    "Item Name": "Laptop",
-    "Item Quantity": 1,
-    "Item Price": 1000,
-    "Total Amount": 1000,
-    "Tracking Number": "TRK12345"
-  },
-  {
-    "Account Number": "cvdvsdvvdv",
-    "Name": "Marlin Cochran",
-    "Email": "chilarue@msn.com",
-    "Order Date": "1111-11-11",
-    "Order ID": "111111",
-    "Phone": "7248106009",
-    "Billing Street": "942 Meldon Ave",
-    "Billing City": "Donora",
-    "Billing State": "PA",
-    "Billing Postal": "15033",
-    "Billing Country": "United States",
-    "Shipping Street": "942 Meldon Ave",
-    "Shipping City": "Donora",
-    "Shipping State": "PA",
-    "Shipping Postal": "15033",
-    "Shipping Country": "United States",
-    "Item Name": "wvwvwv",
-    "Item Quantity": 8,
-    "Item Price": 11,
-    "Total Amount": 11,
-    "Tracking Number": "111111"
-  },
-  {
-    "Account Number": "cvdvsdvvdv",
-    "Name": "Marlin Cochran",
-    "Email": "chilarue@msn.com",
-    "Order Date": "1111-11-11",
-    "Order ID": "111111",
-    "Phone": "7248106009",
-    "Billing Street": "942 Meldon Ave",
-    "Billing City": "Donora",
-    "Billing State": "PA",
-    "Billing Postal": "15033",
-    "Billing Country": "United States",
-    "Shipping Street": "942 Meldon Ave",
-    "Shipping City": "Donora",
-    "Shipping State": "PA",
-    "Shipping Postal": "15033",
-    "Shipping Country": "United States",
-    "Item Name": "wvwvwv",
-    "Item Quantity": 8,
-    "Item Price": 11,
-    "Total Amount": 11,
-    "Tracking Number": "111111"
-  }
-]
+{
+  "order_id": "12345",
+  "customer": "John Doe",
+  "items": [
+    {"item": "Apple", "quantity": 3},
+    {"item": "Banana", "quantity": 2}
+  ],
+  "total": 25.50
+}
+    
