@@ -1,22 +1,22 @@
-  [
+[
     {
-      "Order ID": "12",
-      "Name": "John Doe",
-      "Email": "Reachmycupofearth@gmail.com",
-      "Order Date": "2025-01-24",
-      "Total Amount": 125.5,
-      "Item Name": "Blue T-shirt",
-      "Item Quantity": 2,
-      "Shipping Street": "123 Elm St",
-      "Shipping City": "Springfield",
-      "Shipping State": "IL",
-      "Shipping Postal": "62701",
-      "Shipping Country": "USA",
-      "Billing Street": "456 Oak St",
-      "Billing City": "Springfield",
-      "Billing State": "IL",
-      "Billing Postal": "62701",
-      "Billing Country": "USA",
-      "Tracking Number": "TRACK123456"
-    }
-  ]
+    "Order ID": "12",
+    "Name": "John Doe",
+    "Email": "Reachmycupofearth@gmail.com",
+    "Order Date": "2025-01-24",
+    "Total Amount": 125.5,
+    "Item Name": "Blue T-shirt",
+    "Item Quantity": 2,
+    "Shipping Street": "123 Elm St",
+    "Shipping City": "Springfield",
+    "Shipping State": "IL",
+    "Shipping Postal": "62701",
+    "Shipping Country": "USA",
+    "Billing Street": "456 Oak St",
+    "Billing City": "Springfield",
+    "Billing State": "IL",
+    "Billing Postal": "62701",
+    "Billing Country": "USA",
+    "Tracking Number": "TRACK123456"
+  }
+]
