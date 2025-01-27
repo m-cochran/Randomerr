@@ -12,7 +12,7 @@ permalink: /test/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update Orders on GitHub</title>
+  <title>Append to Orders on GitHub</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -50,18 +50,18 @@ permalink: /test/
   </style>
 </head>
 <body>
-  <h1>Update Orders File on GitHub</h1>
+  <h1>Append Orders to GitHub File</h1>
   <form id="updateForm">
-    <label for="orders">Enter Order Data (JSON Format):</label>
+    <label for="orders">New Order Data (JSON Format):</label>
     <textarea id="orders" rows="10" required>
 {
-  "order_id": "12345",
-  "customer": "John Doe",
+  "order_id": "67890",
+  "customer": "Jane Smith",
   "items": [
-    {"item": "Apple", "quantity": 3},
-    {"item": "Banana", "quantity": 2}
+    {"item": "Orange", "quantity": 5},
+    {"item": "Grapes", "quantity": 1}
   ],
-  "total": 25.50
+  "total": 15.75
 }
     </textarea>
     <label for="token">GitHub Personal Access Token:</label>
@@ -80,7 +80,7 @@ permalink: /test/
     document.getElementById("updateForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const orders = document.getElementById("orders").value;
+      const newOrder = JSON.parse(document.getElementById("orders").value);
       const token = document.getElementById("token").value;
       const username = document.getElementById("username").value;
       const repo = document.getElementById("repo").value;
@@ -91,7 +91,7 @@ permalink: /test/
       responseMessage.className = "";
 
       try {
-        // Step 1: Get the current file's SHA
+        // Step 1: Get the current file's contents and SHA
         const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
         const headers = {
           Authorization: `token ${token}`,
@@ -107,16 +107,23 @@ permalink: /test/
           );
         }
 
-        const sha = fileData.sha; // File's current SHA
+        const currentContent = JSON.parse(
+          decodeURIComponent(escape(atob(fileData.content))) // Decode Base64 content
+        );
 
-        // Step 2: Update the file
+        // Step 2: Append the new order to the existing orders
+        const updatedContent = Array.isArray(currentContent)
+          ? [...currentContent, newOrder] // If the file is an array, append
+          : [currentContent, newOrder]; // If it's an object, make it an array
+
+        // Step 3: Update the file on GitHub
         const updateResponse = await fetch(fileUrl, {
           method: "PUT",
           headers,
           body: JSON.stringify({
-            message: `Updating ${path}`,
-            content: btoa(unescape(encodeURIComponent(orders))), // Encode content to Base64
-            sha: sha // Required to update the file
+            message: `Appending new order to ${path}`,
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedContent, null, 2)))), // Encode updated content to Base64
+            sha: fileData.sha // Include current file SHA
           })
         });
 
@@ -128,7 +135,7 @@ permalink: /test/
           );
         }
 
-        responseMessage.textContent = "File updated successfully!";
+        responseMessage.textContent = "Order added successfully!";
         responseMessage.className = "success";
       } catch (error) {
         responseMessage.textContent = `Failed: ${error.message}`;
@@ -138,4 +145,5 @@ permalink: /test/
   </script>
 </body>
 </html>
+
 
