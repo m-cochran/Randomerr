@@ -233,8 +233,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
-  document.getElementById("payment-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
@@ -317,84 +315,40 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
+        // Gather order details
+const formData = new FormData();
+formData.append("orderid", orderId);
+formData.append("fullName", name);
+formData.append("email", email); // Logged-in Gmail
+formData.append("phone", phone);
+formData.append("billingStreet", address.line1);
+formData.append("billingCity", address.city);
+formData.append("billingState", address.state);
+formData.append("billingPostal", address.postal_code);
+formData.append("billingCountry", address.country);
+formData.append("shippingStreet", shippingAddress.line1);
+formData.append("shippingCity", shippingAddress.city);
+formData.append("shippingState", shippingAddress.state);
+formData.append("shippingPostal", shippingAddress.postal_code);
+formData.append("shippingCountry", shippingAddress.country);
 
+// Add purchased items
+const items = cartItems.map(item => ({
+  name: item.name,
+  quantity: item.quantity,
+  price: item.price,
+}));
+formData.append("purchasedItems", JSON.stringify(items));
 
-          <form id="updateForm">
-    <label for="orders">New Order Data (JSON Format):</label>
-    <label for="token">GitHub Personal Access Token:</label>
-    <input type="password" id="token" placeholder="Enter your GitHub token" required>
-    <label for="username">GitHub Username:</label>
-    <input type="text" id="username" placeholder="Enter your GitHub username" required>
-    <label for="repo">Repository Name:</label>
-    <input type="text" id="repo" placeholder="Enter your repository name" required>
-    <label for="path">File Path (e.g., orders.json):</label>
-    <input type="text" id="path" placeholder="Enter the file path" value="orders.json" required>
-    <button type="submit">Update File</button>
-  </form>
+// Add total amount
+const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
+formData.append("totalAmount", totalAmount);
 
-      const newOrder = JSON.parse(document.getElementById("orders").value);
-      const token = document.getElementById("token").value;
-      const username = document.getElementById("username").value;
-      const repo = document.getElementById("repo").value;
-      const path = document.getElementById("path").value;
-      const responseMessage = document.getElementById("response");
-
-      responseMessage.textContent = ""; // Clear previous messages
-      responseMessage.className = "";
-
-      try {
-        // Step 1: Get the current file's contents and SHA
-        const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-        const headers = {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json"
-        };
-
-        const fileResponse = await fetch(fileUrl, { headers });
-        const fileData = await fileResponse.json();
-
-        if (!fileResponse.ok) {
-          throw new Error(
-            `Error fetching file: ${fileData.message || fileResponse.statusText}`
-          );
-        }
-
-        const currentContent = JSON.parse(
-          decodeURIComponent(escape(atob(fileData.content))) // Decode Base64 content
-        );
-
-        // Step 2: Append the new order to the existing orders
-        const updatedContent = Array.isArray(currentContent)
-          ? [...currentContent, newOrder] // If the file is an array, append
-          : [currentContent, newOrder]; // If it's an object, make it an array
-
-        // Step 3: Update the file on GitHub
-        const updateResponse = await fetch(fileUrl, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify({
-            message: `Appending new order to ${path}`,
-            content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedContent, null, 2)))), // Encode updated content to Base64
-            sha: fileData.sha // Include current file SHA
-          })
-        });
-
-        const updateData = await updateResponse.json();
-
-        if (!updateResponse.ok) {
-          throw new Error(
-            `Error updating file: ${updpayment-formateData.message || updateResponse.statusText}`
-          );
-        }
-
-        responseMessage.textContent = "Order added successfully!";
-        responseMessage.className = "success";
-      } catch (error) {
-        responseMessage.textContent = `Failed: ${error.message}`;
-        responseMessage.className = "error";
-      }
-        
-
+// Send order details to Google Sheets
+await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
+  method: "POST",
+  body: formData
+});
 
 
         // Clear cart and redirect
