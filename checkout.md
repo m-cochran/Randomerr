@@ -341,7 +341,7 @@ const items = cartItems.map(item => ({
 formData.append("purchasedItems", JSON.stringify(items));
 
 
-async function submitOrder(orderData) {
+async function submitOrder(formData) {
     const response = await fetch('http://localhost:3000/update-orders', {
         method: 'POST',
         headers: {
