@@ -41,7 +41,7 @@ permalink: /test/
   </form>
   <p id="response" class=""></p>
 
-  <script>
+<script>
     document.getElementById("updateForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -107,6 +107,6 @@ permalink: /test/
         responseMessage.className = "error";
       }
     });
-  </script>
+</script>
 </body>
 </html>
