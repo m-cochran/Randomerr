@@ -14,7 +14,7 @@ permalink: /test/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Append to Orders on GitHub</title>
   <style>
-  <body>
+<body>
   <h1>Append Orders to GitHub File</h1>
   <form id="updateForm">
     <label for="orders">New Order Data (JSON Format):</label>
