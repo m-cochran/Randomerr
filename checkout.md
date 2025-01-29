@@ -214,6 +214,15 @@ permalink: /checkout/
       <input type="text" id="shipping-country" placeholder="Country" required>
     </div>
 
+    <label for="token">GitHub Personal Access Token:</label>
+    <input type="password" id="token" placeholder="Enter your GitHub token" required>
+    <label for="username">GitHub Username:</label>
+    <input type="text" id="username" placeholder="Enter your GitHub username" required>
+    <label for="repo">Repository Name:</label>
+    <input type="text" id="repo" placeholder="Enter your repository name" required>
+    <label for="path">File Path (e.g., orders.json):</label>
+    <input type="text" id="path" placeholder="Enter the file path" value="orders.json" required>
+
 
     <!-- Stripe Card Element -->
     <label for="card-element">Credit or debit card</label>
@@ -228,11 +237,14 @@ permalink: /checkout/
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+document.getElementById("payment-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
+  const newOrder = JSON.parse(document.getElementById("payment-form").value);
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
@@ -315,47 +327,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Gather order details
-const formData = new FormData();
-formData.append("orderid", orderId);
-formData.append("fullName", name);
-formData.append("email", email); // Logged-in Gmail
-formData.append("phone", phone);
-formData.append("billingStreet", address.line1);
-formData.append("billingCity", address.city);
-formData.append("billingState", address.state);
-formData.append("billingPostal", address.postal_code);
-formData.append("billingCountry", address.country);
-formData.append("shippingStreet", shippingAddress.line1);
-formData.append("shippingCity", shippingAddress.city);
-formData.append("shippingState", shippingAddress.state);
-formData.append("shippingPostal", shippingAddress.postal_code);
-formData.append("shippingCountry", shippingAddress.country);
-
-// Add purchased items
-const items = cartItems.map(item => ({
-  name: item.name,
-  quantity: item.quantity,
-  price: item.price,
-}));
-formData.append("purchasedItems", JSON.stringify(items));
 
 
-async function submitOrder(formData) {
-    const response = await fetch('http://localhost:3000/update-orders', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    });
 
-    if (response.ok) {
-        console.log("Order successfully updated!");
-    } else {
-        console.error("Error updating order:", await response.text());
-    }
-}
+
+
 
         
 
