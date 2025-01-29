@@ -214,14 +214,6 @@ permalink: /checkout/
       <input type="text" id="shipping-country" placeholder="Country" required>
     </div>
 
-    <label for="token">GitHub Personal Access Token:</label>
-    <input type="password" id="token" placeholder="Enter your GitHub token" required>
-    <label for="username">GitHub Username:</label>
-    <input type="text" id="username" placeholder="Enter your GitHub username" required>
-    <label for="repo">Repository Name:</label>
-    <input type="text" id="repo" placeholder="Enter your repository name" required>
-    <label for="path">File Path (e.g., orders.json):</label>
-    <input type="text" id="path" placeholder="Enter the file path" value="orders.json" required>
 
 
     <!-- Stripe Card Element -->
