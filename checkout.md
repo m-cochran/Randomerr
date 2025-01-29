@@ -215,7 +215,6 @@ permalink: /checkout/
     </div>
 
 
-
     <!-- Stripe Card Element -->
     <label for="card-element">Credit or debit card</label>
     <div id="card-element"></div>
@@ -229,14 +228,11 @@ permalink: /checkout/
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
-document.getElementById("payment-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
-  const newOrder = JSON.parse(document.getElementById("payment-form").value);
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
@@ -320,12 +316,6 @@ document.getElementById("payment-form").addEventListener("submit", async (e) => 
         paymentStatus.classList.add('success');
 
 
-
-
-
-
-
-        
 
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
