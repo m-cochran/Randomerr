@@ -340,44 +340,24 @@ const items = cartItems.map(item => ({
 }));
 formData.append("purchasedItems", JSON.stringify(items));
 
-// Add total amount
-const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
-formData.append("totalAmount", totalAmount);
 
-// Send order details to Google Sheets
-await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
-  method: "POST",
-  body: formData
-});
+async function submitOrder(orderData) {
+    const response = await fetch('http://localhost:3000/update-orders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    });
 
+    if (response.ok) {
+        console.log("Order successfully updated!");
+    } else {
+        console.error("Error updating order:", await response.text());
+    }
+}
 
-// Send order data to your Node.js backend
-const orderData = {
-  orderId: orderId,
-  name: name,
-  email: email,
-  phone: phone,
-  billingAddress: address,
-  shippingAddress: shippingAddress,
-  purchasedItems: items,
-  totalAmount: totalAmount,
-};
-
-fetch('http://localhost:3000/submit-order', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(orderData),
-})
-  .then(response => response.json())
-  .then(data => {
-    console.log('Order saved to GitHub:', data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-
+        
 
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
