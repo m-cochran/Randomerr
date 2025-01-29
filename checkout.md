@@ -431,4 +431,3 @@ await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfX
   renderCart();
 });
 </script>
-
