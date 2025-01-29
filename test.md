@@ -14,42 +14,7 @@ permalink: /test/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Append to Orders on GitHub</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      padding: 20px;
-      max-width: 600px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    textarea, input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .success {
-      color: green;
-    }
-    .error {
-      color: red;
-    }
-  </style>
-</head>
-<body>
+  <body>
   <h1>Append Orders to GitHub File</h1>
   <form id="updateForm">
     <label for="orders">New Order Data (JSON Format):</label>
@@ -72,6 +37,43 @@ permalink: /test/
     <input type="text" id="repo" placeholder="Enter your repository name" required>
     <label for="path">File Path (e.g., orders.json):</label>
     <input type="text" id="path" placeholder="Enter the file path" value="orders.json" required>
+    
+    <!-- Payment Form -->
+    <h2>Payment Information</h2>
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required>
+
+    <h3>Billing Address</h3>
+    <label for="address">Street Address</label>
+    <input type="text" id="address" placeholder="Street Address" required>
+    <input type="text" id="city" placeholder="City" required>
+    <input type="text" id="state" placeholder="State" required>
+    <input type="text" id="postal-code" placeholder="Postal Code" required>
+    <input type="text" id="country" placeholder="Country" required>
+
+    <!-- Shipping Address Checkbox -->
+    <label for="same-address" class="same-line">
+      Shipping address is the same as billing address
+      <input type="checkbox" id="same-address">
+    </label>
+
+    <!-- Shipping Address -->
+    <div id="shipping-address-container">
+      <h3>Shipping Address</h3>
+      <label for="shipping-address">Street Address</label>
+      <input type="text" id="shipping-address" placeholder="Street Address" required>
+      <input type="text" id="shipping-city" placeholder="City" required>
+      <input type="text" id="shipping-state" placeholder="State" required>
+      <input type="text" id="shipping-postal-code" placeholder="Postal Code" required>
+      <input type="text" id="shipping-country" placeholder="Country" required>
+    </div>
+
     <button type="submit">Update File</button>
   </form>
   <p id="response" class=""></p>
@@ -80,7 +82,36 @@ permalink: /test/
     document.getElementById("updateForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      // Parse the order details from the textarea
       const newOrder = JSON.parse(document.getElementById("orders").value);
+
+      // Collect the additional payment and shipping details
+      const paymentDetails = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        billingAddress: {
+          address: document.getElementById("address").value,
+          city: document.getElementById("city").value,
+          state: document.getElementById("state").value,
+          postalCode: document.getElementById("postal-code").value,
+          country: document.getElementById("country").value
+        },
+        shippingAddress: document.getElementById("same-address").checked
+          ? null
+          : {
+              address: document.getElementById("shipping-address").value,
+              city: document.getElementById("shipping-city").value,
+              state: document.getElementById("shipping-state").value,
+              postalCode: document.getElementById("shipping-postal-code").value,
+              country: document.getElementById("shipping-country").value
+          }
+      };
+
+      // Attach payment details to the new order
+      newOrder.paymentDetails = paymentDetails;
+
+      // Collect GitHub credentials
       const token = document.getElementById("token").value;
       const username = document.getElementById("username").value;
       const repo = document.getElementById("repo").value;
@@ -146,4 +177,4 @@ permalink: /test/
 </body>
 </html>
 
-
+   
