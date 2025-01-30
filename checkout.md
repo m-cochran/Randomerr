@@ -215,16 +215,6 @@ permalink: /checkout/
     </div>
 
 
-        <label for="token">GitHub Personal Access Token:</label>
-    <input type="password" id="token" placeholder="Enter your GitHub token" required>
-    <label for="username">GitHub Username:</label>
-    <input type="text" id="username" placeholder="Enter your GitHub username" required>
-    <label for="repo">Repository Name:</label>
-    <input type="text" id="repo" placeholder="Enter your repository name" required>
-    <label for="path">File Path (e.g., orders.json):</label>
-    <input type="text" id="path" placeholder="Enter the file path" value="orders.json" required>
-
-
     <!-- Stripe Card Element -->
     <label for="card-element">Credit or debit card</label>
     <div id="card-element"></div>
@@ -237,16 +227,16 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
+  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
@@ -255,9 +245,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
     if (isChecked) {
-      ["address", "city", "state", "postal-code", "country"].forEach(field => {
-        document.getElementById(`shipping-${field}`).value = document.getElementById(field).value;
-      });
+      document.getElementById("shipping-address").value = document.getElementById("address").value;
+      document.getElementById("shipping-city").value = document.getElementById("city").value;
+      document.getElementById("shipping-state").value = document.getElementById("state").value;
+      document.getElementById("shipping-postal-code").value = document.getElementById("postal-code").value;
+      document.getElementById("shipping-country").value = document.getElementById("country").value;
     }
   });
 
@@ -266,43 +258,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
-    const getFieldValue = (id) => document.getElementById(id).value;
-
-    const orderDetails = {
-      name: getFieldValue("name"),
-      email: getFieldValue("email"),
-      phone: getFieldValue("phone"),
-      address: {
-        line1: getFieldValue("address"),
-        city: getFieldValue("city"),
-        state: getFieldValue("state"),
-        postal_code: getFieldValue("postal-code"),
-        country: getFieldValue("country")
-      },
-      shippingAddress: sameAddressCheckbox.checked ? null : {
-        line1: getFieldValue("shipping-address"),
-        city: getFieldValue("shipping-city"),
-        state: getFieldValue("shipping-state"),
-        postal_code: getFieldValue("shipping-postal-code"),
-        country: getFieldValue("shipping-country")
-      },
-      cartItems: cartItems
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = {
+      line1: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      state: document.getElementById("state").value,
+      postal_code: document.getElementById("postal-code").value,
+      country: document.getElementById("country").value
+    };
+    const shippingAddress = sameAddressCheckbox.checked ? address : {
+      line1: document.getElementById("shipping-address").value,
+      city: document.getElementById("shipping-city").value,
+      state: document.getElementById("shipping-state").value,
+      postal_code: document.getElementById("shipping-postal-code").value,
+      country: document.getElementById("shipping-country").value
     };
 
-    const totalInCents = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0) * 100;
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    let total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalInCents = total * 100;
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: totalInCents, ...orderDetails })
+        body: JSON.stringify({
+          amount: totalInCents,
+          email: email,
+          phone: phone,
+          name: name,
+          address: address,
+          shippingAddress: shippingAddress,
+          cartItems: cartItems
+        })
       });
 
-      if (!response.ok) throw new Error('Failed to create payment intent');
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
 
       const data = await response.json();
       const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: { card: card, billing_details: orderDetails }
+        payment_method: {
+          card: card,
+          billing_details: { name: name, email: email, phone: phone, address: address }
+        },
       });
 
       if (result.error) {
@@ -313,42 +315,43 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        const token = getFieldValue("token");
-        const username = getFieldValue("username");
-        const repo = getFieldValue("repo");
-        const path = getFieldValue("path");
-        const responseMessage = document.getElementById("response");
+        // Gather order details
+const formData = new FormData();
+formData.append("orderid", orderId);
+formData.append("fullName", name);
+formData.append("email", email); // Logged-in Gmail
+formData.append("phone", phone);
+formData.append("billingStreet", address.line1);
+formData.append("billingCity", address.city);
+formData.append("billingState", address.state);
+formData.append("billingPostal", address.postal_code);
+formData.append("billingCountry", address.country);
+formData.append("shippingStreet", shippingAddress.line1);
+formData.append("shippingCity", shippingAddress.city);
+formData.append("shippingState", shippingAddress.state);
+formData.append("shippingPostal", shippingAddress.postal_code);
+formData.append("shippingCountry", shippingAddress.country);
 
-        try {
-          const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-          const headers = { Authorization: `token ${token}`, Accept: "application/vnd.github.v3+json" };
-          const fileResponse = await fetch(fileUrl, { headers });
-          const fileData = await fileResponse.json();
+// Add purchased items
+const items = cartItems.map(item => ({
+  name: item.name,
+  quantity: item.quantity,
+  price: item.price,
+}));
+formData.append("purchasedItems", JSON.stringify(items));
 
-          if (!fileResponse.ok) throw new Error(`Error fetching file: ${fileData.message || fileResponse.statusText}`);
+// Add total amount
+const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
+formData.append("totalAmount", totalAmount);
 
-          const currentContent = JSON.parse(atob(fileData.content));
-          const updatedContent = Array.isArray(currentContent) ? [...currentContent, orderDetails] : [currentContent, orderDetails];
+// Send order details to Google Sheets
+await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
+  method: "POST",
+  body: formData
+});
 
-          const updateResponse = await fetch(fileUrl, {
-            method: "PUT",
-            headers,
-            body: JSON.stringify({
-              message: `Appending new order to ${path}`,
-              content: btoa(JSON.stringify(updatedContent, null, 2)),
-              sha: fileData.sha
-            })
-          });
 
-          if (!updateResponse.ok) throw new Error(`Error updating file: ${updateResponse.statusText}`);
-
-          responseMessage.textContent = "Order added successfully!";
-          responseMessage.className = "success";
-        } catch (error) {
-          responseMessage.textContent = `Failed: ${error.message}`;
-          responseMessage.className = "error";
-        }
-
+        // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
@@ -361,6 +364,71 @@ document.addEventListener("DOMContentLoaded", async () => {
       submitButton.disabled = false;
     }
   });
+
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  if (cartItems.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "Total: $0.00";
+    return;
+  }
+
+  function renderCart() {
+    cartItemsContainer.innerHTML = "";
+    total = 0;
+    cartItems.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      itemDiv.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <div class="cart-item-details">
+          <div>${item.name}</div>
+          <div>Price: $${item.price}</div>
+        </div>
+        <div class="cart-item-actions">
+          <button class="btn-decrease" data-index="${index}">-</button>
+          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
+          <button class="btn-increase" data-index="${index}">+</button>
+          <button class="btn-remove" data-index="${index}">Remove</button>
+        </div>
+      `;
+      cartItemsContainer.appendChild(itemDiv);
+      total += item.price * item.quantity;
+    });
+    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+
+    document.querySelectorAll(".btn-decrease").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        if (cartItems[index].quantity > 1) {
+          cartItems[index].quantity--;
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          renderCart();
+        }
+      });
+    });
+
+    document.querySelectorAll(".btn-increase").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems[index].quantity++;
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+
+    document.querySelectorAll(".btn-remove").forEach(button => {
+      button.addEventListener("click", (event) => {
+        const index = event.target.dataset.index;
+        cartItems.splice(index, 1);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        renderCart();
+      });
+    });
+  }
+
+  renderCart();
 });
 </script>
 
