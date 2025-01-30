@@ -332,7 +332,7 @@ await fetch("https://backend.github.io/api/save-order", {
         phone: phone,
         billingAddress: address,
         shippingAddress: shippingAddress,
-        purchasedItems: items,
+        cartItems: items,
         totalAmount: totalAmount,
     }),
 });
