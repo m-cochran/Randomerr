@@ -72,100 +72,104 @@ permalink: /test/
   <p id="response" class=""></p>
 
   <script>
-    document.getElementById("updateForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+document.addEventListener("DOMContentLoaded", async () => {
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
+  const form = document.getElementById("payment-form");
+  const submitButton = document.getElementById("submit-button");
+  const paymentStatus = document.getElementById("payment-status");
+  const sameAddressCheckbox = document.getElementById("same-address");
+  const shippingAddressContainer = document.getElementById("shipping-address-container");
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-      // Parse the order details from the textarea
-      const newOrder = JSON.parse(document.getElementById("orders").value);
+  const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-      // Collect the additional payment and shipping details
-      const paymentDetails = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        billingAddress: {
-          address: document.getElementById("address").value,
-          city: document.getElementById("city").value,
-          state: document.getElementById("state").value,
-          postalCode: document.getElementById("postal-code").value,
-          country: document.getElementById("country").value
-        },
-        shippingAddress: document.getElementById("same-address").checked
-          ? null
-          : {
-              address: document.getElementById("shipping-address").value,
-              city: document.getElementById("shipping-city").value,
-              state: document.getElementById("shipping-state").value,
-              postalCode: document.getElementById("shipping-postal-code").value,
-              country: document.getElementById("shipping-country").value
-          }
-      };
+  const elements = stripe.elements();
+  const card = elements.create("card");
+  card.mount("#card-element");
 
-      // Attach payment details to the new order
-      newOrder.paymentDetails = paymentDetails;
+  sameAddressCheckbox.addEventListener("change", () => {
+    const isChecked = sameAddressCheckbox.checked;
+    shippingAddressContainer.style.display = isChecked ? "none" : "block";
+    if (isChecked) {
+      ["address", "city", "state", "postal-code", "country"].forEach(field => {
+        document.getElementById(`shipping-${field}`).value = document.getElementById(field).value;
+      });
+    }
+  });
 
-      // Collect GitHub credentials
-      const token = document.getElementById("token").value;
-      const username = document.getElementById("username").value;
-      const repo = document.getElementById("repo").value;
-      const path = document.getElementById("path").value;
-      const responseMessage = document.getElementById("response");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    submitButton.disabled = true;
+    paymentStatus.textContent = "";
 
-      responseMessage.textContent = ""; // Clear previous messages
-      responseMessage.className = "";
+    const getFieldValue = (id) => document.getElementById(id).value;
 
-      try {
-        // Step 1: Get the current file's contents and SHA
-        const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-        const headers = {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json"
-        };
-
-        const fileResponse = await fetch(fileUrl, { headers });
-        const fileData = await fileResponse.json();
-
-        if (!fileResponse.ok) {
-          throw new Error(
-            `Error fetching file: ${fileData.message || fileResponse.statusText}`
-          );
-        }
-
-        const currentContent = JSON.parse(
-          decodeURIComponent(escape(atob(fileData.content))) // Decode Base64 content
-        );
-
-        // Step 2: Append the new order to the existing orders
-        const updatedContent = Array.isArray(currentContent)
-          ? [...currentContent, newOrder] // If the file is an array, append
-          : [currentContent, newOrder]; // If it's an object, make it an array
-
-        // Step 3: Update the file on GitHub
-        const updateResponse = await fetch(fileUrl, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify({
-            message: `Appending new order to ${path}`,
-            content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedContent, null, 2)))), // Encode updated content to Base64
-            sha: fileData.sha // Include current file SHA
-          })
-        });
-
-        const updateData = await updateResponse.json();
-
-        if (!updateResponse.ok) {
-          throw new Error(
-            `Error updating file: ${updateData.message || updateResponse.statusText}`
-          );
-        }
-
-        responseMessage.textContent = "Order added successfully!";
-        responseMessage.className = "success";
-      } catch (error) {
-        responseMessage.textContent = `Failed: ${error.message}`;
-        responseMessage.className = "error";
+    const orderDetails = {
+      name: getFieldValue("name"),
+      email: getFieldValue("email"),
+      phone: getFieldValue("phone"),
+      address: {
+        line1: getFieldValue("address"),
+        city: getFieldValue("city"),
+        state: getFieldValue("state"),
+        postal_code: getFieldValue("postal-code"),
+        country: getFieldValue("country")
+      },
+      shippingAddress: sameAddressCheckbox.checked ? null : {
+        line1: getFieldValue("shipping-address"),
+        city: getFieldValue("shipping-city"),
+        state: getFieldValue("shipping-state"),
+        postal_code: getFieldValue("shipping-postal-code"),
+        country: getFieldValue("shipping-country")
       }
-    });
+    };
+
+    const totalInCents = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0) * 100;
+
+    try {
+      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: totalInCents })
+      });
+
+      if (!response.ok) throw new Error('Failed to create payment intent');
+
+      const data = await response.json();
+      const result = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: orderDetails.name,
+            email: orderDetails.email,
+            phone: orderDetails.phone,
+            address: orderDetails.address
+          }
+        }
+      });
+
+      if (result.error) {
+        paymentStatus.textContent = `Error: ${result.error.message}`;
+        paymentStatus.classList.add('error');
+      } else if (result.paymentIntent.status === 'succeeded') {
+        const orderId = generateOrderId();
+        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
+        paymentStatus.classList.add('success');
+
+        localStorage.setItem("orderId", orderId);
+        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+        localStorage.removeItem("cartItems");
+        window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
+      }
+    } catch (error) {
+      paymentStatus.textContent = `Error: ${error.message}`;
+      paymentStatus.classList.add('error');
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+});
+
   </script>
 </body>
 </html>
