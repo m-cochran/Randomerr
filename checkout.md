@@ -227,7 +227,7 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -236,7 +236,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
@@ -315,34 +314,37 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
+        // Create the items array
+        const items = cartItems.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        }));
 
+        // Prepare the order data
+        const orderData = {
+          orderId: orderId,
+          fullName: name,
+          email: email,
+          phone: phone,
+          billingAddress: address,
+          shippingAddress: shippingAddress,
+          cartItems: items,
+          totalAmount: total,
+        };
 
-
-
-// Replace your existing "Send order details to Google Sheets" section
-await fetch("https://backend.github.io/api/save-order", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-        orderId: orderId,
-        fullName: name,
-        email: email,
-        phone: phone,
-        billingAddress: address,
-        shippingAddress: shippingAddress,
-        cartItems: items,
-        totalAmount: totalAmount,
-    }),
-});
-        
-
+        // Send order details to your backend
+        await fetch("https://backend.github.io/api/save-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        });
 
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
-        localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
-        localStorage.removeItem("cartItems");
+        localStorage.removeItem("cartItems"); // Clear the cart items after order
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
