@@ -237,19 +237,16 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
-
-  // Parse the order details correctly from localStorage
-  const newOrder = { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] };
+  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
@@ -258,11 +255,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const isChecked = sameAddressCheckbox.checked;
     shippingAddressContainer.style.display = isChecked ? "none" : "block";
     if (isChecked) {
-      document.getElementById("shipping-address").value = document.getElementById("address").value;
-      document.getElementById("shipping-city").value = document.getElementById("city").value;
-      document.getElementById("shipping-state").value = document.getElementById("state").value;
-      document.getElementById("shipping-postal-code").value = document.getElementById("postal-code").value;
-      document.getElementById("shipping-country").value = document.getElementById("country").value;
+      ["address", "city", "state", "postal-code", "country"].forEach(field => {
+        document.getElementById(`shipping-${field}`).value = document.getElementById(field).value;
+      });
     }
   });
 
@@ -271,53 +266,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     submitButton.disabled = true;
     paymentStatus.textContent = "";
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const address = {
-      line1: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      state: document.getElementById("state").value,
-      postal_code: document.getElementById("postal-code").value,
-      country: document.getElementById("country").value
-    };
-    const shippingAddress = sameAddressCheckbox.checked ? address : {
-      line1: document.getElementById("shipping-address").value,
-      city: document.getElementById("shipping-city").value,
-      state: document.getElementById("shipping-state").value,
-      postal_code: document.getElementById("shipping-postal-code").value,
-      country: document.getElementById("shipping-country").value
+    const getFieldValue = (id) => document.getElementById(id).value;
+
+    const orderDetails = {
+      name: getFieldValue("name"),
+      email: getFieldValue("email"),
+      phone: getFieldValue("phone"),
+      address: {
+        line1: getFieldValue("address"),
+        city: getFieldValue("city"),
+        state: getFieldValue("state"),
+        postal_code: getFieldValue("postal-code"),
+        country: getFieldValue("country")
+      },
+      shippingAddress: sameAddressCheckbox.checked ? null : {
+        line1: getFieldValue("shipping-address"),
+        city: getFieldValue("shipping-city"),
+        state: getFieldValue("shipping-state"),
+        postal_code: getFieldValue("shipping-postal-code"),
+        country: getFieldValue("shipping-country")
+      },
+      cartItems: cartItems
     };
 
-    const cartItems = newOrder.cartItems;
-    let total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const totalInCents = total * 100;
+    const totalInCents = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0) * 100;
 
     try {
       const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: totalInCents,
-          email: email,
-          phone: phone,
-          name: name,
-          address: address,
-          shippingAddress: shippingAddress,
-          cartItems: cartItems
-        })
+        body: JSON.stringify({ amount: totalInCents, ...orderDetails })
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
+      if (!response.ok) throw new Error('Failed to create payment intent');
 
       const data = await response.json();
       const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: { name: name, email: email, phone: phone, address: address }
-        },
+        payment_method: { card: card, billing_details: orderDetails }
       });
 
       if (result.error) {
@@ -328,64 +313,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Collect payment details
-        const paymentDetails = {
-          name: name,
-          email: email,
-          phone: phone,
-          billingAddress: address,
-          shippingAddress: sameAddressCheckbox.checked ? null : shippingAddress
-        };
-
-        // Attach payment details to the order
-        newOrder.paymentDetails = paymentDetails;
-
-        // Collect GitHub credentials
-        const token = document.getElementById("token").value;
-        const username = document.getElementById("username").value;
-        const repo = document.getElementById("repo").value;
-        const path = document.getElementById("path").value;
+        const token = getFieldValue("token");
+        const username = getFieldValue("username");
+        const repo = getFieldValue("repo");
+        const path = getFieldValue("path");
         const responseMessage = document.getElementById("response");
 
-        responseMessage.textContent = "";
-        responseMessage.className = "";
-
         try {
-          // Step 1: Get current file contents and SHA
           const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-          const headers = {
-            Authorization: `token ${token}`,
-            Accept: "application/vnd.github.v3+json"
-          };
-
+          const headers = { Authorization: `token ${token}`, Accept: "application/vnd.github.v3+json" };
           const fileResponse = await fetch(fileUrl, { headers });
           const fileData = await fileResponse.json();
 
-          if (!fileResponse.ok) {
-            throw new Error(`Error fetching file: ${fileData.message || fileResponse.statusText}`);
-          }
+          if (!fileResponse.ok) throw new Error(`Error fetching file: ${fileData.message || fileResponse.statusText}`);
 
-          const currentContent = JSON.parse(atob(fileData.content)); // Decode Base64 content
+          const currentContent = JSON.parse(atob(fileData.content));
+          const updatedContent = Array.isArray(currentContent) ? [...currentContent, orderDetails] : [currentContent, orderDetails];
 
-          // Step 2: Append new order
-          const updatedContent = Array.isArray(currentContent)
-            ? [...currentContent, newOrder]
-            : [currentContent, newOrder];
-
-          // Step 3: Update the file on GitHub
           const updateResponse = await fetch(fileUrl, {
             method: "PUT",
             headers,
             body: JSON.stringify({
               message: `Appending new order to ${path}`,
-              content: btoa(JSON.stringify(updatedContent, null, 2)), // Encode updated content
+              content: btoa(JSON.stringify(updatedContent, null, 2)),
               sha: fileData.sha
             })
           });
 
-          if (!updateResponse.ok) {
-            throw new Error(`Error updating file: ${updateResponse.statusText}`);
-          }
+          if (!updateResponse.ok) throw new Error(`Error updating file: ${updateResponse.statusText}`);
 
           responseMessage.textContent = "Order added successfully!";
           responseMessage.className = "success";
@@ -394,7 +349,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           responseMessage.className = "error";
         }
 
-        // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
         localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
         localStorage.removeItem("cartItems");
