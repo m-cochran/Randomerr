@@ -236,8 +236,6 @@ permalink: /checkout/
 
 
 <script>
-document.getElementById("payment-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
 document.addEventListener("DOMContentLoaded", async () => {
   const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
@@ -245,8 +243,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const paymentStatus = document.getElementById("payment-status");
   const sameAddressCheckbox = document.getElementById("same-address");
   const shippingAddressContainer = document.getElementById("shipping-address-container");
-  // Parse the order details from the textarea
-  const newOrder = JSON.parse(document.getElementById("payment-form").value);
+
+  // Parse the order details correctly from localStorage
+  const newOrder = { cartItems: JSON.parse(localStorage.getItem("cartItems")) || [] };
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
@@ -290,7 +289,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       country: document.getElementById("shipping-country").value
     };
 
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const cartItems = newOrder.cartItems;
     let total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const totalInCents = total * 100;
 
@@ -329,108 +328,71 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-
-
-
-
-
-
-         // Collect the additional payment and shipping details
-      const paymentDetails = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        billingAddress: {
-          address: document.getElementById("address").value,
-          city: document.getElementById("city").value,
-          state: document.getElementById("state").value,
-          postalCode: document.getElementById("postal-code").value,
-          country: document.getElementById("country").value
-        },
-        shippingAddress: document.getElementById("same-address").checked
-          ? null
-          : {
-              address: document.getElementById("shipping-address").value,
-              city: document.getElementById("shipping-city").value,
-              state: document.getElementById("shipping-state").value,
-              postalCode: document.getElementById("shipping-postal-code").value,
-              country: document.getElementById("shipping-country").value
-          }
-      };
-
-      // Attach payment details to the new order
-      newOrder.paymentDetails = paymentDetails;
-
-      // Collect GitHub credentials
-      const token = document.getElementById("token").value;
-      const username = document.getElementById("username").value;
-      const repo = document.getElementById("repo").value;
-      const path = document.getElementById("path").value;
-      const responseMessage = document.getElementById("response");
-
-      responseMessage.textContent = ""; // Clear previous messages
-      responseMessage.className = "";
-
-      try {
-        // Step 1: Get the current file's contents and SHA
-        const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
-        const headers = {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json"
+        // Collect payment details
+        const paymentDetails = {
+          name: name,
+          email: email,
+          phone: phone,
+          billingAddress: address,
+          shippingAddress: sameAddressCheckbox.checked ? null : shippingAddress
         };
 
-        const fileResponse = await fetch(fileUrl, { headers });
-        const fileData = await fileResponse.json();
+        // Attach payment details to the order
+        newOrder.paymentDetails = paymentDetails;
 
-        if (!fileResponse.ok) {
-          throw new Error(
-            `Error fetching file: ${fileData.message || fileResponse.statusText}`
-          );
+        // Collect GitHub credentials
+        const token = document.getElementById("token").value;
+        const username = document.getElementById("username").value;
+        const repo = document.getElementById("repo").value;
+        const path = document.getElementById("path").value;
+        const responseMessage = document.getElementById("response");
+
+        responseMessage.textContent = "";
+        responseMessage.className = "";
+
+        try {
+          // Step 1: Get current file contents and SHA
+          const fileUrl = `https://api.github.com/repos/${username}/${repo}/contents/${path}`;
+          const headers = {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github.v3+json"
+          };
+
+          const fileResponse = await fetch(fileUrl, { headers });
+          const fileData = await fileResponse.json();
+
+          if (!fileResponse.ok) {
+            throw new Error(`Error fetching file: ${fileData.message || fileResponse.statusText}`);
+          }
+
+          const currentContent = JSON.parse(atob(fileData.content)); // Decode Base64 content
+
+          // Step 2: Append new order
+          const updatedContent = Array.isArray(currentContent)
+            ? [...currentContent, newOrder]
+            : [currentContent, newOrder];
+
+          // Step 3: Update the file on GitHub
+          const updateResponse = await fetch(fileUrl, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({
+              message: `Appending new order to ${path}`,
+              content: btoa(JSON.stringify(updatedContent, null, 2)), // Encode updated content
+              sha: fileData.sha
+            })
+          });
+
+          if (!updateResponse.ok) {
+            throw new Error(`Error updating file: ${updateResponse.statusText}`);
+          }
+
+          responseMessage.textContent = "Order added successfully!";
+          responseMessage.className = "success";
+        } catch (error) {
+          responseMessage.textContent = `Failed: ${error.message}`;
+          responseMessage.className = "error";
         }
-
-        const currentContent = JSON.parse(
-          decodeURIComponent(escape(atob(fileData.content))) // Decode Base64 content
-        );
-
-        // Step 2: Append the new order to the existing orders
-        const updatedContent = Array.isArray(currentContent)
-          ? [...currentContent, newOrder] // If the file is an array, append
-          : [currentContent, newOrder]; // If it's an object, make it an array
-
-        // Step 3: Update the file on GitHub
-        const updateResponse = await fetch(fileUrl, {
-          method: "PUT",
-          headers,
-          body: JSON.stringify({
-            message: `Appending new order to ${path}`,
-            content: btoa(unescape(encodeURIComponent(JSON.stringify(updatedContent, null, 2)))), // Encode updated content to Base64
-            sha: fileData.sha // Include current file SHA
-          })
-        });
-
-        const updateData = await updateResponse.json();
-
-        if (!updateResponse.ok) {
-          throw new Error(
-            `Error updating file: ${updateData.message || updateResponse.statusText}`
-          );
-        }
-
-        responseMessage.textContent = "Order added successfully!";
-        responseMessage.className = "success";
-      } catch (error) {
-        responseMessage.textContent = `Failed: ${error.message}`;
-        responseMessage.className = "error";
-      }
-    });
-
-
-
-
-
-
-        
-
 
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
@@ -445,70 +407,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       submitButton.disabled = false;
     }
   });
-
-  const cartItemsContainer = document.getElementById("cart-items");
-  const cartTotal = document.getElementById("cart-total");
-
-  if (cartItems.length === 0) {
-    cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-    cartTotal.textContent = "Total: $0.00";
-    return;
-  }
-
-  function renderCart() {
-    cartItemsContainer.innerHTML = "";
-    total = 0;
-    cartItems.forEach((item, index) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "cart-item";
-      itemDiv.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
-        <div class="cart-item-details">
-          <div>${item.name}</div>
-          <div>Price: $${item.price}</div>
-        </div>
-        <div class="cart-item-actions">
-          <button class="btn-decrease" data-index="${index}">-</button>
-          <input type="text" value="${item.quantity}" oninput="updateQuantity(this, ${item.id})">
-          <button class="btn-increase" data-index="${index}">+</button>
-          <button class="btn-remove" data-index="${index}">Remove</button>
-        </div>
-      `;
-      cartItemsContainer.appendChild(itemDiv);
-      total += item.price * item.quantity;
-    });
-    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-
-    document.querySelectorAll(".btn-decrease").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.dataset.index;
-        if (cartItems[index].quantity > 1) {
-          cartItems[index].quantity--;
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-          renderCart();
-        }
-      });
-    });
-
-    document.querySelectorAll(".btn-increase").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.dataset.index;
-        cartItems[index].quantity++;
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        renderCart();
-      });
-    });
-
-    document.querySelectorAll(".btn-remove").forEach(button => {
-      button.addEventListener("click", (event) => {
-        const index = event.target.dataset.index;
-        cartItems.splice(index, 1);
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        renderCart();
-      });
-    });
-  }
-
-  renderCart();
 });
 </script>
+
