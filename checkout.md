@@ -315,40 +315,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Gather order details
-const formData = new FormData();
-formData.append("orderid", orderId);
-formData.append("fullName", name);
-formData.append("email", email); // Logged-in Gmail
-formData.append("phone", phone);
-formData.append("billingStreet", address.line1);
-formData.append("billingCity", address.city);
-formData.append("billingState", address.state);
-formData.append("billingPostal", address.postal_code);
-formData.append("billingCountry", address.country);
-formData.append("shippingStreet", shippingAddress.line1);
-formData.append("shippingCity", shippingAddress.city);
-formData.append("shippingState", shippingAddress.state);
-formData.append("shippingPostal", shippingAddress.postal_code);
-formData.append("shippingCountry", shippingAddress.country);
 
-// Add purchased items
-const items = cartItems.map(item => ({
-  name: item.name,
-  quantity: item.quantity,
-  price: item.price,
-}));
-formData.append("purchasedItems", JSON.stringify(items));
 
-// Add total amount
-const totalAmount = cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0);
-formData.append("totalAmount", totalAmount);
 
-// Send order details to Google Sheets
-await fetch("https://script.google.com/macros/s/AKfycbz0dP_oaZo-zg_B4ljgP2F8VEfXJW2gRSSD6BX7Nt4RsNqbTwIr_SkqI9nyWWDf8TDJYg/exec", {
-  method: "POST",
-  body: formData
+
+// Replace your existing "Send order details to Google Sheets" section
+await fetch("https://backend.github.io/api/save-order", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        orderId: orderId,
+        fullName: name,
+        email: email,
+        phone: phone,
+        billingAddress: address,
+        shippingAddress: shippingAddress,
+        purchasedItems: items,
+        totalAmount: totalAmount,
+    }),
 });
+        
 
 
         // Clear cart and redirect
