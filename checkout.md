@@ -334,8 +334,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
         // Send order details to your backend
-        await fetch("https://backend.github.io/api/save-order", {
-          mode: 'no-cors',
+        const orderResponse = await fetch("https://backend.github.io/api/save-order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -343,9 +342,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           body: JSON.stringify(orderData),
         });
 
+        // Check if the order was saved successfully
+        if (!orderResponse.ok) {
+          throw new Error('Failed to save the order');
+        }
+
         // Clear cart and redirect
         localStorage.setItem("orderId", orderId);
-        localStorage.removeItem("cartItems"); // Clear the cart items after order
+        localStorage.removeItem("cartItems"); // Clear the cart items after the order
         window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
       }
     } catch (error) {
@@ -367,7 +371,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderCart() {
     cartItemsContainer.innerHTML = "";
-    total = 0;
+    let total = 0;
     cartItems.forEach((item, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cart-item";
