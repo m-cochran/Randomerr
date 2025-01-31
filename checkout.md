@@ -325,16 +325,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 csvContent += `${item.name}, ${item.quantity}, ${item.price}\n`;
             });
 
-            // Create a blob from the CSV content
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.setAttribute("download", `order_${orderId}.csv`);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+// Send CSV data to server
+    await fetch('/upload-csv', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/csv'
+        },
+        body: csvContent
+    });
 
             // Clear cart and redirect
             localStorage.setItem("orderId", orderId);
