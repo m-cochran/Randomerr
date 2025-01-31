@@ -227,7 +227,7 @@ permalink: /checkout/
 
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
-  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb');
+  const stripe = Stripe('pk_test_51PulULDDaepf7cjiBCJQ4wxoptuvOfsdiJY6tvKxW3uXZsMUome7vfsIORlSEZiaG4q20ZLSqEMiBIuHi7Fsy9dP00nytmrtYb'); // Use your publishable key
   const form = document.getElementById("payment-form");
   const submitButton = document.getElementById("submit-button");
   const paymentStatus = document.getElementById("payment-status");
@@ -236,6 +236,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const generateOrderId = () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
+  // Mount the Stripe Elements card UI
   const elements = stripe.elements();
   const card = elements.create("card");
   card.mount("#card-element");
@@ -314,51 +315,40 @@ document.addEventListener("DOMContentLoaded", async () => {
         paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
         paymentStatus.classList.add('success');
 
-        // Create the items array
-        const items = cartItems.map(item => ({
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-        }));
+ // Prepare CSV data
+            let csvContent = `Order ID, Full Name, Email, Phone, Billing Street, Billing City, Billing State, Billing Postal, Billing Country, Shipping Street, Shipping City, Shipping State, Shipping Postal, Shipping Country, Total Amount\n`;
+            csvContent += `${orderId}, ${name}, ${email}, ${phone}, ${address.line1}, ${address.city}, ${address.state}, ${address.postal_code}, ${address.country}, ${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postal_code}, ${shippingAddress.country}, ${total.toFixed(2)}\n`;
 
-        // Prepare the order data
-        const orderData = {
-          orderId: orderId,
-          fullName: name,
-          email: email,
-          phone: phone,
-          billingAddress: address,
-          shippingAddress: shippingAddress,
-          cartItems: items,
-          totalAmount: total,
-        };
+            // Adding purchased items to CSV
+            csvContent += `\nPurchased Items\nName, Quantity, Price\n`;
+            cartItems.forEach(item => {
+                csvContent += `${item.name}, ${item.quantity}, ${item.price}\n`;
+            });
 
-        // Send order details to your backend
-        await fetch("https://backend.github.io/api/save-order", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
-        });
+            // Create a blob from the CSV content
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.setAttribute("download", `order_${orderId}.csv`);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
 
-        // Check if the order was saved successfully
-        if (!orderResponse.ok) {
-          throw new Error('Failed to save the order');
+            // Clear cart and redirect
+            localStorage.setItem("orderId", orderId);
+            localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+            localStorage.removeItem("cartItems");
+            window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
         }
-
-        // Clear cart and redirect
-        localStorage.setItem("orderId", orderId);
-        localStorage.removeItem("cartItems"); // Clear the cart items after the order
-        window.location.href = `https://m-cochran.github.io/Randomerr/thank-you/?orderId=${orderId}`;
-      }
     } catch (error) {
-      paymentStatus.textContent = `Error: ${error.message}`;
-      paymentStatus.classList.add('error');
+        paymentStatus.textContent = `Error: ${error.message}`;
+        paymentStatus.classList.add('error');
     } finally {
-      submitButton.disabled = false;
+        submitButton.disabled = false;
     }
-  });
+});
 
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
@@ -371,7 +361,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderCart() {
     cartItemsContainer.innerHTML = "";
-    let total = 0;
+    total = 0;
     cartItems.forEach((item, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "cart-item";
