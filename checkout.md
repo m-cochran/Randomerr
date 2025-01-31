@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
         // Send order details to your backend
-        const orderResponse = await fetch("https://backend.github.io/api/save-order", {
+        await fetch("https://backend.github.io/api/save-order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
