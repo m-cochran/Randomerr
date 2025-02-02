@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             // Send CSV data to server and check if upload is successful
-            const csvUploadResponse = await fetch('/upload-csv', {
+            const csvUploadResponse = await fetch('[/upload-csv](https://backend-github-io.vercel.app/api/save-order)', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/csv'
