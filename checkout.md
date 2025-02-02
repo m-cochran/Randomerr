@@ -281,41 +281,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     const totalInCents = total * 100;
 
     try {
-      const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: totalInCents,
-          email: email,
-          phone: phone,
-          name: name,
-          address: address,
-          shippingAddress: shippingAddress,
-          cartItems: cartItems
-        })
-      });
+        const response = await fetch('https://backend-github-io.vercel.app/api/create-payment-intent', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                amount: totalInCents,
+                email: email,
+                phone: phone,
+                name: name,
+                address: address,
+                shippingAddress: shippingAddress,
+                cartItems: cartItems
+            })
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to create payment intent');
-      }
+        if (!response.ok) {
+            throw new Error('Failed to create payment intent');
+        }
 
-      const data = await response.json();
-      const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: { name: name, email: email, phone: phone, address: address }
-        },
-      });
+        const data = await response.json();
+        const result = await stripe.confirmCardPayment(data.clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: { name: name, email: email, phone: phone, address: address }
+            },
+        });
 
-      if (result.error) {
-        paymentStatus.textContent = `Error: ${result.error.message}`;
-        paymentStatus.classList.add('error');
-      } else if (result.paymentIntent.status === 'succeeded') {
-        const orderId = generateOrderId();
-        paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
-        paymentStatus.classList.add('success');
+        if (result.error) {
+            paymentStatus.textContent = `Error: ${result.error.message}`;
+            paymentStatus.classList.add('error');
+        } else if (result.paymentIntent.status === 'succeeded') {
+            const orderId = generateOrderId();
+            paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
+            paymentStatus.classList.add('success');
 
- // Prepare CSV data
+            // Prepare CSV data
             let csvContent = `Order ID, Full Name, Email, Phone, Billing Street, Billing City, Billing State, Billing Postal, Billing Country, Shipping Street, Shipping City, Shipping State, Shipping Postal, Shipping Country, Total Amount\n`;
             csvContent += `${orderId}, ${name}, ${email}, ${phone}, ${address.line1}, ${address.city}, ${address.state}, ${address.postal_code}, ${address.country}, ${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postal_code}, ${shippingAddress.country}, ${total.toFixed(2)}\n`;
 
@@ -325,16 +325,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 csvContent += `${item.name}, ${item.quantity}, ${item.price}\n`;
             });
 
-// Send CSV data to server
-    await fetch('/upload-csv', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'text/csv'
-        },
-        body: csvContent
-    });
+            // Send CSV data to server and check if upload is successful
+            const csvUploadResponse = await fetch('/upload-csv', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/csv'
+                },
+                body: csvContent
+            });
 
-            // Clear cart and redirect
+            if (!csvUploadResponse.ok) {
+                throw new Error('CSV upload failed');
+            }
+
+            // Clear cart and redirect only if CSV is successfully uploaded
             localStorage.setItem("orderId", orderId);
             localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
             localStorage.removeItem("cartItems");
@@ -343,10 +347,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         paymentStatus.textContent = `Error: ${error.message}`;
         paymentStatus.classList.add('error');
-    } finally {
-        submitButton.disabled = false;
+        submitButton.disabled = false; // Re-enable the submit button on error
     }
 });
+
 
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
