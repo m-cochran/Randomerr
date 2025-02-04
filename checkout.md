@@ -315,28 +315,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
             paymentStatus.classList.add('success');
 
-            // Prepare CSV data
-            let csvContent = `Order ID, Full Name, Email, Phone, Billing Street, Billing City, Billing State, Billing Postal, Billing Country, Shipping Street, Shipping City, Shipping State, Shipping Postal, Shipping Country, Total Amount\n`;
-            csvContent += `${orderId}, ${name}, ${email}, ${phone}, ${address.line1}, ${address.city}, ${address.state}, ${address.postal_code}, ${address.country}, ${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postal_code}, ${shippingAddress.country}, ${total.toFixed(2)}\n`;
-
-            // Adding purchased items to CSV
-            csvContent += `\nPurchased Items\nName, Quantity, Price\n`;
-            cartItems.forEach(item => {
-                csvContent += `${item.name}, ${item.quantity}, ${item.price}\n`;
-            });
-
-            // Send CSV data to server and check if upload is successful
-            const csvUploadResponse = await fetch('[/upload-csv](https://backend-github-io.vercel.app/api/save-order)', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/csv'
-                },
-                body: csvContent
-            });
-
-            if (!csvUploadResponse.ok) {
-                throw new Error('CSV upload failed');
-            }
+ 
 
             // Clear cart and redirect only if CSV is successfully uploaded
             localStorage.setItem("orderId", orderId);
