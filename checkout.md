@@ -315,6 +315,37 @@ document.addEventListener("DOMContentLoaded", async () => {
             paymentStatus.textContent = `Payment successful! Your Order ID is: ${orderId}`;
             paymentStatus.classList.add('success');
 
+
+
+
+              // Prepare checkout data
+    const checkoutData = {
+        orderId: orderId,
+        customer: {
+            name: name,
+            email: email,
+            phone: phone,
+            address: address
+        },
+        shippingAddress: shippingAddress,
+        cartItems: cartItems,
+        totalAmount: total
+    };
+
+    // Save the checkout data to the backend
+    fetch('save-checkout.php', { // PHP endpoint
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(checkoutData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Checkout saved successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error saving checkout details:', error);
+    });
+
  
 
             // Clear cart and redirect only if CSV is successfully uploaded
@@ -329,6 +360,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         submitButton.disabled = false; // Re-enable the submit button on error
     }
 });
+
+
+
+
+  
 
 
   const cartItemsContainer = document.getElementById("cart-items");
