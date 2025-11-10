@@ -6,7 +6,7 @@ permalink: /shop/
 
 # Shop Randomerr
 
-Randomerr is a space for creative exploration. We share ideas, thoughts, and everything in between.
+<p class="shop-description">Live at the intersection of design and daydream. They're functional, expressive, and sometimes just wonderfully strange.</p>
 
 
 <!-- Product List -->

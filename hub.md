@@ -4,15 +4,21 @@ title: Hub
 permalink: /hub/
 ---
 
+# Hub
 
-# Hub, your central destination for connecting with your community and discovering local opportunities. Whether you're looking to engage in local events, find professional services, or join discussion boards, the #Hub is designed to bring everything you need into one convenient space.
+
+<p id="hub-description">Your central destination for connecting with your community and discovering local opportunities. Whether you're looking to engage in local events, find professional services, or join discussion boards, the #Hub is designed to bring everything you need into one convenient space.</p>
+
+
+
+
 
 
 <div class="container-location">
   <h1>Location Selector</h1>
   <form id="location-form">
     <label for="region">Region:</label>
-    <select id="region" name="region" aria-label="Select a region" class="full-width">
+    <select id="region" name="region" aria-label="Select a region" class="full-width" autocomplete="off">
       <option value="">Select Region</option>
       <option value="north-america">North America</option>
       <option value="canada">Canada</option>
@@ -20,13 +26,13 @@ permalink: /hub/
       <option value="asia">Asia</option>
     </select>
 
-    <label for="province-state">Province/State:</label>
+   <label for="province-state">Province/State:</label>
     <select id="province-state" name="province-state" aria-label="Select a province or state" class="full-width" disabled>
       <option value="">Select Province/State</option>
       <!-- Options will be populated based on selected region -->
     </select>
     
-    <label for="city-town">City/Town:</label>
+  <label for="city-town">City/Town:</label>
     <select id="city-town" name="city-town" aria-label="Select a city or town" class="full-width" disabled>
       <option value="">Select City/Town</option>
       <!-- Options will be populated based on selected province/state -->
@@ -562,7 +568,7 @@ permalink: /hub/
 
         document.querySelectorAll('.category-group ul li a').forEach(link => {
             const category = link.textContent.split(' ').join('-'); // Convert category to URL format
-            const newHref = `https://m-cochran.github.io/Randomerr/hub.html?region=${region}&province=${province}&city=${city}&category=${category}`;
+            const newHref = `/hub.html?region=${region}&province=${province}&city=${city}&category=${category}`;
             link.setAttribute('href', newHref);
 
             // Remove existing click event listener to prevent multiple triggers
@@ -596,7 +602,7 @@ permalink: /hub/
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  
   gap: 20px; /* Space between grid items */
 }
 
@@ -622,13 +628,12 @@ select.full-width {
   grid-column: span 2; /* Span across both columns */
 }
 
-
-
-
-
-
-
-
+#hub-description {
+    font-size: 1.2em;
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
 
 
 
@@ -679,13 +684,13 @@ select.full-width {
 /* Style for links within list items */
 .category-group li a {
   text-decoration: none;
-  color: #007bff; /* Link color */
+  color: #0066ff; /* Link color */
   transition: color 0.3s; /* Smooth transition for hover effect */
 }
 
 /* Hover effect for links */
 .category-group li a:hover {
-  color: #0056b3; /* Darker shade for hover effect */
+  color: #07f; /* Darker shade for hover effect */
 }
 
 /* Responsive design adjustments */

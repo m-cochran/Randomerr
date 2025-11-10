@@ -1,159 +1,266 @@
 ---
 layout: default
 title: "Arcade"
-date: 2024-08-19
 permalink: /arcade/
 ---
 
-
-<div class="game-wrapper">
-  <!-- Sidebar for game list -->
-  <div class="sidebar">
+<div class="game-wrapper" id="gameWrapper">
+  <div class="topbar">
     <h2>Game List</h2>
     <ul id="gameList">
       <li><a href="#" data-game="2048">2048</a></li>
       <li><a href="#" data-game="brick_breaker">Brick Breaker</a></li>
-      <li><a href="#" data-game="flappy_bird">Flappy Bird</a></li>
+      <li><a href="#" data-game="swim_fish">Swim Fish</a></li>
       <li><a href="#" data-game="memory_match">Memory Match</a></li>
       <li><a href="#" data-game="snake">Snake</a></li>
       <li><a href="#" data-game="space_invaders">Space Invaders</a></li>
-      <li><a href="#" data-game="solitaire">solitaire</a></li>
+      <li><a href="#" data-game="solitaire">Solitaire</a></li>
       <li><a href="#" data-game="tic_tac_toe">Tic Tac Toe</a></li>
-      <li><a href="#" data-game="pong">Pong</a></li>
+      <li><a href="#" data-game="gnop">Gnop</a></li>
       <li><a href="#" data-game="the_paper_plane_game">The Paper Plane Game</a></li>
+      <li><a href="#" data-game="cups">Cups</a></li>
     </ul>
   </div>
 
-  <!-- Main content for game display -->
+
   <div class="game-display">
-    <h2 id="gameTitle">Select a game to play</h2>
+    <div class="overlay" id="overlay" style="display: none;">
+      <img src="/assets/images/logo.svg" alt="Arcade Logo" class="overlay-logo">
+    </div>
+     <h2 id="gameTitle" class="animated-title">Select a game to play</h2>
     <div id="gameContainer" class="game-container">
-      <!-- Game iframe or canvas will be loaded here -->
       <iframe id="gameIframe" src="" class="game-iframe"></iframe>
     </div>
   </div>
 </div>
 
 <style>
-/* Basic reset */
-* {
-  padding: 0;
-  box-sizing: border-box;
-}
+  /* Basic reset */
+  * {
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-/* Layout for the game area */
-.game-wrapper {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-}
+  /* Layout for the game area */
+  .game-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    user-select: none;
+    border-radius: 0 0 8px 8px;
+  }
 
-/* Sidebar styling */
-.sidebar {
-  width: 20%;
-  padding: 20px;
-  background-color: #06f;
-  color: #ecf0f1;
-  overflow-y: scroll;
-}
+  /* Topbar styling */
+  .topbar {
+    width: 100%;
+    background-color: #06f;
+    color: #EFBF04;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 5px 0;
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically center content */
+  }
 
-.sidebar h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #ecdbba;
-}
+  .topbar h2 {
+    margin: 0 15px; /* Add margin to the heading */
+    font-size: 1.8rem;
+  }
 
-.sidebar ul {
-  list-style-type: none;
-}
+  .topbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
 
-.sidebar ul li {
-  margin-bottom: 15px;
-}
+  .topbar ul li {
+    display: inline-block;
+    margin: 0 15px;
+  }
 
-.sidebar ul li a {
-  text-decoration: none;
-  color: #ecf0f1;
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
-}
+  .topbar ul li a {
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
 
-.sidebar ul li a:hover {
-  color: #e74c3c;
-}
+  .topbar ul li a:hover {
+    color: #e74c3c;
+  }
 
-/* Main display area for the game */
-.game-display {
-  width: 80%;
-  padding: 20px;
-  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/arcade_background.jpg'); /* Replace with the path to your image */
-  background-size: cover; /* Ensures the image covers the entire container */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-
-.game-display h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #2c3e50;
-}
-
-.game-container {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #bdc3c7;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-image: url('https://m-cochran.github.io/Randomerr/assets/images/arcade_background.jpg');
-}
-
-/* Iframe that displays the game */
-.game-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: none;
-}
-  
+  /* Main display area for the game */
   .game-display {
     width: 100%;
+    flex-grow: 1;
+    padding: 0;
+    background-image: url('/assets/images/arcade_background.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
   }
-}
+
+  .game-display h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #EFBF04;
+    text-shadow: 2px 0 #ffffff, 2px 3px 0 #000000;
+    z-index: 8;
+    padding: 0;
+    text-align: center;
+  }
+
+  .game-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Important! */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/assets/images/arcade_background.svg');
+    border: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .game-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+  }
+
+  .game-instructions {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .gametitle {
+    font-size: 120%;
+    color: #EFBF04;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .overlay {
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 7;
+  }
+
+  .overlay-logo {
+    max-width: 52%;
+    max-height: 52%;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(0deg);
+    }
+  }
+
+  @keyframes pulseSpinRight {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(180deg);
+    }
+    100% {
+      transform: scale(1) rotate(720deg);
+    }
+  }
+
+  @keyframes pulseSpinLeft {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(-180deg);
+    }
+    100% {
+      transform: scale(1) rotate(-720deg);
+    }
+  }
+
+  .pulse {
+    animation: pulse 1.5s ease-in-out infinite alternate;
+  }
+
+  .pulse-spin-right {
+    animation: pulseSpinRight 1.5s ease-in-out infinite alternate;
+  }
+
+  .pulse-spin-left {
+    animation: pulseSpinLeft 1.5s ease-in-out infinite alternate;
+  }
+
+    .animated-title {
+    animation: upDown 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes upDown {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(10px);
+    }
+  }
+
+  
 </style>
 
 <script>
   const gameList = document.getElementById('gameList');
   const gameTitle = document.getElementById('gameTitle');
   const gameIframe = document.getElementById('gameIframe');
+  const overlay = document.getElementById('overlay');
+  const overlayLogo = document.querySelector('.overlay-logo');
 
-  gameList.addEventListener('click', function(e) {
+  function showOverlay() {
+    overlay.style.display = 'flex';
+    animateSequence();
+  }
+
+  function hideOverlay() {
+    overlay.style.display = 'none';
+  }
+
+  gameList.addEventListener('click', function (e) {
     e.preventDefault();
     const game = e.target.getAttribute('data-game');
 
     if (game) {
       gameTitle.innerText = game.charAt(0).toUpperCase() + game.slice(1);
       gameIframe.style.display = 'block';
+      hideOverlay(); //hide overlay when game is started.
 
-      switch(game) {
+      switch (game) {
         case '2048':
           gameIframe.src = '2048.html';
           break;
         case 'brick_breaker':
           gameIframe.src = 'brick_breaker.html';
           break;
-        case 'flappy_bird':
-          gameIframe.src = 'flappy_bird.html';
+        case 'swim_fish':
+          gameIframe.src = 'swim_fish.html';
           break;
         case 'memory_match':
           gameIframe.src = 'memory_match.html';
@@ -164,17 +271,20 @@ permalink: /arcade/
          case 'space_invaders':
           gameIframe.src = 'space_invaders.html';
           break;
-         case 'solitaire':
+        case 'solitaire':
           gameIframe.src = 'solitaire.html';
           break;
-         case 'tic_tac_toe':
+        case 'tic_tac_toe':
           gameIframe.src = 'tic_tac_toe.html';
           break;
-         case 'pong':
-          gameIframe.src = 'pong.html';
+        case 'gnop':
+          gameIframe.src = 'gnop.html';
           break;
-         case 'the_paper_plane_game':
+        case 'the_paper_plane_game':
           gameIframe.src = 'the_paper_plane_game.html';
+          break;
+        case 'cups':
+          gameIframe.src = 'https://games.gdevelop-app.com/game-47074e11-8e2b-49d8-9724-099ec3953325/index.html';
           break;
         default:
           gameIframe.src = '';
@@ -182,4 +292,54 @@ permalink: /arcade/
       }
     }
   });
+
+  function resetAnimations() {
+    overlayLogo.classList.remove('pulse', 'pulse-spin-right', 'pulse-spin-left');
+  }
+
+function resetAnimations() {
+        overlayLogo.classList.remove('pulse', 'pulse-spin-right', 'pulse-spin-left');
+    }
+
+    function animateSequence() {
+        resetAnimations();
+        overlayLogo.classList.add('pulse');
+
+        setTimeout(() => {
+            resetAnimations();
+            overlayLogo.classList.add('pulse-spin-right');
+        }, 3000);
+
+        setTimeout(() => {
+            resetAnimations();
+            overlayLogo.classList.add('pulse');
+        }, 4500);
+
+        setTimeout(() => {
+            resetAnimations();
+            overlayLogo.classList.add('pulse-spin-right');
+        }, 7500);
+
+        setTimeout(() => {
+            resetAnimations();
+            overlayLogo.classList.add('pulse');
+        }, 9000);
+
+        setTimeout(() => {
+            resetAnimations();
+            overlayLogo.classList.add('pulse-spin-left');
+        }, 12000);
+
+        setTimeout(() => {
+          resetAnimations();
+        }, 13500); // This is the last setTimeout, so 13500 is the total duration
+    }
+
+    animateSequence();
+
+    // Corrected setInterval value to match the total duration
+    setInterval(animateSequence, 13500);
+
+  // Example usage (replace with your actual game logic)
+  showOverlay(); // Call this when you want to show the logo overlay.
 </script>

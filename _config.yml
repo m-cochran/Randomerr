@@ -1,11 +1,12 @@
 title: "Randomerr"
 description: "A site for random ideas and thoughts."
-baseurl: "/Randomerr" # If your repository is named 'Randomerr'
-url: "https://m-cochran.github.io"
-theme: minima
+baseurl: ""  # Leave this empty or set it to "/Randomerr" if you're serving from a subdirectory
+url: "http://127.0.0.1:4000"  # Use the local address
+# theme: minima
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
-paginate: 35             # Set the default pagination to 35 posts per page
-paginate_path: "/page:num/" # Customize the pagination path
+  - jekyll-paginate
+paginate: 35
+paginate_path: "/page:num/"

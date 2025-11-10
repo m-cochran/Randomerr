@@ -26,9 +26,9 @@ permalink: /about/
 Check out our <strong>store</strong> for exclusive <strong>offers</strong> and the latest in style and functionality. We can’t wait to serve you!</p>
     </div>
 
- <a href="https://m-cochran.github.io/Randomerr/shop/" class="btn">
+ <a href="{{ site.baseurl }}/shop/" class="btn">
   Visit Our Store
-  <img src="/Randomerr/assets/images/logo.svg" alt="Randomerr Logo" class="store-logo">
+  <img src="/assets/images/logo.svg" alt="Randomerr Logo" class="store-logo">
 </a>
 
 

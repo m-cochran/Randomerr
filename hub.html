@@ -3,143 +3,351 @@ layout: default
 paginate: true
 title: Hub
 ---
-
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/eventsub.css">
+    <title>Events Hub</title>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  ["region", "province", "city", "category"].forEach(param => {
+    const el = document.getElementById(param);
+    if (el) el.value = urlParams.get(param) || "";
+  });
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Category Data</title>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Parse query parameters from the URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const region = urlParams.get('region');
-      const province = urlParams.get('province');
-      const city = urlParams.get('city');
-      const category = urlParams.get('category');
+  fetch("data/categories.json")
+    .then(response => response.json())
+    .then(data => {
+      const categoryTitle = document.getElementById("category-title");
+      const categoryDesc = document.getElementById("category-description");
+      const resultsContainer = document.getElementById("results");
+      const paginationContainer = document.getElementById("pagination");
 
-      // Fetch JSON data and display relevant results
-      fetch('https://m-cochran.github.io/Randomerr/data/categories.json')
-        .then(response => {
-          console.log('Response status:', response.status); // Log the response status
-          return response.json();
-        })
-        .then(data => {
-          console.log('Fetched data:', data); // Log the fetched data
-          const lowerRegion = region?.toUpperCase();
-          const lowerProvince = province?.toUpperCase();
-          const lowerCity = city?.toUpperCase();
-          const lowerCategory = category?.replace('-', ' '); // Ensure proper category format
+      if (!categoryTitle || !categoryDesc || !resultsContainer) return;
 
-          // Set the title and description
-          document.getElementById('category-title').textContent = lowerCategory.charAt(0).toUpperCase() + lowerCategory.slice(1);
-          document.getElementById('category-description').textContent = `Showing events in ${city}, ${province} for ${lowerCategory}`;
+      const category = urlParams.get("category") || "";
+      const city = urlParams.get("city") || "";
+      const province = urlParams.get("province") || "";
+      const region = urlParams.get("region") || "";
 
-          // Access the correct region, province, city, and category
-          const results = data?.REGIONS?.[lowerRegion]?.[lowerProvince]?.[lowerCity]?.categories?.[lowerCategory];
-          console.log('Results for selected category:', results); // Log results for the selected category
+      let formattedCategory = category.replace("-", " ") || "Events";
+      categoryTitle.textContent = formattedCategory.charAt(0).toUpperCase() + formattedCategory.slice(1);
+      categoryDesc.textContent = `Showing events in ${city || "your area"}, ${province || "your province"} for ${formattedCategory}`;
 
-          // Check if results are available
-          if (results && results.length > 0) {
-            const resultsContainer = document.getElementById('results');
-            resultsContainer.innerHTML = ''; // Clear existing content
-            results.forEach(item => {
-              const div = document.createElement('div');
-              div.className = 'event-item';
-              div.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <img src="${item.picture}" alt="${item.title};" />
-                    <p><strong>Location:</strong> ${item.location}</p>
-                    <p><strong>Price:</strong> ${item.price}</p>
-                    <p><strong>Date:</strong> ${item.date}</p>
-                    <p>${item.description}</p>
-                `;
+      const events = data?.REGIONS?.[region?.toUpperCase()]?.[province?.toUpperCase()]?.[city?.toUpperCase()]?.categories?.[formattedCategory] || [];
 
-    // Change this to navigate to the details page with the event ID
-    div.addEventListener('click', function() {
-        const eventId = item.id; // Get the event ID
-        window.location.href = `event-details.html?id=${eventId}`; // Redirect to the event details page
-    });
+      // === PAGINATION STATE ===
+      let currentPage = 1;
+      let pageSize = 25; // default 25 results per page
 
-    resultsContainer.appendChild(div);
-});
-          } else {
-            document.getElementById('results').textContent = 'No events found for this category.';
+      function renderEvents() {
+        const start = (currentPage - 1) * pageSize;
+        const paginatedEvents = events.slice(start, start + pageSize);
+
+        resultsContainer.innerHTML = paginatedEvents.length > 0
+          ? paginatedEvents.map(event => {
+              let truncatedDescription = event.description.length > 60
+                ? event.description.slice(0, 60) + "..."
+                : event.description;
+              return `
+<div class="event-item" onclick="location.href='event-details.html?id=${encodeURIComponent(event.id)}'">
+  <h3>${event.title}</h3>
+  <img src="${event.picture}" alt="${event.title}" class="event-image">
+  <dl class="event-details">
+    <div><dt>Location</dt><dd>${event.location}</dd></div>
+    <div><dt>Price</dt><dd>${event.price}</dd></div>
+    <div><dt>Date</dt><dd>${event.date}</dd></div>
+  </dl>
+</div>`;
+            }).join("")
+          : "<p>No events found for this category.</p>";
+
+        renderPagination();
+      }
+
+      function renderPagination() {
+        if (!paginationContainer) return;
+        const totalPages = Math.ceil(events.length / pageSize);
+
+        paginationContainer.innerHTML = `
+  <div class="pagination-inner">
+    <button ${currentPage === 1 ? "disabled" : ""} id="prevBtn">Prev</button>
+    <span class="page-info">Page ${currentPage} of ${totalPages}</span>
+    <button ${currentPage === totalPages ? "disabled" : ""} id="nextBtn">Next</button>
+    <select id="pageSizeSelect">
+      <option value="25" ${pageSize === 25 ? "selected" : ""}>25 per page</option>
+      <option value="50" ${pageSize === 50 ? "selected" : ""}>50 per page</option>
+    </select>
+  </div>
+`;
+
+
+        document.getElementById("prevBtn")?.addEventListener("click", () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderEvents();
           }
-        })
-        .catch(error => {
-          console.error('Error loading data:', error);
-          document.getElementById('results').textContent = 'Error loading data.';
         });
+
+        document.getElementById("nextBtn")?.addEventListener("click", () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderEvents();
+          }
+        });
+
+        document.getElementById("pageSizeSelect")?.addEventListener("change", (e) => {
+          pageSize = parseInt(e.target.value, 10);
+          currentPage = 1; // reset to first page
+          renderEvents();
+        });
+      }
+
+      renderEvents();
+    })
+    .catch(error => {
+      console.error("Error loading data:", error);
+      const resultsContainer = document.getElementById("results");
+      if (resultsContainer) resultsContainer.textContent = "Error loading data.";
     });
-  </script>
+});
+</script>
 
-  <style>
-    #category-title {
-      font-size: 2em;
-      margin-bottom: 10px;
+
+
+
+
+    <style>
+
+      #category-title {
       text-align: center;
-      color: #0056b3; /* Dark blue color for the title */
-    }
-
-    #category-description {
+      color: #0056b3;
+      }
+      #category-description {
       font-size: 1.2em;
       text-align: center;
-      color: #666; /* Gray color for the description */
+      color: #666;
       margin-bottom: 20px;
-    }
-
-    #results {
+      }
+      #results {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px; /* Space between items */
-    }
+      gap: 5px;
+      justify-content: space-evenly;
+      padding: 20px;
+      }
 
-    .event-item {
-      background-color: white;
+
+
+      .event-item {
+      background-color: #fff;
       border: 1px solid #ddd;
       border-radius: 8px;
-      padding: 15px;
-      width: 300px; /* Fixed width for event items */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
-      cursor: pointer; /* Change cursor to pointer */
-    }
-
-    .event-item:hover {
-      transform: scale(1.05); /* Scale effect on hover */
-    }
-
-    .event-item img {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 225px;
+      padding: 5px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      }
+      .event-image {
       max-width: 100%;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
+      border-radius: 4px;
+      margin-bottom: 15px;
+      }
 
-    .event-item h3 {
-      font-size: 1.5em;
-      color: #333;
-      margin: 0 0 10px;
-    }
+      .event-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      .event-details dt {
+      font-weight: bold;
+      display: block;
+      margin-right: 5px;
+      text-align: left;
+      }
 
-    .event-item p {
-      margin: 5px 0;
-      color: #555; /* Darker gray for paragraph text */
-    }
+      .event-details dd {
+      display: block;
+      margin: 0;
+      text-align: left;
+      }
 
-    .event-item strong {
-      color: #000; /* Bold text color for labels */
-    }
-  </style>
-</head>
 
-<body>
-  <h1 id="category-title"></h1>
-  <p id="category-description"></p>
-  <div id="results"></div>
-</body>
+/* Center pagination controls */
+#pagination {
+  padding: 12px 18px;
+    margin: 0 8px;
+    color: #333;
+    border-radius: 8px;
+    font-weight: bold;
+      display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+#pagination button,
+#pagination select {
+ display: inline-block;
+    padding: 12px 18px;
+    margin: 0 8px;
+    text-decoration: none;
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-color: #06f;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+#pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+
+/* Only color the span text, not the whole container */
+.page-info {
+      padding: 12px 18px;
+    margin: 0 8px;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 8px;
+    font-weight: bold;
+}
+  
+
+
+
+
+    </style>
+  </head>
+  <body>
+    <button class="eventsubdBtn" onclick="openSub('eventSub')">Upload Event</button>
+    <h1 id="category-title"></h1>
+    <p id="category-description"></p>
+    <div id="results"></div>
+
+
+<div id="eventSub" class="Sub">
+  <div class="Sub-content">
+    <span class="close" onclick="closeSub('eventSub')">&times;</span>
+    <h2 id="sub-header">Upload Event</h2>
+    <div id="sub-form">
+      <form onsubmit="handleSub(event)" enctype="multipart/form-data">
+        <input type="hidden" id="accountIdInput" name="accountId" />
+    
+        <h4 id="sub-subheader"><span id="accountIdDisplay"></span></h4>
+
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" placeholder="Event Title (Max 62 characters)" maxlength="62" required />
+            <span id="titleChars">62 characters remaining</span>
+          </div>
+          
+          <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="Event Description (Max 3000 characters)" maxlength="3000" required></textarea>
+            <span id="descriptionChars">3000 characters remaining</span>
+          </div>
+          
+          <div>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required />
+          </div>
+          
+          <div>
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" placeholder="Event Location (Max 45 characters)" maxlength="45" required />
+            <span id="locationChars">45 characters remaining</span>
+          </div>
+          
+          <div>
+            <label for="price">Price</label>
+            <input type="text" id="price" name="price" placeholder="Enter price"/>
+          </div>
+          
+          <div>
+            <label for="images">Upload (Max 16 Images)</label>
+            <input type="file" id="images" name="images" multiple accept="image/*"/>
+            <div id="imagePreview"></div>
+          </div>
+          
+        <input type="hidden" id="region" name="region"/>
+        <input type="hidden" id="province" name="province"/>
+        <input type="hidden" id="city" name="city"/>
+        <input type="hidden" id="category" name="category"/>
+
+        <h3 id="sub-header">Select A Chat Type:</h3>
+
+        
+
+<div id="standardChatcontainer" for="standardChat" data-chat-type="standard" class="chat-type-label active">
+    <input type="radio" id="standardChat" value="standard" checked data-chat-type="standard"/>
+    <h4 id="sub-subheader">Standard Chat A to B</h4>
+    <span>
+<p>
+"This chat type enables direct,
+one-on-one communication between participants. Ideal for private
+conversations and quick exchanges."
+</p>
+<pre class="truncated-pre">
+[Event: Car For Sale]
+[User A] Hello!
+[User B] Hi there!
+[User A] Are you available for a quick call?
+[User B] Sure, let me know when.
+</pre>
+          </span>
+        </div>
+
+
+<div id="forumChatcontainer" for="forumChat" data-chat-type="forum" class="chat-type-label">
+    <input type="radio" id="forumChat" value="forum" data-chat-type="forum"/>
+
+    <h4 id="sub-subheader">Forum Chat A to Z</h4>    
+<span>
+<p>
+"This chat type creates a community
+discussion space where multiple users can participate in threaded
+conversations. Perfect for in-depth discussions, Q&A sessions, and
+collaborative problem-solving."
+</p>
+<pre class="truncated-pre">
+[Event: Concerts and Live Music]
+[User C] What time does the event start?
+[User D] It starts at 7 PM.
+[User E] Thanks!
+[User F] Where is the best place to park?
+[User G] There's a parking lot on Elm Street.
+[User H] That's great, thanks!
+</pre>
+          </span>
+        </div>
+
+        <input type="hidden" id="selectedChatType" name="chatType" value="standard"/>
+
+        <button type="submit" id="submit-event-button" class="submit-event-button">
+          <span class="button-text">Submit Event</span>
+          <span class="spinner"></span>
+          <span class="wait-message">Please wait...</span>
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="pagination"></div>
+
+
+
+    <script src="{{ site.baseurl }}/assets/js/eventsub.js" defer></script>
+  </body>
 </html>
