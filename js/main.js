@@ -288,4 +288,10 @@
 
 	});		
 
+
 })(jQuery);
+
+
+
+const ribbon = document.querySelector('.commonninja-ribbon');
+if (ribbon) ribbon.style.display = 'none';
