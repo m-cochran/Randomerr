@@ -36,7 +36,6 @@
  * -------------------------------------------------------------------
  */
 @import url("fonts.css");
-@import url("font-awesome/css/font-awesome.min.css");
 @import url("micons/micons.css");
 
 
@@ -2483,6 +2482,7 @@ footer .copyright span:last-child::after {
 }
 
 /*# sourceMappingURL=main.css.map */
+
 
 
 
