@@ -2484,6 +2484,10 @@ footer .copyright span:last-child::after {
 /*# sourceMappingURL=main.css.map */
 
 
+.commomninja-ribbon {
+  display: none !important;
+}
+
 
 
 
