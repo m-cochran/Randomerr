@@ -2486,48 +2486,6 @@ footer .copyright span:last-child::after {
 
 
 
-  .player {
-    background: #1e1e1e;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    text-align: center;
-    width: 300px;
-  }
-  .artwork {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 20px;
-    border-radius: 10px;
-    background: #333 center/cover no-repeat;
-  }
-  h2, h3, h4 {
-    margin: 5px 0;
-  }
-  .controls {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-  }
-  button {
-    background: #ff0055;
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  button:hover { background: #ff3380; }
-  #player iframe {
-    width: 0;
-    height: 0;
-    visibility: hidden;
-  }
 
 
 
