@@ -2488,6 +2488,28 @@ footer .copyright span:last-child::after {
 
 
 
+  .tshirt-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .tshirt-image {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .image-grid img {
+    width: 100%;
+    border-radius: 8px;
+  }
 
 
 
