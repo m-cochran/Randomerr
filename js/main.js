@@ -303,3 +303,26 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+  function changeImage(thumb) {
+    const main = document.getElementById('mainTshirt');
+    main.style.opacity = 0;
+    setTimeout(() => {
+      main.src = thumb.src;
+      main.style.opacity = 1;
+    }, 200);
+
+    document.querySelectorAll('.thumb-grid img').forEach(img => img.classList.remove('active'));
+    thumb.classList.add('active');
+  }
