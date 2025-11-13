@@ -440,10 +440,16 @@ function changeImage(thumb) {
   // Initialize player
   window.onYouTubeIframeAPIReady = () => {
     player = new YT.Player("player", {
-      videoId: videos[currentIndex].videoId,
-      events: { onReady: updatePlayer, onStateChange: onPlayerStateChange }
-    });
-  };
+  videoId: videos[currentIndex].videoId,
+  playerVars: {
+    origin: window.location.origin
+  },
+  events: {
+    onReady: updatePlayer,
+    onStateChange: onPlayerStateChange
+  }
+});
+
 
   // Update video safely
   function updatePlayer() {
@@ -464,6 +470,7 @@ function changeImage(thumb) {
     }
   }
 })();
+
 
 
 
