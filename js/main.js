@@ -316,19 +316,35 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 
 
 function changeImage(thumb) {
-    // Find the container this thumbnail belongs to
-    const container = thumb.closest('.hat-container, .shoe-container, .album-container');
+    // climb up the DOM until we find a parent that contains a .main-image
+    let container = thumb.parentElement;
+    while (container && !container.querySelector('.main-image')) {
+      container = container.parentElement;
+    }
+    if (!container) return; // safety: no matching container found
+
     const mainImage = container.querySelector('.main-image');
+    if (!mainImage) return;
 
-    // Smooth fade transition
-    mainImage.style.opacity = 0;
-    setTimeout(() => {
-      mainImage.src = thumb.src;
-      mainImage.style.opacity = 1;
-    }, 200);
+    // If clicked thumb is already the active one and matches main src, do nothing
+    if (thumb.classList.contains('active') && thumb.src === mainImage.src) return;
 
-    // Update active state for thumbnails within the same container
+    // Preload the image (avoids flicker on slow networks)
+    const toLoad = new Image();
+    toLoad.src = thumb.src;
+    toLoad.onload = () => {
+      // fade out, swap src, fade in
+      mainImage.style.transition = 'opacity 0.18s ease';
+      mainImage.style.opacity = 0;
+      setTimeout(() => {
+        mainImage.src = thumb.src;
+        mainImage.style.opacity = 1;
+      }, 180);
+    };
+
+    // update active class only for thumbnails inside the same container
     container.querySelectorAll('.thumb-grid img').forEach(img => img.classList.remove('active'));
     thumb.classList.add('active');
   }
+
 
