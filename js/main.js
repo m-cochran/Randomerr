@@ -400,7 +400,7 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     thumbContainer.querySelectorAll("img").forEach((t, i) => {
       t.classList.toggle("active", i === currentIndex);
     });
-    thumbContainer.querySelectorAll("img")[currentIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
+    
   }
 
   // Auto-advance when video ends
@@ -411,6 +411,7 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     }
   }
 })();
+
 
 
 
