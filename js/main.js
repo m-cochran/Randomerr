@@ -348,3 +348,51 @@ function changeImage(thumb) {
   }
 
 
+
+
+
+
+
+
+
+(async () => {
+  const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
+  const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+  const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
+
+  try {
+    const response = await fetch(proxyUrl);
+    const data = await response.json();
+
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, "text/xml");
+
+    const entry = xml.querySelector("entry");
+    if (!entry) {
+      document.getElementById("youtubeWidget").innerHTML = "<p>No videos found.</p>";
+      return;
+    }
+
+    const title = entry.querySelector("title")?.textContent || "Untitled Video";
+    const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
+
+    if (!videoId) {
+      document.getElementById("youtubeWidget").innerHTML = "<p>Video ID not found.</p>";
+      return;
+    }
+
+    document.getElementById("youtubeWidget").innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}" 
+        title="${title}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+      <h3><a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">🎥 ${title}</a></h3>
+    `;
+  } catch (err) {
+    console.error(err);
+    document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load video.</p>";
+  }
+})();
+
