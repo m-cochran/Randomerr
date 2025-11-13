@@ -2488,9 +2488,9 @@ footer .copyright span:last-child::after {
 
 
 
-  .tshirt-container {
+  .tshirt-container, .hat-container, .shoe-container, .album-container {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 40px auto;
     text-align: center;
   }
 
@@ -2523,6 +2523,12 @@ footer .copyright span:last-child::after {
 
   .thumb-grid img.active {
     border-color: #007bff;
+  }
+
+  /* Optional: slight spacing between product sections */
+  .hat-container + .shoe-container,
+  .shoe-container + .album-container {
+    margin-top: 60px;
   }
 
 
