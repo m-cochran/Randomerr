@@ -460,7 +460,6 @@ function changeImage(thumb) {
     player.loadVideoById(video.videoId);
     videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
     thumbContainer.querySelectorAll("img").forEach((t, i) => t.classList.toggle("active", i === currentIndex));
-    thumbContainer.querySelectorAll("img")[currentIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
   }
 
   function onPlayerStateChange(event) {
@@ -471,3 +470,4 @@ function changeImage(thumb) {
   }
 
 })(); // <-- closes the IIFE
+
