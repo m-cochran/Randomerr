@@ -373,7 +373,7 @@ function changeImage(thumb) {
 (async () => {
   const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
   const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
+  const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(rssUrl);
 
   let player;
   let currentIndex = 0;
@@ -385,9 +385,9 @@ function changeImage(thumb) {
   try {
     // Fetch RSS feed
     const response = await fetch(proxyUrl);
-    const data = await response.json();
+    const xmlText = await response.text();
     const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, "text/xml");
+    const xml = parser.parseFromString(xmlText, "text/xml");
 
     const entries = xml.querySelectorAll("entry");
     if (!entries.length) {
@@ -465,6 +465,7 @@ function changeImage(thumb) {
     }
   }
 })();
+
 
 
 
