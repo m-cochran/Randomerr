@@ -2489,26 +2489,40 @@ footer .copyright span:last-child::after {
 
 
   .tshirt-container {
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
     text-align: center;
   }
 
-  .tshirt-image {
+  .main-image {
     width: 100%;
-    max-width: 300px;
-    margin-bottom: 20px;
+    max-width: 500px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: opacity 0.3s ease;
   }
 
-  .image-grid {
+  .thumb-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
   }
 
-  .image-grid img {
+  .thumb-grid img {
     width: 100%;
-    border-radius: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform 0.2s ease, border 0.2s ease;
+    border: 2px solid transparent;
+  }
+
+  .thumb-grid img:hover {
+    transform: scale(1.05);
+    border-color: #007bff;
+  }
+
+  .thumb-grid img.active {
+    border-color: #007bff;
   }
 
 
