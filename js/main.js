@@ -328,7 +328,7 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     const xml = parser.parseFromString(data.contents, "text/xml");
 
     const entries = xml.querySelectorAll("entry");
-    if (!entries || entries.length === 0) {
+    if (!entries.length) {
       document.getElementById("youtubeWidget").innerHTML = "<p>No videos found.</p>";
       return;
     }
@@ -362,19 +362,19 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     window.onYouTubeIframeAPIReady = () => {
       player = new YT.Player('player', {
         videoId: videos[currentIndex].videoId,
-        events: { 'onStateChange': onPlayerStateChange }
+        events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
       });
     };
 
-    // Click thumbnail only works if player is ready
-    thumbs.forEach((thumb, index) => {
-      thumb.addEventListener("click", () => {
-        currentIndex = index;
-        if (player && typeof player.loadVideoById === "function") {
+    // Wait until player is ready before attaching thumbnail clicks
+    function onPlayerReady() {
+      thumbs.forEach((thumb, index) => {
+        thumb.addEventListener("click", () => {
+          currentIndex = index;
           updatePlayer(currentIndex);
-        }
+        });
       });
-    });
+    }
 
     // Scroll buttons
     document.getElementById("scrollLeft").addEventListener("click", () => {
@@ -406,6 +406,7 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load videos.</p>";
   }
 })();
+
 
 
 
