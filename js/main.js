@@ -321,7 +321,15 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
   const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
   const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl);
 
+  let player;
+  let currentIndex = 0;
+  let videos = [];
+
+  const videoTitle = document.getElementById("videoTitle");
+  const thumbContainer = document.getElementById("thumbContainer");
+
   try {
+    // Fetch RSS feed
     const response = await fetch(proxyUrl);
     const data = await response.json();
     const parser = new DOMParser();
@@ -329,83 +337,81 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 
     const entries = xml.querySelectorAll("entry");
     if (!entries.length) {
-      document.getElementById("youtubeWidget").innerHTML = "<p>No videos found.</p>";
+      videoTitle.textContent = "No videos found.";
       return;
     }
 
-    const videos = Array.from(entries).map(entry => {
+    // Build video array
+    videos = Array.from(entries).map(entry => {
       const title = entry.querySelector("title")?.textContent || "Untitled";
       const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
       return { title, videoId };
     }).filter(v => v.videoId);
 
-    const widget = document.getElementById("youtubeWidget");
-    widget.innerHTML = `
-      <div id="player"></div>
-      <h3 id="videoTitle"><a href="https://www.youtube.com/watch?v=${videos[0].videoId}" target="_blank">🎥 ${videos[0].title}</a></h3>
-      <div class="thumb-container" id="thumbContainer">
-        ${videos.map((v,i) => `<img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" data-id="${v.videoId}" data-title="${v.title}" class="${i===0?'active':''}">`).join('')}
-      </div>
-      <div class="nav-buttons">
-        <button id="scrollLeft">&lt;</button>
-        <button id="scrollRight">&gt;</button>
-      </div>
-    `;
+    // Create thumbnails
+    videos.forEach((v, i) => {
+      const img = document.createElement("img");
+      img.src = `https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg`;
+      img.dataset.id = v.videoId;
+      img.dataset.title = v.title;
+      if (i === 0) img.classList.add("active");
+      thumbContainer.appendChild(img);
 
-    const thumbContainer = document.getElementById("thumbContainer");
-    const thumbs = thumbContainer.querySelectorAll("img");
-    const videoTitle = document.getElementById("videoTitle");
-    let currentIndex = 0;
-    let player;
-
-    // Initialize YouTube player
-    window.onYouTubeIframeAPIReady = () => {
-      player = new YT.Player('player', {
-        videoId: videos[currentIndex].videoId,
-        events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
+      img.addEventListener("click", () => {
+        currentIndex = i;
+        updatePlayer();
       });
-    };
-
-    // Wait until player is ready before attaching thumbnail clicks
-    function onPlayerReady() {
-      thumbs.forEach((thumb, index) => {
-        thumb.addEventListener("click", () => {
-          currentIndex = index;
-          updatePlayer(currentIndex);
-        });
-      });
-    }
+    });
 
     // Scroll buttons
     document.getElementById("scrollLeft").addEventListener("click", () => {
-      thumbContainer.scrollBy({ left: -200, behavior: 'smooth' });
+      thumbContainer.scrollBy({ left: -200, behavior: "smooth" });
     });
     document.getElementById("scrollRight").addEventListener("click", () => {
-      thumbContainer.scrollBy({ left: 200, behavior: 'smooth' });
+      thumbContainer.scrollBy({ left: 200, behavior: "smooth" });
     });
-
-    function updatePlayer(index) {
-      if (!player || typeof player.loadVideoById !== "function") return;
-      const video = videos[index];
-      player.loadVideoById(video.videoId);
-      videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
-      thumbs.forEach(t => t.classList.remove("active"));
-      thumbs[index].classList.add("active");
-      thumbs[index].scrollIntoView({ behavior: "smooth", inline: "center" });
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        currentIndex = (currentIndex + 1) % videos.length;
-        updatePlayer(currentIndex);
-      }
-    }
 
   } catch (err) {
     console.error(err);
-    document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load videos.</p>";
+    videoTitle.textContent = "Failed to load videos.";
+    return;
+  }
+
+  // Initialize player after API loads
+  window.onYouTubeIframeAPIReady = () => {
+    if (!videos.length) return;
+    player = new YT.Player("player", {
+      videoId: videos[currentIndex].videoId,
+      events: {
+        onReady: () => updatePlayer(),
+        onStateChange: onPlayerStateChange
+      }
+    });
+  };
+
+  // Update player video
+  function updatePlayer() {
+    if (!player || !videos.length) return;
+    const video = videos[currentIndex];
+    if (typeof player.loadVideoById === "function") {
+      player.loadVideoById(video.videoId);
+    }
+    videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
+    thumbContainer.querySelectorAll("img").forEach((t, i) => {
+      t.classList.toggle("active", i === currentIndex);
+    });
+    thumbContainer.querySelectorAll("img")[currentIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
+  }
+
+  // Auto-advance when video ends
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      currentIndex = (currentIndex + 1) % videos.length;
+      updatePlayer();
+    }
   }
 })();
+
 
 
 
