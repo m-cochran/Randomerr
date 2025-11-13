@@ -363,36 +363,89 @@ function changeImage(thumb) {
   try {
     const response = await fetch(proxyUrl);
     const data = await response.json();
-
     const parser = new DOMParser();
     const xml = parser.parseFromString(data.contents, "text/xml");
 
-    const entry = xml.querySelector("entry");
-    if (!entry) {
+    const entries = xml.querySelectorAll("entry");
+    if (!entries || entries.length === 0) {
       document.getElementById("youtubeWidget").innerHTML = "<p>No videos found.</p>";
       return;
     }
 
-    const title = entry.querySelector("title")?.textContent || "Untitled Video";
-    const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
+    const videos = Array.from(entries).map(entry => {
+      const title = entry.querySelector("title")?.textContent || "Untitled";
+      const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
+      return { title, videoId };
+    }).filter(v => v.videoId);
 
-    if (!videoId) {
-      document.getElementById("youtubeWidget").innerHTML = "<p>Video ID not found.</p>";
-      return;
+    // Build the thumbnails + nav buttons
+    const widget = document.getElementById("youtubeWidget");
+    widget.innerHTML = `
+      <div id="player"></div>
+      <h3 id="videoTitle"><a href="https://www.youtube.com/watch?v=${videos[0].videoId}" target="_blank">🎥 ${videos[0].title}</a></h3>
+      <div class="thumb-container" id="thumbContainer">
+        ${videos.map((v,i) => `<img src="https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg" data-id="${v.videoId}" data-title="${v.title}" class="${i===0?'active':''}">`).join('')}
+      </div>
+      <div class="nav-buttons">
+        <button id="scrollLeft">&lt;</button>
+        <button id="scrollRight">&gt;</button>
+      </div>
+    `;
+
+    const thumbContainer = document.getElementById("thumbContainer");
+    const thumbs = thumbContainer.querySelectorAll("img");
+    const videoTitle = document.getElementById("videoTitle");
+
+    let currentIndex = 0;
+    let player;
+
+    // Initialize YouTube player
+    window.onYouTubeIframeAPIReady = () => {
+      player = new YT.Player('player', {
+        videoId: videos[currentIndex].videoId,
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    };
+
+    // Thumbnail click
+    thumbs.forEach((thumb, index) => {
+      thumb.addEventListener("click", () => {
+        currentIndex = index;
+        updatePlayer(currentIndex);
+      });
+    });
+
+    // Navigation buttons
+    document.getElementById("scrollLeft").addEventListener("click", () => {
+      thumbContainer.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+    document.getElementById("scrollRight").addEventListener("click", () => {
+      thumbContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+
+    function updatePlayer(index) {
+      const video = videos[index];
+      player.loadVideoById(video.videoId);
+      videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
+      thumbs.forEach(t => t.classList.remove("active"));
+      thumbs[index].classList.add("active");
+      // Scroll thumbnail into view
+      thumbs[index].scrollIntoView({ behavior: "smooth", inline: "center" });
     }
 
-    document.getElementById("youtubeWidget").innerHTML = `
-      <iframe 
-        src="https://www.youtube.com/embed/${videoId}" 
-        title="${title}"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-      </iframe>
-      <h3><a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">🎥 ${title}</a></h3>
-    `;
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        // Auto advance to next video
+        currentIndex = (currentIndex + 1) % videos.length;
+        updatePlayer(currentIndex);
+      }
+    }
+
   } catch (err) {
     console.error(err);
-    document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load video.</p>";
+    document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load videos.</p>";
   }
 })();
 
