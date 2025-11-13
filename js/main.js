@@ -369,7 +369,6 @@ function changeImage(thumb) {
 
 
 
-
 (async () => {
   const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
   const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
@@ -379,98 +378,78 @@ function changeImage(thumb) {
   const videoTitle = document.getElementById("videoTitle");
   let player, videos = [], currentIndex = 0;
 
-  // Retry helper
   async function fetchWithRetry(url, retries = 5, delay = 1000) {
     for (let i = 0; i < retries; i++) {
       try {
         const res = await fetch(url);
         if (!res.ok) throw new Error("Fetch failed");
-        const text = await res.text();
-        return text;
-      } catch (err) {
-        console.warn("Fetch failed, retrying...", i + 1);
+        return await res.text();
+      } catch {
         await new Promise(r => setTimeout(r, delay));
       }
     }
-    throw new Error("Failed to fetch after retries");
+    throw new Error("Failed to fetch feed");
   }
 
-  // Load RSS feed
   let xmlText;
-  try {
-    xmlText = await fetchWithRetry(proxyUrl, 5, 1500);
-  } catch (err) {
-    videoTitle.textContent = "Failed to load feed after multiple attempts.";
-    return;
-  }
+  try { xmlText = await fetchWithRetry(proxyUrl, 5, 1500); }
+  catch { videoTitle.textContent = "Failed to load feed."; return; }
 
   const parser = new DOMParser();
   const xml = parser.parseFromString(xmlText, "text/xml");
   const entries = xml.querySelectorAll("entry");
-  if (!entries.length) {
-    videoTitle.textContent = "No videos found.";
-    return;
-  }
+  if (!entries.length) { videoTitle.textContent = "No videos found."; return; }
 
-  // Build video array
   videos = Array.from(entries).map(entry => {
     const title = entry.querySelector("title")?.textContent || "Untitled";
     const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
     return { title, videoId };
   }).filter(v => v.videoId);
 
-  // Build thumbnails
+  // Thumbnails
   videos.forEach((v, i) => {
     const img = document.createElement("img");
     img.src = `https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg`;
     img.dataset.id = v.videoId;
     img.dataset.title = v.title;
-    if (i === 0) img.classList.add("active");
+    if (i===0) img.classList.add("active");
     thumbContainer.appendChild(img);
-    img.addEventListener("click", () => { currentIndex = i; updatePlayerWithRetry(); });
+    img.addEventListener("click", () => { currentIndex=i; updatePlayer(); });
   });
 
-  // Scroll buttons
-  document.getElementById("scrollLeft").addEventListener("click", () => {
-    thumbContainer.scrollBy({ left: -200, behavior: "smooth" });
-  });
-  document.getElementById("scrollRight").addEventListener("click", () => {
-    thumbContainer.scrollBy({ left: 200, behavior: "smooth" });
-  });
+  document.getElementById("scrollLeft").addEventListener("click",()=>thumbContainer.scrollBy({left:-200,behavior:"smooth"}));
+  document.getElementById("scrollRight").addEventListener("click",()=>thumbContainer.scrollBy({left:200,behavior:"smooth"}));
 
-  // Initialize YouTube player
+  // Initialize player
   window.onYouTubeIframeAPIReady = () => {
     player = new YT.Player("player", {
       videoId: videos[currentIndex].videoId,
-      events: { onReady: updatePlayerWithRetry, onStateChange: onPlayerStateChange }
+      events: { onReady: updatePlayer, onStateChange: onPlayerStateChange }
     });
   };
 
-  // Update player with retry until loaded
-  async function updatePlayerWithRetry(retries = 10, delay = 900) {
-    for (let i = 0; i < retries; i++) {
-      if (player && typeof player.loadVideoById === "function") {
-        const video = videos[currentIndex];
-        player.loadVideoById(video.videoId);
-        videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
-        thumbContainer.querySelectorAll("img").forEach((t, idx) => {
-          t.classList.toggle("active", idx === currentIndex);
-        });
-        
-      }
-      await new Promise(r => setTimeout(r, delay));
+  // Update video safely
+  function updatePlayer() {
+    if (!player || typeof player.loadVideoById !== "function") {
+      setTimeout(updatePlayer, 300); // retry until player ready
+      return;
     }
-    console.warn("Player not ready, retrying later...");
+    const video = videos[currentIndex];
+    player.loadVideoById(video.videoId);
+    videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
+    thumbContainer.querySelectorAll("img").forEach((t,i)=>t.classList.toggle("active",i===currentIndex));
+    thumbContainer.querySelectorAll("img")[currentIndex].scrollIntoView({behavior:"smooth",inline:"center"});
   }
 
-  // Auto-advance when video ends
   function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.ENDED) {
-      currentIndex = (currentIndex + 1) % videos.length;
-      updatePlayerWithRetry();
+      currentIndex = (currentIndex+1)%videos.length;
+      updatePlayer();
     }
   }
 })();
+
+
 
 
 
