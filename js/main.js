@@ -372,28 +372,41 @@ function changeImage(thumb) {
 (async () => {
   const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
   const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(rssUrl);
+  
+  const corsProxies = [
+    "https://corsproxy.io/?",
+    "https://api.allorigins.win/raw?url=",
+    "https://thingproxy.freeboard.io/fetch/"
+  ];
 
   const thumbContainer = document.getElementById("thumbContainer");
   const videoTitle = document.getElementById("videoTitle");
   let player, videos = [], currentIndex = 0;
 
-  async function fetchWithRetry(url, retries = 5, delay = 1000) {
-    for (let i = 0; i < retries; i++) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Fetch failed");
-        return await res.text();
-      } catch {
-        await new Promise(r => setTimeout(r, delay));
+  // Try multiple proxies with retries
+  async function fetchWithMultipleProxies(url, retriesPerProxy = 3, delay = 1000) {
+    for (let proxy of corsProxies) {
+      for (let i = 0; i < retriesPerProxy; i++) {
+        try {
+          const res = await fetch(proxy + encodeURIComponent(url));
+          if (!res.ok) throw new Error("Fetch failed");
+          return await res.text();
+        } catch (err) {
+          console.warn(`Proxy failed: ${proxy}, retry ${i+1}`, err);
+          await new Promise(r => setTimeout(r, delay));
+        }
       }
     }
-    throw new Error("Failed to fetch feed");
+    throw new Error("All proxies failed");
   }
 
   let xmlText;
-  try { xmlText = await fetchWithRetry(proxyUrl, 5, 1500); }
-  catch { videoTitle.textContent = "Failed to load feed."; return; }
+  try {
+    xmlText = await fetchWithMultipleProxies(rssUrl, 3, 1500);
+  } catch {
+    videoTitle.textContent = "Failed to load feed after multiple attempts.";
+    return;
+  }
 
   const parser = new DOMParser();
   const xml = parser.parseFromString(xmlText, "text/xml");
@@ -414,11 +427,15 @@ function changeImage(thumb) {
     img.dataset.title = v.title;
     if (i===0) img.classList.add("active");
     thumbContainer.appendChild(img);
-    img.addEventListener("click", () => { currentIndex=i; updatePlayer(); });
+    img.addEventListener("click", () => { currentIndex = i; updatePlayer(); });
   });
 
-  document.getElementById("scrollLeft").addEventListener("click",()=>thumbContainer.scrollBy({left:-200,behavior:"smooth"}));
-  document.getElementById("scrollRight").addEventListener("click",()=>thumbContainer.scrollBy({left:200,behavior:"smooth"}));
+  document.getElementById("scrollLeft").addEventListener("click", () => {
+    thumbContainer.scrollBy({ left: -200, behavior: "smooth" });
+  });
+  document.getElementById("scrollRight").addEventListener("click", () => {
+    thumbContainer.scrollBy({ left: 200, behavior: "smooth" });
+  });
 
   // Initialize player
   window.onYouTubeIframeAPIReady = () => {
@@ -437,16 +454,17 @@ function changeImage(thumb) {
     const video = videos[currentIndex];
     player.loadVideoById(video.videoId);
     videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
-    thumbContainer.querySelectorAll("img").forEach((t,i)=>t.classList.toggle("active",i===currentIndex));
+    thumbContainer.querySelectorAll("img").forEach((t, i) => t.classList.toggle("active", i === currentIndex));
   }
 
   function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.ENDED) {
-      currentIndex = (currentIndex+1)%videos.length;
+      currentIndex = (currentIndex + 1) % videos.length;
       updatePlayer();
     }
   }
 })();
+
 
 
 
