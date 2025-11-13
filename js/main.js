@@ -456,8 +456,7 @@ function changeImage(thumb) {
         thumbContainer.querySelectorAll("img").forEach((t, idx) => {
           t.classList.toggle("active", idx === currentIndex);
         });
-        thumbContainer.querySelectorAll("img")[currentIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
-        return;
+        
       }
       await new Promise(r => setTimeout(r, delay));
     }
@@ -472,6 +471,7 @@ function changeImage(thumb) {
     }
   }
 })();
+
 
 
 
