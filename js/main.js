@@ -447,7 +447,7 @@ function changeImage(thumb) {
   };
 
   // Update player with retry until loaded
-  async function updatePlayerWithRetry(retries = 10, delay = 500) {
+  async function updatePlayerWithRetry(retries = 10, delay = 900) {
     for (let i = 0; i < retries; i++) {
       if (player && typeof player.loadVideoById === "function") {
         const video = videos[currentIndex];
@@ -471,6 +471,7 @@ function changeImage(thumb) {
     }
   }
 })();
+
 
 
 
