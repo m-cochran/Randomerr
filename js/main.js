@@ -315,45 +315,7 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 
 
 
-function changeImage(thumb) {
-    // climb up the DOM until we find a parent that contains a .main-image
-    let container = thumb.parentElement;
-    while (container && !container.querySelector('.main-image')) {
-      container = container.parentElement;
-    }
-    if (!container) return; // safety: no matching container found
-
-    const mainImage = container.querySelector('.main-image');
-    if (!mainImage) return;
-
-    // If clicked thumb is already the active one and matches main src, do nothing
-    if (thumb.classList.contains('active') && thumb.src === mainImage.src) return;
-
-    // Preload the image (avoids flicker on slow networks)
-    const toLoad = new Image();
-    toLoad.src = thumb.src;
-    toLoad.onload = () => {
-      // fade out, swap src, fade in
-      mainImage.style.transition = 'opacity 0.18s ease';
-      mainImage.style.opacity = 0;
-      setTimeout(() => {
-        mainImage.src = thumb.src;
-        mainImage.style.opacity = 1;
-      }, 180);
-    };
-
-    // update active class only for thumbnails inside the same container
-    container.querySelectorAll('.thumb-grid img').forEach(img => img.classList.remove('active'));
-    thumb.classList.add('active');
-  }
-
-
-
-
-
-
-
-
+<script src="https://www.youtube.com/iframe_api"></script>
 
 (async () => {
   const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
@@ -378,7 +340,6 @@ function changeImage(thumb) {
       return { title, videoId };
     }).filter(v => v.videoId);
 
-    // Build the thumbnails + nav buttons
     const widget = document.getElementById("youtubeWidget");
     widget.innerHTML = `
       <div id="player"></div>
@@ -395,7 +356,6 @@ function changeImage(thumb) {
     const thumbContainer = document.getElementById("thumbContainer");
     const thumbs = thumbContainer.querySelectorAll("img");
     const videoTitle = document.getElementById("videoTitle");
-
     let currentIndex = 0;
     let player;
 
@@ -403,21 +363,21 @@ function changeImage(thumb) {
     window.onYouTubeIframeAPIReady = () => {
       player = new YT.Player('player', {
         videoId: videos[currentIndex].videoId,
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
+        events: { 'onStateChange': onPlayerStateChange }
       });
     };
 
-    // Thumbnail click
+    // Click thumbnail only works if player is ready
     thumbs.forEach((thumb, index) => {
       thumb.addEventListener("click", () => {
         currentIndex = index;
-        updatePlayer(currentIndex);
+        if (player && typeof player.loadVideoById === "function") {
+          updatePlayer(currentIndex);
+        }
       });
     });
 
-    // Navigation buttons
+    // Scroll buttons
     document.getElementById("scrollLeft").addEventListener("click", () => {
       thumbContainer.scrollBy({ left: -200, behavior: 'smooth' });
     });
@@ -426,18 +386,17 @@ function changeImage(thumb) {
     });
 
     function updatePlayer(index) {
+      if (!player || typeof player.loadVideoById !== "function") return;
       const video = videos[index];
       player.loadVideoById(video.videoId);
       videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
       thumbs.forEach(t => t.classList.remove("active"));
       thumbs[index].classList.add("active");
-      // Scroll thumbnail into view
       thumbs[index].scrollIntoView({ behavior: "smooth", inline: "center" });
     }
 
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
-        // Auto advance to next video
         currentIndex = (currentIndex + 1) % videos.length;
         updatePlayer(currentIndex);
       }
@@ -448,4 +407,5 @@ function changeImage(thumb) {
     document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load videos.</p>";
   }
 })();
+
 
