@@ -383,7 +383,6 @@ function changeImage(thumb) {
   const videoTitle = document.getElementById("videoTitle");
   let player, videos = [], currentIndex = 0;
 
-  // Try multiple proxies with retries
   async function fetchWithMultipleProxies(url, retriesPerProxy = 3, delay = 1000) {
     for (let proxy of corsProxies) {
       for (let i = 0; i < retriesPerProxy; i++) {
@@ -440,16 +439,16 @@ function changeImage(thumb) {
   // Initialize player
   window.onYouTubeIframeAPIReady = () => {
     player = new YT.Player("player", {
-  videoId: videos[currentIndex].videoId,
-  playerVars: {
-    origin: window.location.origin
-  },
-  events: {
-    onReady: updatePlayer,
-    onStateChange: onPlayerStateChange
-  }
-});
-
+      videoId: videos[currentIndex].videoId,
+      playerVars: {
+        origin: window.location.origin
+      },
+      events: {
+        onReady: updatePlayer,
+        onStateChange: onPlayerStateChange
+      }
+    });
+  }; // <-- this closes onYouTubeIframeAPIReady
 
   // Update video safely
   function updatePlayer() {
@@ -461,6 +460,7 @@ function changeImage(thumb) {
     player.loadVideoById(video.videoId);
     videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
     thumbContainer.querySelectorAll("img").forEach((t, i) => t.classList.toggle("active", i === currentIndex));
+    thumbContainer.querySelectorAll("img")[currentIndex].scrollIntoView({ behavior: "smooth", inline: "center" });
   }
 
   function onPlayerStateChange(event) {
@@ -469,20 +469,5 @@ function changeImage(thumb) {
       updatePlayer();
     }
   }
-})();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+})(); // <-- closes the IIFE
