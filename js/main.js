@@ -315,7 +315,6 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 
 
 
-<script src="https://www.youtube.com/iframe_api"></script>
 
 (async () => {
   const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
@@ -407,5 +406,6 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     document.getElementById("youtubeWidget").innerHTML = "<p>Failed to load videos.</p>";
   }
 })();
+
 
 
