@@ -315,14 +315,20 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 
 
 
-  function changeImage(thumb) {
-    const main = document.getElementById('mainTshirt');
-    main.style.opacity = 0;
+function changeImage(thumb) {
+    // Find the container this thumbnail belongs to
+    const container = thumb.closest('.hat-container, .shoe-container, .album-container');
+    const mainImage = container.querySelector('.main-image');
+
+    // Smooth fade transition
+    mainImage.style.opacity = 0;
     setTimeout(() => {
-      main.src = thumb.src;
-      main.style.opacity = 1;
+      mainImage.src = thumb.src;
+      mainImage.style.opacity = 1;
     }, 200);
 
-    document.querySelectorAll('.thumb-grid img').forEach(img => img.classList.remove('active'));
+    // Update active state for thumbnails within the same container
+    container.querySelectorAll('.thumb-grid img').forEach(img => img.classList.remove('active'));
     thumb.classList.add('active');
   }
+
