@@ -293,5 +293,11 @@
 
 
 
-const ribbon = document.querySelector('.commonninja-ribbon');
-if (ribbon) ribbon.style.display = 'none';
+document.getElementById('openWidgetLink').addEventListener('click', function(e) {
+    e.preventDefault(); // prevent navigating to #stream
+
+    // Find the Fouita widget button
+    const fouitaBtn = document.querySelector('.ft-popup-button .cursor-pointer');
+    if (fouitaBtn) fouitaBtn.click(); // trigger the widget
+});
+
