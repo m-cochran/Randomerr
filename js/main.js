@@ -441,8 +441,6 @@ function changeImage(thumb) {
     [...thumbContainer.children].forEach((img, i) =>
       img.classList.toggle("active", i === currentIndex)
     );
-    thumbContainer.children[currentIndex]?.scrollIntoView({ behavior: "smooth", inline: "center" });
-  }
 
   function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.ENDED) {
@@ -492,6 +490,7 @@ function changeImage(thumb) {
     videoTitle.textContent = "⚠️ Unable to load videos.";
   }
 })();
+
 
 
 
