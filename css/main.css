@@ -2605,3 +2605,46 @@ footer .copyright span:last-child::after {
   }
 
 
+
+
+.notebook-paper {
+  background: linear-gradient(to bottom, #fffacd 0%, #fffacd 100%);
+  border: 1px solid #ccc;
+  padding: 1rem 1.5rem;
+  line-height: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Horizontal lines */
+.notebook-paper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 1.9rem,
+    #e0e0e0 2rem
+  );
+  pointer-events: none;
+}
+
+/* Vertical margin line */
+.notebook-paper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  bottom: 0;
+  width: 1px;
+  background-color: #d33;
+  pointer-events: none;
+}
