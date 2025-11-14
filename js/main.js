@@ -372,7 +372,6 @@ function changeImage(thumb) {
 (async () => {
   const channelId = "UCqb8IX7ZZ_e2VVbdKjtE4hw";
   const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  
   const corsProxies = [
     "https://corsproxy.io/?",
     "https://api.allorigins.win/raw?url=",
@@ -381,85 +380,68 @@ function changeImage(thumb) {
 
   const thumbContainer = document.getElementById("thumbContainer");
   const videoTitle = document.getElementById("videoTitle");
-  let player, videos = [], currentIndex = 0;
+  const scrollLeftBtn = document.getElementById("scrollLeft");
+  const scrollRightBtn = document.getElementById("scrollRight");
 
-  async function fetchWithMultipleProxies(url, retriesPerProxy = 3, delay = 1000) {
-    for (let proxy of corsProxies) {
-      for (let i = 0; i < retriesPerProxy; i++) {
+  let player;
+  let videos = [];
+  let currentIndex = 0;
+
+  async function fetchWithFallback(url, retries = 3, delay = 1000) {
+    for (const proxy of corsProxies) {
+      for (let attempt = 1; attempt <= retries; attempt++) {
         try {
-          const res = await fetch(proxy + encodeURIComponent(url));
-          if (!res.ok) throw new Error("Fetch failed");
-          return await res.text();
-        } catch (err) {
-          console.warn(`Proxy failed: ${proxy}, retry ${i+1}`, err);
-          await new Promise(r => setTimeout(r, delay));
+          const response = await fetch(proxy + encodeURIComponent(url));
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return await response.text();
+        } catch (error) {
+          console.warn(`Proxy failed: ${proxy}, attempt ${attempt}`, error);
+          await new Promise(res => setTimeout(res, delay));
         }
       }
     }
-    throw new Error("All proxies failed");
+    throw new Error("All proxy attempts failed.");
   }
 
-  let xmlText;
-  try {
-    xmlText = await fetchWithMultipleProxies(rssUrl, 3, 1500);
-  } catch {
-    videoTitle.textContent = "Failed to load feed after multiple attempts.";
-    return;
+  function parseFeed(xmlText) {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, "text/xml");
+    const entries = xml.querySelectorAll("entry");
+
+    return Array.from(entries).map(entry => {
+      const title = entry.querySelector("title")?.textContent || "Untitled";
+      const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
+      return videoId ? { title, videoId } : null;
+    }).filter(Boolean);
   }
 
-  const parser = new DOMParser();
-  const xml = parser.parseFromString(xmlText, "text/xml");
-  const entries = xml.querySelectorAll("entry");
-  if (!entries.length) { videoTitle.textContent = "No videos found."; return; }
-
-  videos = Array.from(entries).map(entry => {
-    const title = entry.querySelector("title")?.textContent || "Untitled";
-    const videoId = entry.querySelector("yt\\:videoId, videoId")?.textContent?.trim();
-    return { title, videoId };
-  }).filter(v => v.videoId);
-
-  // Thumbnails
-  videos.forEach((v, i) => {
+  function createThumbnail(video, index) {
     const img = document.createElement("img");
-    img.src = `https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg`;
-    img.dataset.id = v.videoId;
-    img.dataset.title = v.title;
-    if (i===0) img.classList.add("active");
-    thumbContainer.appendChild(img);
-    img.addEventListener("click", () => { currentIndex = i; updatePlayer(); });
-  });
-
-  document.getElementById("scrollLeft").addEventListener("click", () => {
-    thumbContainer.scrollBy({ left: -200, behavior: "smooth" });
-  });
-  document.getElementById("scrollRight").addEventListener("click", () => {
-    thumbContainer.scrollBy({ left: 200, behavior: "smooth" });
-  });
-
-  // Initialize player
-  window.onYouTubeIframeAPIReady = () => {
-    player = new YT.Player("player", {
-      videoId: videos[currentIndex].videoId,
-      playerVars: {
-        origin: window.location.origin
-      },
-      events: {
-        onReady: updatePlayer,
-        onStateChange: onPlayerStateChange
-      }
+    img.src = `https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`;
+    img.dataset.index = index;
+    img.alt = video.title;
+    if (index === 0) img.classList.add("active");
+    img.addEventListener("click", () => {
+      currentIndex = index;
+      updatePlayer();
     });
-  }; // <-- this closes onYouTubeIframeAPIReady
+    thumbContainer.appendChild(img);
+  }
 
-  // Update video safely
   function updatePlayer() {
     if (!player || typeof player.loadVideoById !== "function") {
-      setTimeout(updatePlayer, 300); // retry until player ready
+      setTimeout(updatePlayer, 300);
       return;
     }
+
     const video = videos[currentIndex];
     player.loadVideoById(video.videoId);
     videoTitle.innerHTML = `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">🎥 ${video.title}</a>`;
-    thumbContainer.querySelectorAll("img").forEach((t, i) => t.classList.toggle("active", i === currentIndex));
+
+    [...thumbContainer.children].forEach((img, i) =>
+      img.classList.toggle("active", i === currentIndex)
+    );
+    thumbContainer.children[currentIndex]?.scrollIntoView({ behavior: "smooth", inline: "center" });
   }
 
   function onPlayerStateChange(event) {
@@ -469,5 +451,47 @@ function changeImage(thumb) {
     }
   }
 
-})(); // <-- closes the IIFE
+  function initScrollButtons() {
+    scrollLeftBtn.addEventListener("click", () => {
+      thumbContainer.scrollBy({ left: -200, behavior: "smooth" });
+    });
+    scrollRightBtn.addEventListener("click", () => {
+      thumbContainer.scrollBy({ left: 200, behavior: "smooth" });
+    });
+  }
+
+  function loadYouTubeAPI() {
+    return new Promise(resolve => {
+      if (window.YT && window.YT.Player) return resolve();
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      window.onYouTubeIframeAPIReady = resolve;
+      document.head.appendChild(tag);
+    });
+  }
+
+  try {
+    const xmlText = await fetchWithFallback(rssUrl, 3, 1500);
+    videos = parseFeed(xmlText);
+    if (videos.length === 0) throw new Error("No videos found.");
+
+    videos.forEach(createThumbnail);
+    initScrollButtons();
+    await loadYouTubeAPI();
+
+    player = new YT.Player("player", {
+      videoId: videos[currentIndex].videoId,
+      playerVars: { origin: window.location.origin },
+      events: {
+        onReady: updatePlayer,
+        onStateChange: onPlayerStateChange
+      }
+    });
+  } catch (error) {
+    console.error("Initialization failed:", error);
+    videoTitle.textContent = "⚠️ Unable to load videos.";
+  }
+})();
+
+
 
