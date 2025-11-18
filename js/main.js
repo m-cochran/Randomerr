@@ -507,6 +507,129 @@ function changeImage(thumb) {
 
 
 
+let audioContext, analyser, dataArray;
+let canvas, ctx, width, height;
+
+let flames = document.getElementById("flames");
+let scratches = document.getElementById("scratches");
+let halo = document.getElementById("halo");
+let sparkles = document.getElementById("sparkles");
+let lightning = document.getElementById("lightning");
+
+/* ------------------------
+   START CAPTURING TAB AUDIO
+   ------------------------ */
+async function startVisualizer() {
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+        video: false,
+        audio: true
+    });
+
+    audioContext = new AudioContext();
+    const source = audioContext.createMediaStreamSource(stream);
+
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+    source.connect(analyser);
+
+    setupCanvas();
+    createSparkles();
+    animate();
+}
+
+/* ------------------------
+   CANVAS SETUP
+   ------------------------ */
+function setupCanvas() {
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    resize();
+    window.addEventListener("resize", resize);
+}
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+
+/* ------------------------
+   SPARKLES GENERATOR
+   ------------------------ */
+function createSparkles() {
+    for (let i = 0; i < 80; i++) {
+        let s = document.createElement("div");
+        s.className = "sparkle";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        s.style.animationDelay = Math.random() * 2 + "s";
+        sparkles.appendChild(s);
+    }
+}
+
+/* ------------------------
+   ANIMATION LOOP
+   ------------------------ */
+function animate() {
+    requestAnimationFrame(animate);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    let volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+    let bass = dataArray[1] + dataArray[2] + dataArray[3]; // bass detection
+
+    ctx.clearRect(0, 0, width, height);
+
+    // Bar visualizer
+    const barWidth = width / dataArray.length;
+    let x = 0;
+
+    for (let i = 0; i < dataArray.length; i++) {
+        let barHeight = dataArray[i];
+
+        // Angel = blue | Demon = red
+        ctx.fillStyle = volume > 70
+            ? `rgb(255, ${50 + barHeight}, ${50})`
+            : `rgb(${barHeight}, ${barHeight + 60}, 255)`;
+
+        ctx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
+        x += barWidth;
+    }
+
+    /* ------------------------
+       ANGEL MODE (quiet)
+       ------------------------ */
+    if (volume < 60) {
+        halo.style.opacity = 1;
+        sparkles.style.opacity = 1;
+        flames.style.opacity = 0;
+        scratches.style.opacity = 0;
+        lightning.style.opacity = 0;
+    }
+
+    /* ------------------------
+       DEMON MODE (loud)
+       ------------------------ */
+    else {
+        halo.style.opacity = 0;
+        sparkles.style.opacity = 0;
+        flames.style.opacity = 0.5;
+        scratches.style.opacity = 0.3;
+
+        // Lightning flashes on strong bass hits
+        lightning.style.opacity = bass > 180 ? 1 : 0;
+    }
+}
+
+document.getElementById("startBtn").onclick = () => {
+    startVisualizer();
+    document.getElementById("startBtn").style.display = "none";
+};
+
+
+
+
 
 
 
