@@ -510,9 +510,6 @@ function changeImage(thumb) {
 
 
 
-* ------------------------
-   AUDIO + VISUALIZER SETUP
-   ------------------------ */
 let audioContext, analyser, dataArray;
 let canvas, ctx, width, height;
 
@@ -632,6 +629,7 @@ document.getElementById("startBtn").onclick = () => {
     startVisualizer();
     document.getElementById("startBtn").style.display = "none";
 };
+
 
 
 
