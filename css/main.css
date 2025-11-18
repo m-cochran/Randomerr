@@ -2643,13 +2643,14 @@ footer .copyright span:last-child::after {
 .fb { background: #1877f2; }
 .ig { background: #e1306c; }
 .yt { background: #ff0000; }
-.sc { background: #616000; color: #000; }
+.sc { background: #fffc00; color: #000; }
 
 /* Hover effect */
 .social-buttons a:hover {
   transform: scale(1.12);
   opacity: 0.85;
 }
+
 
 
 
