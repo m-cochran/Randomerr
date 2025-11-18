@@ -512,81 +512,50 @@ function changeImage(thumb) {
 
 
 
+let audioContext, analyser, dataArray;
 
+async function startMicAnalyzer() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
+    audioContext = new AudioContext();
+    const source = audioContext.createMediaStreamSource(stream);
 
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
 
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
 
+    source.connect(analyser);
 
-
-
-
-function playEffect() {
-    const audio = document.getElementById("bg-audio");
-    const bg = document.getElementById("morph-bg");
-
-    audio.currentTime = 0;
-    audio.play();
-
-    // Example timing:
-    // 0–2 sec = angel
-    // 2 sec = switch to demon
-    // 6 sec = switch back to angel
-
-    // Switch to demon (sync this to your sound peak)
-    setTimeout(() => {
-        bg.classList.add("morph-demon");
-        bg.classList.remove("morph-angel");
-    }, 2000); // 2 sec mark
-
-    // Return to angel later
-    setTimeout(() => {
-        bg.classList.add("morph-angel");
-        bg.classList.remove("morph-demon");
-    }, 6000); // 6 sec mark
+    animate();
 }
 
+function animate() {
+    requestAnimationFrame(animate);
 
+    analyser.getByteFrequencyData(dataArray);
 
+    let volume = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function playEffect() {
-    const audio = document.getElementById("bg-audio");
     const angel = document.getElementById("angel");
     const demon = document.getElementById("demon");
 
-    audio.currentTime = 0;
-    audio.play();
-
-    /* Example sync:
-       2s → demon fades in
-       6s → angel fades back in
-    */
-
-    // Fade to demon at 2 seconds
-    setTimeout(() => {
+    // Adjust threshold to taste
+    if (volume > 60) {
         angel.style.opacity = 0;
         demon.style.opacity = 1;
-    }, 2000);
-
-    // Fade back to angel at 6 seconds
-    setTimeout(() => {
+    } else {
         angel.style.opacity = 1;
         demon.style.opacity = 0;
-    }, 6000);
+    }
 }
+
+document.addEventListener("click", () => {
+    startMicAnalyzer();
+});
+
+
+
 
 
