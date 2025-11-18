@@ -513,6 +513,45 @@ function changeImage(thumb) {
 
 
 
+navigator.mediaDevices.getUserMedia({ audio: true })
+  .then(stream => {
+    let ctx = new AudioContext();
+    let src = ctx.createMediaStreamSource(stream);
+    let analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    src.connect(analyser);
+
+
+
+    const canvas = document.getElementById("ripple");
+    const c = canvas.getContext("2d");
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    const data = new Uint8Array(analyser.frequencyBinCount);
+
+    function loop() {
+      requestAnimationFrame(loop);
+
+      analyser.getByteFrequencyData(data);
+
+      let bass = data.slice(0, 15).reduce((a,b)=>a+b)/15;
+      let treble = data.slice(60, 120).reduce((a,b)=>a+b)/60;
+
+
+      // Ripple flash
+      c.clearRect(0, 0, canvas.width, canvas.height);
+      let flash = bass / 2;
+
+      c.fillStyle = `rgba(255,100,100,${flash/255})`;
+      c.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    loop();
+  })
+  .catch(() => alert("Enable microphone / tab audio"));
+
+
 
 
 
