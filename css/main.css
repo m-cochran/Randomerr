@@ -2694,7 +2694,7 @@ footer .copyright span:last-child::after {
 /* Optional: clouds animation (if using image clouds) */
 .angelic-background-wrapper .angelic-clouds {
   background: 
-    url("https://i.imgur.com/3ZQ3h8D.png") repeat-x,
+    url("../images/cloud.png") repeat-x,
     linear-gradient(to bottom, #ffffff, #e6f4ff);
   background-size: 1200px 600px, cover;
   animation: cloudMove 60s linear infinite;
@@ -2705,6 +2705,7 @@ footer .copyright span:last-child::after {
   from { background-position: 0 0, 0 0; }
   to { background-position: -3000px 0, 0 0; }
 }
+
 
 
 
