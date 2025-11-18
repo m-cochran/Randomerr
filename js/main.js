@@ -496,3 +496,55 @@ function changeImage(thumb) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function playEffect() {
+    const audio = document.getElementById("bg-audio");
+    const bg = document.getElementById("morph-bg");
+
+    audio.currentTime = 0;
+    audio.play();
+
+    // Example timing:
+    // 0–2 sec = angel
+    // 2 sec = switch to demon
+    // 6 sec = switch back to angel
+
+    // Switch to demon (sync this to your sound peak)
+    setTimeout(() => {
+        bg.classList.add("morph-demon");
+        bg.classList.remove("morph-angel");
+    }, 2000); // 2 sec mark
+
+    // Return to angel later
+    setTimeout(() => {
+        bg.classList.add("morph-angel");
+        bg.classList.remove("morph-demon");
+    }, 6000); // 6 sec mark
+}
+
+
+
