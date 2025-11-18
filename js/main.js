@@ -548,3 +548,45 @@ function playEffect() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function playEffect() {
+    const audio = document.getElementById("bg-audio");
+    const angel = document.getElementById("angel");
+    const demon = document.getElementById("demon");
+
+    audio.currentTime = 0;
+    audio.play();
+
+    /* Example sync:
+       2s → demon fades in
+       6s → angel fades back in
+    */
+
+    // Fade to demon at 2 seconds
+    setTimeout(() => {
+        angel.style.opacity = 0;
+        demon.style.opacity = 1;
+    }, 2000);
+
+    // Fade back to angel at 6 seconds
+    setTimeout(() => {
+        angel.style.opacity = 1;
+        demon.style.opacity = 0;
+    }, 6000);
+}
+
+
