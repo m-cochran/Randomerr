@@ -2654,37 +2654,6 @@ footer .copyright span:last-child::after {
 
 
 
-#morph-bg {
-  width: 100%;
-  height: 400px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  transition: background-image 1s ease, filter 1s ease;
-  
-  /* Start in angel state */
-  background-image: url('angel-image.jpg');
-}
-
-.morph-demon {
-  background-image: url('demon-image.jpg') !important;
-  filter: contrast(150%) saturate(150%);
-}
-
-.morph-angel {
-  background-image: url('angel-image.jpg') !important;
-  filter: contrast(100%) saturate(100%);
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2700,30 +2669,20 @@ footer .copyright span:last-child::after {
 #morph-wrapper {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 400px; /* or whatever you want */
   overflow: hidden;
 }
 
-/* Stacked layers */
 .layer {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  transition: opacity 1.5s ease;
+  transition: opacity 0.3s ease; /* smooth transform */
 }
 
-/* Angel layer starts visible */
-#angel {
-  background-image: url('angel-image.jpg');
-  opacity: 1;
-}
-
-/* Demon layer starts hidden */
-#demon {
-  background-image: url('demon-image.jpg');
-  opacity: 0;
-}
+#angel { opacity: 1; }
+#demon { opacity: 0; }
 
 
 
