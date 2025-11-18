@@ -2672,6 +2672,40 @@ footer .copyright span:last-child::after {
 
 
 
+.angelic-background-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.angelic-background-wrapper .angelic-clouds {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #ffffff, #e6f4ff);
+  z-index: 0;
+}
+
+/* Keep your about-content above clouds */
+.row.about-content {
+  position: relative;
+  z-index: 1;
+  padding: 50px 20px; /* optional spacing */
+}
+
+/* Optional: clouds animation (if using image clouds) */
+.angelic-background-wrapper .angelic-clouds {
+  background: 
+    url("https://i.imgur.com/3ZQ3h8D.png") repeat-x,
+    linear-gradient(to bottom, #ffffff, #e6f4ff);
+  background-size: 1200px 600px, cover;
+  animation: cloudMove 60s linear infinite;
+  filter: brightness(1.2) blur(1px);
+}
+
+@keyframes cloudMove {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: -3000px 0, 0 0; }
+}
+
 
 
 
