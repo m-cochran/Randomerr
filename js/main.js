@@ -455,6 +455,81 @@
 
 
 
+const banner = document.querySelector('.twitch-banner');
+
+const mainMessages = [
+  "XX I XII XX XVI IX VI",
+  "| TAMTPIF |",
+  "Take a Minute To Pray It's Free"
+];
+
+const otherMessages = [
+  "BUY NOW BEFORE IT'S GONE",
+  "LIMITED TIME OFFER",
+  "DON'T MISS OUT",
+  "ACT FAST",
+  "GRAB YOURS TODAY",
+  "ONLY A FEW LEFT",
+  "GET IT NOW",
+  "SPECIAL ANGELIC SALE",
+  "TAKE ACTION NOW",
+  "THE TIME IS NOW",
+  "EXCLUSIVE OFFER FOR YOU",
+  "BUY WHILE SUPPLIES LAST"
+];
+
+// single variable for speed of other messages (ms)
+let otherMessageSpeed = 700;
+
+// random colors for chaos
+const colors = ["#ff3366","#ff6699","#ffcc33","#33ccff","#cc33ff","#33ff99","#ff9933"];
+
+function randomMessage() {
+  const allMessages = [...mainMessages, ...otherMessages];
+  const index = Math.floor(Math.random() * allMessages.length);
+  return allMessages[index];
+}
+
+function changeBanner() {
+  banner.style.opacity = 0;
+
+  setTimeout(() => {
+    const msg = randomMessage();
+    banner.textContent = msg;
+
+    // random font size
+    banner.style.fontSize = `${Math.floor(Math.random() * 24) + 28}px`;
+
+    // random color
+    banner.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+    // random glow
+    banner.style.textShadow = `0 0 ${Math.floor(Math.random()*8)+2}px ${colors[Math.floor(Math.random()*colors.length)]}`;
+
+    banner.style.opacity = 1;
+
+    // set next change interval
+    const interval = mainMessages.includes(msg) ? 3000 : otherMessageSpeed;
+    clearInterval(changeInterval); // stop current interval
+    changeInterval = setInterval(changeBanner, interval);
+
+  }, 200);
+}
+
+// initialize interval
+let changeInterval = setInterval(changeBanner, otherMessageSpeed);
+
+// Twitch / jitter effect
+function randomTwitch() {
+  const x = (Math.random() - 0.5) * 10;
+  const y = (Math.random() - 0.5) * 8;
+  const rot = (Math.random() - 0.5) * 8;
+  const scale = 0.9 + Math.random() * 0.2;
+  banner.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${scale})`;
+}
+
+setInterval(randomTwitch, 50);
+
 
 
 
