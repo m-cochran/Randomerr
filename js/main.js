@@ -293,16 +293,6 @@
 
 
 
-document.getElementById('openWidgetLink').addEventListener('click', function(e) {
-    e.preventDefault(); // just in case
-    e.stopPropagation(); // prevent bubbling
-
-    // Trigger the Fouita popup button
-    const fouitaBtn = document.querySelector('.ft-popup-button .cursor-pointer');
-    if (fouitaBtn) fouitaBtn.click();
-});
-
-
 
 
 
@@ -455,6 +445,7 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
     videoTitle.textContent = "⚠️ Unable to load videos.";
   }
 })();
+
 
 
 
