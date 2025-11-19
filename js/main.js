@@ -516,3 +516,43 @@ function changeImage(thumb) {
 
 
 
+const container = document.querySelector('.angelic-clouds'); // <-- updated selector
+const clouds = [];
+const cloudCount = 25;
+
+for(let i=0;i<cloudCount;i++){
+  const div = document.createElement('div');
+  div.className = 'cloud';
+  const size = Math.random() * 2000 + 100; // adjust size range for foreground/background
+  div.style.width = size + 'px';
+  div.style.height = size * 0.6 + 'px';
+  div.dataset.z = Math.random(); // 0 = far, 1 = close
+  div.style.left = Math.random() * window.innerWidth + 'px';
+  div.style.top = Math.random() * window.innerHeight + 'px';
+  container.appendChild(div);
+  clouds.push(div);
+}
+
+function animate() {
+  clouds.forEach(cloud => {
+    const z = parseFloat(cloud.dataset.z);
+    let x = parseFloat(cloud.style.left);
+    x -= 0.2 + z * 0.6;
+    if(x + cloud.offsetWidth < 0) x = window.innerWidth + cloud.offsetWidth;
+    cloud.style.left = x + 'px';
+    const scale = 0.5 + z * 0.5;
+    cloud.style.transform = `scale(${scale})`;
+    cloud.style.opacity = 0.3 + z*0.7;
+  });
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize', ()=>{
+  clouds.forEach(c=>{
+    c.style.left = Math.random()*window.innerWidth + 'px';
+    c.style.top = Math.random()*window.innerHeight + 'px';
+  });
+});
+
