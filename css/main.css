@@ -2488,49 +2488,6 @@ footer .copyright span:last-child::after {
 
 
 
-  .tshirt-container, .hat-container, .shoe-container, .album-container {
-    max-width: 600px;
-    margin: 40px auto;
-    text-align: center;
-  }
-
-  .main-image {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    transition: opacity 0.3s ease;
-  }
-
-  .thumb-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-  }
-
-  .thumb-grid img {
-    width: 100%;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: transform 0.2s ease, border 0.2s ease;
-    border: 2px solid transparent;
-  }
-
-  .thumb-grid img:hover {
-    transform: scale(1.05);
-    border-color: #007bff;
-  }
-
-  .thumb-grid img.active {
-    border-color: #007bff;
-  }
-
-  /* Optional: slight spacing between product sections */
-  .hat-container + .shoe-container,
-  .shoe-container + .album-container {
-    margin-top: 60px;
-  }
-
 
 
 
@@ -2650,6 +2607,7 @@ footer .copyright span:last-child::after {
   transform: scale(1.12);
   opacity: 0.85;
 }
+
 
 
 
