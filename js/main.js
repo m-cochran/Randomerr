@@ -320,42 +320,6 @@ document.getElementById('openWidgetLink').addEventListener('click', function(e) 
 
 
 
-function changeImage(thumb) {
-    // climb up the DOM until we find a parent that contains a .main-image
-    let container = thumb.parentElement;
-    while (container && !container.querySelector('.main-image')) {
-      container = container.parentElement;
-    }
-    if (!container) return; // safety: no matching container found
-
-    const mainImage = container.querySelector('.main-image');
-    if (!mainImage) return;
-
-    // If clicked thumb is already the active one and matches main src, do nothing
-    if (thumb.classList.contains('active') && thumb.src === mainImage.src) return;
-
-    // Preload the image (avoids flicker on slow networks)
-    const toLoad = new Image();
-    toLoad.src = thumb.src;
-    toLoad.onload = () => {
-      // fade out, swap src, fade in
-      mainImage.style.transition = 'opacity 0.18s ease';
-      mainImage.style.opacity = 0;
-      setTimeout(() => {
-        mainImage.src = thumb.src;
-        mainImage.style.opacity = 1;
-      }, 180);
-    };
-
-    // update active class only for thumbnails inside the same container
-    container.querySelectorAll('.thumb-grid img').forEach(img => img.classList.remove('active'));
-    thumb.classList.add('active');
-  }
-
-
-
-
-
 
 
 
@@ -513,74 +477,5 @@ function changeImage(thumb) {
 
 
 
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  const container = document.querySelector('.angelic-clouds');
-  if (!container) return;
-
-  const clouds = [];
-  const cloudCount = 25;
-
-  for (let i = 0; i < cloudCount; i++) {
-    const div = document.createElement('div');
-    div.className = 'cloud';
-
-    // Random size
-    const width = Math.random() * 200 + 100; // 100–300px width
-    const height = width * (0.4 + Math.random() * 0.6); // random vertical stretch (0.4–1)
-
-    // Random flips and rotation
-    const flipH = Math.random() < 0.5 ? -1 : 1; // horizontal flip
-    const flipV = Math.random() < 0.5 ? -1 : 1; // vertical flip
-    const rotation = Math.random() * 20 - 10; // random rotation -10° to 10°
-
-    div.style.width = width + 'px';
-    div.style.height = height + 'px';
-    div.style.left = Math.random() * window.innerWidth + 'px';
-    div.style.top = Math.random() * window.innerHeight + 'px';
-    div.dataset.z = Math.random(); // 0 = far, 1 = close
-
-    // Initial transform: scaleX/Y for flipping + rotation
-    div.style.transform = `scaleX(${flipH}) scaleY(${flipV}) rotate(${rotation}deg)`;
-
-    // Optional: opacity based on depth
-    div.style.opacity = 0.3 + parseFloat(div.dataset.z) * 0.7;
-
-    // Add to DOM
-    container.appendChild(div);
-    clouds.push({ el: div, flipH, flipV, rotation });
-  }
-
-  function animate() {
-    clouds.forEach(cloudObj => {
-      const { el, flipH, flipV, rotation } = cloudObj;
-      const z = parseFloat(el.dataset.z);
-      let x = parseFloat(el.style.left);
-      x -= 0.2 + z * 0.6; // closer clouds move faster
-      if (x + el.offsetWidth < 0) x = window.innerWidth + el.offsetWidth;
-      el.style.left = x + 'px';
-
-      // scale slightly based on depth to simulate perspective
-      const scale = 0.5 + z * 0.5;
-      el.style.transform = `scale(${scale}) scaleX(${flipH}) scaleY(${flipV}) rotate(${rotation}deg)`;
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-
-  window.addEventListener('resize', () => {
-    clouds.forEach(cloudObj => {
-      const { el } = cloudObj;
-      el.style.left = Math.random() * window.innerWidth + 'px';
-      el.style.top = Math.random() * window.innerHeight + 'px';
-    });
-  });
-
-});
 
 
